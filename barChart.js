@@ -76,7 +76,7 @@ function barChart() {
 			.attr("class","bar")
 			.attr("x", 0)
 			.attr("width", 0)
-			.attr("y", yScale(d.group); })
+			.attr("y", yScale(d.group))
 			.attr("height", yScale.rangeBand())
 			.on("mouseover", tip.show)
 			.on("mouseout", tip.hide)
