@@ -121,9 +121,6 @@ function barChart() {
 			
 		updateHeight = function() {
 			
-			barSpacing = height / data.length;
-			barHeight = barSpacing - barPadding;
-			
 			svg.attr("height", heightAdj);
 			bars.attr("y", yScale(d.group))
 						
@@ -141,7 +138,7 @@ function barChart() {
 				
 			update.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", function(d, i) { return i * barSpacing; })
+				.attr("y", yScale(d.group))
 				.attr("height", yScale.rangeBand())
 		
 			update.enter()
