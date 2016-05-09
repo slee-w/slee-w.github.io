@@ -273,8 +273,10 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
 		
 		var chart = colChart().width(750).data(data);
+		var chart2 = barChart().data(data);
 		
 		d3.select("#ch1_2").call(chart);
+		d3.select("#ch1_2").call(chart2);
 		
 	};
 });	
