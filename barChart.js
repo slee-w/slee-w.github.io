@@ -65,7 +65,7 @@ function barChart() {
 		// domains
 		
 		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
-		yScale.domain(data.map(function(d, i) { return d.group; }));
+		yScale.domain([0, data.length]);
 	
 		// draw bars
 		
