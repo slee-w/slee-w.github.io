@@ -81,7 +81,7 @@ function barChart() {
 			.attr("x", 0)
 			.attr("width", 0)
 			.attr("y", function(d, i) { return i * barSpacing; })
-			.attr("height", barHeight)
+			.attr("height", yScale.rangeBand())
 			.on("mouseover", tip.show)
 			.on("mouseout", tip.hide)
 			.transition()
@@ -146,7 +146,7 @@ function barChart() {
 			update.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d, i) { return i * barSpacing; })
-				.attr("height", barHeight)
+				.attr("height", yScale.rangeBand())
 		
 			update.enter()
 				.append("rect")
@@ -154,7 +154,7 @@ function barChart() {
 				.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d, i) { return i * barSpacing; })
-				.attr("height", barHeight);
+				.attr("height", yScale.rangeBand());
 		
 			update.exit()
 				.remove();
