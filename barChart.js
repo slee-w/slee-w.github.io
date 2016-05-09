@@ -107,7 +107,7 @@ function barChart() {
 	
 		svg.append("g")
 			.attr("class", "y axis")
-			.call(yAxis);
+			.call(yAxis)
 			.selectAll(".tick text")
 				.call(wrap, yScale);
 		
