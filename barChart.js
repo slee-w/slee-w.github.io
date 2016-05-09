@@ -24,11 +24,7 @@ function barChart() {
 
 		// define bar spacing and bar height
 
-		var barPadding = data.length * 5;
-		
-		var barSpacing = heightAdj / data.length,
-			barHeight = barSpacing - barPadding,
-			maxValue = d3.max(data, function(d) { return d.pct; }),
+		var maxValue = d3.max(data, function(d) { return d.pct; }),
 			widthScale = widthAdj / maxValue;
 		
 		// selections
@@ -80,7 +76,7 @@ function barChart() {
 			.attr("class","bar")
 			.attr("x", 0)
 			.attr("width", 0)
-			.attr("y", function(d, i) { return i * barSpacing; })
+			.attr("y", yScale(d.group); })
 			.attr("height", yScale.rangeBand())
 			.on("mouseover", tip.show)
 			.on("mouseout", tip.hide)
@@ -129,7 +125,7 @@ function barChart() {
 			barHeight = barSpacing - barPadding;
 			
 			svg.attr("height", heightAdj);
-			bars.attr("y", function(d, i) { return i * barSpacing; })
+			bars.attr("y", yScale(d.group))
 						
 			};
 		
@@ -153,7 +149,7 @@ function barChart() {
 				.attr("class","bar")
 				.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", function(d, i) { return i * barSpacing; })
+				.attr("y", yScale(d.group))
 				.attr("height", yScale.rangeBand());
 		
 			update.exit()
