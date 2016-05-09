@@ -76,7 +76,7 @@ function barChart() {
 			.attr("class","bar")
 			.attr("x", 0)
 			.attr("width", 0)
-			.attr("y", yScale(d.group))
+			.attr("y", function(d) { return yScale(d.group); })
 			.attr("height", yScale.rangeBand())
 			.on("mouseover", tip.show)
 			.on("mouseout", tip.hide)
@@ -122,7 +122,7 @@ function barChart() {
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
-			bars.attr("y", yScale(d.group))
+			bars.attr("y", function(d) { return yScale(d.group); })
 						
 			};
 		
@@ -138,7 +138,7 @@ function barChart() {
 				
 			update.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", yScale(d.group))
+				.attr("y", function(d) { return yScale(d.group); })
 				.attr("height", yScale.rangeBand())
 		
 			update.enter()
@@ -146,7 +146,7 @@ function barChart() {
 				.attr("class","bar")
 				.attr("x", margin.left)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", yScale(d.group))
+				.attr("y", function(d) { return yScale(d.group); })
 				.attr("height", yScale.rangeBand());
 		
 			update.exit()
