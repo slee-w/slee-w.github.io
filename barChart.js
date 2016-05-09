@@ -24,7 +24,7 @@ function barChart() {
 
 		// define bar spacing and bar height
 
-		var barPadding = 1;
+		var barPadding = data.length * 5;
 		
 		var barSpacing = heightAdj / data.length,
 			barHeight = barSpacing - barPadding,
