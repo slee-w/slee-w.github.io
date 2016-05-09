@@ -64,8 +64,8 @@ function barChart() {
 		
 		// domains
 		
-		// xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
-		// yScale.domain(data.map(function(d, i) { return d.group; }));
+		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
+		yScale.domain(data.map(function(d, i) { return d.group; }));
 	
 		// draw bars
 		
@@ -73,11 +73,11 @@ function barChart() {
 			.data(data)
 			.enter()
 			.append("g")
-				.attr("transform", "translate(0,0)");
+				.attr("transform", "translate(" + margin.left + ",0)");
 					
 		bars.append("rect")
 			.attr("class","bar")
-			.attr("x", margin.left)
+			.attr("x", 0)
 			.attr("width", 0)
 			.attr("y", function(d, i) { return i * barSpacing; })
 			.attr("height", barHeight)
@@ -85,7 +85,7 @@ function barChart() {
 			.on("mouseout", tip.hide)
 			.transition()
 				.duration(500)
-				.attr("width", function(d) { return d * widthScale; })
+				.attr("width", function(d) { return d.pct * widthScale; })
 								
 				// highlight if max
 			
@@ -118,7 +118,7 @@ function barChart() {
 			widthScale = width / maxValue;
 			
 			svg.attr("width", widthAdj);
-			bars.attr("width", function(d) { return d * widthScale; });
+			bars.attr("width", function(d) { return d.pct * widthScale; });
 			
 			};
 			
@@ -143,7 +143,7 @@ function barChart() {
 				.data(data);
 				
 			update.attr("x", margin.left)
-				.attr("width", function(d) { return d * widthScale; })
+				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d, i) { return i * barSpacing; })
 				.attr("height", barHeight)
 		
@@ -151,7 +151,7 @@ function barChart() {
 				.append("rect")
 				.attr("class","bar")
 				.attr("x", margin.left)
-				.attr("width", function(d) { return d * widthScale; })
+				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d, i) { return i * barSpacing; })
 				.attr("height", barHeight);
 		
