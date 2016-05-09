@@ -7,6 +7,7 @@ function barChart() {
 	
 	var	width = 960,
 		height = 500,
+		margin.left = 40,
 		data = [];
 		
 	var updateWidth,
@@ -18,7 +19,7 @@ function barChart() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20, bottom: 60, left: 40},
+		var margin = {top: 20, right: 20, bottom: 60},
 			widthAdj = width - margin.left - margin.right,
 			heightAdj = height - margin.top - margin.bottom;
 
