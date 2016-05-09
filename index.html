@@ -432,19 +432,6 @@ function colChart() {
 							.style("fill", "#8a89a6");
 					}});
 		
-		// add data labels
-		
-		cols.append("text")
-			.text(function(d) { return formatPercent(d.pct); })
-			.attr("text-anchor", "middle")
-			.attr("x", function(d, i) { return xScale(d.group) + (xScale.rangeBand() / 2); })
-			.attr("y", function(d) { return yScale(d.pct) + 20; })
-			.attr("class", "columnLabels")
-			.attr("fill-opacity", 0)
-			.transition()
-				.duration(1000)
-				.attr("fill-opacity", 1);		
-		
 		// draw axes
 	
 		svg.append("g")
