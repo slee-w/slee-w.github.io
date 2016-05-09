@@ -136,7 +136,7 @@ function colChart() {
 			update.attr("x", function(d, i) { return xScale(d.group); })
 				.attr("width", xScale.rangeBand())
 				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return height- yScale(d.pct); })
+				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
 		
 			update.enter()
 				.append("rect")
@@ -144,7 +144,7 @@ function colChart() {
 				.attr("x", function(d, i) { return xScale(d.group); })
 				.attr("width", xScale.rangeBand())
 				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return height- yScale(d.pct); });
+				.attr("height", function(d) { return heightAdj - yScale(d.pct); });
 		
 			update.exit()
 				.remove();
