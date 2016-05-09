@@ -60,7 +60,7 @@ function barChart() {
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
 			yScale = d3.scale.ordinal().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercentNoDec),
-			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(function(d, i) { return d.group[i]; });
+			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
 		// domains
 		
