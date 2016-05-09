@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset = "UTF-8">
+	<title>InformED Chronic Absenteeism D3 Chart Examples</title>
+</head>
+
+<script src = "https://d3js.org/d3.v3.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.js"></script>
+
+<!-- CSS styling -->
+
+<style>
+
+	.header {
+		font: 24px sans-serif;
+		font-weight: bold;
+	}
+
+	.c1_1_arc {
+		stroke: #fff;
+	}
+	
+	.c1_1_label {
+		font: 12px sans-serif;
+	}
+	
+	.c1_1_cLabel {
+		font: 60px sans-serif;
+		font-weight: bold;
+	}
+	
+	.c1_1_cLabelText {
+		font: 12px sans-serif;
+	}
+	
+	.axis path, 
+	.axis line {
+		fill: none;
+		stroke: #ccc;
+		shape-rendering: crispEdges;
+	}
+	
+	.x.axis {
+		font: 12px sans-serif;
+	}
+	
+	.x.axis line {
+		display: none; 
+	}
+	
+	.y.axis {
+		font: 12px sans-serif;
+	}
+	
+	.column {
+		fill: #98abc5;
+	}
+	
+	.columnLabels {
+		font: 12px sans-serif;
+		fill: #FFF;
+		font-weight: bold;
+	}
+	
+	.d3-tip {
+		font: 12px sans-serif;
+		padding: 12px;
+		background: rgba(0, 0, 0, 0.8);
+		color: #fff;
+		border-radius: 2px;
+	}
+
+	/* Creates a small triangle extender for the tooltip */
+
+	.d3-tip:after {
+		box-sizing: border-box;
+		display: inline;
+		font-size: 10px;
+		width: 100%;
+		line-height: 1;
+		color: rgba(0, 0, 0, 0.8);
+		content: "\25BC";
+		position: absolute;
+		text-align: center;
+	}
+	
+	/* Style northward tooltips differently */
+
+	.d3-tip.n:after {
+		margin: -1px 0 0 0;
+		top: 100%;
+		left: 0;
+	}
+	
+</style>
+
+<body align = "center">
+
+<!-- containers for each chart -->
+
+<div id = "ch1_1">
+	<span class = "header">Chapter 1 - 1: Chronic absenteeism among all students</span>
+	<p>&nbsp;</p>
+</div>
+<div id = "ch1_2">
+	<p>&nbsp;</p>
+	<span class = "header">Chapter 1 - 2: Chronic absenteeism by race/ethnicity</span>
+	<p>&nbsp;</p>
+</div>
+<div id = "ch1_3">
+	<p>&nbsp;</p>
+	<span class = "header">Chapter 1 - 3: Chronic absenteeism by gender</span>
+	<p>&nbsp;</p>
+</div>
+<div id = "ch1_4">
+	<p>&nbsp;</p>
+	<span class = "header">Chapter 1 - 4: Chronic absenteeism by IDEA status</span>
+	<p>&nbsp;</p>
+</div>
+<div id = "ch1_5">
+	<p>&nbsp;</p>
+	<span class = "header">Chapter 1 - 5: Chronic absenteeism by English Language Learner status</span>
+	<p>&nbsp;</p>
+</div>
+<div id = "ch2_1"></div>
+<div id = "ch2_2"></div>
+
+<!-- Script for charts -->
+
+<script>
+
+// Number formats
+
+var	formatComma = d3.format(",f"),
+	formatPercent = d3.format(",.1%"),
+	formatPercentNoDec = d3.format(",%");
+
+// Chapter 1, Chart 1
+
+var c1_1_data; // store the c1_1 data here
+
+var c1_1_width = 750,
+	c1_1_height = 400,
+	c1_1_radius = Math.min(c1_1_width, c1_1_height) / 2;
+
+// Set colors for each slice
+	
+var c1_1_color = d3.scale.ordinal()
+	.domain(function(d) { return d.group;})
+	.range(["#98abc5", "#8a89a6"]);
+
+var c1_1_arc = d3.svg.arc()
+	.outerRadius(c1_1_radius)
+	.innerRadius(c1_1_radius * 0.75)
+	.startAngle(function(d) { return d.startAngle + Math.PI/3; })
+	.endAngle(function(d) { return d.endAngle + Math.PI/3; });
+	
+var c1_1_pie = d3.layout.pie()
+	.sort(null)
+	.value(function(d) { return d.number; });
+	
+var	c1_1 = d3.select("#ch1_1").append("svg")
+	.attr("width", c1_1_width)
+	.attr("height", c1_1_height)
+	.append("g")
+		.attr("transform", "translate(" + c1_1_width / 2 + "," + c1_1_height / 2 + ")");
+
+// filter the data when loading
+		
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = formatPercent(d.pct);
+		});
+		
+		c1_1_data = data.filter(function(d) { return d.chart == 1; });
+		
+	};
+	
+	// draw the arcs
+	
+	var c1_1_gArc = c1_1.selectAll(".c1_1_arc")
+		.data(c1_1_pie(c1_1_data))
+		.enter().append("g");
+			
+	c1_1_gArc.append("path")
+		.attr("class", "c1_1_arc")
+		.style("fill", function(d) { return c1_1_color(d.data.group); })
+		.transition()
+			.delay(function(d, i) { return i * 2000; })
+			.duration(2000)
+			.ease("linear")
+			.attrTween("d", function(d) { 
+			
+				var i = d3.interpolate(d.startAngle, d.endAngle);
+				
+				return function(t) { d.endAngle = i(t); return c1_1_arc(d); }
+				
+			});
+	
+	// add data labels
+
+	c1_1_gArc.append("text")
+		.attr("transform", function(d) { 
+			
+			var c = c1_1_arc.centroid(d),
+				x = c[0],
+				y = c[1],
+				
+				h = Math.sqrt(x * x + y * y);
+		
+			return "translate(" + (x/h * c1_1_radius * 1.1) + "," + (y/h * c1_1_radius * 1.1) + ")"; })
+		.attr("text-anchor", function(d) { return (d.endAngle + d.startAngle)/2 > Math.PI ? "start" : "end"; })
+		.attr("class", "c1_1_label")
+		.attr("dy", ".35em")
+		.attr("fill-opacity", 0)
+		.text(function(d) { return d.data.group + " (" + d.data.pct + ")"; })
+		.transition()
+			.delay(function(d, i) { return i * 2000; })
+			.duration(2000)
+			.attr("fill-opacity", 1);
+	
+	// add n-size in the center
+		
+	var c1_1_cLabel = c1_1.selectAll(".c1_1_cLabel")
+		.data(c1_1_data)
+		.enter().append("g")
+			.filter(function(d) { return d.group == "Chronically absent"; });		
+	
+	c1_1_cLabel.append("text")
+		.attr("class", "c1_1_cLabel")
+		.attr("text-anchor", "middle")
+		.attr("fill-opacity", 0)
+		.transition()
+			.delay(2000)
+			.duration(2000)
+			.attr("fill-opacity", 1)
+			.tween("text", function(d) {
+				
+				var i = d3.interpolate(0, d.number);
+				
+				return function(t) { this.textContent = formatComma(Math.round(i(t))); };
+				
+			});
+			
+	c1_1_cLabel.append("text")
+		.attr("class", "c1_1_cLabelText")
+		.attr("text-anchor", "middle")
+		.attr("dy", "25px")
+		.attr("fill-opacity", 0)
+		.text("students were chronically absent in 2013-14")
+		.transition()
+			.delay(2000)
+			.duration(2000)
+			.attr("fill-opacity", 1);
+				
+});
+
+// Chapter 1 - 2
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 2; })
+			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
+		
+		var chart = colChart().data(data);
+		
+		d3.select("#ch1_2").call(chart);
+		
+	};
+});	
+
+// Chapter 1 - 3
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 3; })
+			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
+		
+		var chart = colChart().data(data);
+		
+		d3.select("#ch1_3").call(chart);
+		
+	};
+});	
+
+// Chapter 1 - 4
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 4; })
+			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
+		
+		var chart = colChart().data(data);
+		
+		d3.select("#ch1_4").call(chart);
+		
+	};
+});	
+
+// Chapter 1 - 5
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 5; })
+			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
+		
+		var chart = colChart().data(data);
+		
+		d3.select("#ch1_5").call(chart);
+		
+	};
+});	
+
+// Reusable chart function
+
+function colChart() {
+	
+	// Options accessible to the caller
+	// These are the default values
+	
+	var	margin = {top: 20, right: 20, bottom: 60, left: 40},
+		width = 960 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom,
+		data = [];
+		
+	var updateWidth,
+		updateHeight,
+		updateData;
+		
+	function chart(selection) {
+		selection.each(function() {
+		
+		// selections
+		
+		var dom = d3.select(this);
+		
+		var svg = dom.append("svg")
+			.attr("class", "col-chart")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+		// tooltips using d3-tip
+		
+		var tip = d3.tip()
+			.attr("class", "d3-tip")
+			.offset([-10, 0])
+			.html(function(d) {
+	
+			return "<strong>Total: </strong>" + formatComma(d.number);
+	
+		});
+		
+		svg.call(tip);
+		
+		// axis scales and axes
+		
+		var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .1),	
+			yScale = d3.scale.linear().range([height, 0]),
+			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercentNoDec);
+		
+		// domains
+		
+		xScale.domain(data.map(function(d, i) { return d.group; }));
+		yScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
+	
+		// draw columns
+		
+		var cols = svg.selectAll("rect.column")
+			.data(data)
+			.enter()
+			.append("g")
+				.attr("transform", "translate(0,0)");
+		
+		var max = d3.max(data, function(d) { return d.pct; });
+		
+		cols.append("rect")
+			.attr("class","column")
+			.attr("x", function(d, i) { return xScale(d.group); })
+			.attr("width", xScale.rangeBand())
+			.attr("y", height)
+			.attr("height", 0)
+			.on("mouseover", tip.show)
+			.on("mouseout", tip.hide)
+			.transition()
+				.duration(500)
+				.attr("height", function(d) { return height - yScale(d.pct); })
+				.attr("y", function(d) { return yScale(d.pct); })
+				
+				// highlight if max
+			
+				.each("end", function(d) { if (d.pct == max) {
+					svg.select(".column")
+						.transition()
+							.duration(500)
+							.style("fill", "#8a89a6");
+					}});
+		
+		// add data labels
+		
+		cols.append("text")
+			.text(function(d) { return formatPercent(d.pct); })
+			.attr("text-anchor", "middle")
+			.attr("x", function(d, i) { return xScale(d.group) + (xScale.rangeBand() / 2); })
+			.attr("y", function(d) { return yScale(d.pct) + 20; })
+			.attr("class", "columnLabels")
+			.attr("fill-opacity", 0)
+			.transition()
+				.duration(1000)
+				.attr("fill-opacity", 1);		
+		
+		// draw axes
+	
+		svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis)
+			.selectAll(".tick text")
+				.call(wrap, xScale.rangeBand());
+	
+		yAxis.tickValues(yScale.domain());
+	
+		svg.append("g")
+			.attr("class", "y axis")
+			.call(yAxis);
+		
+		// update functions
+		
+		updateWidth = function() {
+			
+			svg.attr("width", width);
+			cols.attr("x", function(d, i) { return xScale(d.group); })
+			cols.attr("width", xScale.rangeBand());
+			
+			};
+			
+		updateHeight = function() {
+			
+			svg.attr("height", height);
+			cols.attr("y", function(d) { return yScale(d.pct); })
+			cols.attr("height", function(d) { return height - yScale(d.pct); });
+			
+			};
+		
+		updateData = function() {
+		
+			xScale = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+			yScale = d3.scale.linear().range([height, 0]);
+			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+			yAxis = d3.svg.axis().scale(yScale).orient("left");
+		
+			var update = svg.selectAll("rect.column")
+				.data(data);
+				
+			update.attr("x", function(d, i) { return xScale(d.group); })
+				.attr("width", xScale.rangeBand())
+				.attr("y", function(d) { return yScale(d.pct); })
+				.attr("height", function(d) { return height- yScale(d.pct); })
+		
+			update.enter()
+				.append("rect")
+				.attr("class","column")
+				.attr("x", function(d, i) { return xScale(d.group); })
+				.attr("width", xScale.rangeBand())
+				.attr("y", function(d) { return yScale(d.pct); })
+				.attr("height", function(d) { return height- yScale(d.pct); });
+		
+			update.exit()
+				.remove();
+		
+			};
+		
+		});
+	
+	};
+	
+    chart.width = function(value) {
+	
+        if (!arguments.length) return width;
+        width = value;
+        if (typeof updateWidth === 'function') updateWidth();
+        return chart;
+		
+    };
+
+    chart.height = function(value) {
+	
+        if (!arguments.length) return height;
+        height = value;
+        if (typeof updateHeight === 'function') updateHeight();
+        return chart;
+		
+    };
+
+    chart.data = function(value) {
+	
+        if (!arguments.length) return data;
+        data = value;
+        if (typeof updateData === 'function') updateData();
+        return chart;
+		
+    };
+	
+	return chart;
+	
+};
+
+// this is for wrapping long axis labels
+
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+	
+</script>
+
+</body>
+
+</html>
