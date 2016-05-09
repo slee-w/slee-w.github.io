@@ -382,7 +382,7 @@ function colChart() {
 			.offset([-10, 0])
 			.html(function(d) {
 	
-			return "<strong>Total: </strong>" + formatComma(d.number);
+			return formatComma(d.number) + " (" + formatPercent(d.pct) + ")";
 	
 		});
 		
