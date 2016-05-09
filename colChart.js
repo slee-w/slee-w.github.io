@@ -31,7 +31,7 @@ function colChart() {
 			.attr("width", widthAdj)
 			.attr("height", heightAdj)
 			.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+				.attr("transform", "translate(0,0)");
 		
 		// tooltips using d3-tip
 		
