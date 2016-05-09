@@ -28,8 +28,8 @@ function colChart() {
 		
 		var svg = dom.append("svg")
 			.attr("class", "col-chart")
-			.attr("width", widthAdj)
-			.attr("height", heightAdj)
+			.attr("width", width)
+			.attr("height", height)
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
