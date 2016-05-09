@@ -59,7 +59,7 @@ function barChart() {
 		// axis scales and axes
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().range([heightAdj, 0]).rangeRoundBands([heightAdj, 0], .1),
+			yScale = d3.scale.ordinal().range([heightAdj, 0]).rangeRoundBands([0, heightAdj], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercentNoDec),
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
@@ -108,9 +108,9 @@ function barChart() {
 	
 		svg.append("g")
 			.attr("class", "y axis")
-			.call(yAxis)
-			.selectAll(".tick text")
-				.call(wrap, yScale);
+			.call(yAxis);
+			//.selectAll(".tick text")
+				//.call(wrap, yScale);
 		
 		// update functions
 		
