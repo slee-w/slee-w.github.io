@@ -47,7 +47,8 @@ function barChart() {
 		
 		var tip = d3.tip()
 			.attr("class", "d3-tip")
-			.offset([-10, 0])
+			.direction("e")
+			.offset([0, 10])
 			.html(function(d) {
 	
 			return formatComma(d.number) + " (" + formatPercent(d.pct) + ")";
