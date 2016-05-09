@@ -1,12 +1,13 @@
-// Reusable column chart function
+// Reusable bar chart function
 
 function colChart() {
 	
 	// Options accessible to the caller
 	// These are the default values
 	
-	var	width = 960,
-		height = 500,
+	var	margin = {top: 20, right: 20, bottom: 60, left: 40},
+		width = 960 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom,
 		data = [];
 		
 	var updateWidth,
@@ -16,20 +17,14 @@ function colChart() {
 	function chart(selection) {
 		selection.each(function() {
 		
-		// margins; adjust width and height to account for margins
-		
-		var margin = {top: 20, right: 20, bottom: 60, left: 40},
-			widthAdj = width - margin.left - margin.right,
-			heightAdj = height - margin.top - margin.bottom;		
-		
 		// selections
 		
 		var dom = d3.select(this);
 		
 		var svg = dom.append("svg")
-			.attr("class", "col-chart")
-			.attr("width", widthAdj)
-			.attr("height", heightAdj)
+			.attr("class", "bar-chart")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
 			.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
@@ -48,8 +43,8 @@ function colChart() {
 		
 		// axis scales and axes
 		
-		var xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1),	
-			yScale = d3.scale.linear().range([heightAdj, 0]),
+		var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .1),	
+			yScale = d3.scale.linear().range([height, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
 			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercentNoDec);
 		
@@ -72,13 +67,13 @@ function colChart() {
 			.attr("class","column")
 			.attr("x", function(d, i) { return xScale(d.group); })
 			.attr("width", xScale.rangeBand())
-			.attr("y", heightAdj)
+			.attr("y", height)
 			.attr("height", 0)
 			.on("mouseover", tip.show)
 			.on("mouseout", tip.hide)
 			.transition()
 				.duration(500)
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
+				.attr("height", function(d) { return height - yScale(d.pct); })
 				.attr("y", function(d) { return yScale(d.pct); })
 				
 				// highlight if max
@@ -94,7 +89,7 @@ function colChart() {
 	
 		svg.append("g")
 			.attr("class", "x axis")
-			.attr("transform", "translate(0," + heightAdj + ")")
+			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
 			.selectAll(".tick text")
 				.call(wrap, xScale.rangeBand());
@@ -109,7 +104,7 @@ function colChart() {
 		
 		updateWidth = function() {
 			
-			svg.attr("width", widthAdj);
+			svg.attr("width", width);
 			cols.attr("x", function(d, i) { return xScale(d.group); })
 			cols.attr("width", xScale.rangeBand());
 			
@@ -117,16 +112,16 @@ function colChart() {
 			
 		updateHeight = function() {
 			
-			svg.attr("height", heightAdj);
+			svg.attr("height", height);
 			cols.attr("y", function(d) { return yScale(d.pct); })
-			cols.attr("height", function(d) { return heightAdj - yScale(d.pct); });
+			cols.attr("height", function(d) { return height - yScale(d.pct); });
 			
 			};
 		
 		updateData = function() {
 		
-			xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1);
-			yScale = d3.scale.linear().range([heightAdj, 0]);
+			xScale = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+			yScale = d3.scale.linear().range([height, 0]);
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
