@@ -60,12 +60,12 @@ function barChart() {
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
 			yScale = d3.scale.ordinal().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercentNoDec),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(function(d, i) { return d.group[i]; });
 		
 		// domains
 		
 		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
-		yScale.domain([0, data.length]);
+		yScale.domain(data.map(function(d, i) { return d.group; }));
 	
 		// draw bars
 		
