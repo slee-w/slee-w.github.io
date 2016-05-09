@@ -73,7 +73,7 @@ function barChart() {
 			.data(data)
 			.enter()
 			.append("g")
-				.attr("transform", "translate(" + margin.left + ",0)");
+				.attr("transform", "translate(0,0)");
 					
 		bars.append("rect")
 			.attr("class","bar")
