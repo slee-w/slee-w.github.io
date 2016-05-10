@@ -96,7 +96,7 @@ function barChart() {
 				// highlight if max
 			
 				.each("end", function(d) { if (d.var3 == maxValue) {
-					svg.select(".bar")
+					svg.select(this)
 						.transition()
 							.duration(500)
 							.attr("class", "bar max");
