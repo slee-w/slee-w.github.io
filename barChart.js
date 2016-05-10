@@ -16,6 +16,12 @@ function barChart() {
 	function chart(selection) {
 		selection.each(function() {
 		
+		// formats
+		
+		var	formatComma = d3.format(",f"),
+			formatPercent = d3.format(",.1%"),
+			formatPercentNoDec = d3.format(",%");
+		
 		// margins; adjust width and height to account for margins
 		
 		var margin = {top: 20, right: 20, bottom: 60, left: 40},
