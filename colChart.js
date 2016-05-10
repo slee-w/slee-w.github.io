@@ -36,8 +36,9 @@ function colChart() {
 		
 		var svg = dom.append("svg")
 			.attr("class", "col-chart")
-			.attr("width", width)
-			.attr("height", height)
+			.attr("viewBox", "0 0 " + width + " " + height)
+			.attr("preserveAspectRatio", "xMinYMin meet")
+			.style("max-width", width)
 			.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
