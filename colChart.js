@@ -12,6 +12,7 @@ function colChart() {
 		
 	var updateWidth,
 		updateHeight,
+		updateMarginBottom,
 		updateData;
 		
 	function chart(selection) {

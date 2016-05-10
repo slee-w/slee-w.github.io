@@ -7,10 +7,12 @@ function barChart() {
 	
 	var	width = 960,
 		height = 500,
+		marginLeft = 40,
 		data = [];
 		
 	var updateWidth,
 		updateHeight,
+		updateMarginLeft,
 		updateData;
 		
 	function chart(selection) {
@@ -24,8 +26,8 @@ function barChart() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20, bottom: 60, left: 40},
-			widthAdj = width - margin.left - margin.right,
+		var margin = {top: 20, right: 20, bottom: 60},
+			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - margin.bottom;
 
 		// define bar spacing and bar height
@@ -42,7 +44,7 @@ function barChart() {
 			.attr("width", width)
 			.attr("height", height)
 			.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
@@ -97,7 +99,7 @@ function barChart() {
 						.transition()
 							.duration(500)
 							.style("fill", "#8a89a6");
-					}});
+				}});
 		
 		// draw axes
 	
@@ -110,7 +112,7 @@ function barChart() {
 			.attr("class", "y axis")
 			.call(yAxis)
 			.selectAll(".tick text")
-				.call(wrap, margin.left);
+				.call(wrap, marginLeft);
 		
 		// update functions
 		
@@ -121,14 +123,20 @@ function barChart() {
 			svg.attr("width", widthAdj);
 			bars.attr("width", function(d) { return d.pct * widthScale; });
 			
-			};
+		};
 			
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
 			bars.attr("y", function(d) { return yScale(d.group); })
 						
-			};
+		};
+		
+		updateMarginLeft = function() {
+			
+			widthAdj = width - marginLeft - margin.right;
+			
+		};
 		
 		updateData = function() {
 		
@@ -140,7 +148,7 @@ function barChart() {
 			var update = svg.selectAll("rect.bar")
 				.data(data);
 				
-			update.attr("x", margin.left)
+			update.attr("x", marginLeft)
 				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d) { return yScale(d.group); })
 				.attr("height", yScale.rangeBand())
@@ -148,7 +156,7 @@ function barChart() {
 			update.enter()
 				.append("rect")
 				.attr("class","bar")
-				.attr("x", margin.left)
+				.attr("x", marginLeft)
 				.attr("width", function(d) { return d.pct * widthScale; })
 				.attr("y", function(d) { return yScale(d.group); })
 				.attr("height", yScale.rangeBand());
@@ -156,11 +164,11 @@ function barChart() {
 			update.exit()
 				.remove();
 		
-			};
+		};
 		
-		});
+	});
 	
-	};
+};
 	
     chart.width = function(value) {
 	
@@ -180,6 +188,15 @@ function barChart() {
 		
     };
 
+	chart.marginLeft = function(value) {
+		
+		if (!arguments.length) return marginLeft;
+		marginLeft = value;
+		if (typeof updateMarginLeft === 'function') updateMarginLeft();
+		return chart;
+		
+	};
+	
     chart.data = function(value) {
 	
         if (!arguments.length) return data;
