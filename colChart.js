@@ -51,7 +51,7 @@ function colChart() {
 		var xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1),	
 			yScale = d3.scale.linear().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
-			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercentNoDec);
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercent);
 		
 		// domains
 		
