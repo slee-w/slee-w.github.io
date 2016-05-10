@@ -94,7 +94,7 @@ function barChart() {
 				.attr("width", function(d) { return d.var3 * widthScale; });
 								
 		bars.select("rect")
-			.filter(function(d) { return d.var3 === maxValue; })
+			.filter(function(d) { return d.var3 == maxValue; })
 			.transition()
 				.duration(500)
 				.attr("class", "bar max");
