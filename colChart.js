@@ -89,17 +89,16 @@ function colChart() {
 				.duration(500)
 				.attr("height", function(d) { return heightAdj - yScale(d.var3); })
 				.attr("y", function(d) { return yScale(d.var3); })
-
-		// highlight if max
-		
-		var maxValue = d3.max(data, function(d) { return d.var3; });
-		
-		cols.select("rect.column")
-			.filter(function(d) { return d.var3 == maxValue; })
-			.transition()
-				.duration(500)
-				.attr("class", "col max");		
 				
+				// highlight if max
+			
+				.each("end", function(d) { if (d.var3 == max) {
+					d3.select(this)
+						.transition()
+							.duration(500)
+							.attr("class", "bar max");
+				}});
+		
 		// draw axes
 	
 		svg.append("g")
