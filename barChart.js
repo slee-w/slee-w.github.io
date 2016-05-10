@@ -42,7 +42,6 @@ function barChart() {
 		
 		var tip = d3.tip()
 			.attr("class", "d3-tip")
-			.direction("e")
 			.offset([0, 10])
 			.html(function(d) {
 	
@@ -105,8 +104,8 @@ function barChart() {
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis);
-			//.selectAll(".tick text")
-				//.call(wrap, yScale);
+			.selectAll(".tick text")
+				.call(wrap, yScale);
 		
 		// update functions
 		
