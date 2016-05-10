@@ -92,8 +92,10 @@ function barChart() {
 			.transition()
 				.duration(500)
 				.attr("width", function(d) { return d.var3 * widthScale; });
-								
-		bars.select("rect")
+		
+		// highlight if max
+		
+		bars.select("rect.bar")
 			.filter(function(d) { return d.var3 == maxValue; })
 			.transition()
 				.duration(500)
