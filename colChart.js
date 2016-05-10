@@ -229,5 +229,5 @@ function wrap(text, width) {
         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
       };
     };
-  };);
+  });
 };
