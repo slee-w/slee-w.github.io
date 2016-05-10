@@ -40,12 +40,14 @@ function barChart() {
 		var dom = d3.select(this);
 		
 		var svg = dom.append("svg")
-			.attr("class", "bar-chart")
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.attr("viewBox", "0 0 " + width + " " + height)
-			.classed("svg-content", true)
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+			.append("svg")
+				.attr("class", "bar-chart")
+				.attr("width", width)
+				.attr("height", height)
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
