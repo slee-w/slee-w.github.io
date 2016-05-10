@@ -73,15 +73,15 @@ function areaChart() {
 		
 		var line = d3.svg.line()
 			.interpolate("linear")
-			.x(function(d) { return xScale(d.level); })
-			.y(function(d) { return yScale(d.pct); });
+			.x(function(d, i) { return xScale(d.level); })
+			.y(function(d, i) { return yScale(d.pct); });
 		
 		// draw area/line
 		
 		svg.append("path")
 			.datum(data)
 			.attr("class", "area")
-			.attr("d", function(d) { return line(d.values); });
+			.attr("d", function(d) { return line(d.pct); });
 		
 		// draw axes
 	
