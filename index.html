@@ -295,6 +295,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	else {
 		data.forEach(function(d) {
 			d.chart = +d.chart;
+			d.var1 = d.group;
 			d.number = +d.number;
 			d.pct = +d.pct;
 		});
@@ -318,6 +319,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	else {
 		data.forEach(function(d) {
 			d.chart = +d.chart;
+			d.var1 = d.group;
 			d.number = +d.number;
 			d.pct = +d.pct;
 		});
@@ -339,6 +341,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	else {
 		data.forEach(function(d) {
 			d.chart = +d.chart;
+			d.var1 = d.group;
 			d.number = +d.number;
 			d.pct = +d.pct;
 		});
@@ -360,6 +363,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	else {
 		data.forEach(function(d) {
 			d.chart = +d.chart;
+			d.var1 = d.group;
 			d.number = +d.number;
 			d.pct = +d.pct;
 		});
@@ -375,24 +379,6 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 });	
 
 // Chapter 2 - 1
-
-d3.tsv("Data/c1.tsv", function(error, data) {
-	if (error) { console.log(error); }
-	else {
-		data.forEach(function(d) {
-			d.chart = +d.chart;
-			d.number = +d.number;
-			d.pct = +d.pct;
-		});
-		
-		data = data.filter(function(d) { return d.chart == 6; })
-		
-		var chart = areaChart().data(data);
-		
-		d3.select("#ch2_1").call(chart);
-		
-	};
-});	
 	
 </script>
 

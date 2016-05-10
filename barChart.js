@@ -71,7 +71,7 @@ function barChart() {
 		// domains
 		
 		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
-		yScale.domain(data.map(function(d, i) { return d.group; }));
+		yScale.domain(data.map(function(d, i) { return d.var1; }));
 	
 		// draw bars
 		
@@ -85,7 +85,7 @@ function barChart() {
 			.attr("class","bar")
 			.attr("x", 0)
 			.attr("width", 0)
-			.attr("y", function(d) { return yScale(d.group); })
+			.attr("y", function(d) { return yScale(d.var1); })
 			.attr("height", yScale.rangeBand())
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
@@ -129,7 +129,7 @@ function barChart() {
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
-			bars.attr("y", function(d) { return yScale(d.group); })
+			bars.attr("y", function(d) { return yScale(d.var1); })
 						
 		};
 		
@@ -151,7 +151,7 @@ function barChart() {
 				
 			update.attr("x", marginLeft)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", function(d) { return yScale(d.group); })
+				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand())
 		
 			update.enter()
@@ -159,7 +159,7 @@ function barChart() {
 				.attr("class","bar")
 				.attr("x", marginLeft)
 				.attr("width", function(d) { return d.pct * widthScale; })
-				.attr("y", function(d) { return yScale(d.group); })
+				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand());
 		
 			update.exit()

@@ -64,7 +64,7 @@ function colChart() {
 		
 		// domains
 		
-		xScale.domain(data.map(function(d, i) { return d.group; }));
+		xScale.domain(data.map(function(d, i) { return d.var1; }));
 		yScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
 	
 		// draw columns
@@ -79,7 +79,7 @@ function colChart() {
 		
 		cols.append("rect")
 			.attr("class","column")
-			.attr("x", function(d, i) { return xScale(d.group); })
+			.attr("x", function(d, i) { return xScale(d.var1); })
 			.attr("width", xScale.rangeBand())
 			.attr("y", heightAdj)
 			.attr("height", 0)
@@ -117,7 +117,7 @@ function colChart() {
 		updateWidth = function() {
 			
 			svg.attr("width", widthAdj);
-			cols.attr("x", function(d, i) { return xScale(d.group); })
+			cols.attr("x", function(d, i) { return xScale(d.var1); })
 			cols.attr("width", xScale.rangeBand());
 			
 		};
@@ -146,7 +146,7 @@ function colChart() {
 			var update = svg.selectAll("rect.column")
 				.data(data);
 				
-			update.attr("x", function(d, i) { return xScale(d.group); })
+			update.attr("x", function(d, i) { return xScale(d.var1); })
 				.attr("width", xScale.rangeBand())
 				.attr("y", function(d) { return yScale(d.pct); })
 				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
@@ -154,7 +154,7 @@ function colChart() {
 			update.enter()
 				.append("rect")
 				.attr("class","column")
-				.attr("x", function(d, i) { return xScale(d.group); })
+				.attr("x", function(d, i) { return xScale(d.var1); })
 				.attr("width", xScale.rangeBand())
 				.attr("y", function(d) { return yScale(d.pct); })
 				.attr("height", function(d) { return heightAdj - yScale(d.pct); });
