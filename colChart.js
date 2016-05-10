@@ -95,7 +95,7 @@ function colChart() {
 					svg.select(".column")
 						.transition()
 							.duration(500)
-							.style("fill", "#8a89a6");
+							.attr("class", "bar max");
 				}});
 		
 		// draw axes

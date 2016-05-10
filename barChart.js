@@ -98,7 +98,7 @@ function barChart() {
 					svg.select(".bar")
 						.transition()
 							.duration(500)
-							.style("fill", "#8a89a6");
+							.attr("class", "bar max");
 				}});
 		
 		// draw axes
