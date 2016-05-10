@@ -91,7 +91,9 @@ function colChart() {
 				.attr("y", function(d) { return yScale(d.var3); })
 
 		// highlight if max
-				
+		
+		var maxValue = d3.max(data, function(d) { return d.var3; });
+		
 		cols.select("rect.column")
 			.filter(function(d) { return d.var3 == maxValue; })
 			.transition()
