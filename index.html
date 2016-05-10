@@ -6,6 +6,8 @@
 	<title>InformED Chronic Absenteeism D3 Chart Examples</title>
 </head>
 
+<!-- JS scripts -->
+
 <script src = "https://d3js.org/d3.v3.min.js"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.js"></script>
 <script src = "colChart.js"></script>
@@ -285,7 +287,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
 		
 		var chart = colChart().width(750).marginBottom(60).data(data);
-		var chart2 = barChart().marginLeft(200).data(data);
+		var chart2 = barChart().marginLeft(250).data(data);
 		
 		d3.select("#ch1_2").call(chart);
 		d3.select("#ch1_2").call(chart2);

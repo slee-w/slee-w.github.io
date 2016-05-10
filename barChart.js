@@ -111,7 +111,7 @@ function barChart() {
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
-			//.selectAll(".tick text")
+			//.selectAll(".tick text") 
 			//	.call(wrap, marginLeft - 10);
 		
 		// update functions
@@ -211,6 +211,7 @@ function barChart() {
 };
 
 // this is for wrapping long axis labels
+// need to examine this for bar charts because it's causing some unintended side effects...
 
 function wrap(text, width) {
   text.each(function() {
