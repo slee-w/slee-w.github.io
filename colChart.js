@@ -92,7 +92,7 @@ function colChart() {
 
 		// highlight if max
 				
-		cols.select("rect")
+		cols.select("rect.column")
 			.filter(function(d) { return d.var3 == maxValue; })
 			.transition()
 				.duration(500)
