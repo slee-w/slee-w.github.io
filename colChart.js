@@ -98,7 +98,7 @@ function colChart() {
 			.filter(function(d) { return d.var3 == maxValue; })
 			.transition()
 				.duration(500)
-				.attr("class", "bar max");		
+				.attr("class", "col max");		
 				
 		// draw axes
 	
