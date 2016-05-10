@@ -81,7 +81,7 @@ function areaChart() {
 		svg.append("path")
 			.datum(data)
 			.attr("class", "area")
-			.attr("d", function(d) { return line(d.pct); });
+			.attr("d", function(d) { return line(d.values); });
 		
 		// draw axes
 	
