@@ -95,8 +95,6 @@ function barChart() {
 		
 		// draw axes
 	
-		xAxis.tickValues(xScale.domain());
-	
 		svg.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + heightAdj + ")")

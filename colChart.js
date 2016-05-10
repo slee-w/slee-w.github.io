@@ -99,8 +99,6 @@ function colChart() {
 			.selectAll(".tick text")
 				.call(wrap, xScale.rangeBand());
 	
-		yAxis.tickValues(yScale.domain());
-	
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis);
