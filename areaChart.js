@@ -57,7 +57,7 @@ function areaChart() {
 		
 		// axis scales and axes
 		
-		var xScale = d3.scale.ordinal().range[0, widthAdj]),	
+		var xScale = d3.scale.ordinal().range([0, widthAdj]),	
 			yScale = d3.scale.linear().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
 			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercent);
