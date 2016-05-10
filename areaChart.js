@@ -74,7 +74,7 @@ function areaChart() {
 		var area = d3.svg.area()
 			.x(function(d) { return xScale(d.level); })
 			.y0(heightAdj)
-			.y1(function(d) { return yScale(d.pct); });
+			.y1(function(d) { return yScale(d.number); });
 		
 		// draw area/line
 		
