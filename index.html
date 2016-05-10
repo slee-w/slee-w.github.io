@@ -85,18 +85,16 @@
 	}
 	
 	.d3-tip-bar:before {
-		box-sizing: border-box;
+		content: '';
 		display: block;
-		font-size: 10px;
 		width: 0;
 		height: 0;
-		line-height: 1;
-		color: rgba(0, 0, 0, 0.8);
-		content: "\25BC";
 		position: absolute;
 		right: 100%;
 		top: 50%;
-		text-align: center;
+		margin-top: -6px;
+		border: 6px solid transparent;
+		border-right-color: #2E3141;
 	}		
 	
 	/* Style northward tooltips differently */
