@@ -41,10 +41,8 @@ function barChart() {
 		
 		var svg = dom.append("svg")
 			.attr("class", "bar-chart")
-			.attr("width", width)
-			.attr("height", height)
 			.attr("preserveAspectRatio", "xMinYMin meet")
-			.attr("viewBox", "0 0 " + (width) + " " + (height))
+			.attr("viewBox", "0 0 " + (widthAdj) + " " + (heightAdj))
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
