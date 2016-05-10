@@ -32,7 +32,7 @@ function barChart() {
 
 		// define bar spacing and bar height
 
-		var maxValue = d3.max(data, function(d) { return d.pct; }),
+		var maxValue = d3.max(data, function(d) { return d.var3; }),
 			widthScale = widthAdj / maxValue;
 		
 		// selections
@@ -55,7 +55,7 @@ function barChart() {
 			.offset([0, 10])
 			.html(function(d) {
 	
-			return formatComma(d.number) + " (" + formatPercent(d.pct) + ")";
+			return formatComma(d.var2) + " (" + formatPercent(d.var3) + ")";
 	
 		});
 		
@@ -70,7 +70,7 @@ function barChart() {
 		
 		// domains
 		
-		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
+		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
 		yScale.domain(data.map(function(d, i) { return d.var1; }));
 	
 		// draw bars
@@ -91,11 +91,11 @@ function barChart() {
 			.on("mouseout", tipBar.hide)
 			.transition()
 				.duration(500)
-				.attr("width", function(d) { return d.pct * widthScale; })
+				.attr("width", function(d) { return d.var3 * widthScale; })
 								
 				// highlight if max
 			
-				.each("end", function(d) { if (d.pct == maxValue) {
+				.each("end", function(d) { if (d.var3 == maxValue) {
 					svg.select(".bar")
 						.transition()
 							.duration(500)
@@ -122,7 +122,7 @@ function barChart() {
 			widthScale = width / maxValue;
 			
 			svg.attr("width", widthAdj);
-			bars.attr("width", function(d) { return d.pct * widthScale; });
+			bars.attr("width", function(d) { return d.var3 * widthScale; });
 			
 		};
 			
@@ -150,7 +150,7 @@ function barChart() {
 				.data(data);
 				
 			update.attr("x", marginLeft)
-				.attr("width", function(d) { return d.pct * widthScale; })
+				.attr("width", function(d) { return d.var3 * widthScale; })
 				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand())
 		
@@ -158,7 +158,7 @@ function barChart() {
 				.append("rect")
 				.attr("class","bar")
 				.attr("x", marginLeft)
-				.attr("width", function(d) { return d.pct * widthScale; })
+				.attr("width", function(d) { return d.var3 * widthScale; })
 				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand());
 		

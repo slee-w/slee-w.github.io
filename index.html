@@ -293,14 +293,13 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
 		data.forEach(function(d) {
-			d.chart = +d.chart;
-			d.var1 = d.group;
-			d.number = +d.number;
-			d.pct = +d.pct;
+			d.var1 = d.group; // This is the subgroup
+			d.var2 = +d.number; // This is the raw number
+			d.var3 = +d.pct; // This is the percentage
 		});
 		
-		data = data.filter(function(d) { return d.chart == 2; })
-			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
+		data = data.filter(function(d) { return d.chart == 2; }) // This filters our data to the right chart
+			.sort(function(a, b) { return d3.descending(a.pct, b.pct); }); // This sorts our data
 		
 		var chart = colChart().width(750).marginBottom(60).data(data);
 		var chart2 = barChart().marginLeft(235).data(data);
@@ -317,10 +316,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
 		data.forEach(function(d) {
-			d.chart = +d.chart;
 			d.var1 = d.group;
-			d.number = +d.number;
-			d.pct = +d.pct;
+			d.var2 = +d.number;
+			d.var3 = +d.pct;
 		});
 		
 		data = data.filter(function(d) { return d.chart == 3; })
@@ -339,10 +337,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
 		data.forEach(function(d) {
-			d.chart = +d.chart;
 			d.var1 = d.group;
-			d.number = +d.number;
-			d.pct = +d.pct;
+			d.var2 = +d.number;
+			d.var3 = +d.pct;
 		});
 		
 		data = data.filter(function(d) { return d.chart == 4; })
@@ -361,10 +358,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
 		data.forEach(function(d) {
-			d.chart = +d.chart;
 			d.var1 = d.group;
-			d.number = +d.number;
-			d.pct = +d.pct;
+			d.var2 = +d.number;
+			d.var3 = +d.pct;
 		});
 		
 		data = data.filter(function(d) { return d.chart == 5; })
@@ -383,10 +379,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
 		data.forEach(function(d) {
-			d.chart = +d.chart;
 			d.var1 = d.level;
-			d.number = +d.number;
-			d.pct = +d.pct;
+			d.var2 = +d.number;
+			d.var3 = +d.pct;
 		});
 		
 		data = data.filter(function(d) { return d.chart == 6; });

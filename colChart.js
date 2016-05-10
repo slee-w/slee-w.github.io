@@ -49,7 +49,7 @@ function colChart() {
 			.offset([-10, 0])
 			.html(function(d) {
 	
-			return formatComma(d.number) + " (" + formatPercent(d.pct) + ")";
+			return formatComma(d.var2) + " (" + formatPercent(d.var3) + ")";
 	
 		});
 		
@@ -65,7 +65,7 @@ function colChart() {
 		// domains
 		
 		xScale.domain(data.map(function(d, i) { return d.var1; }));
-		yScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
+		yScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
 	
 		// draw columns
 		
@@ -75,7 +75,7 @@ function colChart() {
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(data, function(d) { return d.pct; });
+		var max = d3.max(data, function(d) { return d.var3; });
 		
 		cols.append("rect")
 			.attr("class","column")
@@ -87,12 +87,12 @@ function colChart() {
 			.on("mouseout", tipCol.hide)
 			.transition()
 				.duration(500)
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
-				.attr("y", function(d) { return yScale(d.pct); })
+				.attr("height", function(d) { return heightAdj - yScale(d.var3); })
+				.attr("y", function(d) { return yScale(d.var3); })
 				
 				// highlight if max
 			
-				.each("end", function(d) { if (d.pct == max) {
+				.each("end", function(d) { if (d.var3 == max) {
 					svg.select(".column")
 						.transition()
 							.duration(500)
@@ -125,8 +125,8 @@ function colChart() {
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
-			cols.attr("y", function(d) { return yScale(d.pct); })
-			cols.attr("height", function(d) { return heightAdj - yScale(d.pct); });
+			cols.attr("y", function(d) { return yScale(d.var3); })
+			cols.attr("height", function(d) { return heightAdj - yScale(d.var3); });
 			
 		};
 		
@@ -148,16 +148,16 @@ function colChart() {
 				
 			update.attr("x", function(d, i) { return xScale(d.var1); })
 				.attr("width", xScale.rangeBand())
-				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
+				.attr("y", function(d) { return yScale(d.var3); })
+				.attr("height", function(d) { return heightAdj - yScale(d.var3); })
 		
 			update.enter()
 				.append("rect")
 				.attr("class","column")
 				.attr("x", function(d, i) { return xScale(d.var1); })
 				.attr("width", xScale.rangeBand())
-				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); });
+				.attr("y", function(d) { return yScale(d.var3); })
+				.attr("height", function(d) { return heightAdj - yScale(d.var3); });
 		
 			update.exit()
 				.remove();
