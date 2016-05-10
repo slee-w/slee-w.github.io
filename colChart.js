@@ -35,8 +35,8 @@ function colChart() {
 		
 		// tooltips using d3-tip
 		
-		var tip = d3.tip()
-			.attr("class", "d3-tip")
+		var tipCol = d3.tip()
+			.attr("class", "d3-tip-col")
 			.offset([-10, 0])
 			.html(function(d) {
 	
@@ -44,7 +44,7 @@ function colChart() {
 	
 		});
 		
-		svg.call(tip);
+		svg.call(tipCol);
 		
 		// axis scales and axes
 		
