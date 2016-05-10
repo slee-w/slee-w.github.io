@@ -214,4 +214,4 @@ function wrap(text, width) {
       }
     }
   });
-}
+};
