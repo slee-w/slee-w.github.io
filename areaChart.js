@@ -57,7 +57,7 @@ function areaChart() {
 		
 		// axis scales and axes
 		
-		var xScale = d3.scale.ordinal().range([0, widthAdj]),	
+		var xScale = d3.scale.ordinal().rangePoints([0, widthAdj], .1),	
 			yScale = d3.scale.linear().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
 			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercent);
@@ -120,7 +120,7 @@ function areaChart() {
 		
 		updateData = function() {
 		
-			xScale = d3.scale.ordinal().range([0, widthAdj]);
+			xScale = d3.scale.ordinal().rangePoints([0, widthAdj], .1);
 			yScale = d3.scale.linear().range([heightAdj, 0]);
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
