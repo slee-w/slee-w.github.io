@@ -43,8 +43,8 @@ function barChart() {
 			.attr("class", "bar-chart")
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.attr("viewBox", "0 0 " + (width) + " " + (height))
-			.attr("width", "100%" - marginLeft - margin.right)
-			.attr("height", "100%" - margin.top - margin.bottom)
+			.attr("width", "100%")
+			.attr("height", "100%")
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
