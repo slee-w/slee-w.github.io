@@ -64,7 +64,9 @@ function areaChart() {
 		
 		// domains
 		
-		xScale.domain(d3.set(data.map(function(d, i) { return d.level; })).values());
+		xValues = d3.set(data.map(function(d) { return d.level; })).values();
+		
+		xScale.domain(xValues);
 		yScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
 
 		// define area/line
