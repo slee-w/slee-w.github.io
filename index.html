@@ -72,7 +72,6 @@
 
 	/* Creates a small triangle extender for the tooltip */
 
-	.d3-tip-bar:after,
 	.d3-tip-col:after {
 		box-sizing: border-box;
 		display: inline;
@@ -82,8 +81,21 @@
 		color: rgba(0, 0, 0, 0.8);
 		content: "\25BC";
 		position: absolute;
-		text-align: start;
+		text-align: center;
 	}
+	
+	.d3-tip-bar:before {
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+		position: absolute;
+		right: 100%;
+		top: 50%;
+		margin-top: -6px;
+		border: 6px solid transparent;
+		border-right-color: #2E3141;
+	}		
 	
 	/* Style northward tooltips differently */
 
