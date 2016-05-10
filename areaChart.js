@@ -1,7 +1,7 @@
-// Reusable bar chart function for chronic absenteeism storymap
+// Reusable area chart function for chronic absenteeism storymap
 
-function colChart() {
-	
+function areaChart() {
+
 	// Options accessible to the caller
 	// These are the default values
 	
@@ -44,8 +44,8 @@ function colChart() {
 		
 		// tooltips using d3-tip
 		
-		var tipCol = d3.tip()
-			.attr("class", "d3-tip-col")
+		var tipArea = d3.tip()
+			.attr("class", "d3-tip-area")
 			.offset([-10, 0])
 			.html(function(d) {
 	
@@ -53,51 +53,33 @@ function colChart() {
 	
 		});
 		
-		svg.call(tipCol);
+		svg.call(tipArea);
 		
 		// axis scales and axes
 		
-		var xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1),	
+		var xScale = d3.scale.ordinal().range[0, widthAdj]),	
 			yScale = d3.scale.linear().range([heightAdj, 0]),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
 			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercent);
 		
 		// domains
 		
-		xScale.domain(data.map(function(d, i) { return d.group; }));
+		xScale.domain(data.map(function(d, i) { return d.level; }));
 		yScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
-	
-		// draw columns
+
+		// define area/line
 		
-		var cols = svg.selectAll("rect.column")
-			.data(data)
-			.enter()
-			.append("g")
-				.attr("transform", "translate(0,0)");
+		var area = d3.svg.area()
+			.x(function(d) { return xScale(d.level); })
+			.y0(heightAdj)
+			.y1(function(d) { return yScale(d.pct); });
 		
-		var max = d3.max(data, function(d) { return d.pct; });
+		// draw area/line
 		
-		cols.append("rect")
-			.attr("class","column")
-			.attr("x", function(d, i) { return xScale(d.group); })
-			.attr("width", xScale.rangeBand())
-			.attr("y", heightAdj)
-			.attr("height", 0)
-			.on("mouseover", tipCol.show)
-			.on("mouseout", tipCol.hide)
-			.transition()
-				.duration(500)
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
-				.attr("y", function(d) { return yScale(d.pct); })
-				
-				// highlight if max
-			
-				.each("end", function(d) { if (d.pct == max) {
-					svg.select(".column")
-						.transition()
-							.duration(500)
-							.attr("class", "bar max");
-				}});
+		svg.append("path")
+			.datum(data)
+			.attr("class", "area")
+			.attr("d", area);
 		
 		// draw axes
 	
@@ -117,7 +99,7 @@ function colChart() {
 		updateWidth = function() {
 			
 			svg.attr("width", widthAdj);
-			cols.attr("x", function(d, i) { return xScale(d.group); })
+			cols.attr("x", function(d, i) { return xScale(d.level); })
 			cols.attr("width", xScale.rangeBand());
 			
 		};
@@ -138,29 +120,15 @@ function colChart() {
 		
 		updateData = function() {
 		
-			xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1);
+			xScale = d3.scale.ordinal().range([0, widthAdj]);
 			yScale = d3.scale.linear().range([heightAdj, 0]);
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
-			var update = svg.selectAll("rect.column")
+			var update = svg.selectAll("path.area")
 				.data(data);
 				
-			update.attr("x", function(d, i) { return xScale(d.group); })
-				.attr("width", xScale.rangeBand())
-				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); })
-		
-			update.enter()
-				.append("rect")
-				.attr("class","column")
-				.attr("x", function(d, i) { return xScale(d.group); })
-				.attr("width", xScale.rangeBand())
-				.attr("y", function(d) { return yScale(d.pct); })
-				.attr("height", function(d) { return heightAdj - yScale(d.pct); });
-		
-			update.exit()
-				.remove();
+			update.attr("d", area);
 		
 		};
 		
@@ -232,4 +200,4 @@ function wrap(text, width) {
       };
     };
   });
-};
+};		

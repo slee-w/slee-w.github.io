@@ -12,6 +12,7 @@
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.js"></script>
 <script src = "colChart.js"></script>
 <script src = "barChart.js"></script>
+<script src = "areaChart.js"></script>
 
 <!-- CSS styling -->
 
@@ -369,6 +370,26 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		var chart = colChart().data(data);
 		
 		d3.select("#ch1_5").call(chart);
+		
+	};
+});	
+
+// Chapter 2 - 1
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.chart = +d.chart;
+			d.number = +d.number;
+			d.pct = d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 6; })
+		
+		var chart = areaChart().data(data);
+		
+		d3.select("#ch2_1").call(chart);
 		
 	};
 });	

@@ -1,4 +1,4 @@
-// Reusable bar chart function
+// Reusable bar chart function for chronic absenteeism storymap
 
 function barChart() {
 	
