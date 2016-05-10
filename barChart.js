@@ -97,6 +97,7 @@ function barChart() {
 		
 		bars.select("rect.bar")
 			.filter(function(d) { return d.var3 == maxValue; })
+			.attr("height", yScale.rangeBand())
 			.transition()
 				.duration(500)
 				.attr("class", "bar max");
