@@ -7,7 +7,7 @@ function barChart() {
 	
 	var	width = 960,
 		height = 500,
-		marginLeft = 40,
+		marginLeft = 100,
 		data = [];
 		
 	var updateWidth,
