@@ -91,16 +91,16 @@ function barChart() {
 			.on("mouseout", tipBar.hide)
 			.transition()
 				.duration(500)
-				.attr("width", function(d) { return d.var3 * widthScale; });
-		
-		// highlight if max
-		
-		bars.select("rect.bar")
-			.filter(function(d) { return d.var3 == maxValue; })
-			.attr("height", yScale.rangeBand())
-			.transition()
-				.duration(500)
-				.attr("class", "bar max");
+				.attr("width", function(d) { return d.var3 * widthScale; })
+								
+				// highlight if max
+			
+				.each("end", function(d) { if (d.var3 == maxValue) {
+					svg.selectAll(".bar")
+						.transition()
+							.duration(500)
+							.attr("class", "bar max");
+				}});
 		
 		// draw axes
 	
