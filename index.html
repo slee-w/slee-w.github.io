@@ -287,7 +287,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
 		
 		var chart = colChart().width(750).marginBottom(60).data(data);
-		var chart2 = barChart().marginLeft(250).data(data);
+		var chart2 = barChart().marginLeft(230).data(data);
 		
 		d3.select("#ch1_2").call(chart);
 		d3.select("#ch1_2").call(chart2);
