@@ -111,8 +111,8 @@ function barChart() {
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
-			.selectAll(".tick text")
-				.call(wrap, marginLeft - 10);
+			//.selectAll(".tick text")
+			//	.call(wrap, marginLeft - 10);
 		
 		// update functions
 		
