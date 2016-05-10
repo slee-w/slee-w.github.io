@@ -44,8 +44,8 @@ function barChart() {
 			.attr("viewBox", "0 0 " + width + " " + height)
 			.append("svg")
 				.attr("class", "bar-chart")
-				.attr("width", width)
-				.attr("height", height)
+				.attr("width", widthAdj)
+				.attr("height", heightAdj)
 				.append("g")
 					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
