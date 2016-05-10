@@ -7,6 +7,7 @@ function colChart() {
 	
 	var	width = 960,
 		height = 500,
+		marginBottom = 20;
 		data = [];
 		
 	var updateWidth,
@@ -24,9 +25,9 @@ function colChart() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20, bottom: 60, left: 40},
+		var margin = {top: 20, right: 20, left: 40},
 			widthAdj = width - margin.left - margin.right,
-			heightAdj = height - margin.top - margin.bottom;		
+			heightAdj = height - margin.top - marginBottom;		
 		
 		// selections
 		
@@ -94,7 +95,7 @@ function colChart() {
 						.transition()
 							.duration(500)
 							.style("fill", "#8a89a6");
-					}});
+				}});
 		
 		// draw axes
 	
@@ -117,7 +118,7 @@ function colChart() {
 			cols.attr("x", function(d, i) { return xScale(d.group); })
 			cols.attr("width", xScale.rangeBand());
 			
-			};
+		};
 			
 		updateHeight = function() {
 			
@@ -125,7 +126,13 @@ function colChart() {
 			cols.attr("y", function(d) { return yScale(d.pct); })
 			cols.attr("height", function(d) { return heightAdj - yScale(d.pct); });
 			
-			};
+		};
+		
+		updateMarginBottom = function() {
+			
+			heightAdj = height - margin.top - marginBottom;
+			
+		};
 		
 		updateData = function() {
 		
@@ -153,11 +160,11 @@ function colChart() {
 			update.exit()
 				.remove();
 		
-			};
+		};
 		
-		});
+	});
 	
-	};
+};
 	
     chart.width = function(value) {
 	
@@ -177,6 +184,15 @@ function colChart() {
 		
     };
 
+	chart.marginBottom = function(value) {
+		
+		if (!arguments.length) return marginBottom;
+		marginBottom = value;
+		if (typeof updateMarginBottom === 'function') updateMarginBottom();
+		return chart;
+		
+	};
+	
     chart.data = function(value) {
 	
         if (!arguments.length) return data;
@@ -211,7 +227,7 @@ function wrap(text, width) {
         tspan.text(line.join(" "));
         line = [word];
         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-      }
-    }
-  });
+      };
+    };
+  };);
 };
