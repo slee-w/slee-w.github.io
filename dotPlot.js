@@ -82,6 +82,7 @@ function dotPlot() {
 			.style("stroke", "lightgray")
 			.style("opacity", 1)
 			.attr("x1", 0)
+			.attr("x2", 0)
 			.attr("y1", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
