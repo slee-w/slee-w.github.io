@@ -8,11 +8,13 @@ function dotPlot() {
 	var	width = 960,
 		height = 500,
 		marginLeft = 100,
+		dotSize = 25,
 		data = [];
 		
 	var updateWidth,
 		updateHeight,
 		updateMarginLeft,
+		updateDotSize,
 		updateData;
 		
 	function chart(selection) {
@@ -80,7 +82,7 @@ function dotPlot() {
 			.attr("class","dot")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
-			.attr("r", 10)
+			.attr("r", dotSize)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
@@ -113,8 +115,6 @@ function dotPlot() {
 		
 		updateWidth = function() {
 			
-			widthScale = width / maxValue;
-			
 			svg.attr("width", widthAdj);
 			dots.attr("cx", function(d) { return xScale(d.var3); });
 			
@@ -123,13 +123,19 @@ function dotPlot() {
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
-			dots.attr("cy", function(d) { return yScale.rangeBand(); })
+			dots.attr("cy", function(d) { return yScale.rangeBand(); });
 						
 		};
 		
 		updateMarginLeft = function() {
 			
 			widthAdj = width - marginLeft - margin.right;
+			
+		};
+		
+		updateDotSize = function() {
+			
+			dots.attr("r", dotSize);
 			
 		};
 		
@@ -145,13 +151,13 @@ function dotPlot() {
 				
 			update.attr("cx", function(d) { return xScale(d.var3); })
 				.attr("cy", 0)
-				.attr("r", 10)
+				.attr("r", dotSize)
 		
 			update.append("circle")
 				.attr("class","dot")
 				.attr("cx", function(d) { return xScale(d.var3); })
 				.attr("cy", 0)
-				.attr("r", 10)
+				.attr("r", dotSize)
 		
 			update.exit()
 				.remove();
@@ -185,6 +191,15 @@ function dotPlot() {
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
 		if (typeof updateMarginLeft === 'function') updateMarginLeft();
+		return chart;
+		
+	};
+	
+	chart.dotSize = function(value) {
+		
+		if (!arguments.length) return dotSize;
+		dotSize = value;
+		if (typeof updateDotSize === 'function') updateDotSize();
 		return chart;
 		
 	};
