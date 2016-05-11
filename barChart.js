@@ -39,12 +39,10 @@ function barChart() {
 		var dom = d3.select(this);
 		
 		var svg = dom.append("div")
-			.style({
-				"position": "relative",
-				"overflow": "hidden"
-			})
-			.attr("width", width)
-			.attr("height", height)
+			.style("position": "relative")
+			.style("overflow": "hidden")
+			.style("width", width + "px")
+			.style("height", height + "px")
 			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
@@ -52,7 +50,9 @@ function barChart() {
 				.attr("width", "100%")
 				.attr("height", "100%")
 				.style("max-width", width)
-//				.style("position", "absolute")
+				.style("position", "absolute")
+				.style("top", 0)
+				.style("left, 0)
 				.append("g")
 					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
