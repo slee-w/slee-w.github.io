@@ -181,6 +181,8 @@ function dotPlot() {
 			lines.transition().duration(animateTime);
 			dots.transition().duration(animateTime);
 		
+		};
+		
 		updateData = function() {
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
