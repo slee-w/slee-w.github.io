@@ -41,12 +41,10 @@ function barChart() {
 		var svg = dom.append("div")
 			.style({
 				"position": "relative",
-				overflow: "hidden"
+				"overflow": "hidden"
 			})
-			.attr({
-				"width": width,
-				"height": height
-			})
+			.attr("width", width)
+			.attr("height", height)
 			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
@@ -54,7 +52,7 @@ function barChart() {
 				.attr("width", "100%")
 				.attr("height", "100%")
 				.style("max-width", width)
-				.style("position", "absolute")
+//				.style("position", "absolute")
 				.append("g")
 					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
