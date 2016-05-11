@@ -43,6 +43,8 @@ function dotPlot() {
 		var svg = dom.append("svg")
 			.attr("class", "dotPlot")
 			.attr("viewBox", "0 0 " + width + " " + height)
+			.attr("width", "100%")
+			.attr("height", "100%")
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.style("max-width", width)
 			.append("g")
