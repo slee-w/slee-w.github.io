@@ -74,8 +74,8 @@ function smallMultiples() {
 		
 		// domains
 		
-		xScale.domain([0, d3.max(data, function(d) { return d.var4; })]).nice();
-		yScale.domain(data.map(function(d, i) { return d.var1; }));
+		xScale.domain([0, d3.max(data, function(d) { return d.values.var4; })]).nice();
+		yScale.domain(data.map(function(d, i) { return d.values.var1; }));
 	
 		// draw dots and lines
 		
@@ -93,7 +93,7 @@ function smallMultiples() {
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
 				.duration(animateTime)
-				.attr("x2", function(d) { return xScale(d.var4); });
+				.attr("x2", function(d) { return xScale(d.values.var4); });
 				
 		var dots = svg.selectAll("circle.dot")
 			.data(data)
@@ -101,7 +101,7 @@ function smallMultiples() {
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(data, function(d) { return d.var4; });
+		var max = d3.max(data, function(d) { return d.values.var4; });
 		
 		dots.append("circle")
 			.attr("class","dot")
@@ -113,7 +113,7 @@ function smallMultiples() {
 			.on("mouseout", tipDot.hide)
 			.transition()
 				.duration(animateTime)
-				.attr("cx", function(d) { return xScale(d.var4); })
+				.attr("cx", function(d) { return xScale(d.values.var4); })
 				.each("end", function(d) { 
 					d3.select(this)
 						.transition()
@@ -122,7 +122,7 @@ function smallMultiples() {
 								
 							// highlight if max
 							
-							.each("end", function(d) { if (d.var4 == max) {
+							.each("end", function(d) { if (d.values.var4 == max) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
@@ -214,13 +214,13 @@ function smallMultiples() {
 			var update = svg.selectAll("circle.dot")
 				.data(data);
 				
-			update.attr("cx", function(d) { return xScale(d.var4); })
+			update.attr("cx", function(d) { return xScale(d.values.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
 			update.append("circle")
 				.attr("class","dot")
-				.attr("cx", function(d) { return xScale(d.var4); })
+				.attr("cx", function(d) { return xScale(d.values.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
