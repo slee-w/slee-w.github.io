@@ -76,7 +76,7 @@ function dotPlot() {
 			.data(data)
 			.enter()
 			.append("g")
-				.attr("transform", "translate(0,0");
+				.attr("transform", "translate(0,0)");
 				
 		lines.append("line")
 			.style("stroke", "lightgray")
