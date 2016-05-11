@@ -85,7 +85,7 @@ function dotPlot() {
 			.on("mouseout", tipBar.hide)
 			.transition()
 				.duration(500)
-				.attr("cy", function(d) { return yScale(d.var1); })
+				.attr("cy", function(d) { return yScale(d.var1) / 2; })
 								
 				// highlight if max
 			
