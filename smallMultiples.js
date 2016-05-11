@@ -24,12 +24,6 @@ function smallMultiples() {
 	function chart(selection) {
 		selection.each(function() {
 
-	// nest the data by subgroup
-	
-		var nest = d3.nest()
-			.key(d.var2)
-			.entries(data);
-		
 		// formats
 		
 		var	formatComma = d3.format(",f"),
