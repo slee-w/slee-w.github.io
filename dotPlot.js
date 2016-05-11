@@ -78,14 +78,14 @@ function dotPlot() {
 					
 		dots.append("circle")
 			.attr("class","dot")
-			.attr("cx", function(d) { return xScale(d.var3); })
-			.attr("cy", 0)
+			.attr("cx", 0)
+			.attr("cy", function(d) { return yScale.rangeBand(); })
 			.attr("r", 10)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
 				.duration(500)
-				.attr("cy", function(d) { return yScale.rangeBand(); })
+				.attr("cx", function(d) { return xScale(d.var3); })
 								
 				// highlight if max
 			
