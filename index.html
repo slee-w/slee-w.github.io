@@ -346,7 +346,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		data = data.filter(function(d) { return d.chart == 6; });
 		
 		var chart2_1a = barChart().data(data);
-		var chart2_1b = dotPlot().data(data);
+		var chart2_1b = dotPlot().data(data).dotSize(100).animateTime(500);
 		
 		d3.select("#ch2_1").call(chart2_1a);
 		d3.select("#ch2_1").call(chart2_1b);
