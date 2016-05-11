@@ -43,7 +43,7 @@ function barChart() {
 				"position": "relative",
 				"width": width,
 				"height": height,
-				overflow: hidden;
+				overflow: hidden
 			})
 			.append("svg")
 				.attr("class", "bar-chart")
