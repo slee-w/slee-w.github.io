@@ -29,7 +29,9 @@ function barChart() {
 			formatPercentNoDec = d3.format(",%");
 		
 		// margins; adjust width and height to account for margins
-		
+	
+		var aspect = width/height;
+	
 		var margin = {top: 20, right: 20},
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - marginBottom;
@@ -38,13 +40,31 @@ function barChart() {
 		
 		var dom = d3.select(this);
 		
-		var svg = dom.append("svg")
-			.attr("class", "bar-chart")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
+		var svg = dom.append("div")
+			.attr("id", "container")
 			.style("max-width", width)
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+			.append("svg")
+				.attr("class", "bar-chart")
+				.attr("viewBox", "0 0 " + width + " " + height)
+				.attr("preserveAspectRatio", "xMinYMin meet")
+				.attr("width", width)
+				.attr("height", height)
+				.style("position", "absolute")
+				.style("top", 0)
+				.style("left", 0)
+				.style("max-width", width)
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+	
+		d3.select(window).on("resize", function {
+				
+			var targetWidth = d3.select("#container").width;
+			
+			d3.select(".bar-chart")
+				.attr("width", targetWidth)
+				.attr("height", targetWidth / aspect);
+				
+		});
 	
 		// tooltips using d3-tip
 		
