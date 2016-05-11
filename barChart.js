@@ -39,8 +39,13 @@ function barChart() {
 		var dom = d3.select(this);
 		
 		var svg = dom.append("div")
-			.attr("class", "container")
-				.append("svg")
+			.style({
+				"position": "relative",
+				"width": width,
+				"height" height,
+				overflow: hidden;
+			})
+			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
 				.attr("preserveAspectRatio", "xMinYMin meet")
