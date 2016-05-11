@@ -40,13 +40,16 @@ function smallMultiples() {
 		
 		var dom = d3.select(this);
 		
-		var svg = dom.append("svg")
-			.attr("class", "dotPlot")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.style("max-width", width)
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+		var svg = dom.enter()
+			.append("div")
+			.attr("class", "smallMultiple")
+			.append("svg")
+				.attr("class", "dotPlot")
+				.attr("viewBox", "0 0 " + width + " " + height)
+				.attr("preserveAspectRatio", "xMinYMin meet")
+				.style("max-width", width)
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
