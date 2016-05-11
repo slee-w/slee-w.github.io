@@ -189,18 +189,6 @@ function barChart() {
 		
 		};
 		
-		// code for rescaling graph
-		
-		var container = d3.select("#container"),
-			aspect = (width / height);
-			
-		d3.select(window)
-			.on("resize", function() {
-			
-				var targetWidth = d3.select(".bar-chart").node().getBoundingClientRect().width;
-					container.style("width", targetWidth);
-					container.style("height", targetWidth / aspect);
-			});
 	});
 	
 };
@@ -262,6 +250,21 @@ function barChart() {
 	return chart;
 	
 };
+
+// code for rescaling graph
+
+var container = d3.select("#container"),
+	aspect = (width / height);
+	
+d3.select(window)
+	.on("resize", function() {
+	
+		var targetWidth = d3.select(".bar-chart").node().getBoundingClientRect().width;
+		
+		container.style("width", targetWidth);
+		container.style("height", targetWidth / aspect);
+		
+});
 
 // this is for wrapping long axis labels
 // need to examine this for bar charts because it's causing some unintended side effects...
