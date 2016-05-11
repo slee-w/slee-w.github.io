@@ -40,33 +40,14 @@ function barChart() {
 		
 		var dom = d3.select(this);
 		
-		var svg = dom.append("div")
-			.attr("id", "container")
+		var svg = dom.append("svg")
+			.attr("class", "bar-chart")
+			.attr("viewBox", "0 0 " + width + " " + height)
+			.attr("preserveAspectRatio", "xMinYMin meet")
 			.style("max-width", width)
-			.style("position", "relative")
-			.append("svg")
-				.attr("class", "bar-chart")
-				.attr("viewBox", "0 0 " + width + " " + height)
-				.attr("preserveAspectRatio", "xMinYMin meet")
-				.attr("width", width)
-				.attr("height", height)
-				.style("position", "absolute")
-				.style("top", 0)
-				.style("left", 0)
-				.style("max-width", width)
-				.append("g")
-					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
-	
-		d3.select(window).on("resize", function() {
-				
-			var targetWidth = d3.select("#container").node().getBoundingClientRect().width;
-			
-			d3.select(".bar-chart")
-				.attr("width", targetWidth)
-				.attr("height", targetWidth / aspect);
-				
-		});
-	
+			.append("g")
+				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+					
 		// tooltips using d3-tip
 		
 		var tipBar = d3.tip()
