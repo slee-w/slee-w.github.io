@@ -152,7 +152,7 @@ function dotPlot() {
 			
 			svg.attr("width", widthAdj);
 			dots.attr("cx", function(d) { return xScale(d.var3); });
-			d3.select("#clip.rect").attr("width", widthAdj");
+			d3.select("#clip.rect").attr("width", widthAdj);
 			
 		};
 			
