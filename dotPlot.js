@@ -9,12 +9,14 @@ function dotPlot() {
 		height = 500,
 		marginLeft = 100,
 		dotSize = 25,
+		animateTime = 1000,
 		data = [];
 		
 	var updateWidth,
 		updateHeight,
 		updateMarginLeft,
 		updateDotSize,
+		updateAnimateTime,
 		updateData;
 		
 	function chart(selection) {
@@ -86,7 +88,7 @@ function dotPlot() {
 			.attr("y1", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
-				.duration(1000)
+				.duration(animateTime)
 				.attr("x2", function(d) { return xScale(d.var3); });
 				
 		var dots = svg.selectAll("circle.dot")
@@ -104,12 +106,12 @@ function dotPlot() {
 			.on("mouseover", tipDot.show)
 			.on("mouseout", tipDot.hide)
 			.transition()
-				.duration(1000)
+				.duration(animateTime)
 				.attr("cx", function(d) { return xScale(d.var3); })
 				.each("end", function(d) { 
 					d3.select(this)
 						.transition()
-							.duration(1000)
+							.duration(animateTime)
 								.attr("r", dotSize);
 				});
 											
@@ -150,6 +152,7 @@ function dotPlot() {
 			
 			svg.attr("width", widthAdj);
 			dots.attr("cx", function(d) { return xScale(d.var3); });
+			d3.select("#clip.rect").attr("width", widthAdj");
 			
 		};
 			
@@ -157,6 +160,7 @@ function dotPlot() {
 			
 			svg.attr("height", heightAdj);
 			dots.attr("cy", function(d) { return yScale.rangeBand(); });
+			d3.select("#clip.rect").attr("height", heightAdj");
 						
 		};
 		
@@ -171,6 +175,11 @@ function dotPlot() {
 			dots.attr("r", dotSize);
 			
 		};
+		
+		updateAnimateTime = function() {
+			
+			lines.transition().duration(animateTime);
+			dots.transition().duration(animateTime);
 		
 		updateData = function() {
 		
@@ -233,6 +242,15 @@ function dotPlot() {
 		if (!arguments.length) return dotSize;
 		dotSize = value;
 		if (typeof updateDotSize === 'function') updateDotSize();
+		return chart;
+		
+	};
+	
+	chart.animateTime = function(value) {
+		
+		if (!arguments.length) return animateTime;
+		animateTime = value;
+		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
