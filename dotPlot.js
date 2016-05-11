@@ -46,8 +46,8 @@ function dotPlot() {
 		
 		// tooltips using d3-tip
 		
-		var tipBar = d3.tip()
-			.attr("class", "d3-tip-dotPlot")
+		var tipDot = d3.tip()
+			.attr("class", "d3-tip-dot")
 			.direction("e")	
 			.offset([0, 10])
 			.html(function(d) {
@@ -56,7 +56,7 @@ function dotPlot() {
 	
 		});
 		
-		svg.call(tipBar);
+		svg.call(tipDot);
 		
 		// axis scales and axes
 		
@@ -83,8 +83,8 @@ function dotPlot() {
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 0)
-			.on("mouseover", tipBar.show)
-			.on("mouseout", tipBar.hide)
+			.on("mouseover", tipDot.show)
+			.on("mouseout", tipDot.hide)
 			.transition()
 				.duration(500)
 				.attr("cx", function(d) { return xScale(d.var3); })
