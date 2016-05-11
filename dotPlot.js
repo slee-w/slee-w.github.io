@@ -79,7 +79,7 @@ function dotPlot() {
 		dots.append("circle")
 			.attr("class","dot")
 			.attr("cx", 0)
-			.attr("cy", function(d) { return yScale.rangeBand(); })
+			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 10)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
