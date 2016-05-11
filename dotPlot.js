@@ -88,13 +88,8 @@ function dotPlot() {
 			.transition()
 				.duration(500)
 				.attr("cx", function(d) { return xScale(d.var3); })
-				.each("end", function(d) { 
-					d3.select(this)
-						.transition()
-							.duration(500)
-								.attr("r", dotSize)
-				});
-								
+				.attr("r", dotSize);
+											
 				// highlight if max
 			
 				//.each("end", function(d) { if (d.var3 == maxValue) {
