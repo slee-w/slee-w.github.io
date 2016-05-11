@@ -90,7 +90,7 @@ function barChart() {
 			.attr("height", yScale.rangeBand())
 			.attr("width", "100%")
 			.attr("height", "100%")
-			.style("position", "absolute")
+			.classed("svg-content", true)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
