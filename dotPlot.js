@@ -46,9 +46,7 @@ function dotPlot() {
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.style("max-width", width)
 			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")")
-				.attr("width", "100%")
-				.attr("height", "100%");
+				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
