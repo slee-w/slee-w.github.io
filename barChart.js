@@ -180,6 +180,18 @@ function barChart() {
 		
 		};
 		
+		// code for rescaling graph
+		
+		var aspect = width / height
+			selectChart = d3.select(".bar-chart");
+			
+		d3.select(window)
+			.on("resize", function() {
+			
+				var targetWidth = selectChart.node().getBoundingClientRect().width;
+					selectChart.attr("width", targetWidth);
+					selectChart.attr("height", targetWidth / aspect);
+			});
 	});
 	
 };
