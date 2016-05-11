@@ -377,7 +377,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		data = data.filter(function(d) { return d.chart == 7; });
 		
 		nest = d3.nest()
-			.key(d.group)
+			.key(var2)
 			.entries(data);
 		
 		var chart = smallMultiples().data(nest);
