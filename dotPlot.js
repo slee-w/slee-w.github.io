@@ -97,6 +97,7 @@ function dotPlot() {
 					
 		dots.append("circle")
 			.attr("class","dot")
+			.attr("clip-path", "url(#clip)")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 5)
@@ -120,6 +121,15 @@ function dotPlot() {
 				//			.duration(500)
 				//			.attr("class", "bar max");
 				//}});
+		
+		// add clip path
+		
+		svg.append("defs")
+			.append("clipPath")
+				.attr("id", "clip")
+					.append("rect")
+						.attr("width", widthAdj)
+						.attr("height", heightAdj);
 		
 		// draw axes
 	
