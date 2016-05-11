@@ -42,7 +42,10 @@ function barChart() {
 			.attr("class", "bar-chart")
 			.attr("viewBox", "0 0 " + width + " " + height)
 			.attr("preserveAspectRatio", "xMinYMin meet")
+			.attr("width", "100%")
+			.attr("height", "100%")
 			.style("max-width", width)
+			.classed("svg-content", true)
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
@@ -88,9 +91,6 @@ function barChart() {
 			.attr("width", 0)
 			.attr("y", function(d) { return yScale(d.var1); })
 			.attr("height", yScale.rangeBand())
-			.attr("width", "100%")
-			.attr("height", "100%")
-			.classed("svg-content", true)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
