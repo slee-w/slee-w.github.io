@@ -86,7 +86,7 @@ function dotPlot() {
 			.attr("y1", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
-				.duration(500)
+				.duration(1000)
 				.attr("x2", function(d) { return xScale(d.var3); });
 				
 		var dots = svg.selectAll("circle.dot")
@@ -103,7 +103,7 @@ function dotPlot() {
 			.on("mouseover", tipDot.show)
 			.on("mouseout", tipDot.hide)
 			.transition()
-				.duration(500)
+				.duration(1000)
 				.attr("cx", function(d) { return xScale(d.var3); })
 				.attr("r", dotSize);
 											
