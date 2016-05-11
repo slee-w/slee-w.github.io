@@ -38,13 +38,22 @@ function barChart() {
 		
 		var dom = d3.select(this);
 		
-		var svg = dom.append("svg")
-			.attr("class", "bar-chart")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.style("max-width", width)
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+		var svg = dom.append("div")
+			.attr("id", "container")
+			.style("width", width + "px")
+			.style("height", height + "px")
+			.append("svg")
+				.attr("class", "bar-chart")
+				.attr("viewBox", "0 0 " + width + " " + height)
+				.attr("preserveAspectRatio", "xMinYMin meet")
+				.style("max-width", width)
+				.style("width", "100%"
+				.style("height", "100%")
+				.style("position", "absolute")
+				.style("top", 0)
+				.style("left", 0)
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
@@ -182,15 +191,15 @@ function barChart() {
 		
 		// code for rescaling graph
 		
-		var aspect = width / height
-			selectChart = d3.select(".bar-chart");
+		var container = d3.select("#container"),
+			aspect = (width / height);
 			
 		d3.select(window)
 			.on("resize", function() {
 			
-				var targetWidth = selectChart.node().getBoundingClientRect().width;
-					selectChart.attr("width", targetWidth);
-					selectChart.attr("height", targetWidth / aspect);
+				var targetWidth = d3.select(".bar-chart").node().getBoundingClientRect().width;
+					container.style("width", targetWidth);
+					container.style("height", targetWidth / aspect);
 			});
 	});
 	
