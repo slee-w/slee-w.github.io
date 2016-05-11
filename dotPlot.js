@@ -116,14 +116,14 @@ function dotPlot() {
 			widthScale = width / maxValue;
 			
 			svg.attr("width", widthAdj);
-			bars.attr("width", function(d) { return d.var3 * widthScale; });
+			dots.attr("cx", function(d) { return xScale(d.var3); });
 			
 		};
 			
 		updateHeight = function() {
 			
 			svg.attr("height", heightAdj);
-			bars.attr("y", function(d) { return yScale(d.var1); })
+			dots.attr("cy", function(d) { return yScale.rangeBand(); })
 						
 		};
 		
