@@ -8,7 +8,7 @@ function dotPlot() {
 	var	width = 960,
 		height = 500,
 		marginLeft = 100,
-		dotSize = 25,
+		dotSize = 100,
 		data = [];
 		
 	var updateWidth,
