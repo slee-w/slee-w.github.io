@@ -45,6 +45,7 @@ function barChart() {
 			.attr("width", "100%")
 			.attr("height", "100%")
 			.style("max-width", width)
+			.style("position", "absolute")
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
