@@ -21,14 +21,14 @@ function smallMultiples() {
 		updateAnimateTime,
 		updateData;
 		
-	// nest the data by subgroup
-	
-	var nest = d3.nest()
-		.key(d.var2)
-		.entries(data);
-		
 	function chart(selection) {
 		selection.each(function() {
+
+	// nest the data by subgroup
+	
+		var nest = d3.nest()
+			.key(d.var2)
+			.entries(data);
 		
 		// formats
 		
@@ -213,11 +213,7 @@ function smallMultiples() {
 			yScale = d3.scale.ordinal().rangeRoundBands([0, heightAdj], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
-		
-		var nest = d3.nest()
-			.key(d.var2)
-			.entries(data);
-		
+
 			var update = svg.selectAll("circle.dot")
 				.data(nest);
 				
