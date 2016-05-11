@@ -61,7 +61,7 @@ function dotPlot() {
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
 			yScale = d3.scale.ordinal().rangeRoundPoints([heightAdj, 0], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
-			yAxis = d3.svg.axis().scale(yScale).orient("left").outerTickSize(heightAdj);
+			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
 		// domains
 		
