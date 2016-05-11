@@ -56,7 +56,7 @@ function barChart() {
 				.append("g")
 					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 	
-		d3.select(window).on("resize", function {
+		d3.select(window).on("resize", function() {
 				
 			var targetWidth = d3.select("#container").width;
 			
