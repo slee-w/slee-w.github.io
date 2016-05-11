@@ -56,7 +56,7 @@ function smallMultiples() {
 			.offset([0, 10])
 			.html(function(d) {
 	
-			return formatComma(d.var2) + " (" + formatPercent(d.var3) + ")";
+			return formatComma(d.var2) + " (" + formatPercent(d.var4) + ")";
 	
 		});
 		
@@ -71,13 +71,13 @@ function smallMultiples() {
 		
 		// domains
 		
-		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
+		xScale.domain([0, d3.max(data, function(d) { return d.var4; })]).nice();
 		yScale.domain(data.map(function(d, i) { return d.var1; }));
 	
 		// draw dots and lines
 		
 		var lines = svg.selectAll("line.dotLine")
-			.data(nest)
+			.data(data)
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
@@ -90,15 +90,15 @@ function smallMultiples() {
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
 				.duration(animateTime)
-				.attr("x2", function(d) { return xScale(d.var3); });
+				.attr("x2", function(d) { return xScale(d.var4); });
 				
 		var dots = svg.selectAll("circle.dot")
-			.data(nest)
+			.data(data)
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(data, function(d) { return d.var3; });
+		var max = d3.max(data, function(d) { return d.var4; });
 		
 		dots.append("circle")
 			.attr("class","dot")
@@ -110,7 +110,7 @@ function smallMultiples() {
 			.on("mouseout", tipDot.hide)
 			.transition()
 				.duration(animateTime)
-				.attr("cx", function(d) { return xScale(d.var3); })
+				.attr("cx", function(d) { return xScale(d.var4); })
 				.each("end", function(d) { 
 					d3.select(this)
 						.transition()
@@ -119,7 +119,7 @@ function smallMultiples() {
 								
 							// highlight if max
 							
-							.each("end", function(d) { if (d.var3 == max) {
+							.each("end", function(d) { if (d.var4 == max) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
@@ -129,7 +129,7 @@ function smallMultiples() {
 											
 				// highlight if max
 			
-				//.each("end", function(d) { if (d.var3 == maxValue) {
+				//.each("end", function(d) { if (d.var4 == maxValue) {
 				//	d3.select(this)
 				//		.transition()
 				//			.duration(500)
@@ -163,7 +163,7 @@ function smallMultiples() {
 		updateWidth = function() {
 			
 			svg.attr("width", widthAdj);
-			dots.attr("cx", function(d) { return xScale(d.var3); });
+			dots.attr("cx", function(d) { return xScale(d.var4); });
 			d3.select("#clip.rect").attr("width", widthAdj);
 			
 		};
@@ -209,15 +209,15 @@ function smallMultiples() {
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 
 			var update = svg.selectAll("circle.dot")
-				.data(nest);
+				.data(data);
 				
-			update.attr("cx", function(d) { return xScale(d.var3); })
+			update.attr("cx", function(d) { return xScale(d.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
 			update.append("circle")
 				.attr("class","dot")
-				.attr("cx", function(d) { return xScale(d.var3); })
+				.attr("cx", function(d) { return xScale(d.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
