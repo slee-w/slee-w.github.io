@@ -123,7 +123,7 @@ function dotPlot() {
 									.transition()
 										.duration(animateTime)
 										.attr("class", "dot max")
-							}};
+							}});
 				});
 											
 				// highlight if max
