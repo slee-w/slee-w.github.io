@@ -52,7 +52,7 @@ function barChart() {
 				.style("max-width", width)
 				.style("position", "absolute")
 				.style("top", 0)
-				.style("left, 0)
+				.style("left", 0)
 				.append("g")
 					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
