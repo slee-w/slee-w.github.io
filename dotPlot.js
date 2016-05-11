@@ -271,7 +271,7 @@ function dotPlot() {
 };
 
 // this is for wrapping long axis labels
-// need to examine this for bar charts because it's causing some unintended side effects...
+// need to examine this for horizontal charts because it's causing some unintended side effects...
 
 function wrap(text, width) {
   text.each(function() {

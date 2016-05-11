@@ -8,11 +8,13 @@ function barChart() {
 	var	width = 960,
 		height = 500,
 		marginLeft = 100,
+		animateTime = 500,
 		data = [];
 		
 	var updateWidth,
 		updateHeight,
 		updateMarginLeft,
+		updateAnimateTime,
 		updateData;
 		
 	function chart(selection) {
@@ -90,7 +92,7 @@ function barChart() {
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
-				.duration(500)
+				.duration(animateTime)
 				.attr("width", function(d) { return d.var3 * widthScale; })
 								
 				// highlight if max
@@ -98,7 +100,7 @@ function barChart() {
 				.each("end", function(d) { if (d.var3 == maxValue) {
 					d3.select(this)
 						.transition()
-							.duration(500)
+							.duration(animateTime)
 							.attr("class", "bar max");
 				}});
 		
@@ -137,6 +139,12 @@ function barChart() {
 			
 			widthAdj = width - marginLeft - margin.right;
 			
+		};
+
+		updateAnimateTime = function() {
+			
+			bars.transition().duration(animateTime);
+		
 		};
 		
 		updateData = function() {
@@ -194,6 +202,15 @@ function barChart() {
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
 		if (typeof updateMarginLeft === 'function') updateMarginLeft();
+		return chart;
+		
+	};
+
+	chart.animateTime = function(value) {
+		
+		if (!arguments.length) return animateTime;
+		animateTime = value;
+		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};

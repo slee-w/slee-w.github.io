@@ -7,12 +7,14 @@ function colChart() {
 	
 	var	width = 960,
 		height = 500,
-		marginBottom = 20;
+		marginBottom = 20,
+		animateTime = 500;
 		data = [];
 		
 	var updateWidth,
 		updateHeight,
 		updateMarginBottom,
+		updateAnimateTime,
 		updateData;
 		
 	function chart(selection) {
@@ -86,7 +88,7 @@ function colChart() {
 			.on("mouseover", tipCol.show)
 			.on("mouseout", tipCol.hide)
 			.transition()
-				.duration(500)
+				.duration(animateTime)
 				.attr("height", function(d) { return heightAdj - yScale(d.var3); })
 				.attr("y", function(d) { return yScale(d.var3); })
 				
@@ -95,7 +97,7 @@ function colChart() {
 				.each("end", function(d) { if (d.var3 == max) {
 					d3.select(this)
 						.transition()
-							.duration(500)
+							.duration(animateTime)
 							.attr("class", "bar max");
 				}});
 		
@@ -134,6 +136,12 @@ function colChart() {
 			
 			heightAdj = height - margin.top - marginBottom;
 			
+		};
+		
+		updateAnimateTime = function() {
+			
+			cols.transition().duration(animateTime);
+		
 		};
 		
 		updateData = function() {
@@ -191,6 +199,15 @@ function colChart() {
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
 		if (typeof updateMarginBottom === 'function') updateMarginBottom();
+		return chart;
+		
+	};
+	
+	chart.animateTime = function(value) {
+		
+		if (!arguments.length) return animateTime;
+		animateTime = value;
+		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
