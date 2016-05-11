@@ -82,7 +82,7 @@ function dotPlot() {
 			.attr("class","dot")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
-			.attr("r", dotSize / 2)
+			.attr("r", 0)
 			.on("mouseover", tipBar.show)
 			.on("mouseout", tipBar.hide)
 			.transition()
@@ -90,7 +90,9 @@ function dotPlot() {
 				.attr("cx", function(d) { return xScale(d.var3); })
 				.each("end", function(d) { 
 					d3.select(this)
-						.attr("r", dotSize)
+						.transition()
+							.duration(500)
+								.attr("r", dotSize)
 				});
 								
 				// highlight if max
