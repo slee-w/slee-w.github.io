@@ -44,6 +44,7 @@ function barChart() {
 			.attr("id", "container")
 			.style("max-width", width)
 			.style("position", "relative")
+			.style("display", "inline-block")
 			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
