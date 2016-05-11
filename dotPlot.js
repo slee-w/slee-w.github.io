@@ -59,7 +59,7 @@ function dotPlot() {
 		// axis scales and axes
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().rangePoints([heightAdj, 0], .1),
+			yScale = d3.scale.ordinal().rangeRoundPoints([heightAdj, 0], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
@@ -106,6 +106,7 @@ function dotPlot() {
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
+				.tickSize(widthAdj, 0);
 			//.selectAll(".tick text") 
 			//	.call(wrap, marginLeft - 10);
 		
@@ -136,7 +137,7 @@ function dotPlot() {
 		updateData = function() {
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().rangePoints([heightAdj, 0], .1),
+			yScale = d3.scale.ordinal().rangeRoundPoints([heightAdj, 0], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
