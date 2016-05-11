@@ -182,21 +182,7 @@ function barChart() {
 				.remove();
 		
 		};
-		
-		// resize window function
-
-		function resize() {
-
-			var aspect = width/height;
-		
-			width = window.innerWidth;
-			height = width/aspect;
-		
-			updateWidth();
-			updateHeight();
-	
-		};	
-		
+				
 	});
 	
 };
@@ -285,3 +271,17 @@ function wrap(text, width) {
     }
   });
 };
+
+// resize window function
+
+function resize() {
+
+	var aspect = width/height;
+
+	width = window.innerWidth;
+	height = width/aspect;
+
+	updateWidth();
+	updateHeight();
+
+};	
