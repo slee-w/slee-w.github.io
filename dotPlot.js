@@ -70,7 +70,24 @@ function dotPlot() {
 		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
 		yScale.domain(data.map(function(d, i) { return d.var1; }));
 	
-		// draw dots
+		// draw dots and lines
+		
+		var lineFunction = d3.svg.line()
+			.x(function(d) { return xScale(d.var3); })
+			.y(function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); });
+
+		var lines = svg.selectAll("path.line")
+			.data(data)
+			.enter()
+			.append("g")
+				.attr("transform", "translate(0,0");
+				
+		lines.append("path")
+			.attr("class", "line")
+			.attr("d", 0)
+			.transition()
+				.duration(500)
+				.attr("d", lineFunction(data));
 		
 		var dots = svg.selectAll("circle.dot")
 			.data(data)
