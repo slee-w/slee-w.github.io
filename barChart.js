@@ -78,7 +78,7 @@ function barChart() {
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(data, function(d) { return d.var3; }),
+		var max = d3.max(data, function(d) { return d.var3; });
 				
 		bars.append("rect")
 			.attr("class","bar")
