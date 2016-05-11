@@ -44,7 +44,6 @@ function barChart() {
 			.attr("id", "container")
 			.style("max-width", width)
 			.style("position", "relative")
-			.style("display", "inline-block")
 			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
@@ -60,7 +59,7 @@ function barChart() {
 	
 		d3.select(window).on("resize", function() {
 				
-			var targetWidth = d3.select("#container").width;
+			var targetWidth = d3.select("#container").node().getBoundingClientRect().width;
 			
 			d3.select(".bar-chart")
 				.attr("width", targetWidth)
