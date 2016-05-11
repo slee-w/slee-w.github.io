@@ -61,7 +61,7 @@ function dotPlot() {
 		// axis scales and axes
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().rangeRoundBands([heightAdj, 0], .1),
+			yScale = d3.scale.ordinal().rangeRoundBands([0, heightAdj], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
