@@ -160,7 +160,7 @@ function dotPlot() {
 			
 			svg.attr("height", heightAdj);
 			dots.attr("cy", function(d) { return yScale.rangeBand(); });
-			d3.select("#clip.rect").attr("height", heightAdj");
+			d3.select("#clip.rect").attr("height", heightAdj);
 						
 		};
 		
