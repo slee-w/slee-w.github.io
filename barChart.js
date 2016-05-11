@@ -38,16 +38,18 @@ function barChart() {
 		
 		var dom = d3.select(this);
 		
-		var svg = dom.append("svg")
-			.attr("class", "bar-chart")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.attr("width", "100%")
-			.attr("height", "100%")
-			.style("max-width", width)
-			.style("position", "absolute")
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+		var svg = dom.append("div")
+			.attr("class", "container")
+				.append("svg")
+				.attr("class", "bar-chart")
+				.attr("viewBox", "0 0 " + width + " " + height)
+				.attr("preserveAspectRatio", "xMinYMin meet")
+				.attr("width", "100%")
+				.attr("height", "100%")
+				.style("max-width", width)
+				.style("position", "absolute")
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
