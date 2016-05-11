@@ -42,7 +42,7 @@ function barChart() {
 			.style({
 				"position": "relative",
 				"width": width,
-				"height" height,
+				"height": height,
 				overflow: hidden;
 			})
 			.append("svg")
