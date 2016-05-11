@@ -116,23 +116,9 @@ function barChart() {
 			//.selectAll(".tick text") 
 			//	.call(wrap, marginLeft - 10);
 		
-		// resize function
-		
-		resize();
-		d3.select(window).on("resize", resize);
-		
-		function resize() {
-			
-			width = window.innerWidth, height = window.innerHeight;
-			svg.attr("width", width).attr("height", height);
-						
-		};
-		
 		// update functions
 		
 		updateWidth = function() {
-			
-			widthScale = width / maxValue;
 			
 			svg.attr("width", widthAdj);
 			bars.attr("width", function(d) { return xScale(d.var3); });
@@ -191,6 +177,22 @@ function barChart() {
 				.remove();
 		
 		};
+		
+		// resize window function
+
+		function resize() {
+
+			var aspect = width/height;
+		
+			width = window.innerWidth;
+			height = width/aspect;
+		
+			updateWidth();
+			updateHeight();
+	
+		};	
+		
+		d3.select(window).on("resize", resize());
 		
 	});
 	
