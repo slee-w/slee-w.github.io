@@ -72,23 +72,21 @@ function dotPlot() {
 	
 		// draw dots and lines
 		
-		var lineFunction = d3.svg.line()
-			.x(function(d) { return xScale(d.var3); })
-			.y(function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); });
-
-		var lines = svg.selectAll("path.line")
+		var lines = svg.selectAll("line.dotLine")
 			.data(data)
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0");
 				
-		lines.append("path")
-			.attr("class", "line")
-			.attr("d", 0)
+		lines.append("line")
+			.attr("class", "dotLine")
+			.attr("x1", 0)
+			.attr("y1", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
+			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
 				.duration(500)
-				.attr("d", lineFunction(data));
-		
+				.attr("x2", function(d) { return xScale(d.var3); });
+				
 		var dots = svg.selectAll("circle.dot")
 			.data(data)
 			.enter()
