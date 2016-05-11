@@ -43,6 +43,7 @@ function barChart() {
 		var svg = dom.append("div")
 			.attr("id", "container")
 			.style("max-width", width)
+			.style("position", "relative")
 			.append("svg")
 				.attr("class", "bar-chart")
 				.attr("viewBox", "0 0 " + width + " " + height)
