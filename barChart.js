@@ -39,8 +39,8 @@ function barChart() {
 		var dom = d3.select(this);
 		
 		var svg = dom.append("div")
-			.style("position": "relative")
-			.style("overflow": "hidden")
+			.style("position", "relative")
+			.style("overflow", "hidden")
 			.style("width", width + "px")
 			.style("height", height + "px")
 			.append("svg")
