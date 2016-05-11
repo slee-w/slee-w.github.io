@@ -61,7 +61,7 @@ function dotPlot() {
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
 			yScale = d3.scale.ordinal().rangeRoundPoints([heightAdj, 0], .1),
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickSize(function(d) { return xScale(d.var3); }), 0);
 		
 		// domains
 		
@@ -106,7 +106,6 @@ function dotPlot() {
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
-				.tickSize(widthAdj, 0);
 			//.selectAll(".tick text") 
 			//	.call(wrap, marginLeft - 10);
 		
