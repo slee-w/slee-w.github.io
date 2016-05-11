@@ -99,13 +99,18 @@ function dotPlot() {
 			.attr("class","dot")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
-			.attr("r", 0)
+			.attr("r", 5)
 			.on("mouseover", tipDot.show)
 			.on("mouseout", tipDot.hide)
 			.transition()
 				.duration(1000)
 				.attr("cx", function(d) { return xScale(d.var3); })
-				.attr("r", dotSize);
+				.each("end", function(d) { 
+					d3.select(this)
+						.transition()
+							.duration(1000)
+								.attr("r", dotSize);
+				});
 											
 				// highlight if max
 			
