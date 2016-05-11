@@ -42,14 +42,9 @@ function barChart() {
 			.attr("class", "bar-chart")
 			.attr("viewBox", "0 0 " + width + " " + height)
 			.attr("preserveAspectRatio", "xMinYMin meet")
-			.attr("width", width)
-			.attr("height", height)
 			.style("max-width", width)
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
-	
-		resize();
-		d3.select(window).on("resize", resize);
 	
 		// tooltips using d3-tip
 		
@@ -271,17 +266,3 @@ function wrap(text, width) {
     }
   });
 };
-
-// resize window function
-
-function resize() {
-
-	var aspect = width/height;
-
-	width = window.innerWidth;
-	height = width/aspect;
-
-	updateWidth();
-	updateHeight();
-
-};	
