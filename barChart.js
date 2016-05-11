@@ -48,6 +48,9 @@ function barChart() {
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 	
+		resize();
+		d3.select(window).on("resize", resize);
+	
 		// tooltips using d3-tip
 		
 		var tipBar = d3.tip()
@@ -193,8 +196,6 @@ function barChart() {
 			updateHeight();
 	
 		};	
-		
-		d3.select(window).on("resize", resize());
 		
 	});
 	
