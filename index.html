@@ -319,12 +319,14 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		var chart1_2a = colChart().width(750).marginBottom(60).data(data1_2); // Chapter 1 - 2
 		var chart1_2b = barChart().marginLeft(235).data(data1_2); 
+		var chart1_2c = dotPlot().data(data1_2);
 		var chart1_3 = colChart().height(300).data(data1_3); // Chapter 1 - 3
 		var chart1_4 = barChart().data(data1_4); // Chapter 1 - 4
 		var chart1_5 = colChart().data(data1_5); // Chapter 1 - 5
 		
 		d3.select("#ch1_2").call(chart1_2a);
 		d3.select("#ch1_2").call(chart1_2b);
+		d3.select("#ch1_2").call(chart1_2c);
 		d3.select("#ch1_3").call(chart1_3);
 		d3.select("#ch1_4").call(chart1_4);
 		d3.select("#ch1_5").call(chart1_5);
