@@ -96,7 +96,9 @@ function dotPlot() {
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
-					
+		
+		var max = d3.max(data, function(d) { return d.var3; });
+		
 		dots.append("circle")
 			.attr("class","dot")
 			.attr("clip-path", "url(#clip)")
@@ -112,7 +114,16 @@ function dotPlot() {
 					d3.select(this)
 						.transition()
 							.duration(animateTime)
-								.attr("r", dotSize);
+							.attr("r", dotSize)
+								
+							// highlight if max
+							
+							.each("end", function(d) { if (d.var3 == max) {
+								d3.select(this)
+									.transition()
+										.duration(animateTime)
+										.attr("class", "dot max")
+							}};
 				});
 											
 				// highlight if max
