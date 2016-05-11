@@ -32,11 +32,6 @@ function barChart() {
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - margin.bottom;
 
-		// define bar spacing and bar height
-
-		var maxValue = d3.max(data, function(d) { return d.var3; }),
-			widthScale = widthAdj / maxValue;
-		
 		// selections
 		
 		var dom = d3.select(this);
@@ -82,7 +77,9 @@ function barChart() {
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
-					
+		
+		var max = d3.max(data, function(d) { return d.var3; }),
+				
 		bars.append("rect")
 			.attr("class","bar")
 			.attr("x", 0)
@@ -93,11 +90,11 @@ function barChart() {
 			.on("mouseout", tipBar.hide)
 			.transition()
 				.duration(animateTime)
-				.attr("width", function(d) { return d.var3 * widthScale; })
+				.attr("width", function(d) { return xScale(d.var3); })
 								
 				// highlight if max
 			
-				.each("end", function(d) { if (d.var3 == maxValue) {
+				.each("end", function(d) { if (d.var3 == max) {
 					d3.select(this)
 						.transition()
 							.duration(animateTime)
@@ -124,7 +121,7 @@ function barChart() {
 			widthScale = width / maxValue;
 			
 			svg.attr("width", widthAdj);
-			bars.attr("width", function(d) { return d.var3 * widthScale; });
+			bars.attr("width", function(d) { return xScale(d.var3); });
 			
 		};
 			
@@ -158,7 +155,7 @@ function barChart() {
 				.data(data);
 				
 			update.attr("x", marginLeft)
-				.attr("width", function(d) { return d.var3 * widthScale; })
+				.attr("width", function(d) { return xScale(d.var3); })
 				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand())
 		
@@ -166,7 +163,7 @@ function barChart() {
 				.append("rect")
 				.attr("class","bar")
 				.attr("x", marginLeft)
-				.attr("width", function(d) { return d.var3 * widthScale; })
+				.attr("width", function(d) { return xScale(d.var3); })
 				.attr("y", function(d) { return yScale(d.var1); })
 				.attr("height", yScale.rangeBand());
 		
