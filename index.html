@@ -12,6 +12,7 @@
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.js"></script>
 <script src = "colChart.js"></script>
 <script src = "barChart.js"></script>
+<script src = "dotPlot.js"></script>
 
 <!-- CSS styling -->
 
@@ -338,9 +339,11 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		data = data.filter(function(d) { return d.chart == 6; });
 		
-		var chart = barChart().data(data);
+		var chart2_1a = barChart().data(data);
+		var chart2_1b = dotPlot().data(data);
 		
-		d3.select("#ch2_1").call(chart);
+		d3.select("#ch2_1").call(chart2_1a);
+		d3.select("#ch2_1").call(chart2_1b);
 		
 	};
 });	
