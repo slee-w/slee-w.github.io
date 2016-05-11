@@ -38,7 +38,7 @@ function smallMultiples() {
 
 		// selections
 		
-		var dom = d3.select(this);
+		var dom = d3.select(this).selectAll(".smallMultiple").data(data);
 		
 		var svg = dom.enter()
 			.append("div")
