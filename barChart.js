@@ -41,9 +41,11 @@ function barChart() {
 		var svg = dom.append("div")
 			.style({
 				"position": "relative",
-				"width": width,
-				"height": height,
 				overflow: "hidden"
+			})
+			.attr({
+				"width": width,
+				"height": height
 			})
 			.append("svg")
 				.attr("class", "bar-chart")
