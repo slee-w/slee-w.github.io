@@ -38,15 +38,28 @@ function barChart() {
 
 		// selections
 		
-		var dom = d3.select(this);
+		var padding = 100 * (height/window);
+		
+		var dom = d3.select(this)
+			.append("div")
+			.style({
+				width: "100%",
+				height: 0,
+				padding-top: padding + "%",
+				position: "relative"
+			});				
+				
 		
 		var svg = dom.append("svg")
 			.attr("class", "bar-chart")
 			.attr("viewBox", "0 0 " + width + " " + height)
 			.attr("preserveAspectRatio", "xMinYMin meet")
-			.attr("width", "100%")
-			.attr("height", "100%")
-			.style("max-width", width)
+			.style({
+				max-width: width,
+				position: "absolute",
+				top: 0,
+				left: 0
+			})
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 					
