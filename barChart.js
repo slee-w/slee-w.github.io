@@ -37,15 +37,14 @@ function barChart() {
 			heightAdj = height - margin.top - marginBottom;
 
 		// selections
-		
-		var padding = 100 * (height/window);
-		
+				
 		var dom = d3.select(this)
 			.append("div")
 			.style({
 				"width": "100%",
+				"max-width": width,
 				"height": 0,
-				"padding-top": padding + "%",
+				"padding-top": (100*(height/width)) + "%",
 				"position": "relative"
 			});				
 						
