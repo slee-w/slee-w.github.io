@@ -490,25 +490,6 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	};
 });	
 
-d3.tsv("Data/c1.tsv", function(error, data) {
-	if (error) { console.log(error); }
-	else {
-		data.forEach(function(d) {
-			d.var1 = d.group;
-			d.var2 = d.level; // this is the nesting variable
-			d.var3 = +d.number;
-			d.var4 = +d.pct;
-		});
-		
-		data = data.filter(function(d) { return d.chart == 7; });
-		
-		var chart2_2 = smallMultiples().data(data);
-				
-		d3.select("#ch2_2").call(chart2_2);
-				
-	};
-});	
-
 </script>
 
 </body>
