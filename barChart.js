@@ -42,7 +42,7 @@ function barChart() {
 			.append("div")
 			.style({
 				"width": "100%",
-				"max-width": width,
+				"max-width": width + "px",
 				"height": 0,
 				"padding-top": (100*(height/width)) + "%",
 				"position": "relative"
