@@ -38,7 +38,10 @@ function colChart() {
 		
 		var dom = d3.select(this)
 			.append("div")
-			.style("max-width", width + "px")
+				.style({
+					"max-width": width + "px",
+					"margin": "0 auto"
+				})
 				.append("div")
 					.style({
 						"width": "100%",
