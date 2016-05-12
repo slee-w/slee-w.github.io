@@ -24,6 +24,8 @@
 		font-weight: bold;
 	}
 
+	/* Donut chart styling */
+	
 	.c1_1_arc {
 		stroke: #fff;
 	}
@@ -41,33 +43,79 @@
 		font: 12px sans-serif;
 	}
 	
-	.axis path, 
-	.axis line {
+	/* Bar chart styling */
+	
+	.bar-chart .axis {
+		font: 10px sans-serif;
+	}
+	
+	.bar-chart .axis path,
+	.bar-chart .axis line {
 		fill: none;
 		stroke: #ccc;
 		shape-rendering: crispEdges;
 	}
 	
-	.col-chart .axis,
-	.bar-chart .axis,
-	.dotPlot .axis {
-		font: 12px sans-serif;
+	.bar-chart .y.axis line {
+		display: none;
 	}
 	
-	.col-chart .x.axis line,
-	.bar-chart .y.axis line,
-	.dotPlot .y.axis line {
-		display: none; 
+	.bar {
+		fill: #98abc5;
+	}
+	
+	.bar.max {
+		fill: #8a89a6;
+		transition: 0.5s;
 	}
 
-	.column,
-	.bar,
+	/* Column chart styling */
+	
+	.col-chart .axis {
+		font: 10px sans-serif;
+	}
+	
+	.col-chart .axis path,
+	.col-chart .axis line {
+		fill: none;
+		stroke: #ccc;
+		shape-rendering: crispEdges;
+	}
+	
+	.col-chart .y.axis line {
+		display: none;
+	}
+	
+	.column {
+		fill: #98abc5;
+	}
+	
+	.column.max {
+		fill: #8a89a6;
+		transition: 0.5s;
+	}
+	
+	/* Dot plot styling */
+	
+	.dotPlot .axis {
+		font: 10px sans-serif;
+	}
+	
+	.dotPlot .axis path,
+	.dotPlot .axis line {
+		fill: none;
+		stroke: #ccc;
+		shape-rendering: crispEdges;
+	}
+	
+	.dotPlot .y.axis line {
+		display: none;
+	}
+	
 	.dot {
 		fill: #98abc5;
 	}
 	
-	.column.max,
-	.bar.max,
 	.dot.max {
 		fill: #8a89a6;
 		transition: 0.5s;
@@ -75,20 +123,48 @@
 	
 	.dotLine {
 		stroke: lightgray;
-		opacity: 1;
 	}
 	
-	.smallMultiple {
-		float: left;
-		padding-right: 5px;
-		padding-bottom: 5px;
-		padding-top:0;
-		padding-left:0;
+	/* Small multiples styling */
+	
+	.dotPlotSM .axis {
+		font: 10px sans-serif;
 	}
+	
+	.dotPlotSM .axis path,
+	.dotPlotSM .axis line {
+		fill: none;
+		stroke: #ccc;
+		shape-rendering: crispEdges;
+	}
+
+	.dotPlotSM .y.axis line {
+		display: none;
+	}
+	
+	.dotSM {
+		fill: #98abc5;
+	}
+	
+	.dotSM.max {
+		fill: #8489a6;
+		transition: 0.5s;
+	}
+	
+	.dotLineSM {
+		stroke: lightgray;
+	}
+	
+	.labelSM {
+		font: 12px sans-serif;
+	}
+		
+	/* Styling tooltips for individual graph types */
 	
 	.d3-tip-bar, 
 	.d3-tip-col,
-	.d3-tip-dot {
+	.d3-tip-dot,
+	.d3-tip-dotSM {
 		font: 12px sans-serif;
 		padding: 12px;
 		background: rgba(0, 0, 0, 0.8);
@@ -111,7 +187,8 @@
 	}
 	
 	.d3-tip-bar:before,
-	.d3-tip-dot:before {
+	.d3-tip-dot:before,
+	.d3-tip-dotSM:before	{
 		content: '';
 		display: block;
 		width: 0;
@@ -138,6 +215,11 @@
 
 <!-- containers for each chart -->
 
+<div id = "ch2_1">
+	<p>&nbsp;</p>
+	<span class = "header">Chapter 2 - 1: Chronic absenteeism by grade level</span>
+	<p>&nbsp;</p>
+</div>
 <div id = "ch1_1">
 	<span class = "header">Chapter 1 - 1: Chronic absenteeism among all students</span>
 	<p>&nbsp;</p>
@@ -160,11 +242,6 @@
 <div id = "ch1_5">
 	<p>&nbsp;</p>
 	<span class = "header">Chapter 1 - 5: Chronic absenteeism by English Language Learner status</span>
-	<p>&nbsp;</p>
-</div>
-<div id = "ch2_1">
-	<p>&nbsp;</p>
-	<span class = "header">Chapter 2 - 1: Chronic absenteeism by grade level</span>
 	<p>&nbsp;</p>
 </div>
 <div id = "ch2_2">
@@ -383,10 +460,10 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		data = data.filter(function(d) { return d.chart == 6; });
 		
-		var chart2_1a = barChart().data(data);
-		var chart2_1b = dotPlot().data(data);
+		// var chart2_1a = barChart().data(data);
+		var chart2_1b = dotPlot().data(data).animateTime(2000);
 		
-		d3.select("#ch2_1").call(chart2_1a);
+		// d3.select("#ch2_1").call(chart2_1a);
 		d3.select("#ch2_1").call(chart2_1b);
 		
 	};
@@ -394,7 +471,43 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 
 // Chapter 2 - 2
 
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.var1 = d.level;
+			d.var2 = d.group; // this is the nesting variable
+			d.var3 = +d.number;
+			d.var4 = +d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 7; });
+		
+		var chart2_2 = smallMultiples().data(data);
+				
+		d3.select("#ch2_2").call(chart2_2);
+				
+	};
+});	
 
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.var1 = d.group;
+			d.var2 = d.level; // this is the nesting variable
+			d.var3 = +d.number;
+			d.var4 = +d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 7; });
+		
+		var chart2_2 = smallMultiples().data(data);
+				
+		d3.select("#ch2_2").call(chart2_2);
+				
+	};
+});	
 
 </script>
 

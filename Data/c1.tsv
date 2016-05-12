@@ -1,90 +1,90 @@
 chart	level	group	number	pct
-1	Overall	Not chronically absent	190000	0.95
-1	Overall	Chronically absent	10000	0.05
-2	Overall	American Indian or Alaska Native	1188	0.002582042
-2	Overall	Asian	7720	0.03393012
-2	Overall	Black or African American	1479	0.02195658
-2	Overall	Hispanic	4665	0.011990161
-2	Overall	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-2	Overall	White	7665	0.026306487
-2	Overall	Two or More Races	3500	0.013053175
-3	Overall	Female	12314	0.024547
-3	Overall	Male	16978	0.057756
-4	Overall	Students with Disabilities (IDEA)	16978	0.057756
-4	Overall	Students without Disabilities (IDEA)	12314	0.024547
-5	Overall	LEP students	1188	0.002582042
-5	Overall	Non-LEP students	7665	0.026306487
-6	Elementary	All students	7665	0.006306487
-6	Middle	All students	1188	0.002582042
-6	High	All students	12314	0.024547
-6	Other	All students	4630	0.012376602
-7	All	All students	10000	0.05
-7	All	American Indian or Alaska Native	1188	0.002582042
-7	All	Asian	7720	0.03393012
-7	All	Black or African American	1479	0.02195658
-7	All	Hispanic	4665	0.011990161
-7	All	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-7	All	White	7665	0.026306487
-7	All	Two or More Races	3500	0.013053175
-7	All	Female	12314	0.024547
-7	All	Male	16978	0.057756
-7	All	Students with Disabilities (IDEA)	16978	0.057756
-7	All	Students without Disabilities (IDEA)	12314	0.024547
-7	All	LEP students	1188	0.002582042
-7	All	Non-LEP students	7665	0.026306487
-7	E	All students	10000	0.05
-7	E	American Indian or Alaska Native	1188	0.002582042
-7	E	Asian	7720	0.03393012
-7	E	Black or African American	1479	0.02195658
-7	E	Hispanic	4665	0.011990161
-7	E	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-7	E	White	7665	0.026306487
-7	E	Two or More Races	3500	0.013053175
-7	E	Female	12314	0.024547
-7	E	Male	16978	0.057756
-7	E	Students with Disabilities (IDEA)	16978	0.057756
-7	E	Students without Disabilities (IDEA)	12314	0.024547
-7	E	LEP students	1188	0.002582042
-7	E	Non-LEP students	7665	0.026306487
-7	M	All students	10000	0.05
-7	M	American Indian or Alaska Native	1188	0.002582042
-7	M	Asian	7720	0.03393012
-7	M	Black or African American	1479	0.02195658
-7	M	Hispanic	4665	0.011990161
-7	M	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-7	M	White	7665	0.026306487
-7	M	Two or More Races	3500	0.013053175
-7	M	Female	12314	0.024547
-7	M	Male	16978	0.057756
-7	M	Students with Disabilities (IDEA)	16978	0.057756
-7	M	Students without Disabilities (IDEA)	12314	0.024547
-7	M	LEP students	1188	0.002582042
-7	M	Non-LEP students	7665	0.026306487
-7	H	All students	10000	0.05
-7	H	American Indian or Alaska Native	1188	0.002582042
-7	H	Asian	7720	0.03393012
-7	H	Black or African American	1479	0.02195658
-7	H	Hispanic	4665	0.011990161
-7	H	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-7	H	White	7665	0.026306487
-7	H	Two or More Races	3500	0.013053175
-7	H	Female	12314	0.024547
-7	H	Male	16978	0.057756
-7	H	Students with Disabilities (IDEA)	16978	0.057756
-7	H	Students without Disabilities (IDEA)	12314	0.024547
-7	H	LEP students	1188	0.002582042
-7	H	Non-LEP students	7665	0.026306487
-7	O	All students	10000	0.05
-7	O	American Indian or Alaska Native	1188	0.002582042
-7	O	Asian	7720	0.03393012
-7	O	Black or African American	1479	0.02195658
-7	O	Hispanic	4665	0.011990161
-7	O	Native Hawaiian or Other Pacific Islander	4630	0.012376602
-7	O	White	7665	0.026306487
-7	O	Two or More Races	3500	0.013053175
-7	O	Female	12314	0.024547
-7	O	Male	16978	0.057756
-7	O	Students with Disabilities (IDEA)	16978	0.057756
-7	O	Students without Disabilities (IDEA)	12314	0.024547
-7	O	LEP students	1188	0.002582042
-7	O	Non-LEP students	7665	0.026306487
+1	Overall	Not chronically absent	132126	0.807999827
+1	Overall	Chronically absent	700523	0.192000173
+2	Overall	American Indian or Alaska Native	456160	0.040
+2	Overall	Asian	259392	0.050
+2	Overall	Black or African American	879005	0.160
+2	Overall	Hispanic	249597	0.160
+2	Overall	Native Hawaiian or Other Pacific Islander	443327	0.060
+2	Overall	White	356902	0.110
+2	Overall	Two or More Races	487440	0.200
+3	Overall	Female	87798	0.020
+3	Overall	Male	109222	0.050
+4	Overall	Students with Disabilities (IDEA)	208638	0.220
+4	Overall	Students without Disabilities (IDEA)	316999	0.070
+5	Overall	LEP students	734877	0.100
+5	Overall	Non-LEP students	633269	0.010
+6	Elementary	All students	686612	0.140
+6	Middle	All students	547426	0.210
+6	High	All students	156091	0.130
+6	Other	All students	652152	0.200
+7	All	All students	103764	0.140
+7	All	American Indian or Alaska Native	53104	0.080
+7	All	Asian	904440	0.100
+7	All	Black or African American	55057	0.110
+7	All	Hispanic	613188	0.190
+7	All	Native Hawaiian or Other Pacific Islander	766510	0.120
+7	All	White	869746	0.110
+7	All	Two or More Races	520138	0.030
+7	All	Female	290636	0.030
+7	All	Male	189788	0.080
+7	All	Students with Disabilities (IDEA)	102055	0.060
+7	All	Students without Disabilities (IDEA)	459694	0.150
+7	All	LEP students	493341	0.120
+7	All	Non-LEP students	820133	0.040
+7	E	All students	726051	0.220
+7	E	American Indian or Alaska Native	295328	0.160
+7	E	Asian	18189	0.080
+7	E	Black or African American	907489	0.140
+7	E	Hispanic	137020	0.020
+7	E	Native Hawaiian or Other Pacific Islander	477853	0.060
+7	E	White	420305	0.190
+7	E	Two or More Races	312331	0.240
+7	E	Female	765436	0.110
+7	E	Male	248780	0.160
+7	E	Students with Disabilities (IDEA)	175468	0.180
+7	E	Students without Disabilities (IDEA)	817019	0.020
+7	E	LEP students	889765	0.220
+7	E	Non-LEP students	429897	0.220
+7	M	All students	922869	0.240
+7	M	American Indian or Alaska Native	439220	0.030
+7	M	Asian	277044	0.060
+7	M	Black or African American	190735	0.240
+7	M	Hispanic	508459	0.090
+7	M	Native Hawaiian or Other Pacific Islander	142644	0.210
+7	M	White	943172	0.050
+7	M	Two or More Races	674	0.010
+7	M	Female	395220	0.070
+7	M	Male	517585	0.070
+7	M	Students with Disabilities (IDEA)	256864	0.080
+7	M	Students without Disabilities (IDEA)	527453	0.050
+7	M	LEP students	975428	0.230
+7	M	Non-LEP students	212278	0.130
+7	H	All students	40110	0.250
+7	H	American Indian or Alaska Native	233411	0.240
+7	H	Asian	936754	0.140
+7	H	Black or African American	714587	0.150
+7	H	Hispanic	122526	0.140
+7	H	Native Hawaiian or Other Pacific Islander	508156	0.190
+7	H	White	914699	0.240
+7	H	Two or More Races	583722	0.080
+7	H	Female	374512	0.240
+7	H	Male	55599	0.180
+7	H	Students with Disabilities (IDEA)	798202	0.220
+7	H	Students without Disabilities (IDEA)	964376	0.140
+7	H	LEP students	943145	0.020
+7	H	Non-LEP students	141724	0.020
+7	O	All students	695913	0.090
+7	O	American Indian or Alaska Native	55145	0.060
+7	O	Asian	932524	0.190
+7	O	Black or African American	495529	0.050
+7	O	Hispanic	731678	0.060
+7	O	Native Hawaiian or Other Pacific Islander	342268	0.240
+7	O	White	950187	0.060
+7	O	Two or More Races	260110	0.060
+7	O	Female	219137	0.040
+7	O	Male	850167	0.050
+7	O	Students with Disabilities (IDEA)	860493	0.020
+7	O	Students without Disabilities (IDEA)	452145	0.020
+7	O	LEP students	305002	0.110
+7	O	Non-LEP students	368796	0.120

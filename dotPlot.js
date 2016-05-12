@@ -32,7 +32,7 @@ function dotPlot() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20, bottom: 60},
+		var margin = {top: 20, right: 20},
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - marginBottom;
 
@@ -108,8 +108,8 @@ function dotPlot() {
 			.attr("class", "dotLine")
 			.attr("x1", 0)
 			.attr("x2", 0)
-			.attr("y1", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
-			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
+			.attr("y1", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
+			.attr("y2", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
 				.duration(animateTime)
 				.attr("x2", function(d) { return xScale(d.var3); });
@@ -123,7 +123,7 @@ function dotPlot() {
 		var max = d3.max(data, function(d) { return d.var3; });
 		
 		dots.append("circle")
-			.attr("class","dot")
+			.attr("class", "dot")
 			.attr("clip-path", "url(#clip)")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
