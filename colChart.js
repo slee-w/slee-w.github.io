@@ -38,13 +38,16 @@ function colChart() {
 		
 		var dom = d3.select(this)
 			.append("div")
-			.style({
-				"width": "100%",
-				"max-width": width + "px",
-				"height": 0,
-				"padding-top": (100*(height/width)) + "%",
-				"position": "relative"
-			});				
+			.style("max-width", width + "px")
+				.append("div")
+					.style({
+						"width": "100%",
+						"max-width": width + "px",
+						"height": 0,
+						"padding-top": (100*(height/width)) + "%",
+						"position": "relative",
+						"margin": "0 auto"
+					});				
 			
 		var svg = dom.append("svg")
 			.attr("class", "col-chart")

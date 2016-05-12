@@ -40,13 +40,16 @@ function dotPlot() {
 		
 		var dom = d3.select(this)
 			.append("div")
-			.style({
-				"width": "100%",
-				"max-width": width + "px",
-				"height": 0,
-				"padding-top": (100*(height/width)) + "%",
-				"position": "relative"
-			});		
+			.style("max-width", width + "px")
+				.append("div")
+					.style({
+						"width": "100%",
+						"max-width": width + "px",
+						"height": 0,
+						"padding-top": (100*(height/width)) + "%",
+						"position": "relative"
+						"margin": "0 auto"
+					});		
 			
 		var svg = dom.append("svg")
 			.attr("class", "dotPlot")
@@ -59,6 +62,7 @@ function dotPlot() {
 				"left": 0,
 				"width": "100%",
 				"height": "100%"
+				
 			})
 			.append("g")
 				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
