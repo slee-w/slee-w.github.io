@@ -49,7 +49,7 @@ function barChart() {
 						"max-height": height + "px",
 						"padding-top": (100*(height/width)) + "%",
 						"position": "relative",
-						"margin": "0 auto";
+						"margin": "0 auto"
 					});				
 						
 		var svg = dom.append("svg")
