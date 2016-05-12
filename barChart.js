@@ -44,6 +44,7 @@ function barChart() {
 				"width": "100%",
 				"max-width": width + "px",
 				"height": 0,
+				"max-height": height + "px",
 				"padding-top": (100*(height/width)) + "%",
 				"position": "relative"
 			});				
@@ -54,6 +55,7 @@ function barChart() {
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.style({
 				"max-width": width,
+				"max-height": height,
 				"position": "absolute",
 				"top": 0,
 				"left": 0,
