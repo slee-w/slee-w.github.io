@@ -1,15 +1,15 @@
-// Reusable dot plot function for chronic absenteeism story map
+// Reusable dot plot small multiples function for chronic absenteeism story map
 
-function dotPlot() {
-	
+function smallMultiples() {
+
 	// Options accessible to the caller
 	// These are the default values
 	
-	var	width = 960,
-		height = 500,
-		marginLeft = 100,
+	var	width = 250,
+		height = 250,
+		marginLeft = 20,
 		marginBottom = 20,
-		dotSize = 25,
+		dotSize = 5,
 		animateTime = 1000,
 		data = [];
 		
@@ -32,43 +32,24 @@ function dotPlot() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20, bottom: 60},
+		var margin = {top: 20, right: 20, bottom: 20},
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - marginBottom;
 
 		// selections
 		
-		var dom = d3.select(this)
-			.append("div")
-				.style({
-					"max-width": width + "px",
-					"margin": "0 auto"
-				})
-				.append("div")
-					.style({
-						"width": "100%",
-						"max-width": width + "px",
-						"height": 0,
-						"padding-top": (100*(height/width)) + "%",
-						"position": "relative",
-						"margin": "0 auto"
-					});		
+		var dom = d3.select(this);
 			
-		var svg = dom.append("svg")
-			.attr("class", "dotPlot")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.style({
-				"max-width": width,
-				"position": "absolute",
-				"top": 0,
-				"left": 0,
-				"width": "100%",
-				"height": "100%"
-				
-			})
-			.append("g")
-				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+		var svg = dom.selectAll("svg")
+			.data(data)
+			.enter()
+			.append("svg")
+				.append("svg")
+					.attr("class", "dotPlot")
+					.attr("viewBox", "0 0 " + width + " " + height)
+					.attr("preserveAspectRatio", "xMinYMin meet")
+					.append("g")
+						.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
@@ -78,7 +59,7 @@ function dotPlot() {
 			.offset([0, 10])
 			.html(function(d) {
 	
-			return formatComma(d.var2) + " (" + formatPercent(d.var3) + ")";
+			return formatComma(d.var3) + " (" + formatPercent(d.var4) + ")";
 	
 		});
 		
@@ -93,13 +74,13 @@ function dotPlot() {
 		
 		// domains
 		
-		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
-		yScale.domain(data.map(function(d, i) { return d.var1; }));
+		xScale.domain([0, d3.max(data, function(n) { return n.values[0].var4; })]).nice();
+		yScale.domain(data.map(function(d) { return d.var1; }));
 	
 		// draw dots and lines
 		
 		var lines = svg.selectAll("line.dotLine")
-			.data(data)
+			.data(function(d) { return d.values; })
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
@@ -112,15 +93,15 @@ function dotPlot() {
 			.attr("y2", function(d) { return yScale (d.var1) + (yScale.rangeBand() / 2); })
 			.transition()
 				.duration(animateTime)
-				.attr("x2", function(d) { return xScale(d.var3); });
+				.attr("x2", function(d) { return xScale(d.var4); });
 				
 		var dots = svg.selectAll("circle.dot")
-			.data(data)
+			.data(function(d) { return d.values; })
 			.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(data, function(d) { return d.var3; });
+		var max = d3.max(data, function(d) { return d.var4; });
 		
 		dots.append("circle")
 			.attr("class","dot")
@@ -132,7 +113,7 @@ function dotPlot() {
 			.on("mouseout", tipDot.hide)
 			.transition()
 				.duration(animateTime)
-				.attr("cx", function(d) { return xScale(d.var3); })
+				.attr("cx", function(d) { return xScale(d.var4); })
 				.each("end", function(d) { 
 					d3.select(this)
 						.transition()
@@ -141,7 +122,7 @@ function dotPlot() {
 								
 							// highlight if max
 							
-							.each("end", function(d) { if (d.var3 == max) {
+							.each("end", function(d) { if (d.var4 == max) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
@@ -176,7 +157,7 @@ function dotPlot() {
 		updateWidth = function() {
 			
 			svg.attr("width", widthAdj);
-			dots.attr("cx", function(d) { return xScale(d.var3); });
+			dots.attr("cx", function(d) { return xScale(d.var4); });
 			d3.select("#clip.rect").attr("width", widthAdj);
 			
 		};
@@ -222,15 +203,15 @@ function dotPlot() {
 			yAxis = d3.svg.axis().scale(yScale).orient("left");
 		
 			var update = svg.selectAll("circle.dot")
-				.data(data);
+				.data(function(d) { return d.values; });
 				
-			update.attr("cx", function(d) { return xScale(d.var3); })
+			update.attr("cx", function(d) { return xScale(d.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
 			update.append("circle")
 				.attr("class","dot")
-				.attr("cx", function(d) { return xScale(d.var3); })
+				.attr("cx", function(d) { return xScale(d.var4); })
 				.attr("cy", 0)
 				.attr("r", dotSize)
 		
