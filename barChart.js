@@ -38,10 +38,7 @@ function barChart() {
 
 		// selections
 		
-		var dom = d3.select(this)
-			.append("div")
-				.style("max-width", width)
-				.style("max-height", height);
+		var dom = d3.select(this);
 		
 		var svg = dom.append("svg")
 			.attr("class", "bar-chart")
