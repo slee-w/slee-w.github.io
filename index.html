@@ -394,28 +394,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 
 // Chapter 2 - 2
 
-d3.tsv("Data/c1.tsv", function(error, data) {
-	if (error) { console.log(error); }
-	else {
-		data.forEach(function(d) {
-			d.var1 = d.level;
-			d.var2 = d.group;
-			d.var3 = +d.number;
-			d.var4 = +d.pct;
-		});
-		
-		data = data.filter(function(d) { return d.chart == 7; });
-		
-		nest = d3.nest()
-			.key(function(d) { return d.group; })
-			.entries(data);
-		
-		var chart2_2 = smallMultiples().data(nest);
-				
-		d3.select("#ch2_2").call(chart2_2);
-				
-	};
-});	
+
 
 </script>
 
