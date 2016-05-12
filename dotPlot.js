@@ -47,7 +47,7 @@ function dotPlot() {
 						"max-width": width + "px",
 						"height": 0,
 						"padding-top": (100*(height/width)) + "%",
-						"position": "relative"
+						"position": "relative",
 						"margin": "0 auto"
 					});		
 			
