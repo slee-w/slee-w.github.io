@@ -157,14 +157,14 @@ function smallMultiples() {
 							.duration(animateTime)
 							.attr("r", dotSize)
 								
-							// highlight if max
+							/* highlight if max
 							
 							.each("end", function(d) { if (d.var4 == d.var4) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
 										.attr("class", "dotSM max")
-							}});
+							}}); */
 				});
 											
 		// add clip path
