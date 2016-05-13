@@ -5,10 +5,11 @@ function smallMultiples() {
 	// Options accessible to the caller
 	// These are the default values
 	
-	var	width = 250,
+	var	width = 300,
 		height = 200,
-		marginLeft = 30,
+		marginLeft = 70,
 		marginBottom = 50,
+		rowCount = 4,
 		dotSize = 5,
 		animateTime = 1000,
 		clipName = [],
@@ -18,6 +19,7 @@ function smallMultiples() {
 		updateHeight,
 		updateMarginLeft,
 		updateMarginBottom,
+		updateRowCount,
 		updateDotSize,
 		updateAnimateTime,
 		updateClipName,
@@ -48,7 +50,7 @@ function smallMultiples() {
 		
 		var dom = d3.select(this).append("div")
 			.style({
-				"max-width": (4 * width) + "px",
+				"max-width": (rowCount * width) + "px",
 				"margin": "0 auto"
 			})
 			.selectAll("div")
@@ -59,12 +61,17 @@ function smallMultiples() {
 					.style({
 						"width": "100%",
 						"max-width": width + "px",
-						"height": 0,
-						//"padding-top": (100* (height/width)) + "%",
 						"position": "relative",
 						"display": "inline-block",
-						"margin": "0 auto"						
-					});	
+						"margin": "0 auto"			
+					})
+					.append("div")
+						.style({
+							"width": "100%",
+							"max-width": width + "px",
+							"height": 0,
+							"padding-top": (100 * (height/width)) + "%"
+						});	
 			
 		var svg = dom.append("svg")
 			.attr("class", "dotPlotSM")
@@ -73,6 +80,7 @@ function smallMultiples() {
 			.style({
 				"max-width": width,
 				"max-height": height,
+				"position": "absolute",
 				"top": 0,
 				"left": 0
 			})
@@ -151,7 +159,7 @@ function smallMultiples() {
 								
 							// highlight if max
 							
-							.each("end", function(d) { if (d.var4 == d3.max(function(d) { return d.var4; })) {
+							.each("end", function(d) { if (d.var4 == d.var4) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
@@ -217,6 +225,12 @@ function smallMultiples() {
 		updateMarginBottom = function() {
 			
 			heightAdj = width - margin.top - marginBottom;
+			
+		};
+
+		updateRowCount = function() {
+			
+			rowCount = rowCount;
 			
 		};
 		
@@ -305,6 +319,15 @@ function smallMultiples() {
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
 		if (typeof updateMarginBottom === 'function') updateMarginBottom();
+		return chart;
+		
+	};
+	
+	chart.rowCount = function(value) {
+		
+		if (!arguments.length) return rowCount;
+		rowCount = value;
+		if (typeof updateRowCount === 'function') updateRowCount();
 		return chart;
 		
 	};

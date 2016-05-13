@@ -489,6 +489,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 
 // Chapter 2 - 2
 
+var nest;
+var nest2;
+
 d3.tsv("Data/c1.tsv", function(error, data) {
 	if (error) { console.log(error); }
 	else {
@@ -500,8 +503,12 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		});
 		
 		data = data.filter(function(d) { return d.chart == 7; });
+		nest = d3.nest()
+			.key(function(d) { return d.var2; })
+			.entries(data);
+		nest2 = d3.values(nest, function(d) { return d.var4; });
 		
-		var chart2_2a = smallMultiples().data(data).clipName("2_2a");
+		var chart2_2a = smallMultiples().data(data).clipName("2_2a").rowCount(5);
 				
 		d3.select("#ch2_2").call(chart2_2a);
 				
@@ -520,7 +527,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		data = data.filter(function(d) { return d.chart == 7; });
 		
-		var chart2_2b = smallMultiples().data(data).width(400).height(400).marginLeft(100).clipName("2_2b");
+		var chart2_2b = smallMultiples().data(data).width(400).height(400).marginLeft(235).clipName("2_2b").rowCount(3);
 				
 		d3.select("#ch2_2").call(chart2_2b);
 				
