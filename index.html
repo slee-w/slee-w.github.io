@@ -450,7 +450,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		var chart1_2a = colChart().width(750).marginBottom(60).animateTime(2000).data(data1_2); // Chapter 1 - 2
 		var chart1_2b = barChart().marginLeft(235).animateTime(4000).data(data1_2); 
-		var chart1_2c = dotPlot().marginLeft(235).data(data1_2);
+		var chart1_2c = dotPlot().marginLeft(235).data(data1_2).clipName("dot1_2");
 		var chart1_3 = colChart().height(300).data(data1_3); // Chapter 1 - 3
 		var chart1_4 = barChart().data(data1_4); // Chapter 1 - 4
 		var chart1_5 = colChart().data(data1_5); // Chapter 1 - 5
@@ -479,7 +479,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		data = data.filter(function(d) { return d.chart == 6; });
 		
 		// var chart2_1a = barChart().data(data);
-		var chart2_1b = dotPlot().data(data).animateTime(2000);
+		var chart2_1b = dotPlot().data(data).animateTime(2000).clipName("dot2_1");
 		
 		// d3.select("#ch2_1").call(chart2_1a);
 		d3.select("#ch2_1").call(chart2_1b);
@@ -501,9 +501,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		data = data.filter(function(d) { return d.chart == 7; });
 		
-		var chart2_2 = smallMultiples().data(data);
+		var chart2_2a = smallMultiples().data(data).clipName("2_2a");
 				
-		d3.select("#ch2_2").call(chart2_2);
+		d3.select("#ch2_2").call(chart2_2a);
 				
 	};
 });	
@@ -520,9 +520,9 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		
 		data = data.filter(function(d) { return d.chart == 7; });
 		
-		var chart2_2a = smallMultiples().data(data).width(400).height(400).marginLeft(100);
+		var chart2_2b = smallMultiples().data(data).width(400).height(400).marginLeft(100).clipName("2_2b");
 				
-		d3.select("#ch2_2").call(chart2_2a);
+		d3.select("#ch2_2").call(chart2_2b);
 				
 	};
 });	

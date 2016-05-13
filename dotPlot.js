@@ -11,6 +11,7 @@ function dotPlot() {
 		marginBottom = 20,
 		dotSize = 25,
 		animateTime = 1000,
+		clipName = [],
 		data = [];
 		
 	var updateWidth,
@@ -19,6 +20,7 @@ function dotPlot() {
 		updateMarginBottom,
 		updateDotSize,
 		updateAnimateTime,
+		updateClipName,
 		updateData;
 		
 	function chart(selection) {
@@ -124,7 +126,7 @@ function dotPlot() {
 		
 		dots.append("circle")
 			.attr("class", "dot")
-			.attr("clip-path", "url(#clip)")
+			.attr("clip-path", function() { return "url(#clip)" + clipName + ")"; })
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 5)
@@ -153,9 +155,9 @@ function dotPlot() {
 		
 		svg.append("defs")
 			.append("clipPath")
-				.attr("id", "clip")
+				.attr("id", function() { return "clip" + clipName; })
 					.append("rect")
-						.attr("width", widthAdj)
+						.attr("width", widthAdj + margin.right)
 						.attr("height", heightAdj);
 		
 		// draw axes
@@ -211,6 +213,17 @@ function dotPlot() {
 			
 			lines.transition().duration(animateTime);
 			dots.transition().duration(animateTime);
+		
+		};
+		
+		updateClipName = function() {
+			
+			svg.append("defs")
+				.append("clipPath")
+					.attr("id", function() { return "clip" + clipName; })
+						.append("rect")
+							.attr("width", widthAdj + margin.right)
+							.attr("height", heightAdj);
 		
 		};
 		
@@ -293,6 +306,15 @@ function dotPlot() {
 		if (!arguments.length) return animateTime;
 		animateTime = value;
 		if (typeof updateAnimateTime === 'function') updateAnimateTime();
+		return chart;
+		
+	};
+
+	chart.clipName = function(value) {
+		
+		if (!arguments.length) return clipName;
+		clipName = value;
+		if (typeof updateClipName === 'function') updateClipName();
 		return chart;
 		
 	};

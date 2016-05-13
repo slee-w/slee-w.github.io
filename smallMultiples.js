@@ -11,6 +11,7 @@ function smallMultiples() {
 		marginBottom = 50,
 		dotSize = 5,
 		animateTime = 1000,
+		clipName = [],
 		data = [];
 		
 	var updateWidth,
@@ -19,6 +20,7 @@ function smallMultiples() {
 		updateMarginBottom,
 		updateDotSize,
 		updateAnimateTime,
+		updateClipName,
 		updateData;
 		
 	function chart(selection) {
@@ -132,7 +134,7 @@ function smallMultiples() {
 		
 		dotsSM.append("circle")
 			.attr("class", "dotSM")
-			.attr("clip-path", "url(#clipSM)")
+			.attr("clip-path", function() { return "url(#clip" + clipName + ")"; })
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 3)
@@ -161,9 +163,9 @@ function smallMultiples() {
 		
 		svg.append("defs")
 			.append("clipPath")
-				.attr("id", "clipSM")
+				.attr("id", function() { return "clip" + clipName; })
 					.append("rect")
-						.attr("width", widthAdj)
+						.attr("width", widthAdj + margin.right)
 						.attr("height", heightAdj);
 		
 		// add group labels
@@ -228,6 +230,17 @@ function smallMultiples() {
 			
 			linesSM.transition().duration(animateTime);
 			dotsSM.transition().duration(animateTime);
+		
+		};
+
+		updateClipName = function() {
+			
+			svg.append("defs")
+				.append("clipPath")
+					.attr("id", function() { return "clip" + clipName; })
+						.append("rect")
+							.attr("width", widthAdj + margin.right)
+							.attr("height", heightAdj);
 		
 		};
 		
@@ -310,6 +323,15 @@ function smallMultiples() {
 		if (!arguments.length) return animateTime;
 		animateTime = value;
 		if (typeof updateAnimateTime === 'function') updateAnimateTime();
+		return chart;
+		
+	};
+
+	chart.clipName = function(value) {
+		
+		if (!arguments.length) return clipName;
+		clipName = value;
+		if (typeof updateClipName === 'function') updateClipName();
 		return chart;
 		
 	};
