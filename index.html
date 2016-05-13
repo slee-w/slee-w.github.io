@@ -46,7 +46,7 @@
 	/* Bar chart styling */
 	
 	.bar-chart .axis {
-		font: 10px sans-serif;
+		font: 12px sans-serif;
 	}
 	
 	.bar-chart .axis path,
@@ -72,7 +72,7 @@
 	/* Column chart styling */
 	
 	.col-chart .axis {
-		font: 10px sans-serif;
+		font: 12px sans-serif;
 	}
 	
 	.col-chart .axis path,
@@ -98,7 +98,7 @@
 	/* Dot plot styling */
 	
 	.dotPlot .axis {
-		font: 10px sans-serif;
+		font: 12px sans-serif;
 	}
 	
 	.dotPlot .axis path,
@@ -128,7 +128,7 @@
 	/* Small multiples styling */
 	
 	.dotPlotSM .axis {
-		font: 10px sans-serif;
+		font: 12px sans-serif;
 	}
 	
 	.dotPlotSM .axis path,
@@ -161,6 +161,7 @@
 		
 	/* Styling tooltips for individual graph types */
 	
+	.d3-tip-donut,
 	.d3-tip-bar, 
 	.d3-tip-col,
 	.d3-tip-dot,
@@ -177,7 +178,7 @@
 	.d3-tip-col:after {
 		box-sizing: border-box;
 		display: inline;
-		font-size: 10px;
+		font-size: 12px;
 		width: 100%;
 		line-height: 1;
 		color: rgba(0, 0, 0, 0.8);
@@ -186,6 +187,7 @@
 		text-align: center;
 	}
 	
+	.d3-tip-donut:before,
 	.d3-tip-bar:before,
 	.d3-tip-dot:before,
 	.d3-tip-dotSM:before	{
@@ -321,12 +323,26 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		data.forEach(function(d) {
 			d.chart = +d.chart;
 			d.number = +d.number;
-			d.pct = formatPercent(d.pct);
+			d.pct = +d.pct;
 		});
 		
 		c1_1_data = data.filter(function(d) { return d.chart == 1; });
 		
 	};
+	
+	// tooltips with d3-tip
+			
+	var tipDonut = d3.tip()
+		.attr("class", "d3-tip-donut")
+		.direction("e")	
+		.offset([0, 0])
+		.html(function(d) {
+
+		return d.data.group + "</br>" + formatComma(d.data.number) + " (" + formatPercent(d.data.pct) + ")";
+
+	});
+	
+	c1_1.call(tipDonut);
 	
 	// draw the arcs
 	
@@ -337,6 +353,8 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	c1_1_gArc.append("path")
 		.attr("class", "c1_1_arc")
 		.style("fill", function(d) { return c1_1_color(d.data.group); })
+		.on("mouseover", tipDonut.show)
+		.on("mouseout", tipDonut.hide)
 		.transition()
 			.delay(function(d, i) { return i * 2000; })
 			.duration(2000)
@@ -351,7 +369,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 	
 	// add data labels
 
-	c1_1_gArc.append("text")
+	/* c1_1_gArc.append("text")
 		.attr("transform", function(d) { 
 			
 			var c = c1_1_arc.centroid(d),
@@ -369,7 +387,7 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		.transition()
 			.delay(function(d, i) { return i * 2000; })
 			.duration(2000)
-			.attr("fill-opacity", 1);
+			.attr("fill-opacity", 1); */
 	
 	// add n-size in the center
 		
@@ -486,6 +504,25 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		var chart2_2 = smallMultiples().data(data);
 				
 		d3.select("#ch2_2").call(chart2_2);
+				
+	};
+});	
+
+d3.tsv("Data/c1.tsv", function(error, data) {
+	if (error) { console.log(error); }
+	else {
+		data.forEach(function(d) {
+			d.var1 = d.group;
+			d.var2 = d.level; // this is the nesting variable
+			d.var3 = +d.number;
+			d.var4 = +d.pct;
+		});
+		
+		data = data.filter(function(d) { return d.chart == 7; });
+		
+		var chart2_2a = smallMultiples().data(data).width(400).height(400).marginLeft(100);
+				
+		d3.select("#ch2_2").call(chart2_2a);
 				
 	};
 });	

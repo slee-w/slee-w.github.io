@@ -44,21 +44,38 @@ function smallMultiples() {
 			
 		// selections
 		
-		var dom = d3.select(this);
+		var dom = d3.select(this).append("div")
+			.style({
+				"max-width": (4 * width) + "px",
+				"margin": "0 auto"
+			})
+			.selectAll("div")
+			.append("div")
+				.data(nest)
+				.enter()
+				.append("div")
+					.style({
+						"width": "100%",
+						"max-width": width + "px",
+						"height": 0,
+						//"padding-top": (100* (height/width)) + "%",
+						"position": "relative",
+						"display": "inline-block",
+						"margin": "0 auto"						
+					});	
 			
-		var svg = dom.selectAll("svg.dotPlotSM")
-			.data(nest)
-			.enter()
-			.append("svg")
-				.attr("class", "dotPlotSM")
-				.attr("viewBox", "0 0 " + width + " " + height)
-				.attr("preserveAspectRatio", "xMinYMin meet")
-				.style({
-					"max-width": width,
-					"max-height": height
-				})
-				.append("g")
-					.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+		var svg = dom.append("svg")
+			.attr("class", "dotPlotSM")
+			.attr("viewBox", "0 0 " + width + " " + height)
+			.attr("preserveAspectRatio", "xMinYMin meet")
+			.style({
+				"max-width": width,
+				"max-height": height,
+				"top": 0,
+				"left": 0
+			})
+			.append("g")
+				.attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
 		
 		// tooltips using d3-tip
 		
@@ -113,11 +130,9 @@ function smallMultiples() {
 			.append("g")
 				.attr("transform", "translate(0,0)");
 		
-		var max = d3.max(nest, function(d) { return d.values.var4; });
-		
 		dotsSM.append("circle")
 			.attr("class", "dotSM")
-			.attr("clip-path", "url(#clip)")
+			.attr("clip-path", "url(#clipSM)")
 			.attr("cx", 0)
 			.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 			.attr("r", 3)
@@ -134,7 +149,7 @@ function smallMultiples() {
 								
 							// highlight if max
 							
-							.each("end", function(d) { if (d.var4 == d3.max(d.var4)) {
+							.each("end", function(d) { if (d.var4 == d3.max(function(d) { return d.var4; })) {
 								d3.select(this)
 									.transition()
 										.duration(animateTime)
@@ -146,7 +161,7 @@ function smallMultiples() {
 		
 		svg.append("defs")
 			.append("clipPath")
-				.attr("id", "clip")
+				.attr("id", "clipSM")
 					.append("rect")
 						.attr("width", widthAdj)
 						.attr("height", heightAdj);
