@@ -18,20 +18,20 @@ chart	level	group	number	pct
 6	Middle	All students	547426	0.210
 6	High	All students	156091	0.130
 6	Other	All students	652152	0.200
-7	All	All students	103764	0.140
-7	All	American Indian or Alaska Native	53104	0.080
-7	All	Asian	904440	0.100
-7	All	Black or African American	55057	0.110
-7	All	Hispanic	613188	0.190
-7	All	Native Hawaiian or Other Pacific Islander	766510	0.120
-7	All	White	869746	0.110
-7	All	Two or More Races	520138	0.030
-7	All	Female	290636	0.030
-7	All	Male	189788	0.080
-7	All	Students with Disabilities (IDEA)	102055	0.060
-7	All	Students without Disabilities (IDEA)	459694	0.150
-7	All	LEP students	493341	0.120
-7	All	Non-LEP students	820133	0.040
+7	Overall	Overall students	103764	0.140
+7	Overall	American Indian or Alaska Native	53104	0.080
+7	Overall	Asian	904440	0.100
+7	Overall	Black or African American	55057	0.110
+7	Overall	Hispanic	613188	0.190
+7	Overall	Native Hawaiian or Other Pacific Islander	766510	0.120
+7	Overall	White	869746	0.110
+7	Overall	Two or More Races	520138	0.030
+7	Overall	Female	290636	0.030
+7	Overall	Male	189788	0.080
+7	Overall	Students with Disabilities (IDEA)	102055	0.060
+7	Overall	Students without Disabilities (IDEA)	459694	0.150
+7	Overall	LEP students	493341	0.120
+7	Overall	Non-LEP students	820133	0.040
 7	Elementary	All students	726051	0.220
 7	Elementary	American Indian or Alaska Native	295328	0.160
 7	Elementary	Asian	18189	0.080
