@@ -36,7 +36,7 @@ function smallMultiples() {
 		
 		// margins; adjust width and height to account for margins
 		
-		var margin = {top: 20, right: 20},
+		var margin = {top: 30, right: 20},
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - margin.top - marginBottom;
 
