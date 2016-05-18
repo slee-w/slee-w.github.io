@@ -9,7 +9,7 @@ function barChart() {
 		height = 500,
 		marginLeft = 100,
 		marginBottom = 20,
-		animateTime = 500,
+		animateTime = 1000,
 		data = [];
 		
 	var updateWidth,
@@ -24,10 +24,9 @@ function barChart() {
 		
 		// formats
 		
-		var	formatComma = d3.format(",f"),
-			formatPercent = d3.format(",.1%"),
-			formatPercentNoDec = d3.format(",%");
-		
+		var	formatNumber = d3.format(",f"),
+			formatPercent = d3.format(",.1%");
+					
 		// margins; adjust width and height to account for margins
 	
 		var aspect = width/height;
@@ -85,25 +84,53 @@ function barChart() {
 		
 		svg.call(tipBar);
 		
-		// axis scales and axes
+		// axis scales
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().range([heightAdj, 0]).rangeRoundBands([0, heightAdj], .1),
-			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
-		
+			yScale = d3.scale.ordinal().range([heightAdj, 0]).rangeRoundBands([0, heightAdj], 0.5);
+			
 		// domains
 		
 		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
 		yScale.domain(data.map(function(d, i) { return d.var1; }));
+		
+		// axes
+		
+		function formatValueAxis(d) {
+			
+			var TickValue = formatNumber(d * 100);
+			
+			return TickValue;
+			
+		};
+		
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatValueAxis).tickSize(-1 * heightAdj),
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickSize(0);
+					
+		// draw x-axis below bars
+	
+		svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + heightAdj + ")")
+			.call(xAxis)
+			.selectAll(".tick text")
+				.attr("dx", "1em")
+				.attr("dy", "-0.5em");
+	
+		svg.append("text")
+			.attr("class", "x axis")
+			.attr("x", widthAdj)
+			.attr("dx", "1.5em")
+			.attr("y", heightAdj)
+			.attr("dy", "1.5em")
+			.attr("text-anchor", "end")
+			.text("(% CHRONICALLY ABSENT IN 2013-14)")
 	
 		// draw bars
 		
 		var bars = svg.selectAll("rect.bar")
 			.data(data);
-		
-		var max = d3.max(data, function(d) { return d.var3; });
-				
+						
 		bars.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)")
@@ -118,28 +145,12 @@ function barChart() {
 					.transition()
 						.duration(animateTime)
 						.attr("width", function(d) { return xScale(d.var3); })
-										
-						// highlight if max
-					
-						.each("end", function(d) { if (d.var3 == max) {
-							d3.select(this)
-								.transition()
-									.duration(animateTime)
-									.attr("class", "bar max");
-						}});
 				
-		// draw axes
-	
-		svg.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + heightAdj + ")")
-			.call(xAxis);
+		// draw y-axis above bars
 	
 		svg.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
-			//.selectAll(".tick text") 
-			//	.call(wrap, marginLeft - 10);
 		
 		// update functions
 		

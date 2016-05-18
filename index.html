@@ -19,6 +19,12 @@
 
 <style>
 
+	/* Import fonts */
+	
+	@import url("https://fonts.googleapis.com/css?family=Inconsolata:100,400,500,700");
+	@import url("https://fonts.googleapis.com/css?family=Muli:300,400");
+	@import url("https://fonts.googleapis.com/css?family=Karla:400,700");
+
 	.header {
 		font: 24px sans-serif;
 		font-weight: bold;
@@ -44,120 +50,132 @@
 	}
 	
 	/* Bar chart styling */
-	
-	.bar-chart .axis {
-		font: 12px sans-serif;
-	}
-	
+
 	.bar-chart .axis path,
 	.bar-chart .axis line {
 		fill: none;
-		stroke: #ccc;
+		stroke: #000;
 		shape-rendering: crispEdges;
 	}
 	
-	.bar-chart .y.axis line {
+	.bar-chart .x.axis {
+		font: 400 12px Inconsolata;
+		color: #46484B;
+	}
+	
+	.bar-chart .x.axis path {
 		display: none;
 	}
 	
-	.bar {
-		fill: #98abc5;
+	.bar-chart .x.axis line {
+		stroke: rgba(23, 26, 29, 0.15);
+		stroke-dasharray: 1,1;
+	}
+
+	.bar-chart .y.axis {
+		font: normal 12px Karla;
+		color: #1C1E21;
 	}
 	
-	.bar.max {
-		fill: #3e526e;
-		transition: 0.5s;
+	.bar-chart .y.axis path {
+		stroke: #1C1E21;
+		stroke-width: 1.5px;
+	}
+	
+	.bar {
+		fill: rgb(242, 167, 115);
+	}
+	
+	.bar:hover {
+		fill: rgba(242, 167, 115, 0.75);
 	}
 
 	/* Column chart styling */
 	
-	.col-chart .axis {
-		font: 12px sans-serif;
-	}
-	
 	.col-chart .axis path,
 	.col-chart .axis line {
 		fill: none;
-		stroke: #ccc;
+		stroke: #000;
 		shape-rendering: crispEdges;
 	}
 	
-	.col-chart .y.axis line {
+	.col-chart .x.axis {
+		font: normal 12px Karla;
+		color: #1C1E21;
+	}
+	
+	.col-chart .x.axis path {
+		stroke: #1C1E21;
+		stroke-width: 1.5px;
+	}
+
+	.col-chart .y.axis {
+		font: 400 12px Inconsolata;
+		color: #46484B;
+	}
+	
+	.col-chart .y.axis path {
 		display: none;
 	}
 	
-	.column {
-		fill: #98abc5;
+	.col-chart .y.axis line {
+		stroke: rgba(23, 26, 29, 0.15);
+		stroke-dasharray: 1,1;
 	}
 	
-	.column.max {
-		fill: #3e526e;
-		transition: 0.5s;
+	.column {
+		fill: rgb(242, 167, 115);
+	}
+	
+	.column:hover {
+		fill: rgba(242, 167, 115, 0.75);
 	}
 	
 	/* Dot plot styling */
 	
-	.dotPlot .axis {
-		font: 12px sans-serif;
-	}
-	
 	.dotPlot .axis path,
 	.dotPlot .axis line {
 		fill: none;
-		stroke: #ccc;
+		stroke: #000;
 		shape-rendering: crispEdges;
 	}
 	
-	.dotPlot .y.axis line {
+	.dotPlot .x.axis {
+		font: 400 12px Inconsolata;
+		color: #46484B;
+	}
+	
+	.dotPlot .x.axis path {
 		display: none;
+	}
+	
+	.dotPlot .x.axis line {
+		stroke: rgba(23, 26, 29, 0.15);
+		stroke-dasharray: 1,1;
+	}
+
+	.dotPlot .y.axis {
+		font: normal 12px Karla;
+		color: #1C1E21;
+	}
+	
+	.dotPlot .y.axis path {
+		stroke: #1C1E21;
+		stroke-width: 1.5px;
 	}
 	
 	.dot {
-		fill: #98abc5;
+		fill: rgb(242, 167, 115);
 	}
 	
-	.dot.max {
-		fill: #3e526e;
-		transition: 0.5s;
-	}
+	.dot:hover {
+		fill: rgba(242, 167, 115, 0.75);
+	}	
 	
 	.dotLine {
 		stroke: lightgray;
-	}
-	
-	/* Small multiples styling */
-	
-	.dotPlotSM .axis {
-		font: 12px sans-serif;
-	}
-	
-	.dotPlotSM .axis path,
-	.dotPlotSM .axis line {
-		fill: none;
-		stroke: #ccc;
+		stroke-width: 1.5px;
 		shape-rendering: crispEdges;
-	}
-
-	.dotPlotSM .y.axis line {
-		display: none;
-	}
-	
-	.dotSM {
-		fill: #98abc5;
-	}
-	
-	.dotSM.max {
-		fill: #8489a6;
-		transition: 0.5s;
-	}
-	
-	.dotLineSM {
-		stroke: lightgray;
-	}
-	
-	.labelSM {
-		font: 12px sans-serif;
-		font-weight: bold;
 	}
 		
 	/* Styling tooltips for individual graph types */
@@ -165,8 +183,7 @@
 	.d3-tip-donut,
 	.d3-tip-bar, 
 	.d3-tip-col,
-	.d3-tip-dot,
-	.d3-tip-dotSM {
+	.d3-tip-dot {
 		font: 12px sans-serif;
 		padding: 12px;
 		background: rgba(0, 0, 0, 0.8);
@@ -190,8 +207,7 @@
 	
 	.d3-tip-donut:before,
 	.d3-tip-bar:before,
-	.d3-tip-dot:before,
-	.d3-tip-dotSM:before	{
+	.d3-tip-dot:before	{
 		content: '';
 		display: block;
 		width: 0;
@@ -438,7 +454,6 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		});
 		
 		data1_2 = data.filter(function(d) { return d.chart == 2; }) // This filters our data to the right chart
-			.sort(function(a, b) { return d3.descending(a.pct, b.pct); }); // This sorts our data
 			
 		data1_3 = data.filter(function(d) { return d.chart == 3; })
 			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
@@ -449,16 +464,12 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 		data1_5 = data.filter(function(d) { return d.chart == 5; })
 			.sort(function(a, b) { return d3.descending(a.pct, b.pct); });
 		
-		var chart1_2a = colChart().width(750).marginLeft(50).marginBottom(60).animateTime(2000).data(data1_2); // Chapter 1 - 2
-		var chart1_2b = barChart().marginLeft(235).animateTime(4000).data(data1_2); 
-		var chart1_2c = dotPlot().marginLeft(235).data(data1_2).clipName("dot1_2");
-		var chart1_3 = colChart().height(300).marginLeft(50).data(data1_3); // Chapter 1 - 3
+		var chart1_2 = barChart().marginLeft(235).data(data1_2); // Chapter 1 - 2
+		var chart1_3 = colChart().data(data1_3); // Chapter 1 - 3
 		var chart1_4 = barChart().marginLeft(200).data(data1_4); // Chapter 1 - 4
 		var chart1_5 = colChart().data(data1_5); // Chapter 1 - 5
 		
-		d3.select("#ch1_2").call(chart1_2a);
-		d3.select("#ch1_2").call(chart1_2b);
-		d3.select("#ch1_2").call(chart1_2c);
+		d3.select("#ch1_2").call(chart1_2);
 		d3.select("#ch1_3").call(chart1_3);
 		d3.select("#ch1_4").call(chart1_4);
 		d3.select("#ch1_5").call(chart1_5);
@@ -489,44 +500,6 @@ d3.tsv("Data/c1.tsv", function(error, data) {
 });	
 
 // Chapter 2 - 2
-
-d3.tsv("Data/c1.tsv", function(error, data) {
-	if (error) { console.log(error); }
-	else {
-		data.forEach(function(d) {
-			d.var1 = d.level;
-			d.var2 = d.group; // this is the nesting variable
-			d.var3 = +d.number;
-			d.var4 = +d.pct;
-		});
-		
-		data = data.filter(function(d) { return d.chart == 7; });
-		
-		var chart2_2a = smallMultiples().data(data).clipName("2_2a").rowCount(5);
-				
-		d3.select("#ch2_2").call(chart2_2a);
-				
-	};
-});	
-
-d3.tsv("Data/c1.tsv", function(error, data) {
-	if (error) { console.log(error); }
-	else {
-		data.forEach(function(d) {
-			d.var1 = d.group;
-			d.var2 = d.level; // this is the nesting variable
-			d.var3 = +d.number;
-			d.var4 = +d.pct;
-		});
-		
-		data = data.filter(function(d) { return d.chart == 7; });
-		
-		var chart2_2b = smallMultiples().data(data).width(400).height(400).marginLeft(235).clipName("2_2b").rowCount(3);
-				
-		d3.select("#ch2_2").call(chart2_2b);
-				
-	};
-});	
 
 </script>
 

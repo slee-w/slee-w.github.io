@@ -9,7 +9,7 @@ function colChart() {
 		height = 500,
 		marginLeft = 40,
 		marginBottom = 20,
-		animateTime = 500,		
+		animateTime = 1000,		
 		data = [];
 		
 	var updateWidth,
@@ -24,9 +24,8 @@ function colChart() {
 		
 		// formats
 		
-		var	formatComma = d3.format(",f"),
-			formatPercent = d3.format(",.1%"),
-			formatPercentNoDec = d3.format(",%");
+		var	formatNumber = d3.format(",f"),
+			formatPercent = d3.format(",.1%");
 		
 		// margins; adjust width and height to account for margins
 		
@@ -80,24 +79,51 @@ function colChart() {
 		
 		svg.call(tipCol);
 		
-		// axis scales and axes
+		// axis scales
 		
-		var xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .1),	
-			yScale = d3.scale.linear().range([heightAdj, 0]),
-			xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
-			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatPercent);
-		
+		var xScale = d3.scale.ordinal().rangeRoundBands([0, widthAdj], .5),	
+			yScale = d3.scale.linear().range([heightAdj, 0]);
+			
 		// domains
 		
 		xScale.domain(data.map(function(d, i) { return d.var1; }));
 		yScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
-	
+		
+		// axes
+				
+		function formatValueAxis(d) {
+			
+			var TickValue = formatNumber(d * 100);
+			
+			return TickValue;
+			
+		};
+		
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(0),
+			yAxis = d3.svg.axis().scale(yScale).orient("right").tickFormat(formatValueAxis).tickSize(widthAdj);
+		
+		// draw y-axis under columns
+		
+		svg.append("g")
+			.attr("class", "y axis")
+			.call(yAxis)
+			.selectAll("text")
+				.attr("x", 5)
+				.attr("dy", "-0.5em");
+					
+		svg.append("text")
+			.attr("class", "y axis")
+			.attr("x", 0)
+			.attr("dx", "2em")
+			.attr("y", 0)
+			.attr("dy", "-0.5em")
+			.attr("text-anchor", "start")
+			.text("(% CHRONICALLY ABSENT IN 2013-14)");
+		
 		// draw columns
 		
 		var cols = svg.selectAll("rect.column")
 			.data(data);
-					
-		var max = d3.max(data, function(d) { return d.var3; });
 		
 		cols.enter()
 			.append("g")
@@ -114,17 +140,8 @@ function colChart() {
 						.duration(animateTime)
 						.attr("height", function(d) { return heightAdj - yScale(d.var3); })
 						.attr("y", function(d) { return yScale(d.var3); })
-						
-						// highlight if max
-					
-						.each("end", function(d) { if (d.var3 == max) {
-							d3.select(this)
-								.transition()
-									.duration(animateTime)
-									.attr("class", "bar max");
-						}});
 		
-		// draw axes
+		// draw x-axis above columns
 	
 		svg.append("g")
 			.attr("class", "x axis")
@@ -132,10 +149,6 @@ function colChart() {
 			.call(xAxis)
 			.selectAll(".tick text")
 				.call(wrap, xScale.rangeBand());
-	
-		svg.append("g")
-			.attr("class", "y axis")
-			.call(yAxis);
 		
 		// update functions
 		

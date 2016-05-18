@@ -28,10 +28,9 @@ function dotPlot() {
 		
 		// formats
 		
-		var	formatComma = d3.format(",f"),
-			formatPercent = d3.format(",.1%"),
-			formatPercentNoDec = d3.format(",%");
-		
+		var	formatNumber = d3.format(",f"),
+			formatPercent = d3.format(",.1%");
+					
 		// margins; adjust width and height to account for margins
 		
 		var margin = {top: 20, right: 20},
@@ -89,15 +88,45 @@ function dotPlot() {
 		// axis scales and axes
 		
 		var xScale = d3.scale.linear().range([0, widthAdj]),	
-			yScale = d3.scale.ordinal().rangeRoundBands([0, heightAdj], .1),
-			xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatPercent),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
+			yScale = d3.scale.ordinal().rangeRoundBands([0, heightAdj], .1);
 		
 		// domains
 		
 		xScale.domain([0, d3.max(data, function(d) { return d.var3; })]).nice();
-		yScale.domain(data.map(function(d, i) { return d.var1; }));
+		yScale.domain(data.map(function(d, i) { return d.var1; }));	
+
+		// axes
+		
+		function formatValueAxis(d) {
+			
+			var TickValue = formatNumber(d * 100);
+			
+			return TickValue;
+			
+		};
+		
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatValueAxis).tickSize(-1 * heightAdj),
+			yAxis = d3.svg.axis().scale(yScale).orient("left").tickSize(0);
 	
+		// draw x-axis first
+		
+		svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + heightAdj + ")")
+			.call(xAxis)
+			.selectAll(".tick text")
+				.attr("dx", "1em")
+				.attr("dy", "-0.5em");
+	
+		svg.append("text")
+			.attr("class", "x axis")
+			.attr("x", widthAdj)
+			.attr("dx", "1.5em")
+			.attr("y", heightAdj)
+			.attr("dy", "1.5em")
+			.attr("text-anchor", "end")
+			.text("(% CHRONICALLY ABSENT IN 2013-14)");
+			
 		// draw dots and lines
 		
 		var lines = svg.selectAll("line.dotLine")
@@ -114,13 +143,17 @@ function dotPlot() {
 				.attr("y2", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 				.transition()
 					.duration(animateTime)
-					.attr("x2", function(d) { return xScale(d.var3); });
+					.attr("x2", function(d) { return xScale(d.var3); })
+					.each("end", function(d) { 
+						d3.select(this)
+							.transition()
+								.duration(animateTime)
+								.attr("x2", function(d) { return xScale(d.var3) - dotSize; });
+					});					
 				
 		var dots = svg.selectAll("circle.dot")
 			.data(data);
-		
-		var max = d3.max(data, function(d) { return d.var3; });
-		
+						
 		dots.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)")
@@ -139,16 +172,7 @@ function dotPlot() {
 							d3.select(this)
 								.transition()
 									.duration(animateTime)
-									.attr("r", dotSize)
-										
-									// highlight if max
-									
-									.each("end", function(d) { if (d.var3 == max) {
-										d3.select(this)
-											.transition()
-												.duration(animateTime)
-												.attr("class", "dot max")
-									}});
+									.attr("r", dotSize);
 						});
 											
 		// add clip path
@@ -162,10 +186,7 @@ function dotPlot() {
 		
 		// draw axes
 	
-		svg.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + heightAdj + ")")
-			.call(xAxis);
+
 	
 		svg.append("g")
 			.attr("class", "y axis")
