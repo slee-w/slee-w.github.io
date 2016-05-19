@@ -332,7 +332,7 @@ function colChart() {
 	var	width = 960,
 		height = 500,
 		marginTop = 60,
-		marginLeft = 40,
+		marginLeft = 20,
 		marginBottom = 20,
 		animateTime = 1000,	
 		title = "Generic chart title. Update me using .title()!",
