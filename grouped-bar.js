@@ -6,12 +6,15 @@ function groupedBar() {
 	// These are the default values
 	
 	var	width = 960,
-		height = 500,
+		height = 650,
 		marginTop = 40,
 		marginLeft = 100,
 		marginBottom = 20,
 		animateTime = 1000,
-		title = "Generic chart title. Update me using .title()!",
+		title1 = "Generic chart title #1. Update me using .title1()!",
+		title2 = "Generic chart title #2. Update me using .title2()!",
+		title3 = "Generic chart title #3. Update me using .title3()!",
+		title4 = "Generic chart title #4. Update me using .title4()!",
 		data = [];
 		
 	var updateWidth,
@@ -20,7 +23,10 @@ function groupedBar() {
 		updateMarginLeft,
 		updateMarginBottom,
 		updateAnimateTime,
-		updateTitle,
+		updateTitle1,
+		updateTitle2,
+		updateTitle3,
+		updateTitle4,
 		updateData;
 		
 	function chart(selection) {
@@ -28,7 +34,9 @@ function groupedBar() {
 		
 		// filter data for default to show r/e categories
 		
-		data = data.filter(function(d) { return d.subchart == 1; });
+		var subChartID = 1;
+		
+		dataFiltered = data.filter(function(d) { return d.subchart == subChartID; });
 		
 		// formats
 		
@@ -43,8 +51,68 @@ function groupedBar() {
 			widthAdj = width - marginLeft - margin.right,
 			heightAdj = height - marginTop - marginBottom;
 
-		// selections
+		// buttons for filtering
+
+		var buttons = d3.select(this)
+			.append("div")
+				.style({
+					"max-width": width + "px",
+					"margin": "0 auto"
+				})
+				.attr("id", "buttons")
+				.attr("class", "filters")
+				.html("Show data by: ");
+		
+		d3.select("#buttons")
+			.append("button")
+			.attr("class", "filterButton")
+			.text("Race/Ethnicity")
+			.on("click", function() { 
+			
+				updateData(1); 
+				updateTitle1();
 				
+			});
+	
+		d3.select("#buttons")
+			.append("button")
+			.attr("class", "filterButton")
+			.text("Gender")
+			.on("click", function() { 
+			
+				updateData(2); 
+				updateTitle2();
+				
+			});
+			
+		d3.select("#buttons")
+			.append("button")
+			.attr("class", "filterButton")
+			.text("IDEA Status")
+			.on("click", function() { 
+			
+				updateData(3); 
+				updateTitle3();
+				
+			});
+
+		d3.select("#buttons")
+			.append("button")
+			.attr("class", "filterButton")
+			.text("LEP Status")
+			.on("click", function() { 
+			
+				updateData(4); 
+				updateTitle4();
+				
+			});
+
+		d3.select("#buttons")
+			.append("p")
+				.html("&nbsp"); 
+			
+		// selections
+			
 		var dom = d3.select(this)
 			.append("div")
 				.style({
@@ -61,7 +129,7 @@ function groupedBar() {
 						"position": "relative",
 						"margin": "0 auto"
 					});				
-						
+		
 		var svg = dom.append("svg")
 			.attr("class", "groupedBar")
 			.attr("viewBox", "0 0 " + width + " " + height)
@@ -94,7 +162,7 @@ function groupedBar() {
 		
 		// axis scales
 		
-		var xScale = d3.scale.linear().range([0, widthAdj]),	
+		var xScale = d3.scale.linear().range([0, widthAdj - 100]),	
 			yScale0 = d3.scale.ordinal().rangeRoundBands([0, heightAdj], 0.15),
 			yScale1 = d3.scale.ordinal();
 		
@@ -104,14 +172,10 @@ function groupedBar() {
 		
 		data_nest = d3.nest()
 			.key(function(d) { return d.group; })
-			.entries(data);
+			.entries(dataFiltered);
 					
-		console.log(data_nest);
-			
 		var levels = ["Elementary","Middle","High","Other"];
 			
-		console.log(levels);
-					
 		xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
 		yScale0.domain(data_nest.map(function(d) { return d.key; }));		
 		yScale1.domain(levels).rangeRoundBands([0, yScale0.rangeBand()], 0.15);
@@ -147,17 +211,15 @@ function groupedBar() {
 			.attr("dy", "1.5em")
 			.attr("text-anchor", "end")
 			.text("(% CHRONICALLY ABSENT IN 2013-14)")
-	
+
 		// draw national bars
-	
-		data_national = data.filter(function(d) { return d.level == "Overall"; });
+
+		data_national = dataFiltered.filter(function(d) { return d.level == "Overall"; });
 		
-		console.log(data_national);
-		
-		var natBars = svg.selectAll(".national-bar")
+		var nationalBar = svg.selectAll(".national-bar")
 			.data(data_national);
-			
-		natBars.enter()
+		
+		nationalBar.enter()
 			.append("g")
 				.attr("transform", "translate(0,0)")
 				.append("rect")
@@ -171,46 +233,53 @@ function groupedBar() {
 					.transition()
 						.duration(animateTime)
 						.attr("width", function(d) { return xScale(d.pct); })
-					
-		// draw bars
 
-		data_noavg = data.filter(function(d) { return d.level != "Overall"; });
+		// draw level bars
+
+		data_noavg = dataFiltered.filter(function(d) { return d.level != "Overall"; });
 		
 		data_nest_noavg = d3.nest()
 			.key(function(d) { return d.group; })
 			.entries(data_noavg);
 		
-		var groups = svg.selectAll(".group")
+		var group = svg.selectAll(".group")
 			.data(data_nest_noavg, function(d) { return d.key; });
-			
-		groups.enter()
+
+		group.enter()
 			.append("g")
 				.attr("class", "group")
 				.attr("transform", function(d) { return "translate(0," + yScale0(d.key) + ")"; });	
-		
-		var bars = groups.selectAll(".bar")
-			.data(function(d) { return d.values; })
-			.enter()
+				
+		var levelBars = group.selectAll(".bar")
+			.data(function(d) { return d.values; });
+				
+		levelBars.enter()
 			.append("rect")
 				.attr("class", "bar")
 				.attr("x", 0)
 				.attr("width", 0)
 				.attr("y", function(d) { return yScale1(d.level); })
-				.attr("height", yScale1.rangeBand())
+				.attr("height", 0)
 				.style("fill", function(d) { return color(d.level); })
 				.on("mouseover", tipBar.show)
 				.on("mouseout", tipBar.hide)
 				.transition()
+					.delay(animateTime)
 					.duration(animateTime)
 					.attr("width", function(d) { return xScale(d.pct); })
-				
+					.attr("height", yScale1.rangeBand());
+			
 		// draw y-axis above bars
-	
+		
 		svg.append("g")
 			.attr("class", "y axis")
+			.style("opacity", 0)
 			.call(yAxis)
+			.transition()
+				.duration(animateTime)
+				.style("opacity", 1);
 		
-		// chart title
+		// chart title (default to title1)
 		
 		svg.append("text")
 			.attr("class", "title")
@@ -218,7 +287,7 @@ function groupedBar() {
 			.attr("y", 0 - marginTop)
 			.attr("dy", "1em")
 			.attr("text-anchor", "start")
-			.text(title);
+			.text(title1)
 		
 		// legend
 		
@@ -244,135 +313,230 @@ function groupedBar() {
 		
 		// update functions
 		
-		updateWidth = function() {
+		updateWidth = function() {};
 			
-			svg.attr("width", widthAdj);
-			bars.attr("width", function(d) { return xScale(d.pct); });
-			
-		};
-			
-		updateHeight = function() {
-			
-			svg.attr("height", heightAdj);
-			bars.attr("y", function(d) { return yScale1(d.level); })
-						
-		};
+		updateHeight = function() {};
 		
-		updateMarginTop = function() {
-			
-			heightAdj = width - marginTop - marginBottom;
+		updateMarginTop = function() {};
 		
-		};
+		updateMarginLeft = function() {};
 		
-		updateMarginLeft = function() {
-			
-			widthAdj = width - marginLeft - margin.right;
-			
-		};
+		updateMarginBottom = function() {};
 		
-		updateMarginBottom = function() {
+		updateAnimateTime = function() {};
+
+		function updateTitle1() {
 			
-			heightAdj = width - marginTop - marginBottom;
+			svg.select(".title")
+				.remove();
 			
-		};
-		
-		updateAnimateTime = function() {
-			
-			bars.transition().duration(animateTime);
-		
+			svg.append("text")
+				.attr("class", "title")
+				.attr("x", 0 - marginLeft)
+				.attr("y", 0 - marginTop)
+				.attr("dy", "1em")
+				.attr("text-anchor", "start")
+				.attr("fill-opacity", 0)
+				.text(title1)
+				.transition()
+					.duration(animateTime)
+					.attr("fill-opacity", 1);
+					
 		};
 
-		updateTitle = function() {
+		function updateTitle2() {
 			
-			d3.select(".bar-chart title")
-				.text(title);
-		
+			svg.select(".title")
+				.remove();
+			
+			svg.append("text")
+				.attr("class", "title")
+				.attr("x", 0 - marginLeft)
+				.attr("y", 0 - marginTop)
+				.attr("dy", "1em")
+				.attr("text-anchor", "start")
+				.attr("fill-opacity", 0)
+				.text(title2)
+				.transition()
+					.duration(animateTime)
+					.attr("fill-opacity", 1);
+					
+		};
+
+		function updateTitle3() {
+			
+			svg.select(".title")
+				.remove();
+			
+			svg.append("text")
+				.attr("class", "title")
+				.attr("x", 0 - marginLeft)
+				.attr("y", 0 - marginTop)
+				.attr("dy", "1em")
+				.attr("text-anchor", "start")
+				.attr("fill-opacity", 0)
+				.text(title3)
+				.transition()
+					.duration(animateTime)
+					.attr("fill-opacity", 1);
+					
 		};
 		
-		updateData = function() {
+		function updateTitle4() {
+			
+			svg.select(".title")
+				.remove();
+			
+			svg.append("text")
+				.attr("class", "title")
+				.attr("x", 0 - marginLeft)
+				.attr("y", 0 - marginTop)
+				.attr("dy", "1em")
+				.attr("text-anchor", "start")
+				.attr("fill-opacity", 0)
+				.text(title4)
+				.transition()
+					.duration(animateTime)
+					.attr("fill-opacity", 1);
+					
+		};		
+		
+		function updateData(subChartID) {
+			
+			// re-filter data
+			
+			dataFiltered = data.filter(function(d) { return d.subchart == subChartID; });
 		
 			var data_nest = d3.nest()
 				.key(function(d) { return d.group; })
-				.entries(data);
-					
-			console.log(data_nest);
-		
-			var xScale = d3.scale.linear().range([0, widthAdj]),	
-				yScale0 = d3.scale.ordinal().rangeRoundBands([0, heightAdj], 0.1),
-				yScale1 = d3.scale.ordinal();
-				xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatValueAxis).tickSize(-1 * heightAdj),
-				yAxis = d3.svg.axis().scale(yScale0).orient("left").tickSize(0);
-				
+				.entries(dataFiltered);
+			
+			// update scales
+			
 			xScale.domain([0, d3.max(data, function(d) { return d.pct; })]).nice();
 			yScale0.domain(data_nest.map(function(d) { return d.key; }));
+			yScale1.domain(levels).rangeRoundBands([0, yScale0.rangeBand()], 0.15);
 		
-			// draw total bars
-	
-			var updateNational = svg.selectAll(".total-bar")
-				.data(data_nest, function(d) { return d.key; });
+			// update national bars
+
+			data_national = dataFiltered.filter(function(d) { return d.level == "Overall"; });
 			
-			updateNational.attr("x", 0)
+			var updateNational = svg.selectAll(".national-bar")
+				.data(data_national);
+			
+			updateNational.transition()
+				.duration(animateTime)
+				.attr("x", 0)
 				.attr("width", function(d) { return xScale(d.pct); })
-				.attr("y", function(d) { return yScale0(d.key); })
+				.attr("y", function(d) { return yScale0(d.group); })
 				.attr("height", yScale0.rangeBand());
 			
 			updateNational.enter()
-				.append("rect")
-					.attr("class", "total-bar")
+				.append("g")
+					.attr("transform", "translate(0,0)")
+					.append("rect")
+						.attr("class","national-bar")
+						.attr("x", 0)
+						.attr("width", 0)
+						.attr("y", function(d) { return yScale0(d.group); })
+						.attr("height", yScale0.rangeBand())
+						.on("mouseover", tipBar.show)
+						.on("mouseout", tipBar.hide)
+						.transition()
+							.duration(animateTime)
+							.attr("width", function(d) { return xScale(d.pct); })
+	
+			updateNational.exit()
+				.transition()
+					.duration(animateTime)
+					.style("opacity", 0)
 					.attr("x", 0)
 					.attr("width", 0)
-					.attr("y", function(d) { return yScale0(d.key); })
-					.attr("height", yScale0.rangeBand())
-					.on("mouseover", tipBar.show)
-					.on("mouseout", tipBar.hide)
-					.transition()
-						.duration(animateTime)
-						.attr("width", xScale(0.25));
+					.attr("height", 0)
+					.remove();
 	
-			update.exit()
-				.remove();
-	
-			// draw bars
-		
-			var updateGroups = svg.selectAll(".group")
-				.data(data_nest, function(d) { return d.key; })
-				
-			updateGroups.attr("transform", function(d) { return "translate(0," + yScale0(d.key) + ")"; });
+			// update level bars
+
+			data_noavg = dataFiltered.filter(function(d) { return d.level != "Overall"; });
 			
+			data_nest_noavg = d3.nest()
+				.key(function(d) { return d.group; })
+				.entries(data_noavg);
+			
+			var updateGroups = svg.selectAll(".group")
+				.data(data_nest_noavg, function(d) { return d.key; });
+
+			updateGroups.transition()
+				.duration(animateTime)
+				.attr("transform", function(d) { return "translate(0," + yScale0(d.key) + ")"; });					
+
 			updateGroups.enter()
 				.append("g")
 					.attr("class", "group")
 					.attr("transform", function(d) { return "translate(0," + yScale0(d.key) + ")"; });	
-			
+
 			updateGroups.exit()
-				.remove();
-			
+				.transition()
+					.duration(animateTime)
+					.remove();
+
+			updateGroups.exit()
+				.selectAll(".bar")
+				.transition()
+					.duration(animateTime)
+					.style("opacity", 0)
+					.attr("x", 0)
+					.attr("width", 0)
+					.attr("height", 0);				
+					
 			var updateBars = updateGroups.selectAll(".bar")
-				.data(function(group) { return group.values; }, function(d) { return d.key; })
-			
-			updateBars.attr("y", function(d) { return yScale1(d.key); })
-				.attr("height", yScale1.rangeBand())
-				.attr("width", function(d) { return xScale(d.pct); });
-			
+				.data(function(d) { return d.values; });
+					
+			updateBars.transition()
+				.duration(animateTime)
+				.attr("x", 0)
+				.attr("width", function(d) { return xScale(d.pct); })
+				.attr("y", function(d) { return yScale1(d.level); })
+				.attr("height", yScale1.rangeBand());
+
 			updateBars.enter()
 				.append("rect")
 					.attr("class", "bar")
 					.attr("x", 0)
 					.attr("width", 0)
-					.attr("y", function(d) { return yScale1(d.key); })
-					.attr("height", yScale1.rangeBand())
-					.style("fill", function(d) { return color(d.key); })
+					.attr("y", function(d) { return yScale1(d.level); })
+					.attr("height", 0)
+					.style("fill", function(d) { return color(d.level); })
 					.on("mouseover", tipBar.show)
 					.on("mouseout", tipBar.hide)
 					.transition()
+						.delay(animateTime)
 						.duration(animateTime)
 						.attr("width", function(d) { return xScale(d.pct); })
-						
+						.attr("height", yScale1.rangeBand());
+
 			updateBars.exit()
-				.remove();
+				.transition()
+					.remove();					
+					
+			// update y axis
+			
+			svg.selectAll(".y.axis")
+				.transition()
+					.duration(animateTime)
+					.style("opacity", 0)
+					.remove();
 				
+			svg.append("g")
+				.attr("class", "y axis")
+				.style("opacity", 0)
+				.call(yAxis)
+				.transition()
+					.duration(animateTime)
+					.style("opacity", 1);
+						
 		};
-				
+		
 	});
 	
 };
@@ -431,15 +595,42 @@ function groupedBar() {
 		
 	};
 
-	chart.title = function(value) {
+	chart.title1 = function(value) {
 		
-		if (!arguments.length) return title;
-		title = value;
-		if (typeof updateTitle === 'function') updateTitle();
+		if (!arguments.length) return title1;
+		title1 = value;
+		if (typeof updateTitle === 'function') updateTitle1();
+		return chart;
+		
+	};
+
+	chart.title2 = function(value) {
+		
+		if (!arguments.length) return title2;
+		title2 = value;
+		if (typeof updateTitle2 === 'function') updateTitle2();
 		return chart;
 		
 	};
 	
+	chart.title3 = function(value) {
+		
+		if (!arguments.length) return title3;
+		title3 = value;
+		if (typeof updateTitle3 === 'function') updateTitle3();
+		return chart;
+		
+	};
+	
+	chart.title4 = function(value) {
+		
+		if (!arguments.length) return title4;
+		title4 = value;
+		if (typeof updateTitle4 === 'function') updateTitle4();
+		return chart;
+		
+	};
+		
     chart.data = function(value) {
 	
         if (!arguments.length) return data;
