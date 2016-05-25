@@ -14,16 +14,6 @@ function iconArray() {
 		legendWidth = 25,
 		legendHeight = 25,
 		data = [];
-		
-	var updateWidth,
-		updateHeight,
-		updateAnimateTime,
-		updateRowCount,
-		updateIconWidth,
-		updateIconHeight,
-		updateLegendWidth,
-		updateLegendHeight,
-		updateData;
 
 	function chart(selection) {
 		selection.each(function() {		
@@ -256,19 +246,7 @@ function iconArray() {
 					.delay(animateTime)
 					.duration(animateTime)
 					.attr("fill-opacity", 1);
-					
-		// update functions - these aren't really needed because there's no within chart updating
-		
-		updateWidth = function() {};			
-		updateHeight = function() {};		
-		updateAnimateTime = function() {};
-		updateRowCount = function() {};
-		updateIconWidth = function() {};
-		updateIconHeight = function() {};
-		updateLegendWidth = function() {};
-		updateLegendHeight = function() {};
-		updateData = function() {};
-				
+
 		});
 		
 	};
@@ -277,7 +255,6 @@ function iconArray() {
 	
         if (!arguments.length) return width;
         width = value;
-        if (typeof updateWidth === 'function') updateWidth();
         return chart;
 		
     };
@@ -286,7 +263,6 @@ function iconArray() {
 	
         if (!arguments.length) return height;
         height = value;
-        if (typeof updateHeight === 'function') updateHeight();
         return chart;
 		
     };
@@ -295,7 +271,6 @@ function iconArray() {
 		
 		if (!arguments.length) return animateTime;
 		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
@@ -304,7 +279,6 @@ function iconArray() {
 		
 		if (!arguments.length) return rowCount;
 		rowCount = value;
-		if (typeof updateRowCount === 'function') updateRowCount();
 		return chart;
 		
 	};
@@ -313,7 +287,6 @@ function iconArray() {
 		
 		if (!arguments.length) return iconWidth;
 		iconWidth = value;
-		if (typeof updateIconWidth === 'function') updateIconWidth();
 		return chart;
 		
 	};
@@ -322,7 +295,6 @@ function iconArray() {
 		
 		if (!arguments.length) return iconHeight;
 		iconHeight = value;
-		if (typeof updateIconHeight === 'function') updateIconHeight();
 		return chart;
 		
 	};
@@ -331,7 +303,6 @@ function iconArray() {
 		
 		if (!arguments.length) return legendWidth;
 		legendWidth = value;
-		if (typeof updateLegendWidth === 'function') updateLegendWidth();
 		return chart;
 		
 	};
@@ -340,7 +311,6 @@ function iconArray() {
 		
 		if (!arguments.length) return legendHeight;
 		legendHeight = value;
-		if (typeof updateLegendHeight === 'function') updateLegendHeight();
 		return chart;
 		
 	};
@@ -349,261 +319,6 @@ function iconArray() {
 	
         if (!arguments.length) return data;
         data = value;
-        if (typeof updateData === 'function') updateData();
-        return chart;
-		
-    };
-	
-	return chart;
-	
-};
-
-// Donut chart function for chronic absenteeism map (ch 1-1)
-
-function donutChart() {
-	
-	// Options accessible to the caller
-	// These are the default values
-	
-	var	width = 500,
-		height = 500,
-		marginTop = 20,
-		marginLeft = 20,
-		marginBottom = 20,
-		animateTime = 2000,
-		title = "Generic chart title. Update me using .title()!",
-		data = [];
-		
-	var updateWidth,
-		updateHeight,
-		updateMarginTop,
-		updateMarginLeft,
-		updateMarginBottom,
-		updateAnimateTime,
-		updateTitle,
-		updateData;
-		
-	function chart(selection) {
-		selection.each(function() {
-
-		// formats
-		
-		var	formatNumber = d3.format(",f"),
-			formatPercent = d3.format(",.1%");
-					
-		// margins; adjust width and height to account for margins
-	
-		var margin = {right: 20},
-			widthAdj = width - marginLeft - margin.right,
-			heightAdj = height - marginTop - marginBottom;
-
-		var radius = Math.min(widthAdj, heightAdj) / 2;
-			
-		// Set colors for each slice
-	
-		var color = d3.scale.ordinal()
-			.domain(function(d) { return d.var1;})
-			.range(["#3e526e", "#98abc5"]);
-
-		var arc = d3.svg.arc()
-			.outerRadius(radius)
-			.innerRadius(radius * 0.75)
-			.startAngle(function(d) { return d.startAngle + Math.PI/3; })
-			.endAngle(function(d) { return d.endAngle + Math.PI/3; });
-	
-		var pie = d3.layout.pie()
-			.sort(null)
-			.value(function(d) { return d.var2; });
-
-		// selections
-			
-		var dom = d3.select(this)
-			.append("div")
-				.style({
-					"max-width": width + "px",
-					"margin": "0 auto"
-				})
-				.append("div")
-					.style({
-						"width": "100%",
-						"max-width": width + "px",
-						"height": 0,
-						"max-height": height + "px",
-						"padding-top": (100*(height/width)) + "%",
-						"position": "relative",
-						"margin": "0 auto"
-					});				
-						
-		var svg = dom.append("svg")
-			.attr("class", "bar-chart")
-			.attr("viewBox", "0 0 " + width + " " + height)
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.style({
-				"max-width": width,
-				"max-height": height,
-				"position": "absolute",
-				"top": 0,
-				"left": 0,
-				"width": "100%",
-				"height": "100%"
-			})
-			.append("g")
-				.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
-
-		// tooltips with d3-tip
-			
-		var tipDonut = d3.tip()
-			.attr("class", "d3-tip-donut")
-			.direction("e")	
-			.offset([0, 0])
-			.html(function(d) {
-
-			return d.data.var1 + "</br>" + formatNumber(d.data.var2) + " (" + formatPercent(d.data.var3) + ")";
-
-		});
-	
-		svg.call(tipDonut);
-	
-		// draw the arcs
-		
-		var gArc = svg.selectAll(".arc")
-			.data(pie(data))
-			.enter().append("g");
-				
-		gArc.append("path")
-			.attr("class", "arc")
-			.style("fill", function(d) { return color(d.data.var1); })
-			.on("mouseover", tipDonut.show)
-			.on("mouseout", tipDonut.hide)
-			.transition()
-				.delay(function(d, i) { return i * animateTime; })
-				.duration(animateTime)
-				.ease("linear")
-				.attrTween("d", function(d) { 
-				
-					var i = d3.interpolate(d.startAngle, d.endAngle);
-					
-					return function(t) { d.endAngle = i(t); return arc(d); }
-					
-				});
-	
-		// add n-size in the center
-		
-		var cLabel = svg.selectAll(".cLabel")
-			.data(data)
-			.enter().append("g")
-				.filter(function(d) { return d.var1 == "Chronically absent"; });		
-		
-		cLabel.append("text")
-			.attr("class", "cLabel")
-			.attr("text-anchor", "middle")
-			.attr("fill-opacity", 0)
-			.transition()
-				.delay(animateTime)
-				.duration(animateTime)
-				.attr("fill-opacity", 1)
-				.tween("text", function(d) {
-					
-					var i = d3.interpolate(0, d.var2);
-					
-					return function(t) { this.textContent = formatNumber(Math.round(i(t))); };
-					
-				});
-				
-		cLabel.append("text")
-			.attr("class", "cLabelText")
-			.attr("text-anchor", "middle")
-			.attr("dy", "25px")
-			.attr("fill-opacity", 0)
-			.text(title)
-			.transition()
-				.delay(animateTime)
-				.duration(animateTime)
-				.attr("fill-opacity", 1);
-					
-		// update functions - these aren't really needed because there's no within chart updating
-		
-		updateWidth = function() {};			
-		updateHeight = function() {};		
-		updateMarginTop = function() {};		
-		updateMarginLeft = function() {};		
-		updateMarginBottom = function() {};		
-		updateAnimateTime = function() {};
-		updateTitle = function() {};		
-		updateData = function() {};
-				
-		});
-	
-	};
-	
-    chart.width = function(value) {
-	
-        if (!arguments.length) return width;
-        width = value;
-        if (typeof updateWidth === 'function') updateWidth();
-        return chart;
-		
-    };
-
-    chart.height = function(value) {
-	
-        if (!arguments.length) return height;
-        height = value;
-        if (typeof updateHeight === 'function') updateHeight();
-        return chart;
-		
-    };
-
-	chart.marginTop = function(value) {
-		
-		if (!arguments.length) return marginTop;
-		marginTop = value;
-		if (typeof updateMarginTop === 'function') updateMarginTop();
-		return chart;
-		
-	};
-	
-	chart.marginLeft = function(value) {
-		
-		if (!arguments.length) return marginLeft;
-		marginLeft = value;
-		if (typeof updateMarginLeft === 'function') updateMarginLeft();
-		return chart;
-		
-	};
-	
-	chart.marginBottom = function(value) {
-		
-		if (!arguments.length) return marginBottom;
-		marginBottom = value;
-		if (typeof updateMarginBottom === 'function') updateMarginBottom();
-		return chart;
-		
-	};
-
-	chart.animateTime = function(value) {
-		
-		if (!arguments.length) return animateTime;
-		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
-		return chart;
-		
-	};
-
-	chart.title = function(value) {
-		
-		if (!arguments.length) return title;
-		title = value;
-		if (typeof updateTitle === 'function') updateTitle();
-		return chart;
-		
-	};
-	
-    chart.data = function(value) {
-	
-        if (!arguments.length) return data;
-        data = value;
-        if (typeof updateData === 'function') updateData();
         return chart;
 		
     };
@@ -626,16 +341,10 @@ function barChart() {
 		marginBottom = 40,
 		animateTime = 1000,
 		title = "Generic chart title. Update me using .title()!",
+		containerID = [],
+		chartID = [],
+		sectionID = [],
 		data = [];
-		
-	var updateWidth,
-		updateHeight,
-		updateMarginTop,
-		updateMarginLeft,
-		updateMarginBottom,
-		updateAnimateTime,
-		updateTitle,
-		updateData;
 		
 	function chart(selection) {
 		selection.each(function() {
@@ -655,6 +364,7 @@ function barChart() {
 				
 		var dom = d3.select(this)
 			.append("div")
+			.attr("id", chartID)
 				.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
@@ -754,10 +464,21 @@ function barChart() {
 					.attr("y", function(d) { return yScale(d.var1); })
 					.attr("height", yScale.rangeBand())
 					.on("mouseover", tipBar.show)
-					.on("mouseout", tipBar.hide)
-					.transition()
+					.on("mouseout", tipBar.hide);
+		
+		var gs = graphScroll()
+			.container(d3.select("#container"))
+			.graph(d3.selectAll("#" + chartID))
+			.sections(d3.selectAll("#chapters > div"))
+			.on("active", function() { 
+				if (document.getElementById(containerID).className == "graph-scroll-active") {
+					
+					svg.selectAll("rect.bar")
+						.transition()
 						.duration(animateTime)
-						.attr("width", function(d) { return xScale(d.var3); })
+						.attr("width", function(d) { return xScale(d.var3); });
+					
+			}});
 				
 		// draw y-axis above bars
 	
@@ -775,17 +496,6 @@ function barChart() {
 			.attr("text-anchor", "start")
 			.text(title);
 		
-		// update functions - these aren't really needed because there's no within chart updating
-		
-		updateWidth = function() {};			
-		updateHeight = function() {};
-		updateMarginTop = function() {};		
-		updateMarginLeft = function() {};		
-		updateMarginBottom = function() {};		
-		updateAnimateTime = function() {};
-		updateTitle = function() {};		
-		updateData = function() {};
-				
 		});
 		
 	};
@@ -794,7 +504,6 @@ function barChart() {
 	
         if (!arguments.length) return width;
         width = value;
-        if (typeof updateWidth === 'function') updateWidth();
         return chart;
 		
     };
@@ -803,7 +512,6 @@ function barChart() {
 	
         if (!arguments.length) return height;
         height = value;
-        if (typeof updateHeight === 'function') updateHeight();
         return chart;
 		
     };
@@ -812,7 +520,6 @@ function barChart() {
 		
 		if (!arguments.length) return marginTop;
 		marginTop = value;
-		if (typeof updateMarginTop === 'function') updateMarginTop();
 		return chart;
 		
 	};
@@ -821,7 +528,6 @@ function barChart() {
 		
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
-		if (typeof updateMarginLeft === 'function') updateMarginLeft();
 		return chart;
 		
 	};
@@ -830,7 +536,6 @@ function barChart() {
 		
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
-		if (typeof updateMarginBottom === 'function') updateMarginBottom();
 		return chart;
 		
 	};
@@ -839,7 +544,6 @@ function barChart() {
 		
 		if (!arguments.length) return animateTime;
 		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
@@ -848,7 +552,30 @@ function barChart() {
 		
 		if (!arguments.length) return title;
 		title = value;
-		if (typeof updateTitle === 'function') updateTitle();
+		return chart;
+		
+	};
+
+	chart.containerID = function(value) {
+		
+		if (!arguments.length) return containerID;
+		containerID = value;
+		return chart;
+		
+	};	
+	
+	chart.chartID = function(value) {
+		
+		if (!arguments.length) return chartID;
+		chartID = value;
+		return chart;
+		
+	};
+
+	chart.sectionID = function(value) {
+		
+		if (!arguments.length) return sectionID;
+		sectionID = value;
 		return chart;
 		
 	};
@@ -857,7 +584,6 @@ function barChart() {
 	
         if (!arguments.length) return data;
         data = value;
-        if (typeof updateData === 'function') updateData();
         return chart;
 		
     };
@@ -880,17 +606,11 @@ function colChart() {
 		marginBottom = 20,
 		animateTime = 1000,	
 		title = "Generic chart title. Update me using .title()!",
+		containerID = [],
+		chartID = [],
+		sectionID = [],
 		data = [];
-		
-	var updateWidth,
-		updateHeight,
-		updateMarginTop,
-		updateMarginLeft,
-		updateMarginBottom,
-		updateAnimateTime,
-		updateTitle,
-		updateData;
-		
+	
 	function chart(selection) {
 		selection.each(function() {
 		
@@ -909,6 +629,7 @@ function colChart() {
 		
 		var dom = d3.select(this)
 			.append("div")
+			.attr("id", chartID)
 				.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
@@ -1003,12 +724,24 @@ function colChart() {
 					.attr("y", heightAdj)
 					.attr("height", 0)
 					.on("mouseover", tipCol.show)
-					.on("mouseout", tipCol.hide)
-					.transition()
-						.duration(animateTime)
-						.attr("height", function(d) { return heightAdj - yScale(d.var3); })
-						.attr("y", function(d) { return yScale(d.var3); })
-		
+					.on("mouseout", tipCol.hide);
+
+
+		var gs = graphScroll()
+			.container(d3.select("#container"))
+			.graph(d3.selectAll("#" + chartID))
+			.sections(d3.selectAll("#chapters > div"))
+			.on("active", function() { 
+				if (document.getElementById(containerID).className == "graph-scroll-active") {
+					
+					svg.selectAll("rect.column")
+						.transition()
+							.duration(animateTime)
+							.attr("height", function(d) { return heightAdj - yScale(d.var3); })
+							.attr("y", function(d) { return yScale(d.var3); });
+					
+			}});
+						
 		// draw x-axis above columns
 	
 		svg.append("g")
@@ -1027,17 +760,6 @@ function colChart() {
 			.attr("dy", "1em")
 			.attr("text-anchor", "start")
 			.text(title);
-				
-		// update functions - these aren't really needed because there's no within chart updating
-		
-		updateWidth = function() {};		
-		updateHeight = function() {};
-		updateMarginTop = function() {};				
-		updateMarginLeft = function() {};		
-		updateMarginBottom = function() {};		
-		updateAnimateTime = function() {};
-		updateTitle = function() {};		
-		updateData = function() {};
 		
 		});
 		
@@ -1047,7 +769,6 @@ function colChart() {
 	
         if (!arguments.length) return width;
         width = value;
-        if (typeof updateWidth === 'function') updateWidth();
         return chart;
 		
     };
@@ -1056,7 +777,6 @@ function colChart() {
 	
         if (!arguments.length) return height;
         height = value;
-        if (typeof updateHeight === 'function') updateHeight();
         return chart;
 		
     };
@@ -1065,7 +785,6 @@ function colChart() {
 		
 		if (!arguments.length) return marginTop;
 		marginTop = value;
-		if (typeof updateMarginTop === 'function') updateMarginTop();
 		return chart;
 		
 	};
@@ -1074,7 +793,6 @@ function colChart() {
 		
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
-		if (typeof updateMarginLeft === 'function') updateMarginLeft();
 		return chart;
 		
 	};
@@ -1083,7 +801,6 @@ function colChart() {
 		
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
-		if (typeof updateMarginBottom === 'function') updateMarginBottom();
 		return chart;
 		
 	};
@@ -1092,7 +809,6 @@ function colChart() {
 		
 		if (!arguments.length) return animateTime;
 		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
@@ -1101,7 +817,30 @@ function colChart() {
 		
 		if (!arguments.length) return title;
 		title = value;
-		if (typeof updateTitle === 'function') updateTitle();
+		return chart;
+		
+	};
+
+	chart.containerID = function(value) {
+		
+		if (!arguments.length) return containerID;
+		containerID = value;
+		return chart;
+		
+	};	
+	
+	chart.chartID = function(value) {
+		
+		if (!arguments.length) return chartID;
+		chartID = value;
+		return chart;
+		
+	};
+
+	chart.sectionID = function(value) {
+		
+		if (!arguments.length) return sectionID;
+		sectionID = value;
 		return chart;
 		
 	};
@@ -1110,7 +849,6 @@ function colChart() {
 	
         if (!arguments.length) return data;
         data = value;
-        if (typeof updateData === 'function') updateData();
         return chart;
 		
     };
@@ -1135,18 +873,10 @@ function dotPlot() {
 		animateTime = 1000,
 		title = "Generic chart title. Update me using .title()!",
 		clipName = [],
+		chartID =[],
+		chartID = [],
+		sectionID = [],
 		data = [];
-		
-	var updateWidth,
-		updateHeight,
-		updateMarginTop,
-		updateMarginLeft,
-		updateMarginBottom,
-		updateDotSize,
-		updateAnimateTime,
-		updateTitle,
-		updateClipName,
-		updateData;
 		
 	function chart(selection) {
 		selection.each(function() {
@@ -1166,6 +896,7 @@ function dotPlot() {
 		
 		var dom = d3.select(this)
 			.append("div")
+			.attr("id", chartID)
 				.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
@@ -1262,16 +993,7 @@ function dotPlot() {
 				.attr("x1", 0)
 				.attr("x2", 0)
 				.attr("y1", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
-				.attr("y2", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
-				.transition()
-					.duration(animateTime)
-					.attr("x2", function(d) { return xScale(d.var3); })
-					.each("end", function(d) { 
-						d3.select(this)
-							.transition()
-								.duration(animateTime)
-								.attr("x2", function(d) { return xScale(d.var3) - dotSize; });
-					});					
+				.attr("y2", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); });					
 				
 		var dots = svg.selectAll("circle.dot")
 			.data(data);
@@ -1286,17 +1008,39 @@ function dotPlot() {
 					.attr("cy", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2); })
 					.attr("r", 5)
 					.on("mouseover", tipDot.show)
-					.on("mouseout", tipDot.hide)
-					.transition()
-						.duration(animateTime)
-						.attr("cx", function(d) { return xScale(d.var3); })
-						.each("end", function(d) { 
-							d3.select(this)
-								.transition()
-									.duration(animateTime)
-									.attr("r", dotSize);
-						});
-											
+					.on("mouseout", tipDot.hide);
+
+		var gs = graphScroll()
+			.container(d3.select("#container"))
+			.graph(d3.selectAll("#" + chartID))
+			.sections(d3.selectAll("#chapters > div"))
+			.on("active", function() { 
+				if (document.getElementById(containerID).className == "graph-scroll-active") {
+					
+					svg.selectAll("line.dotLine")
+						.transition()
+							.duration(animateTime)
+							.attr("x2", function(d) { return xScale(d.var3); })
+							.each("end", function(d) { 
+								d3.select(this)
+									.transition()
+										.duration(animateTime)
+										.attr("x2", function(d) { return xScale(d.var3) - dotSize; });
+							});
+
+					svg.selectAll("circle.dot")
+						.transition()
+							.duration(animateTime)
+							.attr("cx", function(d) { return xScale(d.var3); })
+							.each("end", function(d) { 
+								d3.select(this)
+									.transition()
+										.duration(animateTime)
+										.attr("r", dotSize);
+							});
+							
+			}});
+						
 		// add clip path
 		
 		svg.append("defs")
@@ -1322,19 +1066,6 @@ function dotPlot() {
 			.attr("text-anchor", "start")
 			.text(title);			
 		
-		// update functions - these aren't really needed because there's no within chart updating
-		
-		updateWidth = function() {};			
-		updateHeight = function() {};		
-		updateMarginTop = function() {};	
-		updateMarginLeft = function() {};
-		updateMarginBottom = function() {};		
-		updateDotSize = function() {};		
-		updateAnimateTime = function() {};
-		updateTitle = function() {};		
-		updateClipName = function() {};		
-		updateData = function() {};
-		
 		});
 		
 	};
@@ -1343,7 +1074,6 @@ function dotPlot() {
 	
         if (!arguments.length) return width;
         width = value;
-        if (typeof updateWidth === 'function') updateWidth();
         return chart;
 		
     };
@@ -1352,7 +1082,6 @@ function dotPlot() {
 	
         if (!arguments.length) return height;
         height = value;
-        if (typeof updateHeight === 'function') updateHeight();
         return chart;
 		
     };
@@ -1361,7 +1090,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return marginTop;
 		marginTop = value;
-		if (typeof updateMarginTop === 'function') updateMarginTop();
 		return chart;
 		
 	};	
@@ -1370,7 +1098,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
-		if (typeof updateMarginLeft === 'function') updateMarginLeft();
 		return chart;
 		
 	};
@@ -1379,7 +1106,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
-		if (typeof updateMarginBottom === 'function') updateMarginBottom();
 		return chart;
 		
 	};
@@ -1388,7 +1114,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return dotSize;
 		dotSize = value;
-		if (typeof updateDotSize === 'function') updateDotSize();
 		return chart;
 		
 	};
@@ -1397,7 +1122,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return animateTime;
 		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
@@ -1406,7 +1130,6 @@ function dotPlot() {
 		
 		if (!arguments.length) return title;
 		title = value;
-		if (typeof updateTitle === 'function') updateTitle();
 		return chart;
 		
 	};	
@@ -1415,7 +1138,30 @@ function dotPlot() {
 		
 		if (!arguments.length) return clipName;
 		clipName = value;
-		if (typeof updateClipName === 'function') updateClipName();
+		return chart;
+		
+	};
+
+	chart.containerID = function(value) {
+		
+		if (!arguments.length) return containerID;
+		containerID = value;
+		return chart;
+		
+	};	
+	
+	chart.chartID = function(value) {
+		
+		if (!arguments.length) return chartID;
+		chartID = value;
+		return chart;
+		
+	};
+
+	chart.sectionID = function(value) {
+		
+		if (!arguments.length) return sectionID;
+		sectionID = value;
 		return chart;
 		
 	};
@@ -1424,7 +1170,6 @@ function dotPlot() {
 	
         if (!arguments.length) return data;
         data = value;
-        if (typeof updateData === 'function') updateData();
         return chart;
 		
     };
@@ -1433,7 +1178,7 @@ function dotPlot() {
 	
 };
 
-// Dot plot with slider function for chronic absenteeism story map
+// Dot plot with filters for chronic absenteeism story map
 
 function dotPlotSlider() {
 	
@@ -1453,6 +1198,7 @@ function dotPlotSlider() {
 		title4 = "Generic chart title #4. Update me using .title4()!",
 		buttonsID = [],
 		clipName = [],
+		chartID = [],
 		data = [];
 		
 	var updateWidth,
@@ -1465,6 +1211,7 @@ function dotPlotSlider() {
 		updateTitle,
 		updateButtonsID,
 		updateClipName,
+		updateChartID,
 		updateData;
 		
 	function chart(selection) {
@@ -1491,6 +1238,7 @@ function dotPlotSlider() {
 
 		var buttons = d3.select(this)
 			.append("div")
+			.attr("id", chartID)
 				.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
@@ -1725,7 +1473,8 @@ function dotPlotSlider() {
 		updateAnimateTime = function() {};
 		updateDotSize = function() {};
 		updateButtonsID = function() {};
-		updateClipName = function() {};		
+		updateClipName = function() {};	
+		updateChartID = function() {};
 
 		function updateTitle(titleID) {
 			
@@ -1899,7 +1648,16 @@ function dotPlotSlider() {
 		return chart;
 		
 	};
+
+	chart.chartID = function(value) {
 		
+		if (!arguments.length) return chartID;
+		chartID = value;
+		if (typeof updateChartID === 'function') updateChartID();
+		return chart;
+		
+	};
+	
     chart.data = function(value) {
 	
         if (!arguments.length) return data;
@@ -1930,6 +1688,9 @@ function groupedBar() {
 		title2 = "Generic chart title #2. Update me using .title2()!",
 		title3 = "Generic chart title #3. Update me using .title3()!",
 		title4 = "Generic chart title #4. Update me using .title4()!",
+		containerID = [],
+		chartID = [],
+		sectionID = [],
 		data = [];
 		
 	var updateWidth,
@@ -1939,6 +1700,9 @@ function groupedBar() {
 		updateMarginBottom,
 		updateAnimateTime,
 		updateTitle,
+		updateContainerID,
+		updateChartID,
+		updateSectionID,
 		updateData;
 		
 	function chart(selection) {
@@ -1965,7 +1729,7 @@ function groupedBar() {
 
 		var buttons = d3.select(this)
 			.append("div")
-				.style({
+			.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
 				})
@@ -2024,6 +1788,7 @@ function groupedBar() {
 			
 		var dom = d3.select(this)
 			.append("div")
+			.attr("id", chartID)
 				.style({
 					"max-width": width + "px",
 					"margin": "0 auto"
@@ -2135,10 +1900,7 @@ function groupedBar() {
 					.attr("y", function(d) { return yScale0(d.group); })
 					.attr("height", yScale0.rangeBand())
 					.on("mouseover", tipBar.show)
-					.on("mouseout", tipBar.hide)
-					.transition()
-						.duration(animateTime)
-						.attr("width", function(d) { return xScale(d.pct); })
+					.on("mouseout", tipBar.hide);
 
 		// draw level bars
 
@@ -2168,13 +1930,29 @@ function groupedBar() {
 				.attr("height", 0)
 				.style("fill", function(d) { return color(d.level); })
 				.on("mouseover", tipBar.show)
-				.on("mouseout", tipBar.hide)
-				.transition()
-					.delay(animateTime / 2)
-					.duration(animateTime)
-					.attr("width", function(d) { return xScale(d.pct); })
-					.attr("height", yScale1.rangeBand());
+				.on("mouseout", tipBar.hide);
 			
+		var gs = graphScroll()
+			.container(d3.select("#container"))
+			.graph(d3.selectAll("#" + chartID))
+			.sections(d3.selectAll("#chapters > div"))
+			.on("active", function() { 
+				if (document.getElementById(containerID).className == "graph-scroll-active") {
+					
+					svg.selectAll(".national-bar")
+						.transition()
+							.duration(animateTime)
+							.attr("width", function(d) { return xScale(d.pct); });
+
+					svg.selectAll(".bar")
+						.transition()
+							.delay(animateTime / 2)
+							.duration(animateTime)
+							.attr("width", function(d) { return xScale(d.pct); })
+							.attr("height", yScale1.rangeBand());
+							
+			}});
+
 		// draw y-axis above bars
 		
 		svg.append("g")
@@ -2229,6 +2007,9 @@ function groupedBar() {
 		updateMarginLeft = function() {};		
 		updateMarginBottom = function() {};		
 		updateAnimateTime = function() {};
+		updateContainerID = function() {};
+		updateChartID = function() {};
+		updateSectionID = function() {};
 
 		function updateTitle(titleID) {
 			
@@ -2482,7 +2263,34 @@ function groupedBar() {
 		return chart;
 		
 	};
+
+	chart.containerID = function(value) {
 		
+		if (!arguments.length) return containerID;
+		containerID = value;
+		if (typeof updateContainerID === 'function') updateContainerID();
+		return chart;
+		
+	};	
+	
+	chart.chartID = function(value) {
+		
+		if (!arguments.length) return chartID;
+		chartID = value;
+		if (typeof updateChartID === 'function') updateChartID();
+		return chart;
+		
+	};
+
+	chart.sectionID = function(value) {
+		
+		if (!arguments.length) return sectionID;
+		sectionID = value;
+		if (typeof updateSectionID === 'function') updateSectionID();
+		return chart;
+		
+	};
+	
     chart.data = function(value) {
 	
         if (!arguments.length) return data;
