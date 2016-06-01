@@ -339,6 +339,7 @@ function barChart() {
 		marginTop = 40,
 		marginLeft = 100,
 		marginBottom = 40,
+		barWidth = 15,
 		animateTime = 1000,
 		title = "Generic chart title. Update me using .title()!",
 		containerID = [],
@@ -431,7 +432,7 @@ function barChart() {
 		};
 		
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatValueAxis).tickSize(-1 * heightAdj),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
+			yAxis = d3.svg.axis().scale(yScale).orient("left").outerTickSize(0);
 					
 		// draw x-axis below bars
 	
@@ -461,8 +462,8 @@ function barChart() {
 					.attr("class","bar")
 					.attr("x", 0)
 					.attr("width", 0)
-					.attr("y", function(d) { return yScale(d.var1); })
-					.attr("height", yScale.rangeBand())
+					.attr("y", function(d) { return yScale(d.var1) + (yScale.rangeBand() / 2) - (barWidth/2); })
+					.attr("height", barWidth)
 					.on("mouseover", tipBar.show)
 					.on("mouseout", tipBar.hide);
 		
@@ -548,6 +549,14 @@ function barChart() {
 		
 	};
 
+	chart.barWidth = function(value) {
+		
+		if (!arguments.length) return barWidth;
+		barWidth = value;
+		return chart;
+		
+	};	
+	
 	chart.title = function(value) {
 		
 		if (!arguments.length) return title;
@@ -605,6 +614,7 @@ function colChart() {
 		marginLeft = 20,
 		marginBottom = 20,
 		animateTime = 1000,	
+		colWidth = 15,
 		title = "Generic chart title. Update me using .title()!",
 		containerID = [],
 		chartID = [],
@@ -692,7 +702,7 @@ function colChart() {
 			
 		};
 		
-		var xAxis = d3.svg.axis().scale(xScale).orient("bottom"),
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").outerTickSize(0),
 			yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(formatValueAxis).tickSize(-1 * widthAdj);
 		
 		// draw y-axis under columns
@@ -719,8 +729,8 @@ function colChart() {
 				.attr("transform", "translate(0,0)")
 				.append("rect")
 					.attr("class","column")
-					.attr("x", function(d, i) { return xScale(d.var1); })
-					.attr("width", xScale.rangeBand())
+					.attr("x", function(d, i) { return xScale(d.var1) + (xScale.rangeBand() / 2) - (colWidth / 2); })
+					.attr("width", colWidth)
 					.attr("y", heightAdj)
 					.attr("height", 0)
 					.on("mouseover", tipCol.show)
@@ -813,6 +823,13 @@ function colChart() {
 		
 	};
 
+	chart.colWidth = function(value) {
+		
+		if (!arguments.length) return colWidth;
+		colWidth = value;
+		return chart;
+		
+	};
 	chart.title = function(value) {
 		
 		if (!arguments.length) return title;
@@ -962,7 +979,7 @@ function dotPlot() {
 		};
 		
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(formatValueAxis).tickSize(-1 * heightAdj),
-			yAxis = d3.svg.axis().scale(yScale).orient("left");
+			yAxis = d3.svg.axis().scale(yScale).orient("left").outerTickSize(0);
 	
 		// draw x-axis below bars
 	
@@ -1684,6 +1701,7 @@ function groupedBar() {
 		marginLeft = 100,
 		marginBottom = 40,
 		animateTime = 1000,
+		barWidth = 15,
 		title1 = "Generic chart title #1. Update me using .title1()!",
 		title2 = "Generic chart title #2. Update me using .title2()!",
 		title3 = "Generic chart title #3. Update me using .title3()!",
@@ -2001,16 +2019,6 @@ function groupedBar() {
 		
 		// update functions
 		
-		updateWidth = function() {};			
-		updateHeight = function() {};		
-		updateMarginTop = function() {};		
-		updateMarginLeft = function() {};		
-		updateMarginBottom = function() {};		
-		updateAnimateTime = function() {};
-		updateContainerID = function() {};
-		updateChartID = function() {};
-		updateSectionID = function() {};
-
 		function updateTitle(titleID) {
 			
 			svg.select(".title").remove();
@@ -2178,7 +2186,6 @@ function groupedBar() {
 	
         if (!arguments.length) return width;
         width = value;
-        if (typeof updateWidth === 'function') updateWidth();
         return chart;
 		
     };
@@ -2187,7 +2194,6 @@ function groupedBar() {
 	
         if (!arguments.length) return height;
         height = value;
-        if (typeof updateHeight === 'function') updateHeight();
         return chart;
 		
     };
@@ -2196,7 +2202,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return marginTop;
 		marginTop = value;
-		if (typeof updateMarginTop === 'function') updateMarginTop();
 		return chart;
 		
 	};
@@ -2205,7 +2210,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
-		if (typeof updateMarginLeft === 'function') updateMarginLeft();
 		return chart;
 		
 	};
@@ -2214,7 +2218,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return marginBottom;
 		marginBottom = value;
-		if (typeof updateMarginBottom === 'function') updateMarginBottom();
 		return chart;
 		
 	};
@@ -2223,16 +2226,22 @@ function groupedBar() {
 		
 		if (!arguments.length) return animateTime;
 		animateTime = value;
-		if (typeof updateAnimateTime === 'function') updateAnimateTime();
 		return chart;
 		
 	};
 
+	chart.barWidth = function(value) {
+		
+		if (!arguments.length) return barWidth;
+		barWidth = value;
+		return chart;
+		
+	};
+	
 	chart.title1 = function(value) {
 		
 		if (!arguments.length) return title1;
 		title1 = value;
-		if (typeof updateTitle === 'function') updateTitle();
 		return chart;
 		
 	};
@@ -2241,7 +2250,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return title2;
 		title2 = value;
-		if (typeof updateTitle === 'function') updateTitle();
 		return chart;
 		
 	};
@@ -2250,7 +2258,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return title3;
 		title3 = value;
-		if (typeof updateTitle === 'function') updateTitle();
 		return chart;
 		
 	};
@@ -2259,7 +2266,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return title4;
 		title4 = value;
-		if (typeof updateTitle === 'function') updateTitle();
 		return chart;
 		
 	};
@@ -2268,7 +2274,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return containerID;
 		containerID = value;
-		if (typeof updateContainerID === 'function') updateContainerID();
 		return chart;
 		
 	};	
@@ -2277,7 +2282,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return chartID;
 		chartID = value;
-		if (typeof updateChartID === 'function') updateChartID();
 		return chart;
 		
 	};
@@ -2286,7 +2290,6 @@ function groupedBar() {
 		
 		if (!arguments.length) return sectionID;
 		sectionID = value;
-		if (typeof updateSectionID === 'function') updateSectionID();
 		return chart;
 		
 	};
