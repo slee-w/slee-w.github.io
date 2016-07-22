@@ -140,7 +140,7 @@
 								.duration(animateTime)
 								.attr("y", 0)
 								.attr("width", function(d) { return (d.elig_p/d.elig_p) * xScale(d.elig_p); })
-								.attr("height", function(d) { return d.elig_p/d.elig_p) *   yScale(d.elig_p); });
+								.attr("height", function(d) { return (d.elig_p/d.elig_p) *  yScale(d.elig_p); });
 									
 					// append participating rectangle
 
@@ -314,7 +314,7 @@
 									.duration(animateTime)
 										.attr("y", function(d) { return (d.elig_p/d.priority_p) * (height - yScale(d.priority_p)); })
 										.attr("width", function(d) { return (d.elig_p/d.priority_p) * xScale(d.priority_p); })
-										.attr("height", function(d) { return (d.elig_p/d.prirority_p) * yScale(d.priority_p); });	
+										.attr("height", function(d) { return (d.elig_p/d.priority_p) * yScale(d.priority_p); });	
 							}
 						};
 						
