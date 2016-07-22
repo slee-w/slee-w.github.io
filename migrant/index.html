@@ -139,8 +139,8 @@
 							.transition()
 								.duration(animateTime)
 								.attr("y", 0)
-								.attr("width", function(d) { return xScale((d.elig_p/d.elig_p) * d.elig_p); })
-								.attr("height", function(d) { return yScale((d.elig_p/d.elig_p) *  d.elig_p); });
+								.attr("width", function(d) { return xScale(Math.sqrt(d.elig_p)); })
+								.attr("height", function(d) { return yScale(Math.sqrt(d.elig_p)); });
 									
 					// append participating rectangle
 
@@ -179,9 +179,9 @@
 							})
 							.transition()
 								.duration(animateTime)
-								.attr("y", function(d) { return height - yScale((d.elig_p/d.participating_p) * d.participating_p); })
-								.attr("width", function(d) { return yScale((d.elig_p/d.participating_p) * d.participating_p); })
-								.attr("height", function(d) { return yScale((d.elig_p/d.participating_p) * d.participating_p); });
+								.attr("y", function(d) { return height - yScale(Math.sqrt(d.participating_p)); })
+								.attr("width", function(d) { return yScale(Math.sqrt(d.participating_p)); })
+								.attr("height", function(d) { return yScale(Math.sqrt(d.participating_p)); });
 
 					// append priority rectangle
 					
@@ -220,9 +220,9 @@
 							})							
 							.transition()
 								.duration(animateTime)
-								.attr("y", function(d) { return height - yScale((d.elig_p/d.priority_p) * d.priority_p); })
-								.attr("width", function(d) { return xScale((d.elig_p/d.priority_p) *  d.priority_p); })
-								.attr("height", function(d) { return yScale((d.elig_p/d.priority_p) * d.priority_p); });
+								.attr("y", function(d) { return height - yScale(Math.sqrt(d.priority_p)); })
+								.attr("width", function(d) { return xScale(Math.sqrt(d.priority_p)); })
+								.attr("height", function(d) { return yScale(Math.sqrt(d.priority_p)); });
 
 					// append missing/suppressed data text and rectangle
 					
@@ -301,20 +301,20 @@
 							
 								updateElig.transition()
 									.duration(animateTime)
-										.attr("width", function(d) { return xScale((d.elig_p/d.elig_p) * d.elig_p); })
-										.attr("height", function(d) { return yScale((d.elig_p/d.elig_p) * d.elig_p); });			
+										.attr("width", function(d) { return xScale(Math.sqrt(d.elig_p)); })
+										.attr("height", function(d) { return yScale(Math.sqrt(d.elig_p)); });			
 								
 								updatePart.transition()
 									.duration(animateTime)
-										.attr("y", function(d) { return height - yScale((d.elig_p/d.participating_p) * d.participating_p); })
-										.attr("width", function(d) { return xScale((d.elig_p/d.participating_p) * d.participating_p); })
-										.attr("height", function(d) { return yScale((d.elig_p/d.participating_p) * d.participating_p); });
+										.attr("y", function(d) { return height - yScale(Math.sqrt(d.participating_p)); })
+										.attr("width", function(d) { return xScale(Math.sqrt(d.participating_p)); })
+										.attr("height", function(d) { return yScale(Math.sqrt(d.participating_p)); });
 								
 								updatePri.transition()
 									.duration(animateTime)
-										.attr("y", function(d) { return height - yScale((d.elig_p/d.priority_p) * d.priority_p); })
-										.attr("width", function(d) { return xScale((d.elig_p/d.priority_p) * d.priority_p); })
-										.attr("height", function(d) { return yScale((d.elig_p/d.priority_p) * d.priority_p); });	
+										.attr("y", function(d) { return height - yScale(Math.sqrt(d.priority_p)); })
+										.attr("width", function(d) { return xScale(Math.sqrt(d.priority_p)); })
+										.attr("height", function(d) { return yScale(Math.sqrt(d.priority_p)); });	
 							}
 						};
 						
