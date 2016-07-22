@@ -1,0 +1,389 @@
+<!-- DOCTYPE HTML-->
+<meta charset="utf-8">
+<head>
+	<title>Migrant Data Visualizations</title>
+	
+	<!-- scripts -->
+	
+	<script src="assets/js/d3.min.js"></script>
+	
+	<!-- stylesheets -->
+	
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	
+</head>
+<body>
+	<div class="container">
+		<p class="header">Migrant Student Classifications: 2013-14</p>
+		<p>Use the drop down menus to select different states to compare.</p>
+		<p>&nbsp;</p>
+		<div id="legend_1">
+			<div class="eligible">Eligible</div>
+			<div class="participating">Participating</div>
+			<div class="priority">Priority</div>
+		</div>
+		<div id="chart_1" class="multiple"></div>
+		<div id="chart_2" class="multiple"></div>
+		<div id="chart_3" class="multiple"></div>
+	</div>
+	
+	<!-- charts -->
+	
+	<script>
+		
+		// percentage charts
+		
+		function percChart() {
+		
+			// margins, width, height, animation time, dataset
+						
+			var width = 300,
+				height = 300,
+				margin = {top: 0, right: 0, bottom: 0, left: 0},
+				animateTime = 1000,
+				chartID = [],
+				data = [];
+			
+			// number formats
+			
+			var formatN = d3.format(","),
+				formatP = d3.format(",.1%");
+				
+			// build chart
+				
+			function chart(selection) {
+				selection.each(function() {
+					
+					// tooltip
+					
+					var tooltip = d3.select("body").append("div")
+						.attr("id", "tip_" + chartID)
+						.attr("class", "tooltip")				
+						.style("opacity", 0);
+						
+					// dropdown menu
+
+					var ddmenu = d3.select(this)
+						.append("div")
+							.text("State: ")
+							.append("select")
+								.attr("id", function() { return "menu_" + chartID; });
+										
+					ddmenu.selectAll("option")
+						.data(d3.map(data, function(d) { return d.state; }).keys())
+						.enter()
+						.append("option")
+							.text(function(d) { return d; })
+							.attr("value", function(d) { return d; });
+					
+					d3.select(this)
+						.append("p");
+				
+					// filter to dropdown value
+					
+					var ddvalue = d3.select("#menu_" + chartID).property("value");
+					
+					dataFiltered = data.filter(function(d) { return d.state == ddvalue; });
+					
+					// svg
+
+					var svg = d3.select(this)
+						.append("svg")
+							.attr("width", width)
+							.attr("height", height)
+							.append("g");
+							
+					// scales
+					
+					var xScale = d3.scaleLinear().range([0, width]).domain([0, 1]),
+						yScale = d3.scaleLinear().range([height, 0]).domain([1, 0]);
+						
+					var rects = svg.selectAll("rect")
+						.data(dataFiltered);
+					
+					// append eligible rectangle
+					
+					rects.enter()
+						.append("rect")
+							.attr("class", "eligible")
+							.attr("x", 0)
+							.attr("y", height)
+							.on("mouseover", function(d) {
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")		
+									.style("top", (d3.event.pageY - 25) + "px")	
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 1);
+								
+								d3.select("#tip_" + chartID)
+									.html("<strong>" + d.state + "</strong><hr>Eligible migrant students: " + formatN(d.eligible));
+								
+							})
+							.on("mousemove", function(){
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")
+									.style("top", (d3.event.pageY - 25) + "px");
+								
+							})
+							.on("mouseout", function() {
+							
+								d3.select("#tip_" + chartID)
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 0);
+							
+							})
+							.transition()
+								.duration(animateTime)
+								.attr("y", 0)
+								.attr("width", function(d) { return xScale(d.elig_p); })
+								.attr("height", function(d) { return yScale(d.elig_p); });
+									
+					// append participating rectangle
+
+					rects.enter()
+						.append("rect")
+							.attr("class", "participating")
+							.attr("x", 0)
+							.attr("y", height)
+							.on("mouseover", function(d) {
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")		
+									.style("top", (d3.event.pageY - 25) + "px")	
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 1);
+								
+								d3.select("#tip_" + chartID)
+									.html("<strong>" + d.state + "</strong><hr>Participating migrant students: " + formatN(d.participating) + "<br>Percent of total eligible: " + formatP(d.participating_p));
+								
+							})
+							.on("mousemove", function(){
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")
+									.style("top", (d3.event.pageY - 25) + "px");
+								
+							})
+							.on("mouseout", function() {
+							
+								d3.select("#tip_" + chartID)
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 0);
+							
+							})
+							.transition()
+								.duration(animateTime)
+								.attr("y", function(d) { return height - yScale(d.participating_p); })
+								.attr("width", function(d) { return xScale(d.participating_p); })
+								.attr("height", function(d) { return yScale(d.participating_p); });
+
+					// append priority rectangle
+					
+					rects.enter()
+						.append("rect")
+							.attr("class", "priority")
+							.attr("x", 0)
+							.attr("y", height)
+							.on("mouseover", function(d) {
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")		
+									.style("top", (d3.event.pageY - 25) + "px")	
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 1);
+								
+								d3.select("#tip_" + chartID)
+									.html("<strong>" + d.state + "</strong><hr>Participating migrant students classified as priority: " + formatN(d.priority) + "<br>Percent of total eligible: " + formatP(d.priority_p));
+								
+							})
+							.on("mousemove", function(){
+							
+								d3.select("#tip_" + chartID)
+									.style("left", (d3.event.pageX + 25) + "px")
+									.style("top", (d3.event.pageY - 25) + "px");
+								
+							})
+							.on("mouseout", function() {
+							
+								d3.select("#tip_" + chartID)
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 0);
+							
+							})							
+							.transition()
+								.duration(animateTime)
+								.attr("y", function(d) { return height - yScale(d.priority_p); })
+								.attr("width", function(d) { return xScale(d.priority_p); })
+								.attr("height", function(d) { return yScale(d.priority_p); });
+
+					// append missing/suppressed data text and rectangle
+					
+					svg.append("rect")
+						.attr("id", "suppRect" + chartID)
+						.attr("x", 0)
+						.attr("y", 0)
+						.attr("width", width)
+						.attr("height", height)
+						.attr("class", "supp")
+						.attr("pointer-events", "none")
+						.style("opacity", 0);
+						
+					svg.append("text")
+						.attr("id", "suppText" + chartID)
+						.attr("x", width/2)
+						.attr("y", height/2)
+						.attr("class", "suppText")
+						.style("text-anchor", "middle")
+						.style("opacity", 0)
+						.text("Data missing or suppressed");
+					
+					// update function
+					
+					function updateData(newState) {
+						
+						// re-filter data
+						
+						dataFiltered = data.filter(function(d) { return d.state == newState; });
+						
+						// change width and height of rectangles
+						
+						var updateElig = svg.select("rect.eligible")
+							.data(dataFiltered);
+							
+						var updatePart = svg.select("rect.participating")
+							.data(dataFiltered);
+							
+						var updatePri = svg.select("rect.priority")
+							.data(dataFiltered);
+						
+						function nullCheck() {
+						
+							if ((isNaN(dataFiltered[0].elig_p)) || (isNaN(dataFiltered[0].participating_p)) || (isNaN(dataFiltered[0].priority_p))) { 
+								
+								svg.select("#suppRect" + chartID)
+									.attr("pointer-events", "all")
+									.transition()
+										.duration(animateTime)
+											.style("opacity", 0.8);
+								
+								svg.select("#suppText" + chartID)
+									.transition()
+										.duration(animateTime)
+											.style("opacity", 1); 
+								
+							}
+							else { 
+							
+								svg.select("#suppRect" + chartID)
+									.attr("pointer-events", "none")
+									.transition()
+										.duration(animateTime)
+											.style("opacity", 0);
+								
+								svg.select("#suppText" + chartID)
+									.transition()
+										.duration(animateTime)
+											.style("opacity", 0); 
+							
+								d3.select("#tip_" + chartID)
+									.transition()
+										.duration(animateTime/2)
+										.style("opacity", 0);
+							
+								updateElig.transition()
+									.duration(animateTime)
+										.attr("width", function(d) { return xScale(d.elig_p); })
+										.attr("height", function(d) { return yScale(d.elig_p); });			
+								
+								updatePart.transition()
+									.duration(animateTime)
+										.attr("y", function(d) { return height - yScale(d.participating_p); })
+										.attr("width", function(d) { return xScale(d.participating_p); })
+										.attr("height", function(d) { return yScale(d.participating_p); });
+								
+								updatePri.transition()
+									.duration(animateTime)
+										.attr("y", function(d) { return height - yScale(d.priority_p); })
+										.attr("width", function(d) { return xScale(d.priority_p); })
+										.attr("height", function(d) { return yScale(d.priority_p); });	
+							}
+						};
+						
+						nullCheck();
+												
+					};
+					
+					// add click function for drop down
+					
+					d3.select("#menu_" + chartID)
+						.on("change", function() {
+						
+							var newState = d3.select(this).property("value");
+							updateData(newState);
+						
+						});
+					
+				});
+			};
+
+			chart.chartID = function(value) {
+
+				if (!arguments.length) return chartID;
+				chartID = value;
+				return chart;
+
+			};
+			
+			chart.data = function(value) {
+
+				if (!arguments.length) return data;
+				data = value;
+				return chart;
+
+			};
+
+			return chart;
+	
+		};
+		
+		// create charts
+		
+		d3.tsv("assets/data/data.tsv", function (error, data) {
+            if (error) { console.log(error); }
+            else {
+                data.forEach(function (d) {
+                    d.stabbr = d.stabbr;
+					d.state = d.state;
+					d.year = d.year;
+					d.eligible = +d.eligible;
+					d.participating = +d.participating;
+					d.priority = +d.priority;
+					d.elig_p = +d.elig_p;
+					d.participating_p = +d.participating_p;
+					d.priority_p = +d.priority_p;
+                });
+			
+			data1 = data.filter(function(d) { return d.year == "2013-14"; });
+			
+			var percChart1 = percChart().data(data1).chartID("perc1");
+			var percChart2 = percChart().data(data1).chartID("perc2");
+			var percChart3 = percChart().data(data1).chartID("perc3");
+
+			d3.select("#chart_1").call(percChart1);
+			d3.select("#chart_2").call(percChart2);
+			d3.select("#chart_3").call(percChart3);
+				
+			}
+		});
+		
+	</script>
+</body>
+</html>
