@@ -9,13 +9,13 @@ select {
 }
 
 .container{
-	width: 1024px;
+	max-width: 1024px;
 	margin: 0 auto;
 	text-align: center;
 }
 
 #legend_1 {
-	width: 500px;
+	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 10px;
