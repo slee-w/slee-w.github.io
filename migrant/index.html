@@ -84,7 +84,7 @@
 					var ddvalue = d3.select("#menu_" + chartID).property("value");
 					
 					dataFiltered = data.filter(function(d) { return d.state == ddvalue; });
-					
+					console.log(dataFiltered);
 					// svg
 
 					var svg = d3.select(this)
@@ -200,7 +200,7 @@
 										.style("opacity", 1);
 								
 								d3.select("#tip_" + chartID)
-									.html("<strong>" + d.state + "</strong><hr>Participating migrant students classified as priority: " + formatN(d.priority) + "<br>Percent of total eligible: " + formatP(d.priority_p));
+									.html("<strong>" + d.state + "</strong><hr>Participating migrant students classified as priority: " + formatN(d.priority) + "<br>Percent of total eligible: " + formatP(d.priority_p) + "<br>Percent of participating: " + formatP(d.priority_part_p));
 								
 							})
 							.on("mousemove", function(){
@@ -369,6 +369,7 @@
 					d.elig_p = +d.elig_p;
 					d.participating_p = +d.participating_p;
 					d.priority_p = +d.priority_p;
+					d.priority_part_p = +d.priority_part_p;
                 });
 			
 			data1 = data.filter(function(d) { return d.year == "2013-14"; });
