@@ -84,7 +84,7 @@
 					var ddvalue = d3.select("#menu_" + chartID).property("value");
 					
 					dataFiltered = data.filter(function(d) { return d.state == ddvalue; });
-					console.log(dataFiltered);
+					
 					// svg
 
 					var svg = d3.select(this)
@@ -241,6 +241,7 @@
 						.attr("x", width/2)
 						.attr("y", height/2)
 						.attr("class", "suppText")
+						.attr("pointer-events", "none")
 						.style("text-anchor", "middle")
 						.style("opacity", 0)
 						.text("Data missing or suppressed");
