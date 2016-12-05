@@ -1,0 +1,103 @@
+body,
+select {
+	font: 12px sans-serif;
+}
+
+.wrapper {
+	max-width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wrapper p {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.header {
+	font: 24px sans-serif;
+	font-weight: bold;
+}
+
+.container{
+	max-width: 1024px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#legend_1 {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	text-align: center;	
+}
+
+#legend_1 .eligible {
+	display: inline-block;
+	width: 100px;
+	padding: 5px;
+	background-color: #91bfdb;
+}
+
+#legend_1 .participating {
+	display: inline-block;
+	width: 100px;
+	padding: 5px;
+	background-color: #ffefbf;
+}
+
+#legend_1 .priority {
+	display: inline-block;
+	width: 100px;
+	padding: 5px;
+	background-color: #fc8d59;
+}
+
+.tooltip {	
+    position: absolute;			
+    padding: 10px;
+    background: #fff;	
+    border: 1px solid #bbb;
+	border-radius: 5px;
+    pointer-events: none;			
+}
+
+.tooltip hr {
+	height: 1px;
+	border: none;
+	color: #bbb;
+	background-color: #bbb;
+}
+
+.multiple {
+	display: inline-block;
+	width: 300px;
+	margin: 10px 10px;
+	/* background-color: #eee; */
+}
+
+.eligible {
+	fill: #91bfdb;
+	stroke: #578dc8;
+}
+
+.participating {
+	fill: #ffefbf;
+	stroke: #ffdc73;
+}
+
+.priority {
+	fill: #fc8d59;
+	stroke: #fb590c;
+}
+
+.supp {  
+	fill: #fff;
+	stroke: #bbb;
+}
+
+.suppText {
+	font: 12px sans-serif;
+	font-weight: bold;
+}

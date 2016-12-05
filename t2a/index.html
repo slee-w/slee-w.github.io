@@ -1,0 +1,125 @@
+<!-- DOCTYPE HTML-->
+<meta charset="utf-8">
+<head>
+	<title>Findings from the 2013-14 Survey on the Use of Funds Under Title II, Part A</title>
+	
+	<!-- scripts -->
+	
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	
+	<!-- stylesheets -->
+	
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	
+</head>
+<body>
+	<div class="wrapper">
+		<div>
+			<p>
+				<span class="header">Findings from the 2013-14 Survey on the Use of Funds Under Title II, Part A</span>
+			</p>
+			<hr style="height: 1px; border: none; background-color: #333;">
+			<p>
+				<strong>About the survey:</strong> To gather information on how school districts use Title II, Part A funds in order to develop national estimates on how Title II, Part A funds are used. The survey also collects data on types and topics of professional development offered by school districts in the previous school year.
+			</p>
+			<p>
+				<strong>Sample:</strong> A nationally-representative sample of 800 school districts selected based on district poverty levels and enrollment.
+			</p>
+			<p>
+				<strong>Response rate:</strong> In 2013-14, 81 percent of school districts responded to the survey.
+			</p>
+			<hr style="height: 1px; border: none; background-color: #333;">
+		</div>
+		<div id="pd_subjects" class="chart"></div>			
+	</div>
+</body>
+
+<!-- Charts -->
+
+<script>
+
+	d3.tsv("assets/data/data.tsv", function(error, data) {
+		if (error) { console.log(error); }
+		else {
+			data.forEach(function(d) {
+				d.order = +d.order;
+				d.percent = +d.percent;
+			});
+		
+		data1 = data.filter(function(d) { return d.subject == "English/Language Arts"; });
+
+		// some definitions
+		
+		var	width,
+			height,
+			widthSquares = 10, // number of squares wide
+			heightSquares = 10, // number of squares tall
+			squareSize = 16, // size of squares in pixels
+			gap = 1, // size of gap between squares
+			waffleData = []; 
+		
+		width = (squareSize*widthSquares) + (widthSquares*gap) + squareSize;
+		height = (squareSize*heightSquares) + (heightSquares*gap) + squareSize;
+		
+		var svg = d3.select("#pd_subjects")
+			.append("svg")
+				.attr("width", width)
+				.attr("height", height)
+				.append("g");
+		
+		// modify the data to work
+		
+		data1.forEach(function(d, i) {
+			d.units = d.percent;
+			waffleData = waffleData.concat(
+				Array(d.units+1).join(1).split("").map(function() {
+					return {
+						subject: d.subject,
+						use_type: d.use_type,
+						squareValue: 1,
+						units: d.units,
+						groupIndex: i
+					};
+				})
+			);
+		});
+	
+		console.log(waffleData);
+		
+		var waffles = svg.selectAll("rect")
+			.data(waffleData);
+			
+		waffles.enter()
+			.append("rect")
+				.attr("width", squareSize)
+				.attr("height", squareSize)
+				.attr("x", function(d, i) {
+					
+					// group number of squares for columns
+					
+					col = i%heightSquares;
+					return (col*squareSize) + (col*gap) + (squareSize/2);
+					
+				})
+				.attr("y", function(d, i) {
+				
+					row = Math.floor(i/heightSquares);
+					return (heightSquares*squareSize) - ((row*squareSize) + (row*gap) - 1);
+				
+				})
+				.style("opacity", 0)
+				.style("fill", function(d) {
+					if (d.use_type == "For") { return "#E46C0A"}
+					else { return "#F1F2F1"}
+				})
+				.transition()
+					.delay(function(d,i) { return i*25; })
+					.duration(1000)
+					.style("opacity", 100);
+			
+		};
+	});
+	
+</script>
+
+</html>

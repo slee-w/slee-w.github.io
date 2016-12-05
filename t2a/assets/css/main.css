@@ -1,0 +1,30 @@
+body,
+select {
+	font: 12px sans-serif;
+}
+
+.wrapper {
+	max-width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wrapper p {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.header {
+	font: 24px sans-serif;
+	font-weight: bold;
+}
+
+.container{
+	max-width: 1024px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.chart{
+	text-align: center;
+}

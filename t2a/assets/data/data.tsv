@@ -1,0 +1,21 @@
+subject	order	use_type	percent
+English/Language Arts	1	For	32
+English/Language Arts	1	Not For	68
+Mathematics	2	For	24
+Mathematics	2	Not For	76
+Science	3	For	8
+Science	3	Not For	92
+Technology	4	For	7
+Technology	4	Not For	93
+History/Social Studies	5	For	5
+History/Social Studies	5	Not For	95
+Fine Arts	6	For	3
+Fine Arts	6	Not For	97
+Special Education	7	For	2
+Special Education	7	Not For	98
+ESOL	8	For	2
+ESOL	8	Not For	98
+Foreign Languages	9	For	1
+Foreign Languages	9	Not For	99
+Other	10	For	16
+Other	10	Not For	84
