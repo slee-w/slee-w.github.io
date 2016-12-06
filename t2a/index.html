@@ -38,6 +38,8 @@
 
 <script>
 
+	// PD waffle charts
+	
 	d3.tsv("assets/data/data.tsv", function(error, data) {
 		if (error) { console.log(error); }
 		else {
@@ -45,31 +47,29 @@
 				d.order = +d.order;
 				d.percent = +d.percent;
 			});
+					
+		// margins, width, height, dataset
 		
-		data1 = data.filter(function(d) { return d.subject == "English/Language Arts"; });
-
-		// some definitions
-		
-		var	width,
+		var width,
 			height,
 			widthSquares = 10, // number of squares wide
 			heightSquares = 10, // number of squares tall
 			squareSize = 16, // size of squares in pixels
 			gap = 1, // size of gap between squares
-			waffleData = []; 
-		
+			waffleData = []; 			
+	
 		width = (squareSize*widthSquares) + (widthSquares*gap) + squareSize;
 		height = (squareSize*heightSquares) + (heightSquares*gap) + squareSize;
+
+		// colors by subject
 		
-		var svg = d3.select("#pd_subjects")
-			.append("svg")
-				.attr("width", width)
-				.attr("height", height)
-				.append("g");
-		
-		// modify the data to work
-		
-		data1.forEach(function(d, i) {
+		var color = d3.scaleOrdinal()
+		  .domain(["English/Language Arts", "Mathematics", "Science", "Technology", "History/Social Studies", "Fine Arts", "Special Education", "ESOL", "Foreign Languages", "Other"])
+		  .range(["#E56C0A", "#5DBF7E", "#2E8A95", "#215F8A", "#1C276E", "#FAC190", "#C8E9D2", "#8ED1E0", "#76B4DE", "#98A2E7"]);
+		  
+		// format data for use in waffles
+	
+		data.forEach(function(d, i) {
 			d.units = d.percent;
 			waffleData = waffleData.concat(
 				Array(d.units+1).join(1).split("").map(function() {
@@ -82,41 +82,58 @@
 					};
 				})
 			);
-		});
+		});	
+
+		// nest data for multiples
+		
+		var subjects = d3.nest()
+			.key(function(d) { return d.subject; })
+			.entries(waffleData);	
 	
-		console.log(waffleData);
+		// build the charts
+		
+		var svg = d3.select("#pd_subjects")
+			.selectAll("svg")
+			.data(subjects)
+			.enter()
+				.append("svg")
+					.attr("width", width)
+					.attr("height", height)
+					.append("g");
 		
 		var waffles = svg.selectAll("rect")
-			.data(waffleData);
+			.data(subjects);
 			
-		waffles.enter()
-			.append("rect")
-				.attr("width", squareSize)
-				.attr("height", squareSize)
-				.attr("x", function(d, i) {
+		waffles.each()
+			.data(function(d) { return d.values; })
+			.enter()
+				.append("rect")
+					.attr("width", squareSize)
+					.attr("height", squareSize)
+					.attr("x", function(d, i) {
+						
+						// group number of squares for columns
+						
+						col = i%heightSquares;
+						return (col*squareSize) + (col*gap) + (squareSize/2);
+						
+					})
+					.attr("y", function(d, i) {
 					
-					// group number of squares for columns
+						row = Math.floor(i/heightSquares);
+						return (heightSquares*squareSize) - ((row*squareSize) + (row*gap) - 1);
 					
-					col = i%heightSquares;
-					return (col*squareSize) + (col*gap) + (squareSize/2);
-					
-				})
-				.attr("y", function(d, i) {
-				
-					row = Math.floor(i/heightSquares);
-					return (heightSquares*squareSize) - ((row*squareSize) + (row*gap) - 1);
-				
-				})
-				.style("opacity", 0)
-				.style("fill", function(d) {
-					if (d.use_type == "For") { return "#E46C0A"}
-					else { return "#F1F2F1"}
-				})
-				.transition()
-					.delay(function(d,i) { return i*25; })
-					.duration(1000)
-					.style("opacity", 100);
-			
+					})
+					.style("opacity", 0)
+					.style("fill", function(d) {
+						if (d.use_type == "For") { return color(d.subject) }
+						else { return "#F1F2F1"}
+					})
+					.transition()
+						.delay(function(d,i) { return i*25; })
+						.duration(1000)
+						.style("opacity", 100);
+		
 		};
 	});
 	
