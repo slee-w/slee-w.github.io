@@ -91,20 +91,25 @@
 			.entries(waffleData);	
 	
 		// build the charts
-		
-		var svg = d3.select("#pd_subjects")
-			.selectAll("svg")
+
+		var waffleDiv = d3.select("#pd_subjects")
+			.selectAll("div")
 			.data(subjects)
 			.enter()
-				.append("svg")
+				.append("div")
 					.attr("width", width)
-					.attr("height", height)
-					.append("g");
+					.style("display", "inline-block");
 		
-		var waffles = svg.selectAll("rect")
+		var waffleSVG = waffleDiv.append("div")
+			.append("svg")
+				.attr("width", width)
+				.attr("height", height)
+				.append("g");
+		
+		var waffle = waffleSVG.selectAll("rect")
 			.data(subjects);
 			
-		waffles.each()
+		waffle.each()
 			.data(function(d) { return d.values; })
 			.enter()
 				.append("rect")
@@ -133,6 +138,32 @@
 						.delay(function(d,i) { return i*25; })
 						.duration(1000)
 						.style("opacity", 100);
+
+		var waffleText = waffleDiv.append("div")
+			.attr("width", width);
+	
+		var waffleCounter = waffleText.selectAll("text")
+			.data(data.filter(function(d) { return d.use_type == "For"; }))
+			.enter()
+				.append("text")
+					.text(function(d, i) { return d.units[i]; });
+	
+/*		var waffleCounter = waffleText.selectAll("text")
+			.data(subjects);
+		
+		waffleCounter.each()
+			.data(function(d) { return d.values; })
+			.enter()
+				.append("text")
+					.text(0)
+					.transition()
+						.duration(1000)
+						.tween("text", function(d) { 
+						
+							var i = d3.interpolate(0, d.percent);
+						return function(t) { d3.select(this).text(i(t)); };
+						
+					});*/
 		
 		};
 	});
