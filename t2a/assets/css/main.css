@@ -41,7 +41,7 @@ select {
 		#navigation a.active{
 			color: rgba(255, 255, 255, 1);
 		}
-		
+
 .wrapper {
 	max-width: 960px;
 	margin-top: 70px;
@@ -83,4 +83,16 @@ select {
 	margin-top: 0em;
 	margin-bottom: 1.5em;
 	color: #595857;
+}
+
+@media screen and (max-width: 768px) {
+
+	#navigation {
+		display: none;
+	}
+	
+	.wrapper {
+		margin-top: auto;
+	}
+
 }
