@@ -5,6 +5,8 @@
 	
 	<!-- scripts -->
 	
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/main.js"></script>	
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	
 	<!-- stylesheets -->
@@ -13,24 +15,42 @@
 	
 </head>
 <body>
+	<div id="navigation">
+		<nav>
+			<ul>
+				<li><a href="#about">About the survey</a></li>
+				<li><a href="#distribution">Distribution of funds</a></li>
+				<li><a href="#useoffunds">Use of funds</a></li>
+				<li><a href="#profdev">Professional development</a></li>
+			</ul>
+		</nav>
+	</div>
 	<div class="wrapper">
-		<div>
-			<p>
-				<span class="header">Findings from the 2013-14 Survey on the Use of Funds Under Title II, Part A</span>
-			</p>
-			<hr style="height: 1px; border: none; background-color: #333;">
-			<p>
-				<strong>About the survey:</strong> To gather information on how school districts use Title II, Part A funds in order to develop national estimates on how Title II, Part A funds are used. The survey also collects data on types and topics of professional development offered by school districts in the previous school year.
-			</p>
-			<p>
-				<strong>Sample:</strong> A nationally-representative sample of 800 school districts selected based on district poverty levels and enrollment.
-			</p>
-			<p>
-				<strong>Response rate:</strong> In 2013-14, 81 percent of school districts responded to the survey.
-			</p>
-			<hr style="height: 1px; border: none; background-color: #333;">
-		</div>
-		<div id="pd_subjects" class="chart"></div>			
+		<section id="about">
+			<div>
+				<p>
+					<span class="header">Findings from the 2013-14 Survey on the Use of Funds Under Title II, Part A</span>
+				</p>
+				<hr style="height: 1px; border: none; background-color: #333;">
+				<p>
+					<strong>About the survey:</strong> To gather information on how school districts use Title II, Part A funds in order to develop national estimates on how Title II, Part A funds are used. The survey also collects data on types and topics of professional development offered by school districts in the previous school year.
+				</p>
+				<p>
+					<strong>Sample:</strong> A nationally-representative sample of 800 school districts selected based on district poverty levels and enrollment.
+				</p>
+				<p>
+					<strong>Response rate:</strong> In 2013-14, 81 percent of school districts responded to the survey.
+				</p>
+				<hr style="height: 1px; border: none; background-color: #333;">
+			</div>
+		</section>
+		<section id="distribution">
+		</section>
+		<section id="useoffunds">
+		<div id="pd_subjects" class="chart"></div>
+		</section>		
+		<section id="profdev">
+		</section>
 	</div>
 </body>
 
@@ -95,10 +115,11 @@
 		var waffleDiv = d3.select("#pd_subjects")
 			.selectAll("div")
 			.data(subjects)
-			.enter()
-				.append("div")
-					.attr("width", width)
-					.style("display", "inline-block");
+			.each()
+				.enter()
+					.append("div")
+						.attr("width", width)
+						.style("display", "inline-block");
 		
 		var waffleSVG = waffleDiv.append("div")
 			.append("svg")
@@ -135,18 +156,50 @@
 						else { return "#F1F2F1"}
 					})
 					.transition()
-						.delay(function(d,i) { return i*25; })
-						.duration(1000)
+						.ease(d3.easeQuadInOut)
+						.delay(function(d, i) { return i*25; })
+						.duration(0)
 						.style("opacity", 100);
 
 		var waffleText = waffleDiv.append("div")
 			.attr("width", width);
 	
-		var waffleCounter = waffleText.selectAll("text")
-			.data(data.filter(function(d) { return d.use_type == "For"; }))
+		var waffleCounter = waffleText.selectAll("text.waffleCounter")
+			.data(subjects);
+			
+		waffleCounter.each()
+			.data(function(d) { return d.values; })
 			.enter()
+				.filter(function(d, i) { return d.use_type == "For" && i === 0; })
 				.append("text")
-					.text(function(d, i) { return d.units[i]; });
+					.text("0")
+					.style("color", function(d) { return color(d.subject) })
+					.attr("class", "waffleCounter");
+	
+		var format = d3.format(".0%");	
+	
+		waffleText.selectAll("text")
+			.transition()
+			.duration(function(d) { return 25*d.units; })
+			.tween("text", function(d) {
+			
+				var that = d3.select(this),
+					i = d3.interpolateNumber(that.text(), d.units/100);
+					
+				return function(t) { that.text(format(i(t))); };
+				
+			});
+	
+		var waffleSubject = waffleText.selectAll("p.waffleSubject")
+			.data(subjects);
+		
+		waffleSubject.each()
+			.data(function(d) { return d.values; })
+			.enter()
+				.filter(function(d, i) { return i === 0; })
+				.append("p")
+					.text(function(d) { return d.subject; })
+					.attr("class", "waffleSubject");
 	
 /*		var waffleCounter = waffleText.selectAll("text")
 			.data(subjects);
