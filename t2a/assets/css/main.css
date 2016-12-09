@@ -1,66 +1,59 @@
 body {
 	font: 10pt sans-serif;
+	margin-top: 0;
 }
 
-#navigation {
+ul.topNav {
+	z-index: 10000;
 	position: fixed;
-	z-index: 1;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 5em;
+	margin: 0;
 	padding: 0;
+	height: 5em;
 	line-height: 5em;
-	margin-top: auto;
-	margin-bottom: auto;
-	overflow: hidden;
 	text-align: center;
+	list-style-type: none;	
+	overflow: hidden;
 	background-color: #1A1C20;
+	font-size: 90%;
 }
 
-	#navigation ul {
-		list-style-type: none;
-		padding: 0;
-		margin-top: 0;
-	}
-
-		#navigation ul li {
-			display: inline-block;
-			vertical-align: middle;
-			margin-left: 1.5em;
-			margin-right: 1.5em;
-		}		
-		
-			#navigation ul li.title {
-				display: none;
-				text-transform: uppercase;
-				font-weight: bold;
-				color: rgba(255, 255, 255, 0.7);
-				text-decoration: none;
-			}
-		
-			#navigation ul li.icon {
-				display: none;
-			}			
-
-	#navigation a {
-		text-transform: uppercase;
-		font-weight: bold;
-		color: rgba(255, 255, 255, 0.7);
+	ul.topNav li {
+		margin-left: 1.5em;
+		margin-right: 1.5em;
+		display: inline-block;
+		text-align: center;
 		text-decoration: none;
 	}
 	
-		#navigation a:hover {
-			color: rgba(255, 255, 255, 1);
+		ul.topNav li.title {
+			display: none;
+		}
+	
+		ul.topNav li.icon {
+			display: none;
 		}
 		
-		#navigation a.active{
-			color: rgba(255, 255, 255, 1);
+		ul.topNav li a {
+			text-transform: uppercase;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 0.7);
+			text-decoration: none;
 		}
-
+		
+			ul.topNav li a:hover {
+				color: rgba(255, 255, 255, 1);
+			}
+		
+			ul.topNav li a.active{
+				color: rgba(255, 255, 255, 1);
+			}
+			
 .wrapper {
 	max-width: 960px;
-	margin-top: 7.5em;
+	margin-top: 6em;
 	margin-left: auto;
 	margin-right: auto;
 	z-index: 0;
@@ -101,36 +94,48 @@ body {
 	color: #595857;
 }
 
-@media screen and (max-width: 960px) {
-
-	#navigation a: {
-		font-size: 80%;
-	}
-
-}
+/* Navigation - screen size */
 
 @media screen and (max-width: 768px) {
 
-	#navigation a: {
-		font-size: 60%;
+	ul.topNav {
+		height: initial;
 	}
 
-		#navigation ul li {
+		ul.topNav li {
 			display: none;
 		}
 
-			#navigation ul li.title {
+			ul.topNav li.title {
 				float: left;
 				display: inline-block;
 			}
 		
-			#navigation ul li.icon {
+			ul.topNav li.icon {
 				float: right;
 				display: inline-block;
-			}	
-			
-	.header {
-		display: none;
+			}
+	
+	ul.topNav.responsive li {
+		float: none;
+		display: block;
 	}
-
-}
+	
+		ul.topNav.responsive li.title {
+			position: relative;
+			left: 0;
+			top: 0;
+		}	
+		
+		ul.topNav.responsive li.icon {
+			position: absolute;
+			right: 0;
+			top: 0;
+		}	
+		
+		ul.topNav.responsive li a {
+			display: block;
+			text-align: left;
+		}
+				
+}	

@@ -1,3 +1,14 @@
+// Menu
+
+function launchMenu() {
+    var x = document.getElementById("navMenu");
+    if (x.className === "topNav") {
+		x.className += " responsive";
+    } else {
+		x.className = "topNav";
+    }
+}
+
 // Smooth scrolling
 
 $(document).ready(function(){

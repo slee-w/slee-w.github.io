@@ -1,21 +1,37 @@
-subject	order	use_type	percent
-English/Language Arts	1	For	32
-English/Language Arts	1	Not For	68
-Mathematics	2	For	24
-Mathematics	2	Not For	76
-Science	3	For	8
-Science	3	Not For	92
-Technology	4	For	7
-Technology	4	Not For	93
-History/Social Studies	5	For	5
-History/Social Studies	5	Not For	95
-Fine Arts	6	For	3
-Fine Arts	6	Not For	97
-Special Education	7	For	2
-Special Education	7	Not For	98
-ESOL	8	For	2
-ESOL	8	Not For	98
-Foreign Languages	9	For	1
-Foreign Languages	9	Not For	99
-Other	10	For	16
-Other	10	Not For	84
+chart	subject	order	use_type	percent
+pd_subj	English/Language Arts	1	For	32
+pd_subj	English/Language Arts	1	Not For	68
+pd_subj	Mathematics	2	For	24
+pd_subj	Mathematics	2	Not For	76
+pd_subj	Science	3	For	8
+pd_subj	Science	3	Not For	92
+pd_subj	Technology	4	For	7
+pd_subj	Technology	4	Not For	93
+pd_subj	History/Social Studies	5	For	5
+pd_subj	History/Social Studies	5	Not For	95
+pd_subj	Fine Arts	6	For	3
+pd_subj	Fine Arts	6	Not For	97
+pd_subj	Special Education	7	For	2
+pd_subj	Special Education	7	Not For	98
+pd_subj	ESOL	8	For	2
+pd_subj	ESOL	8	Not For	98
+pd_subj	Foreign Languages	9	For	1
+pd_subj	Foreign Languages	9	Not For	99
+pd_subj	Other	10	For	16
+pd_subj	Other	10	Not For	84
+tch_pov	Lowest	1	For	10
+tch_pov	Lowest	1	Not For	90
+tch_pov	Mid-Low	2	For	17
+tch_pov	Mid-Low	2	Not For	83
+tch_pov	Mid-High	3	For	22
+tch_pov	Mid-High	3	Not For	78
+tch_pov	Highest	4	For	44
+tch_pov	Highest	4	Not For	56
+tch_size	< 1k	1	For	8
+tch_size	< 1k	1	Not For	92
+tch_size	1k - 2.5k	2	For	20
+tch_size	1k - 2.5k	2	Not For	80
+tch_size	2.5k - 10k	3	For	35
+tch_size	2.5k - 10k	3	Not For	65
+tch_size	10k+	4	For	24
+tch_size	10k+	4	Not For	76
