@@ -1,7 +1,10 @@
 body {
-	font: 10pt sans-serif;
-	margin-top: 0;
+	font: 15px sans-serif;
+	line-height: 1.5;
+	margin: 0;
 }
+
+/* Navigation */
 
 ul.topNav {
 	z-index: 10000;
@@ -11,13 +14,14 @@ ul.topNav {
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	height: 5em;
-	line-height: 5em;
+	height: 60px;
+	line-height: 60px;
 	text-align: center;
 	list-style-type: none;	
 	overflow: hidden;
 	background-color: #1A1C20;
 	font-size: 90%;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 	ul.topNav li {
@@ -38,6 +42,7 @@ ul.topNav {
 		
 		ul.topNav li a {
 			text-transform: uppercase;
+			font-size: 10pt;
 			font-weight: bold;
 			color: rgba(255, 255, 255, 0.7);
 			text-decoration: none;
@@ -50,49 +55,6 @@ ul.topNav {
 			ul.topNav li a.active{
 				color: rgba(255, 255, 255, 1);
 			}
-			
-.wrapper {
-	max-width: 960px;
-	margin-top: 6em;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 0;
-}
-
-#about p {
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
-}
-
-.header {
-	font: 24pt sans-serif;
-	font-weight: bold;
-}
-
-.container{
-	max-width: 1024px;
-	margin: 0 auto;
-	text-align: center;
-}
-
-.chart{
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/* Waffle charts */
-
-.waffleCounter {
-	font-weight: bold;
-	font: 24pt sans-serif;
-}
-
-.waffleSubject {
-	margin-top: 0em;
-	margin-bottom: 1.5em;
-	color: #595857;
-}
 
 /* Navigation - screen size */
 
@@ -139,3 +101,80 @@ ul.topNav {
 		}
 				
 }	
+
+.wrapper {
+	max-width: 960px;
+	padding: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 0;
+}
+
+#header {
+	background-image: url("../images/woman-notebook-working-girl.jpg");
+	height: 100vh;
+	margin: 0;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;	
+}
+
+#title {
+	padding-bottom: 2em;
+	height: inherit;
+}
+
+.titleText {
+	max-width: 75vw;
+	background-color: rgba(255, 255, 255, 0.5);
+	position: absolute;
+	bottom: 20vh;
+	color: rgba(0, 0, 0, 0.8);
+	padding: 1em;
+}
+
+#pageTitle {
+	font: 22pt sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.expAbout {
+	padding-top: 1em;
+	background-color: #2E8A95;
+	color: rgba(255, 255, 255, 1);
+}
+
+.exp {
+	padding-top: 1em;
+	background-color: #215F8A;
+	color: rgba(255, 255, 255, 1);
+}
+
+.sectionHeader {
+	border-bottom: solid 2px rgba(255, 255, 255, 0.85);
+	padding-bottom: 0.5em;
+}
+
+.chartArea {
+	background-color: #FFFFFF;
+	color: rgba(0, 0, 0, 1);
+}
+
+.chart {
+	text-align: center;
+}
+
+/* Waffle charts */
+
+.waffleCounter {
+	font-weight: bold;
+	font: 24pt sans-serif;
+}
+
+.waffleSubject {
+	margin-top: 0em;
+	margin-bottom: 1.5em;
+	color: #595857;
+}

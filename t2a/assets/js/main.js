@@ -9,6 +9,11 @@ function launchMenu() {
     }
 }
 
+function closeMenu() {
+	var x = document.getElementById("navMenu");
+	x.className = "topNav";
+}
+
 // Smooth scrolling
 
 $(document).ready(function(){
