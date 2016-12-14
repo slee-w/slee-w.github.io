@@ -9,8 +9,8 @@
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/charts.js"></script>
-	<script src="https://d3js.org/d3.v4.min.js"></script>	
-	
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+		
 	<!-- stylesheets -->
 	
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
@@ -62,7 +62,17 @@
 		</div>
 	</section>
 	<section id="distCharts" class="chartArea">
-		<div class="wrapper">
+		<div id="distChartSec" class="wrapper">
+			<div id="distPov" class="chart">
+				<p>
+					The <strong><font color="#2E8A95">highest-poverty districts</font></strong> received nearly half (44 percent) of the total Title II, Part A funds made available to school districts in 2013-14. Poverty data were unavailable for some districts; these districts received approximately five percent of the funds.
+				</p>
+			</div>
+			<div id="distSize" class="chart">
+				<p>
+					Districts with <strong><font color="#2E8A95">10,000 or more students</font></strong> received more than half (55 percent) of the total Title II, Part A funds made available to school districts in 2013-14.
+				</p>
+			</div>
 		</div>
 	</section>
 	<section id="useoffunds" class="exp">
@@ -75,10 +85,12 @@
 			<!-- PD by subject -->
 
 			<h2>How are the funds for professional development for teachers used?</h2>			
-			<div>
-				<p><strong><font color="#E56C0A">English/Language Arts</font></strong> and <strong><font color="#5DBF7E">Mathematics</font></strong> received more than half of the Title II, Part A funds allocated for professional development for teachers.</p>
+
+			<div id="pd_subjects" class="chart">
+				<p>
+					Together, <strong><font color="#E56C0A">English/Language Arts</font></strong> and <strong><font color="#5DBF7E">Mathematics</font></strong> received more than half (56 percent) of the Title II, Part A funds allocated for professional development for teachers. <strong><font color="#2E8A95">Science</font></strong> received eight percent, <strong><font color="215F8A">technology</font></strong> received seven percent, and <strong><font color="1C276E">history/social studies</font></strong> received five percent. About sixteen percent of the funds allocated for professional development were used for <strong><font color="#98A2E7">other subjects</font></strong>, examples of which included Advanced Placement, Common Core State Standards, classroom management, and using data to support instruction.
+				</p>
 			</div>
-			<div id="pd_subjects" class="chart"></div>
 			
 			<!-- Teachers funded -->
 			
@@ -87,17 +99,20 @@
 			<!-- Teachers funded by poverty -->
 			
 			<h2>How many teachers are paid with Title II, Part A funds?</h2>
-			<div>
-				<p>More than 40 percent of the 11,000 teachers funded with Title II, Part A funds in 2013-14 were located in the <strong>highest-poverty districts.</strong></p>
+
+			<div id="teachers_funded_poverty" class="chart">
+				<p>
+					More than 40 percent of the 11,000 teachers funded with Title II, Part A funds in 2013-14 were located in the <strong><font color="#215F8A">highest-poverty districts</font></strong>. Districts without poverty data accounted for approximately seven percent of the teachers funded.
+				</p>			
 			</div>
-			<div id="teachers_funded_poverty" class="chart"></div>
 			
 			<!-- Teachers funded by poverty -->
 
-			<div>
-				<p>Districts with more than <strong>2,500 to 10,000 students</strong> accounted for 35 percent of the 11,000 teachers funded with Title II, Part A funds in 2013-14.</p>
+			<div id="teachers_funded_size" class="chart">
+				<p>
+					Districts with more than <strong><font color="#2E8A95">2,500 to 10,000 students</font></strong> accounted for 35 percent of the 11,000 teachers funded with Title II, Part A funds in 2013-14. Together with districts serving <strong><font color="#215F8A">10,000 or more students</font></strong>, these districts accounted for more than half (59 percent) of the teachers funded.
+				</p>
 			</div>
-			<div id="teachers_funded_size" class="chart"></div>
 			
 		</div>
 	</section>
@@ -132,14 +147,20 @@
 				d.percent = +d.percent;
 			});
 		
+			distPov = data.filter(function(d) { return d.chart == "dist_Pov"; });					
+			distSize = data.filter(function(d) { return d.chart == "dist_Size"; });
 			data1 = data.filter(function(d) { return d.chart == "pd_subj"; });
 			data2 = data.filter(function(d) { return d.chart == "tch_pov"; });
 			data3 = data.filter(function(d) { return d.chart == "tch_size"; });
 			
+			var distPovBar = barChart().data(distPov).chartID("distPov").xMax(75);
+			var distSizeBar = barChart().data(distSize).chartID("distSize").xMax(75);
 			var waffPD = waffles().data(data1).chartID("pd_subjects");
 			var waffTPov = waffles().data(data2).chartID("teachers_funded_poverty");
 			var waffTSize = waffles().data(data3).chartID("teachers_funded_size");
 			
+			d3.select("#distPov").call(distPovBar);
+			d3.select("#distSize").call(distSizeBar);
 			d3.select("#pd_subjects").call(waffPD);
 			d3.select("#teachers_funded_poverty").call(waffTPov);
 			d3.select("#teachers_funded_size").call(waffTSize);

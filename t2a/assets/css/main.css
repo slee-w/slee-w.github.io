@@ -4,6 +4,11 @@ body {
 	margin: 0;
 }
 
+p {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
 /* Navigation */
 
 ul.topNav {
@@ -58,7 +63,7 @@ ul.topNav {
 
 /* Navigation - screen size */
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
 
 	ul.topNav {
 		height: initial;
@@ -141,13 +146,13 @@ ul.topNav {
 }
 
 .expAbout {
-	padding-top: 1em;
+	padding-top: 0.75em;
 	background-color: #2E8A95;
 	color: rgba(255, 255, 255, 1);
 }
 
 .exp {
-	padding-top: 1em;
+	padding-top: 0.75em;
 	background-color: #215F8A;
 	color: rgba(255, 255, 255, 1);
 }
@@ -166,6 +171,56 @@ ul.topNav {
 	text-align: center;
 }
 
+	.chart p {
+		text-align: left;
+	}
+
+/* Bar charts */
+
+.barChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.barChart 
+	.xAxis path,
+	.xAxis line {
+		stroke: #595857;
+	}
+
+.barChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.barChart 
+	.yAxis path,
+	.yAxis line {
+		display: none;
+	}
+
+.bar {
+	shape-rendering: crispEdges;
+	fill: rgb(142, 209, 224);
+}
+
+.barMax {
+	shape-rendering: crispEdges;
+	fill: rgb(46, 138, 149);
+}
+
+.barLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(142, 209, 224);
+}
+	
+.barMaxLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(46, 138, 149);
+}	
+	
 /* Waffle charts */
 
 .waffleCounter {
@@ -178,3 +233,7 @@ ul.topNav {
 	margin-bottom: 1.5em;
 	color: #595857;
 }
+
+	p.waffleSubject {
+		text-align: center;
+	}

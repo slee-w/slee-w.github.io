@@ -14,6 +14,23 @@ function closeMenu() {
 	x.className = "topNav";
 }
 
+// Add scrolled class when scrolling in/out of a chart div
+
+window.onscroll = function() {
+	
+	var divs = document.getElementsByClassName("chart");
+	//console.log(divs);
+	
+	for(var i = 0; i < divs.length; i++) {
+		if (window.scrollY > (document.getElementById(divs[i].id).getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/2)) && window.scrollY <= (document.getElementById(divs[i].id).getBoundingClientRect().bottom + window.pageYOffset/* + (window.innerHeight/2)*/)) { 
+			document.getElementById(divs[i].id).classList.add("scroll-active");
+		}
+		
+		else { document.getElementById(divs[i].id).classList.remove("scroll-active"); };
+	};
+	
+};
+
 // Smooth scrolling
 
 $(document).ready(function(){
