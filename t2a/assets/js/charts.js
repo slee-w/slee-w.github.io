@@ -13,6 +13,8 @@ function barChart() {
 		barWidth = 50,
 		animateTime = 1000,
 		xMax = 100,
+		percWhole = 0, // 0 = perc, 1 = whole; default is perc
+		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
 		chartID = [],
 		data = [];
 	
@@ -21,11 +23,16 @@ function barChart() {
 			
 			// sort data
 			
-			data.sort(function(a, b) { return d3.descending(a.order, b.order); });
+			data.sort(function(a, b) { 
+				if (sortDir == 0) { return d3.ascending(a.order, b.order); }
+				else if (sortDir == 1) { return d3.descending(a.order, b.order); };
+			});
 			
 			// formats
 			
-			var format = d3.format(".0%");
+			var formatNum = d3.format(",");
+			var formatNumSci = d3.format(".3s");
+			var formatPerc = d3.format(".1%");
 			
 			// margins; adjust width and height to account for margins
 			
@@ -57,11 +64,50 @@ function barChart() {
 					.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
 						
 			// add axes
-						
-			svg.append("g")
-				.attr("class", "xAxis")
-				.attr("transform", "translate(0," + heightAdj + ")")
-				.call(d3.axisBottom(xScale).tickValues([0, xMax]).tickSize(0));
+			// x-axis depends on units
+			
+			function xAxis() { 
+				if (percWhole == 0) { 
+					svg.append("g")
+						.attr("class", "xAxis")
+						.attr("transform", "translate(0," + heightAdj + ")")
+						.call(d3.axisBottom(xScale)
+							.tickValues([0, xMax])
+							.tickSize(0)
+							.tickFormat(d3.format(".1%")));
+				}
+				else if (percWhole == 1) { 
+					if (xMax < 1000) {
+						svg.append("g")
+						.attr("class", "xAxis")
+						.attr("transform", "translate(0," + heightAdj + ")")
+						.call(d3.axisBottom(xScale)
+							.tickValues([0, xMax])
+							.tickSize(0)
+							.tickFormat(d3.format(",")));						
+					}
+					if (xMax < 1000000) {
+						svg.append("g")
+						.attr("class", "xAxis")
+						.attr("transform", "translate(0," + heightAdj + ")")
+						.call(d3.axisBottom(xScale)
+							.tickValues([0, xMax])
+							.tickSize(0)
+							.tickFormat(d3.formatPrefix(".1", 1e4)));							
+					}
+					else {
+						svg.append("g")
+							.attr("class", "xAxis")
+							.attr("transform", "translate(0," + heightAdj + ")")
+							.call(d3.axisBottom(xScale)
+								.tickValues([0, xMax])
+								.tickSize(0)
+								.tickFormat(d3.formatPrefix(".1", 1e6)));
+					};
+				};
+			};
+			
+			xAxis();
 				
 			svg.selectAll(".xAxis text")
 				.attr("dy", "1.5em");
@@ -92,12 +138,21 @@ function barChart() {
 						if (d.percent === d3.max(data.map(function(d) { return d.percent; }))) { return "barMaxLabel"; }
 						else { return "barLabel"; };
 					})
-					.attr("x", function(d) { return xScale(d.percent); })
+					.attr("x", function(d) { 
+								if (percWhole == 0) { return xScale(d.percent/100); }
+								else if (percWhole == 1) { return xScale(d.percent); }; 
+					})
 					.attr("dx", "0.5em")
 					.attr("y", function(d) { return yScale(d.group) + (yScale.bandwidth()/2); })
 					.attr("dy", "0.35em")
 					.attr("opacity", 0)
-					.text(function(d) { return format(d.percent/100); });
+					.text(function(d) { 
+						if (percWhole == 0) { return formatPerc(d.percent/100); }
+						else if (percWhole == 1) { 
+							if (d3.max(data.map(function(d) { return d.percent; })) < 1000) { return formatNum(d.percent); }
+							else { return formatNumSci(d.percent); };
+						}
+					});
 				
 			//check for scroll to fire transitions
 			
@@ -112,12 +167,18 @@ function barChart() {
 					svg.selectAll("rect.bar")
 						.transition("widen")
 							.duration(animateTime)
-							.attr("width", function(d) { return xScale(d.percent); })
+							.attr("width", function(d) { 
+								if (percWhole == 0) { return xScale(d.percent/100); }
+								else if (percWhole == 1) { return xScale(d.percent); }; 
+							});
 	
 					svg.selectAll("rect.barMax")
 						.transition("widen")
 							.duration(animateTime)
-							.attr("width", function(d) { return xScale(d.percent); })
+							.attr("width", function(d) { 
+								if (percWhole == 0) { return xScale(d.percent/100); }
+								else if (percWhole == 1) { return xScale(d.percent); }; 
+							});
 	
 					svg.selectAll("text.barLabel")
 						.transition("appear")
@@ -147,24 +208,35 @@ function barChart() {
 				// resize chart
 
 				xScale.rangeRound([0, widthAdj]);
-
+				
 				dom.select("svg")
 					.attr("width", width);
-
-				svg.select(".xAxis")
-					.call(d3.axisBottom(xScale).tickValues([0, xMax]).tickSize(0));
-
+				
+				svg.select(".xAxis").remove();
+				
+				xAxis();
+				
+				svg.selectAll(".xAxis text")
+					.attr("dy", "1.5em");
+								
+				
 				// move the data labels (base position does not depend on transitions)
 					
 				svg.selectAll("text.barLabel")
 					.transition()
 						.duration(animateTime)
-						.attr("x", function(d) { return xScale(d.percent); })
+						.attr("x", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+						})
 						
 				svg.selectAll("text.barMaxLabel")
 					.transition()
 						.duration(animateTime)
-						.attr("x", function(d) { return xScale(d.percent); })					
+						.attr("x", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+						})
 					
 				// check if animations have already fired
 					
@@ -177,12 +249,18 @@ function barChart() {
 						svg.selectAll("rect.bar")
 							.transition()
 								.duration(animateTime)
-								.attr("width", function(d) { return xScale(d.percent); })
+								.attr("width", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+								});
 								
 						svg.selectAll("rect.barMax")
 							.transition()
 								.duration(animateTime)
-								.attr("width", function(d) { return xScale(d.percent); })
+								.attr("width", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+								});
 														
 					}
 					
@@ -195,12 +273,18 @@ function barChart() {
 						svg.selectAll("rect.bar")
 							.transition("widen")
 								.duration(animateTime)
-								.attr("width", function(d) { return xScale(d.percent); })
+								.attr("width", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+								});
 		
 						svg.selectAll("rect.barMax")
 							.transition("widen")
 								.duration(animateTime)
-								.attr("width", function(d) { return xScale(d.percent); })
+								.attr("width", function(d) { 
+									if (percWhole == 0) { return xScale(d.percent/100); }
+									else if (percWhole == 1) { return xScale(d.percent); }; 
+								});
 		
 						svg.selectAll("text.barLabel")
 							.transition("appear")
@@ -226,9 +310,27 @@ function barChart() {
 		
 	};
 
+	chart.sortDir = function(value) {
+		if (!arguments.length) return sortDir;
+		sortDir = value;
+		return chart;
+	}
+
+	chart.percWhole = function(value) {
+		if (!arguments.length) return percWhole;
+		percWhole = value;
+		return chart;
+	}	
+	
 	chart.xMax = function(value) {
 		if (!arguments.length) return xMax;
 		xMax = value;
+		return chart;
+	};
+
+	chart.marginLeft = function(value) {
+		if (!arguments.length) return marginLeft;
+		marginLeft = value;
 		return chart;
 	};
 	
@@ -250,7 +352,7 @@ function barChart() {
 
 // Small multiples waffles
 
-function waffles() {
+function wafflesMult() {
 			
 	// margins, width, height, dataset
 	
@@ -271,9 +373,9 @@ function waffles() {
 		selection.each(function() {
 			
 				// format data for use in waffles
-
+				
 				data.forEach(function(d, i) {
-					d.units = d.percent;
+					d.units = Math.round(d.percent);
 					waffleData = waffleData.concat(
 						Array(d.units+1).join(1).split("").map(function() {
 							return {
@@ -281,6 +383,7 @@ function waffles() {
 								use_type: d.use_type,
 								squareValue: 1,
 								units: d.units,
+								percent: d.percent,
 								groupIndex: i
 							};
 						})
@@ -347,14 +450,14 @@ function waffles() {
 				var waffleCounter = waffleText.selectAll("text.waffleCounter")
 					.data(subjects);
 					
-				var format = d3.format(".0%");		
+				var format = d3.format(".1%");		
 					
 				waffleCounter.each()
 					.data(function(d) { return d.values; })
 					.enter()
 						.filter(function(d, i) { return d.use_type == "For" && i === 0; })
 						.append("text")
-							.text("0%")
+							.text("0.0%")
 							.style("color", function(d) { return color(d.subject) })
 							.attr("class", "waffleCounter");
 
@@ -394,7 +497,7 @@ function waffles() {
 							.tween("text", function(d) {
 							
 								var that = d3.select(this),
-									i = d3.interpolateNumber(0, d.units/100);
+									i = d3.interpolateNumber(0, d.percent/100);
 									
 								return function(t) { that.text(format(i(t))); };
 								
