@@ -220,7 +220,53 @@ ul.topNav {
 	font-weight: bold;
 	fill: rgb(46, 138, 149);
 }	
+
+/* Column charts */
+
+.colChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.colChart 
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.colChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.colChart 
+	.xAxis path,
+	.xAxis line {
+		display: none;
+	}
+
+.col {
+	shape-rendering: crispEdges;
+	fill: rgb(142, 209, 224);
+}
+
+.colMax {
+	shape-rendering: crispEdges;
+	fill: rgb(46, 138, 149);
+}
+
+.colLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(142, 209, 224);
+}
 	
+.colMaxLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(46, 138, 149);
+}	
+
 /* Waffle charts */
 
 .waffleCounter {

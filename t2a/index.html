@@ -35,7 +35,7 @@
 		<div id="title" class="wrapper">
 			<p class="titleText">
 				<span id="pageTitle">Survey on the Use of Funds Under Title II, Part A</span><br/>
-				<em>Findings from SY 2015-13</em>
+				<em>Findings from SY 2015-16</em>
 			</p>
 		</div>
 	</section>	
@@ -72,7 +72,7 @@
 					The <strong><font color="#2E8A95">highest-poverty districts</font></strong> received nearly half (47 percent) of the total Title II, Part A funds made available to school districts in 2015-16. Poverty data were unavailable for some districts; these districts received approximately one percent of the funds.
 				</p>
 			</div>
-			
+					
 			<!-- Dist of funds by size -->
 			
 			<h3>How are the funds distributed by district size?</h3>
@@ -184,9 +184,19 @@
 			<h3>What topics did professional development sessions cover?</h3>
 			<div id="pd_topics" class="chart">
 				<p>
-					
+					Most commonly, professional development sessions for teachers were focused on <strong><font color="#2E8A95">core academic content area knowledge</font></strong>. Districts offered more than 275,000 sessions in that area. Districts also offered over 200,000 professional development sessions on effective instructional strategies and state academic content standards.
 				</p>
 			</div>
+	
+			<!-- PD sessions attended -->
+			
+			<h3>What topics did teachers most frequently attend?</h3>
+			<div id="pd_participation" class="chart">
+				<p>
+					Although districts most frequently offered sessions on core academic content area knowledge, teachers most frequently attended sessions on <strong><font color="#2E8A95">effective instructional strategies</font></strong>. More than four million teachers participated in sessions on effective instructional strategies. Teachers also commonly attended sessions; nearly four million attended sessions on core academic content area knowledge and more than three million attended sessions on state academic content standards.
+				</p>
+			</div>	
+			
 		</div>
 	</section>
 </body>
@@ -212,14 +222,18 @@
 			tchPov = data.filter(function(d) { return d.chart == "tch_pov"; });
 			tchSize = data.filter(function(d) { return d.chart == "tch_size"; });
 			pdType = data.filter(function(d) { return d.chart == "pd_type"; });
+			pdTopics = data.filter(function(d) { return d.chart == "pd_topics"; });
+			pdParticipation = data.filter(function(d) { return d.chart == "pd_participation"; });
 			
-			var distPovBar = barChart().data(distPov).chartID("distPov").sortDir(0).xMax(.75);
+			var distPovBar = barChart().data(distPov).chartID("distPov").xMax(.75);
 			var distSizeBar = barChart().data(distSize).chartID("distSize").xMax(.75);
 			var overallUse = barChart().data(overallUse).chartID("overall_use").xMax(.75).marginLeft(150);
 			var PDWaff = wafflesMult().data(pdSubj).chartID("pd_subjects");
 			var tPovWaff = wafflesMult().data(tchPov).chartID("teachers_funded_poverty");
 			var tSizeWaff = wafflesMult().data(tchSize).chartID("teachers_funded_size");
 			var pdType = barChart().data(pdType).chartID("pd_type").xMax(3000000).marginLeft(200).percWhole(1);
+			var pdTopics = colChart().data(pdTopics).chartID("pd_topics").yMax(300000).marginLeft(50).percWhole(1).sortDir(1);
+			var pdParticipation = colChart().data(pdParticipation).chartID("pd_participation").yMax(5000000).marginLeft(50).percWhole(1).sortDir(1);
 			
 			d3.select("#distPov").call(distPovBar);
 			d3.select("#distSize").call(distSizeBar);
@@ -228,6 +242,8 @@
 			d3.select("#teachers_funded_poverty").call(tPovWaff);
 			d3.select("#teachers_funded_size").call(tSizeWaff);
 			d3.select("#pd_type").call(pdType);
+			d3.select("#pd_topics").call(pdTopics);
+			d3.select("#pd_participation").call(pdParticipation);
 		
 		};
 	});	
