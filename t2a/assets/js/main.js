@@ -14,22 +14,43 @@ function closeMenu() {
 	x.className = "topNav";
 }
 
-// Add scrolled class when scrolling in/out of a chart div
+// initial scroll value
+
+var lastScrollTop = window.scrollY || document.documentElement.scrollTop;
 
 window.onscroll = function() {
 	
+	// Add scrolled class when scrolling in/out of a chart div
+	
 	var divs = document.getElementsByClassName("chart");
-	//console.log(divs);
 	
 	for(var i = 0; i < divs.length; i++) {
-		if (window.scrollY > (document.getElementById(divs[i].id).getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/3)) && window.scrollY <= (document.getElementById(divs[i].id).getBoundingClientRect().bottom + window.pageYOffset/* + (window.innerHeight/2)*/)) { 
+		if ((window.scrollY || document.documentElement.scrollTop) > (document.getElementById(divs[i].id).getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/3)) && (window.scrollY || document.documentElement.scrollTop) <= (document.getElementById(divs[i].id).getBoundingClientRect().bottom + window.pageYOffset/* + (window.innerHeight/2)*/)) { 
 			document.getElementById(divs[i].id).classList.add("scroll-active");
 		}
 		
 		else { document.getElementById(divs[i].id).classList.remove("scroll-active"); };
 	};
 	
+	// hide nav when scrolling downwards if nav is collapsed
+	
+	if (document.documentElement.clientWidth <= 800) {
+		var st = window.pageYOffset || document.documentElement.scrollTop;
+	
+		if (st > lastScrollTop) {
+			document.getElementById("navMenu").style.top = "-100%";
+		}
+		else {
+			document.getElementById("navMenu").style.top = "";
+		}
+		lastScrollTop = st;
+	};
+	
 };
+
+// Hide nav when scrolling downwards
+
+
 
 // Smooth scrolling
 

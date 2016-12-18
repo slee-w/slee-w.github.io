@@ -742,6 +742,12 @@ function colChart() {
 					
 					else {
 							
+							svg.selectAll("rect.col")
+								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+								
+							svg.selectAll("rect.colMax")
+								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+							
 							window.removeEventListener("scroll", fireTransitions); // remove the old scroll listener and start again
 							window.addEventListener("scroll", fireTransitions);
 									
@@ -1240,10 +1246,10 @@ function dumbBell() {
 		
 };	
 
-// Stacked line chart
+// Stacked area chart
 // This is built quite specifically for these data, and is **NOT** very reusable 
 
-function stackedLine() {
+function stackedArea() {
 	
 	// options that can be edited by the caller
 	// these are the default values
@@ -1435,11 +1441,16 @@ function stackedLine() {
 						
 			var stack = d3.stack()
 				.keys(["ES", "MS", "HS", "UG"]);
-			
+
+			var area = d3.area()
+				.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
+				.y0(function(d) { return yScale(d[0]); })
+				.y1(function(d) { return yScale(d[1]); });
+				
 			var line = d3.line()
 				.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
 				.y(function(d) { return yScale(d[1]); });
-			
+				
 			var series = stack(data);
 			
 			var color = d3.scaleOrdinal()
@@ -1455,12 +1466,16 @@ function stackedLine() {
 						.attr("class", "layer");
 				
 			layer.append("path")
+				.attr("class", "area")
+				.style("fill", function(d) { return color(d.key); })
+				.style("fill-opacity", "0.15")
+				.attr("d", area);
+				
+			layer.append("path")
 				.attr("class", "line")
 				.style("stroke", function(d) { return color(d.key); })
 				.style("fill", "none")
 				.attr("d", line);
-			
-			console.log(series);
 			
 			// add first label (level)
 	
@@ -1582,7 +1597,12 @@ function stackedLine() {
 				
 				yAxis();
 				
-				// recalculate line positions
+				// recalculate area/line positions
+				
+				area = d3.area()
+					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
+					.y0(function(d) { return yScale(d[0]); })
+					.y1(function(d) { return yScale(d[1]); });
 				
 				line = d3.line()
 					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
@@ -1596,26 +1616,34 @@ function stackedLine() {
 				
 					if (document.getElementById(chartID).classList.contains("transitioned") == true) {	
 	
+						svg.selectAll("path.area")
+							.transition()
+								//.duration(animateTime)
+								.attr("d", area);
+	
+						svg.selectAll("path.line")
+							.transition()
+								//.duration(animateTime)
+								.attr("d", line);
+
 						svg.selectAll("text.levelLabel")
 							.transition()
-								.duration(animateTime)
+								//.duration(animateTime)
 								.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
 							
 						svg.selectAll("text.valueLabel")
 							.transition()
-								.duration(animateTime)
+								//.duration(animateTime)
 								.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
-	
-						svg.selectAll("path.line")
-							.transition()
-								.duration(animateTime)
-								.attr("d", line);
-														
+								
 					}
 					
 					// if not fired, run full transitions
 					
 					else {
+							
+							svg.selectAll("path.area")
+								.attr("d", area);
 							
 							svg.selectAll("path.line")
 								.attr("d", line);

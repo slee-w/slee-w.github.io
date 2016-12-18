@@ -1,4 +1,4 @@
-<!-- DOCTYPE HTML-->
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width" />
 <head>
@@ -21,12 +21,12 @@
 		<div>
 			<nav>
 				<ul id="navMenu" class="topNav">
-					<li class="title"><a href="javascript:void(0);" onclick="launchMenu()">Menu</a></li>
+					<li class="icon"><a href="javascript:void(0);" onclick="launchMenu()">&#9776;</a></li>
 					<li><a href="#about" onclick="closeMenu()">About the survey</a></li>
 					<li><a href="#distribution" onclick="closeMenu()">Distribution of funds</a></li>
 					<li><a href="#useoffunds" onclick="closeMenu()">Use of funds</a></li>
 					<li><a href="#profdev" onclick="closeMenu()">Professional development</a></li>
-					<li class="icon"><a href="javascript:void(0);" onclick="launchMenu()">&#9776;</a></li>
+					
 				</ul>
 			</nav>
 		</div>
@@ -230,8 +230,6 @@
 	</section>
 </body>
 
-<!-- Charts -->
-
 <script>
 
 	// Charts
@@ -270,7 +268,7 @@
 			var dumbUsePov = dumbBell().data(usePov).chartID("use_pov").xMax(.75);
 			var dumbUseSize = dumbBell().data(useSize).chartID("use_size").xMax(.75);
 			var PDWaff = wafflesMult().data(pdSubj).chartID("pd_subjects");
-			var csrLine = stackedLine().data(csr).chartID("teachers_funded").percWhole(1).yMax(16500);
+			var csrArea = stackedArea().data(csr).chartID("teachers_funded").percWhole(1).yMax(16500);
 			var tPovWaff = wafflesMult().data(tchPov).chartID("teachers_funded_poverty");
 			var tSizeWaff = wafflesMult().data(tchSize).chartID("teachers_funded_size");
 			var ccrsEESWaff = wafflesMult().data(ccrsEES).chartID("ccrs_ees");
@@ -284,7 +282,7 @@
 			d3.select("#use_pov").call(dumbUsePov);
 			d3.select("#use_size").call(dumbUseSize);
 			d3.select("#pd_subjects").call(PDWaff);
-			d3.select("#teachers_funded").call(csrLine);
+			d3.select("#teachers_funded").call(csrArea);
 			d3.select("#teachers_funded_poverty").call(tPovWaff);
 			d3.select("#teachers_funded_size").call(tSizeWaff);
 			//d3.select("#ccrs_ees").call(ccrsEESWaff);
@@ -294,6 +292,17 @@
 		
 		};
 	});	
+	
+	// Parallax for IE fix
+	
+	if(navigator.userAgent.match(/Trident\/7\./)) {
+		document.body.addEventListener("mousewheel", function() {
+			event.preventDefault();
+			var wd = event.wheelDelta;
+			var csp = window.pageYOffset;
+			window.scrollTo(0, csp - wd);
+		});
+	}
 	
 </script>
 

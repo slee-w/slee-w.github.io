@@ -11,6 +11,10 @@ p {
 
 /* Navigation */
 
+#navMenu {
+	transition: 0.25s;
+}
+
 ul.topNav {
 	z-index: 10000;
 	position: fixed;
@@ -19,11 +23,11 @@ ul.topNav {
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	height: 60px;
+	/*height: 60px;*/
 	line-height: 60px;
 	text-align: center;
 	list-style-type: none;	
-	overflow: hidden;
+	/*overflow: hidden;*/
 	background-color: #1A1C20;
 	font-size: 90%;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.7);
@@ -74,13 +78,21 @@ ul.topNav {
 		}
 
 			ul.topNav li.title {
-				float: left;
-				display: inline-block;
+				position: relative;
+				left: 0;
+				top: 0;
+				display: block;
 			}
-		
+					
 			ul.topNav li.icon {
-				float: right;
-				display: inline-block;
+				position: relative;
+				top: 0;
+				display: block;
+				text-align: right;
+			}
+	
+			ul.topNav li a {
+				display: block;
 			}
 	
 	ul.topNav.responsive li {
