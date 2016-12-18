@@ -315,6 +315,44 @@ ul.topNav {
 	stroke-width: 1px;
 	stroke: #595857;
 }
+
+/* Stacked line */
+
+.lineChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.lineChart 
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.lineChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.lineChart 
+	.xAxis path,
+	.xAxis line {
+		display: none;
+	}
+
+.lineChart .line {
+	stroke-width: 2px;
+}
+	
+.lineChart .levelLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+}
+
+.lineChart .valueLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+}
 	
 /* Waffle charts */
 

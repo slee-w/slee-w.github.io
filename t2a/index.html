@@ -143,9 +143,9 @@
 			<!-- Teachers funded -->
 			
 			<h3>How many teachers are funded by Title II, Part A funds?</h3>
-			<div id="teachers_funded">
+			<div id="teachers_funded" class="chart">
 				<p>
-					Although the number of teachers funded has decreased since 2010-11, Title II, Part A funds still paid for approximately 11,000 teachers in 2013-14. The majority of these teachers were elementary school teachers.
+					More than 8,500 teachers were funded by Title II, Part A funds in 2015-16. The vast majority - more than 6,800 - of these teachers were <strong><font color="#E56C0A">elementary school (K-5)</font></strong> teachers, which make up the majority of teachers funded every year. In comparison with 2011-12, there has been a decrease in the number of teachers funded, although the number funded has varied from year-to-year. 
 				</p>
 			</div>
 			
@@ -220,6 +220,14 @@
 			
 		</div>
 	</section>
+	<section id="source" class="exp">
+		<div class="wrapper">
+			<p>
+				<strong>Source:</strong> 2015-16 Survey on the Use of Funds Under Title II, Part A<br/>
+				<strong>Last updated:</strong> December 18, 2016
+			</p>
+		</div>
+	</section>
 </body>
 
 <!-- Charts -->
@@ -236,6 +244,10 @@
 				d.percent = +d.percent;
 				d.group1_val = +d.group1_val;
 				d.group2_val = +d.group2_val;
+				d.Elementary = +d.Elementary;
+				d.Middle = +d.Middle;
+				d.High = +d.High;
+				d.Ungraded = +d.Ungraded;
 			});
 		
 			distPov = data.filter(function(d) { return d.chart == "dist_Pov"; });					
@@ -258,7 +270,7 @@
 			var dumbUsePov = dumbBell().data(usePov).chartID("use_pov").xMax(.75);
 			var dumbUseSize = dumbBell().data(useSize).chartID("use_size").xMax(.75);
 			var PDWaff = wafflesMult().data(pdSubj).chartID("pd_subjects");
-			var csrBubble = bubble().data(csr).chartID("teachers_funded");
+			var csrLine = stackedLine().data(csr).chartID("teachers_funded").percWhole(1).yMax(16500);
 			var tPovWaff = wafflesMult().data(tchPov).chartID("teachers_funded_poverty");
 			var tSizeWaff = wafflesMult().data(tchSize).chartID("teachers_funded_size");
 			var ccrsEESWaff = wafflesMult().data(ccrsEES).chartID("ccrs_ees");
@@ -272,7 +284,7 @@
 			d3.select("#use_pov").call(dumbUsePov);
 			d3.select("#use_size").call(dumbUseSize);
 			d3.select("#pd_subjects").call(PDWaff);
-			d3.select("#teachers_funded").call(csrBubble);
+			d3.select("#teachers_funded").call(csrLine);
 			d3.select("#teachers_funded_poverty").call(tPovWaff);
 			d3.select("#teachers_funded_size").call(tSizeWaff);
 			//d3.select("#ccrs_ees").call(ccrsEESWaff);
