@@ -38,6 +38,7 @@ window.onscroll = function() {
 		var st = window.pageYOffset || document.documentElement.scrollTop;
 	
 		if (st > lastScrollTop) {
+			closeMenu();
 			document.getElementById("navMenu").style.top = "-100%";
 		}
 		else {

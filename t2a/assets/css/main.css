@@ -41,7 +41,7 @@ ul.topNav {
 		text-decoration: none;
 	}
 	
-		ul.topNav li.title {
+		ul.topNav li.blank {
 			display: none;
 		}
 	
@@ -76,13 +76,6 @@ ul.topNav {
 		ul.topNav li {
 			display: none;
 		}
-
-			ul.topNav li.title {
-				position: relative;
-				left: 0;
-				top: 0;
-				display: block;
-			}
 					
 			ul.topNav li.icon {
 				position: relative;
