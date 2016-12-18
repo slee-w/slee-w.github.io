@@ -116,11 +116,21 @@
 			<!-- Uses by poverty -->
 			
 			<h3>Does usage differ by district poverty level?</h3>
+			<div id="use_pov" class="chart">
+				<p>
+					Across all district poverty levels, a higher percentage of funds were allocated towards <strong><font color="#E56C0A">professional development activities for teachers and paraprofessionals</font></strong> than <strong><font color="#5DBF7E">class size reduction</font></strong>. As district poverty level decreases, the percentage allocated towards professional development decreases, while, overall, higher poverty districts tend to allocate less towards class size reduction.
+				</p>
+			</div>
 
 			<!-- Uses by size -->
 			
 			<h3>Does usage differ by district size?</h3>
-					
+			<div id="use_size" class="chart">
+				<p>
+					In general, as district size increased, the percentage used for <strong><font color="#E56C0A">professional development activities for teachers and paraprofessionals</font></strong> decreased. In addition, the gap with the percentage allocated towards <strong><font color="#5DBF7E">class size reduction</font></strong> decreased as district size increased; in districts with fewer than 1,000 students, the gap was nearly 37 percentage points compared to about two percentage points in districts with more than 10,000 students.
+				</p>
+			</div>
+	
 			<!-- PD by subject -->
 
 			<h3>How are the funds for professional development for teachers used?</h3>
@@ -157,6 +167,17 @@
 				</p>
 			</div>
 			
+		</div>
+	</section>
+	<section id="ccrs_ees" class="expAbout">
+		<div class="wrapper">
+			<h2 class="sectionHeader">How are Title II, Part A funds used for college- and career-ready standards and educator evaluation systems?</h2>
+			<p>
+				In 2015-16, <strong>28 percent</strong> of districts reported allocating Title II, Part A funds for allowable activities designed to prepare educators to implement new college- and career-ready standards. Districts allocated over $230 million for these activities, examples of which include grade-level and content area professional development sessions on implementation of the standards, hiring instructional coaches and consultants to provide professional development on the new standards, and aligning curricula with the standards. 
+			</p>
+			<p>
+				In addition, <strong>13 percent</strong> of districts reported allocating Title II, Part A funds for allowable activities designed to develop or implement educator evaluation systems. Districts allocated more than $48 million for these activities, examples of which include training on evaluation frameworks, rubrics, and tools; training on the use of student learning objectives; and training on the use of peer observations and feedback. 
+			</p>
 		</div>
 	</section>
 	<section id="profdev" class="exp">
@@ -213,34 +234,48 @@
 			data.forEach(function(d) {
 				d.order = +d.order;
 				d.percent = +d.percent;
+				d.group1_val = +d.group1_val;
+				d.group2_val = +d.group2_val;
 			});
 		
 			distPov = data.filter(function(d) { return d.chart == "dist_Pov"; });					
 			distSize = data.filter(function(d) { return d.chart == "dist_Size"; });
 			overallUse = data.filter(function(d) { return d.chart == "overall_Use"; });
+			usePov = data.filter(function(d) { return d.chart == "use_Pov"; });
+			useSize = data.filter(function(d) { return d.chart == "use_Size"; });
 			pdSubj = data.filter(function(d) { return d.chart == "pd_subj"; });
+			//csr = data.filter(function(d) { return d.chart == "csr"; });
 			tchPov = data.filter(function(d) { return d.chart == "tch_pov"; });
 			tchSize = data.filter(function(d) { return d.chart == "tch_size"; });
+			ccrsEES = data.filter(function(d) { return d.chart == "ccrs_ees"; });
 			pdType = data.filter(function(d) { return d.chart == "pd_type"; });
 			pdTopics = data.filter(function(d) { return d.chart == "pd_topics"; });
 			pdParticipation = data.filter(function(d) { return d.chart == "pd_participation"; });
-			
+						
 			var distPovBar = barChart().data(distPov).chartID("distPov").xMax(.75);
 			var distSizeBar = barChart().data(distSize).chartID("distSize").xMax(.75);
 			var overallUse = barChart().data(overallUse).chartID("overall_use").xMax(.75).marginLeft(150);
+			var dumbUsePov = dumbBell().data(usePov).chartID("use_pov").xMax(.75);
+			var dumbUseSize = dumbBell().data(useSize).chartID("use_size").xMax(.75);
 			var PDWaff = wafflesMult().data(pdSubj).chartID("pd_subjects");
+			//var csrLine = multiLine().data(csr).chartID("teachers_funded");
 			var tPovWaff = wafflesMult().data(tchPov).chartID("teachers_funded_poverty");
 			var tSizeWaff = wafflesMult().data(tchSize).chartID("teachers_funded_size");
+			var ccrsEESWaff = wafflesMult().data(ccrsEES).chartID("ccrs_ees");
 			var pdType = barChart().data(pdType).chartID("pd_type").xMax(3000000).marginLeft(200).percWhole(1);
 			var pdTopics = colChart().data(pdTopics).chartID("pd_topics").yMax(300000).marginLeft(50).percWhole(1).sortDir(1);
 			var pdParticipation = colChart().data(pdParticipation).chartID("pd_participation").yMax(5000000).marginLeft(50).percWhole(1).sortDir(1);
-			
+									
 			d3.select("#distPov").call(distPovBar);
 			d3.select("#distSize").call(distSizeBar);
 			d3.select("#overall_use").call(overallUse);
+			d3.select("#use_pov").call(dumbUsePov);
+			d3.select("#use_size").call(dumbUseSize);
 			d3.select("#pd_subjects").call(PDWaff);
+			//d3.select("#teachers_funded").call(csrLine);
 			d3.select("#teachers_funded_poverty").call(tPovWaff);
 			d3.select("#teachers_funded_size").call(tSizeWaff);
+			//d3.select("#ccrs_ees").call(ccrsEESWaff);
 			d3.select("#pd_type").call(pdType);
 			d3.select("#pd_topics").call(pdTopics);
 			d3.select("#pd_participation").call(pdParticipation);

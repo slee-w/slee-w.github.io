@@ -267,6 +267,55 @@ ul.topNav {
 	fill: rgb(46, 138, 149);
 }	
 
+/* Dumbell Plots */
+
+.dumbBell .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.dumbBell 
+	.xAxis path,
+	.xAxis line {
+		stroke: #595857;
+	}
+
+.dumbBell .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.dumbBell 
+	.yAxis path,
+	.yAxis line {
+		display: none;
+	}
+
+.dot1 {
+	fill: #E56C0A;
+}
+
+.dot2 {
+	fill: #5DBF7E;
+}
+
+.dot1Label {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: #E56C0A;
+}
+
+.dot2Label {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: #5DBF7E;
+}
+
+.dotLine {
+	stroke-width: 1px;
+	stroke: #595857;
+}
+	
 /* Waffle charts */
 
 .waffleCounter {
