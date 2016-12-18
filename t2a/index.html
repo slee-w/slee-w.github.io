@@ -244,7 +244,7 @@
 			usePov = data.filter(function(d) { return d.chart == "use_Pov"; });
 			useSize = data.filter(function(d) { return d.chart == "use_Size"; });
 			pdSubj = data.filter(function(d) { return d.chart == "pd_subj"; });
-			//csr = data.filter(function(d) { return d.chart == "csr"; });
+			csr = data.filter(function(d) { return d.chart == "csr"; });
 			tchPov = data.filter(function(d) { return d.chart == "tch_pov"; });
 			tchSize = data.filter(function(d) { return d.chart == "tch_size"; });
 			ccrsEES = data.filter(function(d) { return d.chart == "ccrs_ees"; });
@@ -258,7 +258,7 @@
 			var dumbUsePov = dumbBell().data(usePov).chartID("use_pov").xMax(.75);
 			var dumbUseSize = dumbBell().data(useSize).chartID("use_size").xMax(.75);
 			var PDWaff = wafflesMult().data(pdSubj).chartID("pd_subjects");
-			//var csrLine = multiLine().data(csr).chartID("teachers_funded");
+			var csrBubble = bubble().data(csr).chartID("teachers_funded");
 			var tPovWaff = wafflesMult().data(tchPov).chartID("teachers_funded_poverty");
 			var tSizeWaff = wafflesMult().data(tchSize).chartID("teachers_funded_size");
 			var ccrsEESWaff = wafflesMult().data(ccrsEES).chartID("ccrs_ees");
@@ -272,7 +272,7 @@
 			d3.select("#use_pov").call(dumbUsePov);
 			d3.select("#use_size").call(dumbUseSize);
 			d3.select("#pd_subjects").call(PDWaff);
-			//d3.select("#teachers_funded").call(csrLine);
+			d3.select("#teachers_funded").call(csrBubble);
 			d3.select("#teachers_funded_poverty").call(tPovWaff);
 			d3.select("#teachers_funded_size").call(tSizeWaff);
 			//d3.select("#ccrs_ees").call(ccrsEESWaff);

@@ -901,12 +901,6 @@ function dumbBell() {
 			
 		// formats
 		
-		var formatNum = d3.format(",f");
-		var formatNumDec = d3.format(",.1f");
-		var formatPerc = d3.format(".1%");
-		
-		// formats
-		
 		var formatNum = d3.format(",");
 		var formatNumDec = d3.format(",.1f");
 		var formatPerc = d3.format(".1%");
@@ -1333,230 +1327,280 @@ function dumbBell() {
 		
 };	
 
-// Multi-line chart
+// Bubble chart
 
-
+function bubble() {
 	
-		// options that can be edited by the caller
+	// options that can be edited by the caller
 	// these are the default values
 	
-	var width,
+	var	width = [],
 		height = 400,
 		marginTop = 20,
-		marginLeft = 40,
-		marginBottomSpec = 20,
+		marginLeft = 20,
+		marginBottom = 20,
+		dotSize = 500,
 		animateTime = 1000,
-		yMax = 100,
-		percWhole = 0, // 0 = perc, 1 = whole; default is perc
-		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
+		xMax = 100,
 		chartID = [],
 		data = [];
 	
 	function chart(selection) {
 		selection.each(function() {
+		
+		// formats
+		
+		var formatNum = d3.format(",");
+		var formatNumDec = d3.format(",.1f");
+		
+		// margins; adjust width and height to account for margins
+		
+		var width = document.getElementById(chartID).offsetWidth;
+		
+		var margin = {right: 20},
+			widthAdj = width - marginLeft - margin.right,
+			heightAdj = height - marginTop - marginBottom;
+
+		// build chart
+		
+		var dom = d3.select("#" + chartID);
+		
+		var svg = dom.append("svg")
+			.attr("class", "bubble")
+			.attr("width", width)
+			.attr("height", height)
+			.append("g")
+				.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+					
+		var pack = d3.pack()
+			.size([widthAdj, heightAdj])
+			.padding(1.5);
+		
+		var root = d3.hierarchy({children: classes})
+			.sum(function(d) { return d.percent; })
+			.each(function(d) {
+				if (id = d.data.id) {
+					var id, i = id.lastIndexOf(".");
+						d.id = id;
+						d.package = id.slice(0, i);
+						d.class = id.slice(i + 1);
+				}
+			});
+		
+		pack(root);
+		console.log(pack(root));
 			
-			// sort data
+		var node = svg.selectAll(".node")
+			.data(data);
 			
-			data.sort(function(a, b) { 
-				if (sortDir == 0) { return d3.ascending(a.order, b.order); }
-				else if (sortDir == 1) { return d3.descending(a.order, b.order); };
+		node.enter()
+			.append("circle")
+				.attr("r", function(d) { return d.r; })
+				.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; });
+				//.style("fill", function(d) { return color(d.percent); })
+
+			//check for scroll to fire transitions
+			
+			window.addEventListener("scroll", function() { 
+			
+				if (document.getElementById(chartID).classList.contains("transitioned") == true) {	}
+			
+				else if (document.getElementById(chartID).classList.contains("scroll-active") == true) {
+					
+					document.getElementById(chartID).classList.add("transitioned");
+					
+					/*svg.selectAll("circle.dot1")
+						.transition("move1")
+							.duration(animateTime)
+							.attr("cx", function(d) { 
+								if (percWhole == 0) { return xScale(d.group1_val/100); }
+								else if (percWhole == 1) { return xScale(d.group1_val); }; 
+							});
+
+					svg.selectAll("circle.dot2")
+						.transition("move2")
+							.duration(animateTime)
+							.attr("cx", function(d) { 
+								if (percWhole == 0) { return xScale(d.group2_val/100); }
+								else if (percWhole == 1) { return xScale(d.group2_val); }; 
+							});
+							
+					svg.selectAll("line.dotLine")
+						.transition("widen")
+							.delay(animateTime)
+							.duration(animateTime)
+							.attr("x1", function(d) { 
+								if (percWhole == 0) { return xScale((d.group1_val/100)); }
+								else if (percWhole == 1) { return xScale(d.group1_val); }; 
+							})
+							.attr("x2", function(d) { 
+								if (percWhole == 0) { return xScale((d.group2_val/100)); }
+								else if (percWhole == 1) { return xScale(d.group2_val); }; 
+							});
+	
+					svg.selectAll("text.dot1Label")
+						.transition("appear")
+							.delay(animateTime)
+							.duration(animateTime)
+							.attr("opacity", 1);
+							
+					svg.selectAll("text.dot2Label")
+						.transition("appear")
+							.delay(animateTime)
+							.duration(animateTime)
+							.attr("opacity", 1);*/
+					
+				};
+				
 			});
 			
-			// formats
-			
-			var formatNum = d3.format(",f");
-			var formatNumDec = d3.format(",.1f");
-			var formatPerc = d3.format(".1%");
-			
-			// margins; adjust width and height to account for margins
-			
-			var width = document.getElementById(chartID).offsetWidth;
-			
-			var margin = {right: 20},
-				widthAdj = width - marginLeft - margin.right;
-	
-			// axis scales
-			
-			var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.1);
+			// resize
+
+			window.addEventListener("resize", function() {
+
+				// update width
+
+				var width = document.getElementById(chartID).offsetWidth,
+					widthAdj = width - marginLeft - margin.right;
+
+				// resize chart
+
+				xScale.rangeRound([0, widthAdj]);
 				
-			// domains
-			
-			xScale.domain(data.map(function(d) { return d.group; }));
-	
-			// build chart
-			
-			var dom = d3.select("#" + chartID);
-			
-			var svg = dom.append("svg")
-				.attr("class", "colChart")
-				.attr("width", width)
-				.attr("height", height)
-				.append("g")
-					.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+				dom.select("svg")
+					.attr("width", width);
+								
+				// move the data labels (base position does not depend on transitions)
+					
+				/*svg.selectAll("text.dot1Label")
+					.transition()
+						.duration(animateTime)
+						.attr("x", function(d) { 
+							if (percWhole == 0) { return xScale((d.group1_val/100)); }
+							else if (percWhole == 1) { return xScale(d.group1_val); }; 
+						})
 						
-			// add axes
-			// x-axis will need label wrapping
-			
-			// wrap labels (from mbostock)
-			
-			function wrap(text, width) {
-				text.each(function() {
-					var text = d3.select(this),
-						words = text.text().split(/\s+/).reverse(),
-						word,
-						line = [],
-						lineNumber = 0,
-						lineHeight = 1.1, // ems
-						y = text.attr("y"),
-						dy = parseFloat(text.attr("dy")),
-						tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-					while (word = words.pop()) {
-						line.push(word);
-						tspan.text(line.join(" "));
-						if (tspan.node().getComputedTextLength() > width) {
-							line.pop();
-							tspan.text(line.join(" "));
-							line = [word];
-							tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-						}
-					}
-				});
-			}
+				svg.selectAll("text.dot2Label")
+					.transition()
+						.duration(animateTime)
+						.attr("x", function(d) { 
+							if (percWhole == 0) { return xScale((d.group2_val/100)); }
+							else if (percWhole == 1) { return xScale(d.group2_val); }; 
+						})*/
+					
+				// check if animations have already fired
+					
+				function checkAnimate() { 
 
-			svg.append("g")
-				.attr("class", "xAxis")
-				//.attr("transform", "translate(0," + height + ")")
-				.call(d3.axisBottom(xScale))
-				.selectAll(".xAxis text")
-					.call(wrap, xScale.bandwidth());
-
-			// figure out max number of tspans from wrapping
-		
-			var tspanMax;
-		
-			function tspanMaxCount() {
-			
-				// find all tspans within the chart
-			
-				var tspans = document.getElementById(chartID).getElementsByTagName("tspan");
-			
-				// nest the tspans by the label
-			
-				var tspanNest = d3.nest()
-					.key(function(d) { return d.__data__; })
-					.entries(tspans);
-			
-				// find maximum length of the nested tspans
-			
-				tspanMax = d3.max(tspanNest, function(d) { return d.values.length; });
+					// if fired, just move things
 				
-			}
-		
-			tspanMaxCount();
-			
-			svg.selectAll(".xAxis text")
-				.attr("dy", "1.5em");
-			
-			// move the x-axis based on bottom margin
-			
-			var marginBottom;
-			
-			function marginBottomAdj() {
-				marginBottom = tspanMax * marginBottomSpec;
-			}
-			
-			marginBottomAdj();
-			
-			var	heightAdj = height - marginTop - marginBottom;
-			
-			svg.select(".xAxis").remove();
-			
-			svg.append("g")
-				.attr("class", "xAxis")
-				.attr("transform", "translate(0," + heightAdj + ")")
-				.call(d3.axisBottom(xScale))
-				.selectAll(".xAxis text")
-					.call(wrap, xScale.bandwidth());
-			
-			// y-axis stuff depends on adjusted height
-			
-			var	yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, yMax]);
+					if (document.getElementById(chartID).classList.contains("transitioned") == true) {	
+					
+						/*svg.selectAll("circle.dot1")
+							.transition()
+								.duration(animateTime)
+								.attr("cx", function(d) { 
+									if (percWhole == 0) { return xScale(d.group1_val/100); }
+									else if (percWhole == 1) { return xScale(d.group1_val); }; 
+								});
 
-			// y-axis depends on units
-			
-			function yAxis() { 
-				if (percWhole == 0) { 
-					svg.append("g")
-						.attr("class", "yAxis")
-						.call(d3.axisLeft(yScale)
-							.tickValues([0, yMax])
-							.tickSize(0)
-							.tickFormat(d3.format(".1%")));
-				}
-				else if (percWhole == 1) { 
-					if (yMax < 1000) {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.format(",")));						
+						svg.selectAll("circle.dot2")
+							.transition()
+								.duration(animateTime)
+								.attr("cx", function(d) { 
+									if (percWhole == 0) { return xScale(d.group2_val/100); }
+									else if (percWhole == 1) { return xScale(d.group2_val); }; 
+								});
+
+						svg.selectAll("line.dotLine")
+							.transition()
+								.duration(animateTime)
+								.attr("x1", function(d) { 
+									if (percWhole == 0) { return xScale((d.group1_val/100)); }
+									else if (percWhole == 1) { return xScale(d.group1_val); }; 
+								})
+								.attr("x2", function(d) { 
+									if (percWhole == 0) { return xScale((d.group2_val/100)); }
+									else if (percWhole == 1) { return xScale(d.group2_val); }; 
+								});*/
+														
 					}
-					if (yMax < 1000000) {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e4)));							
-					}
-					else {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e6)));
-					};
-				};
-			};
-			
-			yAxis();
+					
+					// if not fired, run full transitions
+					
+					else if (document.getElementById(chartID).classList.contains("scroll-active") == true) {
+						
+						document.getElementById(chartID).classList.add("transitioned");
+						
+						/*svg.selectAll("circle.dot1")
+							.transition("move1")
+								.duration(animateTime)
+								.attr("cx", function(d) { 
+									if (percWhole == 0) { return xScale(d.group1_val/100); }
+									else if (percWhole == 1) { return xScale(d.group1_val); }; 
+								});
+
+						svg.selectAll("circle.dot2")
+							.transition("move2")
+								.duration(animateTime)
+								.attr("cx", function(d) { 
+									if (percWhole == 0) { return xScale(d.group2_val/100); }
+									else if (percWhole == 1) { return xScale(d.group2_val); }; 
+								});
+								
+						svg.selectAll("line.dotLine")
+							.transition("widen")
+								.delay(animateTime)
+								.duration(animateTime)
+								.attr("x1", function(d) { 
+									if (percWhole == 0) { return xScale((d.group1_val/100)); }
+									else if (percWhole == 1) { return xScale(d.group1_val); }; 
+								})
+								.attr("x2", function(d) { 
+									if (percWhole == 0) { return xScale((d.group2_val/100)); }
+									else if (percWhole == 1) { return xScale(d.group2_val); }; 
+								});
 		
-			// more chart building
-			
-			
+						svg.selectAll("text.dot1Label")
+							.transition("appear")
+								.delay(animateTime)
+								.duration(animateTime)
+								.attr("opacity", 1);
+								
+						svg.selectAll("text.dot2Label")
+							.transition("appear")
+								.delay(animateTime)
+								.duration(animateTime)
+								.attr("opacity", 1);*/
+						
+					};
+				
+				};
+				
+				checkAnimate();
+					
+			});
 			
 		})
+		
 	};
 
-	chart.sortDir = function(value) {
-		if (!arguments.length) return sortDir;
-		sortDir = value;
+	chart.dotSize = function(value) {
+		if (!arguments.length) return dotSize;
+		dotSize = value;
 		return chart;
 	}
-
-	chart.percWhole = function(value) {
-		if (!arguments.length) return percWhole;
-		percWhole = value;
-		return chart;
-	}	
-
-	chart.yMax = function(value) {
-		if (!arguments.length) return yMax;
-		yMax = value;
+	
+	chart.xMax = function(value) {
+		if (!arguments.length) return xMax;
+		xMax = value;
 		return chart;
 	};
 
 	chart.marginLeft = function(value) {
 		if (!arguments.length) return marginLeft;
 		marginLeft = value;
-		return chart;
-	};
-
-	chart.marginBottomSpec = function(value) {
-		if (!arguments.length) return marginBottomSpec;
-		marginBottomSpec = value;
 		return chart;
 	};
 	
@@ -1568,13 +1612,13 @@ function dumbBell() {
 	
 	chart.data = function(value) {
 		if (!arguments.length) return data;
-		data = value;		
+		data = value;
 		return chart;
 	};
 	
 	return chart;
 		
-};
+};	
 
 // Small multiples waffles
 
