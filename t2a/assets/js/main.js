@@ -22,7 +22,7 @@ window.onscroll = function() {
 	//console.log(divs);
 	
 	for(var i = 0; i < divs.length; i++) {
-		if (window.scrollY > (document.getElementById(divs[i].id).getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/2)) && window.scrollY <= (document.getElementById(divs[i].id).getBoundingClientRect().bottom + window.pageYOffset/* + (window.innerHeight/2)*/)) { 
+		if (window.scrollY > (document.getElementById(divs[i].id).getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/3)) && window.scrollY <= (document.getElementById(divs[i].id).getBoundingClientRect().bottom + window.pageYOffset/* + (window.innerHeight/2)*/)) { 
 			document.getElementById(divs[i].id).classList.add("scroll-active");
 		}
 		
