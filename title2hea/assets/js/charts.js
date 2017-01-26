@@ -63,11 +63,28 @@ function scatterPlot() {
 				svg.selectAll(".xAxis text")
 					.attr("dy", "1.5em");
 
+				svg.append("text")
+					.attr("class", "xAxisTitle")
+					.attr("x", widthAdj)
+					.attr("y", heightAdj)
+					.attr("dy", "3em")
+					.attr("text-anchor", "end")
+					.text("Percent minority");
+
 				svg.append("g")
 					.attr("class", "yAxis")
 					.call(d3.axisLeft(yScale)
 						.tickSize(0)
 						.tickFormat(formatPerc));
+
+				svg.append("text")
+					.attr("class", "yAxisTitle")
+					.attr("x", 0)
+					.attr("dy", "-3em")
+					.attr("y", 0)
+					.attr("transform", "rotate(-90)")
+					.attr("text-anchor", "end")
+					.text("Percent male");
 
 				// color scheme
 
@@ -75,10 +92,10 @@ function scatterPlot() {
 					.domain(["Traditional", "Alternative, IHE-based", "Alternative, not IHE-based"])
 					.range(["#E9B841", "#E08126", "#D85932"]);
 
-				// draw dots, filter out any with nulls
+				// draw dots, filter out any with nulls and with total enrollment < 10
 
 				var data1 = data.filter(function(d) {
-					if ((isNaN(d.minority_percent) == false) && (isNaN(d.male_percent) == false)) { return d; };
+					if ((isNaN(d.minority_percent) == false) && (isNaN(d.male_percent) == false) && (d.total >= 10)) { return d; };
 				});
 
 				console.log(data1);
@@ -142,8 +159,11 @@ function scatterPlot() {
 					svg.selectAll(".xAxis text")
 						.attr("dy", "1.5em");
 
-						d3.selectAll("circle.dots")
-									.attr("cx", function(d) { return xScale(d.minority_percent); });
+					svg.selectAll(".xAxisTitle")
+						.attr("x", widthAdj);
+
+					d3.selectAll("circle.dots")
+						.attr("cx", function(d) { return xScale(d.minority_percent); });
 
 					// check if animations have already fired
 

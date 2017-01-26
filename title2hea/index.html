@@ -34,13 +34,15 @@
 <!-- Charts -->
 
 <script>
-  d3.tsv("assets/data/gender_scatter.tsv", function(error, data) {
+  d3.tsv("assets/data/scatterData.tsv", function(error, data) {
     if (error) { throw error; }
     else {
       data.forEach(function(d) {
         d.state = d.state;
+        d.program_code = d.program_code;
         d.provider = d.provider;
         d.provider_type = d.provider_type;
+        d.total = +d.total;
         d.male = +d.male;
         d.female = +d.female;
         d.male_percent = +d.male_percent;

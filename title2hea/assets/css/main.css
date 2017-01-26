@@ -26,7 +26,7 @@ ul.topNav {
 	/*height: 60px;*/
 	line-height: 60px;
 	text-align: center;
-	list-style-type: none;	
+	list-style-type: none;
 	/*overflow: hidden;*/
 	background-color: #1A1C20;
 	font-size: 90%;
@@ -40,15 +40,15 @@ ul.topNav {
 		text-align: center;
 		text-decoration: none;
 	}
-	
+
 		ul.topNav li.blank {
 			display: none;
 		}
-	
+
 		ul.topNav li.icon {
 			display: none;
 		}
-		
+
 		ul.topNav li a {
 			text-transform: uppercase;
 			font-size: 10pt;
@@ -56,11 +56,11 @@ ul.topNav {
 			color: rgba(255, 255, 255, 0.7);
 			text-decoration: none;
 		}
-		
+
 			ul.topNav li a:hover {
 				color: rgba(255, 255, 255, 1);
 			}
-		
+
 			ul.topNav li a.active{
 				color: rgba(255, 255, 255, 1);
 			}
@@ -76,41 +76,41 @@ ul.topNav {
 		ul.topNav li {
 			display: none;
 		}
-					
+
 			ul.topNav li.icon {
 				position: relative;
 				top: 0;
 				display: block;
 				text-align: right;
 			}
-	
+
 			ul.topNav li a {
 				display: block;
 			}
-	
+
 	ul.topNav.responsive li {
 		float: none;
 		display: block;
 	}
-	
+
 		ul.topNav.responsive li.title {
 			position: relative;
 			left: 0;
 			top: 0;
-		}	
-		
+		}
+
 		ul.topNav.responsive li.icon {
 			position: absolute;
 			right: 0;
 			top: 0;
-		}	
-		
+		}
+
 		ul.topNav.responsive li a {
 			display: block;
 			text-align: left;
 		}
-				
-}	
+
+}
 
 .wrapper {
 	max-width: 960px;
@@ -127,7 +127,7 @@ ul.topNav {
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;	
+    background-size: cover;
 }
 
 #title {
@@ -180,6 +180,18 @@ ul.topNav {
 		text-align: left;
 	}
 
+/* Axis titles for charts */
+
+.xAxisTitle {
+	font: 8pt sans-serif;
+	fill: #595857;
+}
+
+.yAxisTitle {
+	font: 8pt sans-serif;
+	fill: #595857;
+}
+
 /* Bar charts */
 
 .barChart .xAxis text {
@@ -187,7 +199,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.barChart 
+.barChart
 	.xAxis path,
 	.xAxis line {
 		stroke: #595857;
@@ -198,7 +210,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.barChart 
+.barChart
 	.yAxis path,
 	.yAxis line {
 		display: none;
@@ -219,12 +231,12 @@ ul.topNav {
 	font-weight: bold;
 	fill: rgb(142, 209, 224);
 }
-	
+
 .barMaxLabel {
 	font: 10pt sans-serif;
 	font-weight: bold;
 	fill: rgb(46, 138, 149);
-}	
+}
 
 /* Column charts */
 
@@ -233,7 +245,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.colChart 
+.colChart
 	.yAxis path,
 	.yAxis line {
 		stroke: #595857;
@@ -244,7 +256,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.colChart 
+.colChart
 	.xAxis path,
 	.xAxis line {
 		display: none;
@@ -265,12 +277,12 @@ ul.topNav {
 	font-weight: bold;
 	fill: rgb(142, 209, 224);
 }
-	
+
 .colMaxLabel {
 	font: 10pt sans-serif;
 	font-weight: bold;
 	fill: rgb(46, 138, 149);
-}	
+}
 
 /* Dumbell Plots */
 
@@ -279,7 +291,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.dumbBell 
+.dumbBell
 	.xAxis path,
 	.xAxis line {
 		stroke: #595857;
@@ -290,7 +302,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.dumbBell 
+.dumbBell
 	.yAxis path,
 	.yAxis line {
 		display: none;
@@ -328,7 +340,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.lineChart 
+.lineChart
 	.yAxis path,
 	.yAxis line {
 		stroke: #595857;
@@ -339,7 +351,7 @@ ul.topNav {
 	fill: #595857;
 }
 
-.lineChart 
+.lineChart
 	.xAxis path,
 	.xAxis line {
 		display: none;
@@ -348,7 +360,7 @@ ul.topNav {
 .lineChart .line {
 	stroke-width: 2px;
 }
-	
+
 .lineChart .levelLabel {
 	font: 10pt sans-serif;
 	font-weight: bold;
@@ -358,7 +370,7 @@ ul.topNav {
 	font: 10pt sans-serif;
 	font-weight: bold;
 }
-	
+
 /* Waffle charts */
 
 .waffleCounter {
