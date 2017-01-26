@@ -19,9 +19,14 @@
 </head>
 
 <body>
-  <div id="gender_scatter" class="chart">
+  <div id="TradMMScatter" class="chart" style="width: 49%; display: inline-block;">
     <p>
-      Scatter plot of female and male percentage by provider and provider type.
+      Scatter plot of percent male by percent minority for traditional providers.
+    </p>
+  </div>
+  <div id="AltMMScatter" class="chart" style="width: 49%; display: inline-block;">
+    <p>
+      Scatter plot of percent male by percent minority for alternative providers.
     </p>
   </div>
 </body>
@@ -46,9 +51,14 @@
         d.minority_percent = +d.minority_percent;
       });
 
-      var genderScatter = scatterPlot().data(data).chartID("gender_scatter");
+      data1 = data.filter(function(d) { return d.provider_type == "Traditional"; });
+      data2 = data.filter(function(d) { return d.provider_type != "Traditional"; });
 
-      d3.select("#gender_scatter").call(genderScatter);
+      var tradMMScatter = scatterPlot().data(data1).chartID("TradMMScatter");
+      var altMMScatter = scatterPlot().data(data2).chartID("AltMMScatter");
+
+      d3.select("#TradMMScatter").call(tradMMScatter);
+      d3.select("#AltMMScatter").call(altMMScatter);
 
     };
   });
