@@ -1,0 +1,377 @@
+body {
+	font: 15px sans-serif;
+	line-height: 1.5;
+	margin: 0;
+}
+
+p {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+/* Navigation */
+
+#navMenu {
+	transition: 0.25s;
+}
+
+ul.topNav {
+	z-index: 10000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	/*height: 60px;*/
+	line-height: 60px;
+	text-align: center;
+	list-style-type: none;	
+	/*overflow: hidden;*/
+	background-color: #1A1C20;
+	font-size: 90%;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+	ul.topNav li {
+		margin-left: 1.5em;
+		margin-right: 1.5em;
+		display: inline-block;
+		text-align: center;
+		text-decoration: none;
+	}
+	
+		ul.topNav li.blank {
+			display: none;
+		}
+	
+		ul.topNav li.icon {
+			display: none;
+		}
+		
+		ul.topNav li a {
+			text-transform: uppercase;
+			font-size: 10pt;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 0.7);
+			text-decoration: none;
+		}
+		
+			ul.topNav li a:hover {
+				color: rgba(255, 255, 255, 1);
+			}
+		
+			ul.topNav li a.active{
+				color: rgba(255, 255, 255, 1);
+			}
+
+/* Navigation - screen size */
+
+@media screen and (max-width: 800px) {
+
+	ul.topNav {
+		height: initial;
+	}
+
+		ul.topNav li {
+			display: none;
+		}
+					
+			ul.topNav li.icon {
+				position: relative;
+				top: 0;
+				display: block;
+				text-align: right;
+			}
+	
+			ul.topNav li a {
+				display: block;
+			}
+	
+	ul.topNav.responsive li {
+		float: none;
+		display: block;
+	}
+	
+		ul.topNav.responsive li.title {
+			position: relative;
+			left: 0;
+			top: 0;
+		}	
+		
+		ul.topNav.responsive li.icon {
+			position: absolute;
+			right: 0;
+			top: 0;
+		}	
+		
+		ul.topNav.responsive li a {
+			display: block;
+			text-align: left;
+		}
+				
+}	
+
+.wrapper {
+	max-width: 960px;
+	padding: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 0;
+}
+
+#header {
+	background-image: url("../images/woman-notebook-working-girl.jpg");
+	height: 100vh;
+	margin: 0;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;	
+}
+
+#title {
+	padding-bottom: 2em;
+	height: inherit;
+}
+
+.titleText {
+	max-width: 75vw;
+	background-color: rgba(255, 255, 255, 0.5);
+	position: absolute;
+	bottom: 20vh;
+	color: rgba(0, 0, 0, 0.8);
+	padding: 1em;
+}
+
+#pageTitle {
+	font: 22pt sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.expAbout {
+	padding-top: 0.75em;
+	background-color: #2E8A95;
+	color: rgba(255, 255, 255, 1);
+}
+
+.exp {
+	padding-top: 0.75em;
+	background-color: #215F8A;
+	color: rgba(255, 255, 255, 1);
+}
+
+.sectionHeader {
+	border-bottom: solid 2px rgba(255, 255, 255, 0.85);
+	padding-bottom: 0.5em;
+}
+
+.chartArea {
+	background-color: #FFFFFF;
+	color: rgba(0, 0, 0, 1);
+}
+
+.chart {
+	text-align: center;
+}
+
+	.chart p {
+		text-align: left;
+	}
+
+/* Bar charts */
+
+.barChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.barChart 
+	.xAxis path,
+	.xAxis line {
+		stroke: #595857;
+	}
+
+.barChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.barChart 
+	.yAxis path,
+	.yAxis line {
+		display: none;
+	}
+
+.bar {
+	shape-rendering: crispEdges;
+	fill: rgb(142, 209, 224);
+}
+
+.barMax {
+	shape-rendering: crispEdges;
+	fill: rgb(46, 138, 149);
+}
+
+.barLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(142, 209, 224);
+}
+	
+.barMaxLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(46, 138, 149);
+}	
+
+/* Column charts */
+
+.colChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.colChart 
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.colChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.colChart 
+	.xAxis path,
+	.xAxis line {
+		display: none;
+	}
+
+.col {
+	shape-rendering: crispEdges;
+	fill: rgb(142, 209, 224);
+}
+
+.colMax {
+	shape-rendering: crispEdges;
+	fill: rgb(46, 138, 149);
+}
+
+.colLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(142, 209, 224);
+}
+	
+.colMaxLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: rgb(46, 138, 149);
+}	
+
+/* Dumbell Plots */
+
+.dumbBell .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.dumbBell 
+	.xAxis path,
+	.xAxis line {
+		stroke: #595857;
+	}
+
+.dumbBell .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.dumbBell 
+	.yAxis path,
+	.yAxis line {
+		display: none;
+	}
+
+.dot1 {
+	fill: #E56C0A;
+}
+
+.dot2 {
+	fill: #5DBF7E;
+}
+
+.dot1Label {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: #E56C0A;
+}
+
+.dot2Label {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: #5DBF7E;
+}
+
+.dotLine {
+	stroke-width: 1px;
+	stroke: #595857;
+}
+
+/* Stacked line */
+
+.lineChart .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.lineChart 
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.lineChart .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.lineChart 
+	.xAxis path,
+	.xAxis line {
+		display: none;
+	}
+
+.lineChart .line {
+	stroke-width: 2px;
+}
+	
+.lineChart .levelLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+}
+
+.lineChart .valueLabel {
+	font: 10pt sans-serif;
+	font-weight: bold;
+}
+	
+/* Waffle charts */
+
+.waffleCounter {
+	font-weight: bold;
+	font: 24pt sans-serif;
+}
+
+.waffleSubject {
+	margin-top: 0em;
+	margin-bottom: 1.5em;
+	color: #595857;
+}
+
+	p.waffleSubject {
+		text-align: center;
+	}

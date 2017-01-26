@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta charset="viewport" content="width=device-width" />
+
+<html>
+<head>
+  <title>Selected Findings from 2016 State Reports</title>
+
+  <!-- Scripts -->
+
+  <script src="assets/js/charts.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+
+  <!-- Stylesheets -->
+
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+
+</head>
+
+<body>
+  <div id="gender_scatter" class="chart">
+    <p>
+      Scatter plot of female and male percentage by provider and provider type.
+    </p>
+  </div>
+</body>
+
+<!-- Charts -->
+
+<script>
+  d3.tsv("assets/data/gender_scatter.tsv", function(error, data) {
+    if (error) { throw error; }
+    else {
+      data.forEach(function(d) {
+        d.state = d.state;
+        d.provider = d.provider;
+        d.provider_type = d.provider_type;
+        d.male = +d.male;
+        d.female = +d.female;
+        d.male_percent = +d.male_percent;
+        d.female_percent = +d.female_percent;
+        d.white = +d.white;
+        d.minority = +d.minority;
+        d.white_percent = +d.white_percent;
+        d.minority_percent = +d.minority_percent;
+      });
+
+      var genderScatter = scatterPlot().data(data).chartID("gender_scatter");
+
+      d3.select("#gender_scatter").call(genderScatter);
+
+    };
+  });
+</script>
+
+</html>
