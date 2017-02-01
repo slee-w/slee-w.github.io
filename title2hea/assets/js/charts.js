@@ -7,10 +7,12 @@ function scatterPlot() {
 
 	var height = 650,
 		marginTop = 20,
-		marginLeft = 75,
-		marginBottom = 40,
+		marginLeft = 65,
+		marginBottom = 60,
 		dotSize = 5,
 		animateTime = 1000,
+		xAxisLabel = [],
+		yAxisLabel = [],
 		chartID = [],
 		data = [];
 
@@ -44,6 +46,31 @@ function scatterPlot() {
 
 				var dom = d3.select("#" + chartID);
 
+				// add buttons and state selector
+
+				var stateSelector = dom.append("div")
+					.attr("class", "stateSelector");
+
+				var typeSelector = dom.append("div")
+					.attr("class", "typeSelector");
+
+				typeSelector.append("button")
+					.text("Traditional")
+					.on("click", function() {
+
+						d3.selectAll("circle.dots.trad")
+							.attr("opacity", 1);
+
+					});
+
+				typeSelector.append("button")
+					.text("Alternative, IHE-based");
+
+				typeSelector.append("button")
+					.text("Alternative, not IHE-based");
+
+				dom.append("br");
+
 				var svg = dom.append("svg")
 					.attr("class", "scatterPlot")
 					.attr("width", width)
@@ -67,9 +94,9 @@ function scatterPlot() {
 					.attr("class", "xAxisTitle")
 					.attr("x", widthAdj)
 					.attr("y", heightAdj)
-					.attr("dy", "3em")
+					.attr("dy", "3.5em")
 					.attr("text-anchor", "end")
-					.text("Percent minority");
+					.text(xAxisLabel);
 
 				svg.append("g")
 					.attr("class", "yAxis")
@@ -80,37 +107,32 @@ function scatterPlot() {
 				svg.append("text")
 					.attr("class", "yAxisTitle")
 					.attr("x", 0)
-					.attr("dy", "-3em")
+					.attr("dy", "-3.5em")
 					.attr("y", 0)
 					.attr("transform", "rotate(-90)")
 					.attr("text-anchor", "end")
-					.text("Percent male");
-
-				// color scheme
-
-				var color = d3.scaleOrdinal()
-					.domain(["Traditional", "Alternative, IHE-based", "Alternative, not IHE-based"])
-					.range(["#E9B841", "#E08126", "#D85932"]);
+					.text(yAxisLabel);
 
 				// draw dots, filter out any with nulls and with total enrollment < 10
 
 				var data1 = data.filter(function(d) {
-					if ((isNaN(d.minority_percent) == false) && (isNaN(d.male_percent) == false) && (d.total >= 10)) { return d; };
+					if ((isNaN(d.var1) == false) && (isNaN(d.var2) == false) && (d.total >= 10)) { return d; };
 				});
-
-				console.log(data1);
 
 				var dots = svg.selectAll(".dots")
 					.data(data1);
 
 				dots.enter()
 					.append("circle")
-						.attr("class", "dots")
+						.attr("class", function(d) {
+								if (d.provider_type == "Traditional") { return "dots trad"; }
+								else if (d.provider_type == "Alternative, IHE-based") { return "dots altIHE" }
+								else if (d.provider_type == "Alternative, not IHE-based") { return "dots altNot" }
+						})
 						.attr("r", dotSize)
-						.attr("cx", function(d) { return xScale(d.minority_percent); })
-						.attr("cy", function(d) { return yScale(d.male_percent); })
-						.attr("fill", function(d) { return color(d.provider_type); })
-						.attr("opacity", 0.5);
+						.attr("cx", function(d) { return xScale(d.var1); })
+						.attr("cy", function(d) { return yScale(d.var2); })
+						.attr("opacity", 0);
 
 				//check for scroll to fire transitions
 
@@ -123,11 +145,13 @@ function scatterPlot() {
 						document.getElementById(chartID).classList.add("transitioned");
 
 						svg.selectAll("circle.dots")
-							.transition("appear")
+							.transition("move")
+								.delay(function(d) {
+										if (d.provider_type == "Traditional") { return animateTime; }
+										else { return 2*animateTime; };
+									})
 								.duration(animateTime)
-								.delay(animateTime)
-								.duration(animateTime)
-								.attr("opacity", 1);
+									.attr("opacity", 0.5);
 
 					};
 
@@ -163,7 +187,7 @@ function scatterPlot() {
 						.attr("x", widthAdj);
 
 					d3.selectAll("circle.dots")
-						.attr("cx", function(d) { return xScale(d.minority_percent); });
+						.attr("cx", function(d) { return xScale(d.var1); });
 
 					// check if animations have already fired
 
@@ -176,7 +200,7 @@ function scatterPlot() {
 							svg.selectAll("circle.dots")
 								.transition()
 									.duration(animateTime)
-									.attr("cx", function(d) { return xScale(d.minority_percent); });
+									.attr("cx", function(d) { return xScale(d.var1); });
 
 						}
 
@@ -226,6 +250,18 @@ function scatterPlot() {
 	chart.dotSize = function(value) {
 		if (!arguments.length) return dotSize;
 		dotSize = value;
+		return chart;
+	};
+
+	chart.xAxisLabel = function(value) {
+		if (!arguments.length) return xAxisLabel;
+		xAxisLabel = value;
+		return chart;
+	};
+
+	chart.yAxisLabel = function(value) {
+		if (!arguments.length) return yAxisLabel;
+		yAxisLabel = value;
 		return chart;
 	};
 

@@ -387,3 +387,43 @@ ul.topNav {
 	p.waffleSubject {
 		text-align: center;
 	}
+
+/* Scatter plots */
+
+.scatterPlot
+	.yAxisTitle,
+	.yAxis text {
+		font: 10pt sans-serif;
+		fill: #595857;
+	}
+
+.scatterPlot
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.scatterPlot
+	.xAxisTitle,
+	.xAxis text {
+		font: 10pt sans-serif;
+		fill: #595857;
+	}
+
+.scatterPlot
+	.xAxis path,
+	.xAxis line {
+		stroke: #595857;
+	}
+
+.scatterPlot .dots.trad {
+	fill: #E9B841;
+}
+
+.scatterPlot .dots.altIHE {
+	fill: #E08126;
+}
+
+.scatterPlot .dots.altNot {
+	fill: #D85932;
+}

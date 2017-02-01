@@ -9,8 +9,10 @@
 
   <!-- Scripts -->
 
-  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/main.js"></script>
   <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  <script src="assets/js/charts.js"></script>
 
   <!-- Stylesheets -->
 
@@ -19,16 +21,122 @@
 </head>
 
 <body>
-  <div id="TradMMScatter" class="chart" style="width: 49%; display: inline-block;">
-    <p>
-      Scatter plot of percent male by percent minority for traditional providers.
-    </p>
-  </div>
-  <div id="AltMMScatter" class="chart" style="width: 49%; display: inline-block;">
-    <p>
-      Scatter plot of percent male by percent minority for alternative providers.
-    </p>
-  </div>
+  <section id="navigation">
+		<div>
+			<nav>
+				<ul id="navMenu" class="topNav">
+					<li class="icon"><a href="javascript:void(0);" onclick="launchMenu()">&#9776;</a></li>
+					<li class="blank"><a href="javascript:void();" onClick="closeMenu()">&nbsp;</a></li>
+					<li><a href="#about" onclick="closeMenu()">About</a></li>
+					<li><a href="#provProg" onclick="closeMenu()">Providers</a></li>
+					<li><a href="#enrComp" onclick="closeMenu()">Enrollment</a></li>
+					<li><a href="#eval" onclick="closeMenu()">Evaluation</a></li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+  <section id="header">
+    <div id="title" class="wrapper">
+      <p class="titleText">
+        <span id="pageTitle">Selected Findings from 2016 State Reports</span><br/>
+        <em>Title II, Higher Education Act</em>
+      </p>
+    </div>
+  </section>
+  <section id="about" class="expAbout">
+		<div class="wrapper">
+			<h2 class="sectionHeader">Introduction</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+      </p>
+      <p>
+        Nullam posuere mauris a ullamcorper feugiat. Duis tempus felis a aliquam egestas. Donec leo odio, consectetur quis enim nec, auctor tristique neque. Nunc a nisi nec urna pulvinar mattis. Nulla lectus quam, pretium in pulvinar ut, venenatis ac odio. Vestibulum ac volutpat ligula. Cras sed quam non orci porttitor volutpat at vitae turpis. Vivamus semper purus at molestie tempor. Etiam dignissim, tellus eget feugiat interdum, massa nulla faucibus augue, in vehicula tortor quam eget enim. Aenean dolor nisl, scelerisque sit amet vestibulum sed, mattis sed risus. Praesent porta enim enim, vitae vehicula lectus fringilla interdum. Etiam ac lorem non mi rutrum pharetra nec at orci. Nam convallis leo a dolor sodales hendrerit. Phasellus nisi sem, consequat in dui vel, tempus imperdiet urna. Nullam at eros pharetra nisi gravida hendrerit. Aenean eu libero lectus.
+      </p>
+      <p>
+        Morbi tristique accumsan magna, vel placerat erat tempus at. Praesent ullamcorper, velit a elementum vulputate, libero leo lacinia nisi, id imperdiet lacus quam quis risus. Integer euismod lacus erat, sed vehicula odio porta ut. Sed molestie eget lorem quis tincidunt. Aliquam semper, felis nec euismod ultrices, augue orci bibendum velit, semper sollicitudin ex magna nec justo. Duis porttitor dignissim rhoncus. Morbi bibendum eros eros, vel vulputate urna tempus ac. Proin ante dolor, vulputate a tortor vitae, commodo blandit lorem. Suspendisse convallis egestas pellentesque. Vivamus quis nibh a mi porta volutpat vitae a ligula. Sed vitae dolor in quam sollicitudin fringilla. Phasellus vehicula tincidunt vulputate. Fusce nec fermentum arcu, quis ullamcorper risus. Vestibulum at consectetur enim, sagittis dapibus felis. Nunc odio nisi, efficitur sed tempus et, tincidunt et dui. Integer porta vel felis sit amet scelerisque.
+      </p>
+		</div>
+	</section>
+  <section id="provProg" class="exp">
+		<div class="wrapper">
+			<h2 class="sectionHeader">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+			<p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+			</p>
+		</div>
+	</section>
+  <section id="provProgCharts" class="chartArea">
+		<div class="wrapper">
+
+			<!-- Chart 1 -->
+
+			<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+			<div id="prov1" class="chart">
+				<p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis.
+				</p>
+			</div>
+
+	</section>
+  <section id="enrComp" class="exp">
+		<div class="wrapper">
+			<h2 class="sectionHeader">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+			<p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+			</p>
+		</div>
+	</section>
+	<section id="enrCompCharts" class="chartArea">
+		<div class="wrapper">
+
+			<!-- Chart 1 -->
+
+			<h3>How do districts use the funds?</h3>
+			<div id="enr1" class="chart">
+				<p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+				</p>
+			</div>
+
+      <!-- Scatter plot of minority and male -->
+
+			<h3>Does enrollment of males and minorities differ by program type?</h3>
+			<div id="MMScatter" class="chart">
+				<p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+				</p>
+			</div>
+
+	</section>
+  <section id="eval" class="exp">
+		<div class="wrapper">
+			<h2 class="sectionHeader">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+			<p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+			</p>
+		</div>
+	</section>
+  <section id="evalCharts" class="chartArea">
+		<div class="wrapper">
+
+			<!-- Chart 1 -->
+
+			<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+			<div id="eval1" class="chart">
+				<p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis.
+				</p>
+			</div>
+
+	</section>
+  <section id="source" class="exp">
+		<div class="wrapper">
+			<p>
+				<strong>Source:</strong> 2016 Title II, HEA State REports<br/>
+				<strong>Last updated:</strong> February 1, 2017
+			</p>
+		</div>
+	</section>
 </body>
 
 <!-- Charts -->
@@ -45,22 +153,19 @@
         d.total = +d.total;
         d.male = +d.male;
         d.female = +d.female;
-        d.male_percent = +d.male_percent;
+        d.var2 = +d.male_percent; // y-axis var is var2
         d.female_percent = +d.female_percent;
         d.white = +d.white;
         d.minority = +d.minority;
         d.white_percent = +d.white_percent;
-        d.minority_percent = +d.minority_percent;
+        d.var1 = +d.minority_percent; // x-axis var is var1
       });
 
-      data1 = data.filter(function(d) { return d.provider_type == "Traditional"; });
-      data2 = data.filter(function(d) { return d.provider_type != "Traditional"; });
+      var MMScatter = scatterPlot().data(data)
+        .xAxisLabel("Percent minority").yAxisLabel("Percent male")
+        .chartID("MMScatter");
 
-      var tradMMScatter = scatterPlot().data(data1).chartID("TradMMScatter");
-      var altMMScatter = scatterPlot().data(data2).chartID("AltMMScatter");
-
-      d3.select("#TradMMScatter").call(tradMMScatter);
-      d3.select("#AltMMScatter").call(altMMScatter);
+      d3.select("#MMScatter").call(MMScatter);
 
     };
   });
