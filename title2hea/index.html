@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <meta charset="utf-8" />
-<meta charset="viewport" content="width=device-width" />
+<meta name="viewport" content="width=device-width" />
 
 <html>
 <head>
@@ -162,7 +161,7 @@
       });
 
       var MMScatter = scatterPlot().data(data)
-        .xAxisLabel("% MINORITY").yAxisLabel("% MALE")
+        .xAxisLabel("% MINORITY").yAxisLabel("% MALE").dotSize(3)
         .chartID("MMScatter");
 
       d3.select("#MMScatter").call(MMScatter);
