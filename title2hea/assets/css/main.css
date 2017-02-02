@@ -416,14 +416,78 @@ ul.topNav {
 		stroke: #595857;
 	}
 
+.scatterPlot .dots {
+	stroke: #FFF;
+	stroke-opacity: 0.5;
+}
+
 .scatterPlot .dots.trad {
-	fill: #E9B841;
+	fill: #146785;
 }
 
 .scatterPlot .dots.altIHE {
-	fill: #E08126;
+	fill: #38765a;
 }
 
 .scatterPlot .dots.altNot {
-	fill: #D85932;
+	fill: #f69125;
+}
+
+/* State selector dropdowns */
+
+.stateSelector {
+	width: 25%;
+	text-align: left;
+	display: inline-block;
+}
+
+.stateSelector select {
+	padding: 5px 10px;
+}
+
+/* Type selector buttons */
+
+.typeSelector {
+	width: 75%;
+	text-align: right;
+	display: inline-block;
+}
+
+.typeSelector button {
+	/*width: 175px;*/
+	padding: 5px 10px;
+	transition: 0.5s;
+	cursor: pointer;
+}
+
+.typeSelector .buttonTrad {
+	border: 1px solid #E9B841;
+	background-color: rgba(255,255,255,0);
+}
+
+.typeSelector .buttonTrad.selected {
+	color: #FFF;
+	border: 1px solid #146785;
+	background-color: #146785;
+}
+
+.typeSelector .buttonAltIHE {
+	border: 1px solid #38765a;
+	background-color: rgba(255,255,255,0);
+}
+
+.typeSelector .buttonAltIHE.selected {
+	color: #FFF;
+	border: 1px solid #38765a;
+	background-color: #38765a;
+}
+
+.typeSelector .buttonAltNot {
+	border: 1px solid #f69125;
+	background-color: rgba(255,255,255,0);
+}
+
+.typeSelector .buttonAltNot.selected {
+	border: 1px solid #f69125;
+	background-color: #f69125;
 }

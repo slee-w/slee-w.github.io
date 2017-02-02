@@ -6,7 +6,7 @@ function scatterPlot() {
 	// default values defined below
 
 	var height = 650,
-		marginTop = 20,
+		marginTop = 30,
 		marginLeft = 65,
 		marginBottom = 60,
 		dotSize = 5,
@@ -42,34 +42,113 @@ function scatterPlot() {
 				xScale.domain([0, 1]);
 				yScale.domain([0, 1]);
 
-				// build chart
-
 				var dom = d3.select("#" + chartID);
 
 				// add buttons and state selector
 
+				var tradEnabled = 1,
+						altIHEEnabled = 1,
+						altNotEnabled = 1,
+						selectedState = "All states"; // initial value
+
+				// State selector
+
 				var stateSelector = dom.append("div")
 					.attr("class", "stateSelector");
+
+				// Nest the data to get the list of stateSelector
+
+				var stateNest = d3.nest()
+					.key(function(d) { return d.state; })
+					.entries(data);
+
+				stateSelector.append("div")
+					.style("display", "inline-block")
+					.text("State: ");
+
+				stateSelector.append("div")
+					.style("width", "5px")
+					.style("display", "inline-block");
+
+				var dropDown = stateSelector.append("select")
+					.attr("name", "stateList");
+
+				// Add all states selector
+
+				dropDown.append("option")
+						.text("All states")
+						.attr("value", "All states");
+
+				var options = dropDown.selectAll("option")
+					.data(stateNest);
+
+				options.enter()
+					.append("option")
+						.text(function(d) { return d.key; })
+						.attr("value", function(d) { return d.key; });
+
+				// Change state on drop down menu change
+
+				dropDown.on("change", changeState);
+
+				// Program type toggles
 
 				var typeSelector = dom.append("div")
 					.attr("class", "typeSelector");
 
+				typeSelector.append("div")
+					.style("display", "inline-block")
+					.text("Program types: ");
+
+				typeSelector.append("div")
+					.style("width", "5px")
+					.style("display", "inline-block");
+
+				// toggle for Traditional
+
 				typeSelector.append("button")
+					.attr("class", "buttonTrad selected")
 					.text("Traditional")
-					.on("click", function() {
+					.on("click", toggleTrad);
 
-						d3.selectAll("circle.dots.trad")
-							.attr("opacity", 1);
+				// divider
 
-					});
+				typeSelector.append("div")
+					.style("width", "5px")
+					.style("display", "inline-block");
+
+				// toggle for Alternative, IHE-based
 
 				typeSelector.append("button")
-					.text("Alternative, IHE-based");
+					.attr("class", "buttonAltIHE selected")
+					.text("Alternative, IHE-based")
+					.on("click", toggleAltIHE);
+
+				// divider
+
+				typeSelector.append("div")
+					.style("width", "5px")
+					.style("display", "inline-block");
+
+				// toggle for Alternative, not IHE-based
 
 				typeSelector.append("button")
-					.text("Alternative, not IHE-based");
+					.attr("class", "buttonAltNot selected")
+					.text("Alternative, not IHE-based")
+					.on("click", toggleAltNot);
+
+				// divider
+
+				typeSelector.append("div")
+					.style("width", "5px")
+					.style("display", "inline-block");
+
+				// add space before chart
 
 				dom.append("br");
+				dom.append("br");
+
+				// build chart
 
 				var svg = dom.append("svg")
 					.attr("class", "scatterPlot")
@@ -84,6 +163,7 @@ function scatterPlot() {
 					.attr("class", "xAxis")
 					.attr("transform", "translate(0," + heightAdj + ")")
 					.call(d3.axisBottom(xScale)
+						.ticks(5)
 						.tickSize(0)
 						.tickFormat(formatPerc));
 
@@ -94,20 +174,21 @@ function scatterPlot() {
 					.attr("class", "xAxisTitle")
 					.attr("x", widthAdj)
 					.attr("y", heightAdj)
-					.attr("dy", "3.5em")
+					.attr("dy", "3.25em")
 					.attr("text-anchor", "end")
 					.text(xAxisLabel);
 
 				svg.append("g")
 					.attr("class", "yAxis")
 					.call(d3.axisLeft(yScale)
+						.ticks(5)
 						.tickSize(0)
 						.tickFormat(formatPerc));
 
 				svg.append("text")
 					.attr("class", "yAxisTitle")
 					.attr("x", 0)
-					.attr("dy", "-3.5em")
+					.attr("dy", "-3.25em")
 					.attr("y", 0)
 					.attr("transform", "rotate(-90)")
 					.attr("text-anchor", "end")
@@ -118,6 +199,12 @@ function scatterPlot() {
 				var data1 = data.filter(function(d) {
 					if ((isNaN(d.var1) == false) && (isNaN(d.var2) == false) && (d.total >= 10)) { return d; };
 				});
+
+				// sort so traditional is drawn first so alt appears above
+
+				data1.sort(function(a,b) { return d3.descending(a.provider_type, b.provider_type); });
+
+				console.log(data1);
 
 				var dots = svg.selectAll(".dots")
 					.data(data1);
@@ -146,18 +233,155 @@ function scatterPlot() {
 
 						svg.selectAll("circle.dots")
 							.transition("move")
-								.delay(function(d) {
+								/*.delay(function(d) {
 										if (d.provider_type == "Traditional") { return animateTime; }
 										else { return 2*animateTime; };
-									})
+									})*/
 								.duration(animateTime)
-									.attr("opacity", 0.5);
+								.attr("opacity", 0.65);
 
 					};
 
 				};
 
 				window.addEventListener("scroll", fireTransitions);
+
+				// state selector function
+
+				function changeState() {
+
+					selectedState = d3.event.target.value;
+
+					svg.selectAll("circle.dots")
+						.transition()
+							.duration(animateTime/2)
+							.attr("opacity", function(d) {
+								if (selectedState == "All states") {
+									if (d.provider_type == "Traditional") {
+										if (tradEnabled == 0) { return 0; }
+										else if (tradEnabled == 1) { return 0.65; };
+									}
+									else if (d.provider_type == "Alternative, IHE-based") {
+										if (altIHEEnabled == 0) { return 0; }
+										else if (altIHEEnabled == 1) { return 0.65; };
+									}
+									else if (d.provider_type == "Alternative, not IHE-based") {
+										if (altNotEnabled == 0) { return 0; }
+										else if (altNotEnabled == 1) { return 0.65; };
+									}
+								}
+								else if (d.state == selectedState) {
+									if (d.provider_type == "Traditional") {
+										if (tradEnabled == 0) { return 0; }
+										else if (tradEnabled == 1) { return 0.65; };
+									}
+									else if (d.provider_type == "Alternative, IHE-based") {
+										if (altIHEEnabled == 0) { return 0; }
+										else if (altIHEEnabled == 1) { return 0.65; };
+									}
+									else if (d.provider_type == "Alternative, not IHE-based") {
+										if (altNotEnabled == 0) { return 0; }
+										else if (altNotEnabled == 1) { return 0.65; };
+									}
+								}
+								else { return 0; }
+							});
+				};
+
+				// toggle functions
+
+				function toggleTrad() {
+					if (tradEnabled == 1) {
+						svg.selectAll("circle.dots.trad")
+							.transition("hide")
+								.duration(animateTime/2)
+								.attr("opacity", 0);
+
+						typeSelector.selectAll("button.buttonTrad")
+							.classed("selected", false);
+
+						tradEnabled = 0;
+
+					}
+					else if (tradEnabled == 0) {
+						svg.selectAll("circle.dots.trad")
+							.transition("appear")
+								.duration(animateTime/2)
+								.attr("opacity", function(d) {
+									if (selectedState == "All states") { return 0.65; }
+									else if (d.state == selectedState) { return 0.65; }
+									else if (d.state != selectedState) { return 0; }
+								});
+
+						typeSelector.selectAll("button.buttonTrad")
+							.classed("selected", true);
+
+						tradEnabled = 1;
+
+					};
+				};
+
+				function toggleAltIHE() {
+					if (altIHEEnabled == 1) {
+						svg.selectAll("circle.dots.altIHE")
+							.transition("hide")
+								.duration(animateTime/2)
+								.attr("opacity", 0);
+
+						typeSelector.selectAll("button.buttonAltIHE")
+							.classed("selected", false);
+
+						altIHEEnabled = 0;
+
+					}
+					else if (altIHEEnabled == 0) {
+						svg.selectAll("circle.dots.altIHE")
+							.transition("appear")
+								.duration(animateTime/2)
+								.attr("opacity", function(d) {
+									if (selectedState == "All states") { return 0.65; }
+									if (d.state == selectedState) { return 0.65; }
+									else if (d.state != selectedState) { return 0; }
+								});
+
+						typeSelector.selectAll("button.buttonAltIHE")
+							.classed("selected", true);
+
+						altIHEEnabled = 1;
+
+					};
+				};
+
+				function toggleAltNot() {
+					if (altNotEnabled == 1) {
+						svg.selectAll("circle.dots.altNot")
+							.transition("hide")
+								.duration(animateTime/2)
+								.attr("opacity", 0);
+
+						typeSelector.selectAll("button.buttonAltNot")
+							.classed("selected", false);
+
+						altNotEnabled = 0;
+
+					}
+					else if (altNotEnabled == 0) {
+						svg.selectAll("circle.dots.altNot")
+							.transition("appear")
+								.duration(animateTime/2)
+								.attr("opacity", function(d) {
+									if (selectedState == "All states") { return 0.65; }
+									if (d.state == selectedState) { return 0.65; }
+									else if (d.state != selectedState) { return 0; }
+								});
+
+						typeSelector.selectAll("button.buttonAltNot")
+							.classed("selected", true);
+
+						altNotEnabled = 1;
+
+					};
+				};
 
 				// resize
 
@@ -178,6 +402,7 @@ function scatterPlot() {
 					svg.selectAll(".xAxis")
 						.call(d3.axisBottom(xScale)
 							.tickSize(0)
+							.ticks(5)
 							.tickFormat(formatPerc));
 
 					svg.selectAll(".xAxis text")
@@ -199,7 +424,7 @@ function scatterPlot() {
 
 							svg.selectAll("circle.dots")
 								.transition()
-									.duration(animateTime)
+									.duration(animateTime/2)
 									.attr("cx", function(d) { return xScale(d.var1); });
 
 						}
@@ -431,7 +656,7 @@ function barChart() {
 								if (percWhole == 0) { return xScale(d.percent/100); }
 								else if (percWhole == 1) { return xScale(d.percent); };
 					})
-					.attr("dx", "0.5em")
+					.attr("dx", "0.65em")
 					.attr("y", function(d) { return yScale(d.group) + (yScale.bandwidth()/2); })
 					.attr("dy", "0.35em")
 					.attr("opacity", 0)
@@ -849,7 +1074,7 @@ function colChart() {
 						if (percWhole == 0) { return yScale(d.percent/100); }
 						else if (percWhole == 1) { return yScale(d.percent); };
 					})
-					.attr("dy", "-0.5em")
+					.attr("dy", "-0.65em")
 					.attr("opacity", 0)
 					.text(function(d) {
 						if (percWhole == 0) { return formatPerc(d.percent/100); }
@@ -1771,7 +1996,7 @@ function stackedArea() {
 			layer.append("text")
 				.attr("class", "levelLabel")
 				.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-				.attr("dx", "-0.5em")
+				.attr("dx", "-0.65em")
 				.attr("y", function(d) { return yScale(d[0][1]); })
 				.attr("dy", "0.35em")
 				.attr("text-anchor", "end")
@@ -1784,7 +2009,7 @@ function stackedArea() {
 			layer.append("text")
 				.attr("class", "valueLabel")
 				.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
-				.attr("dx", "0.5em")
+				.attr("dx", "0.65em")
 				.attr("y", function(d) { return yScale(d[d.length-1][1]); })
 				.attr("dy", "0.35em")
 				.attr("text-anchor", "start")
