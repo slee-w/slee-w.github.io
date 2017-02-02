@@ -233,10 +233,6 @@ function scatterPlot() {
 
 						svg.selectAll("circle.dots")
 							.transition("move")
-								/*.delay(function(d) {
-										if (d.provider_type == "Traditional") { return animateTime; }
-										else { return 2*animateTime; };
-									})*/
 								.duration(animateTime)
 								.attr("opacity", 0.65);
 

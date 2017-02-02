@@ -422,11 +422,11 @@ ul.topNav {
 }
 
 .scatterPlot .dots.trad {
-	fill: #146785;
+	fill: #0a374e;
 }
 
 .scatterPlot .dots.altIHE {
-	fill: #38765a;
+	fill: #59b188;
 }
 
 .scatterPlot .dots.altNot {
@@ -461,25 +461,24 @@ ul.topNav {
 }
 
 .typeSelector .buttonTrad {
-	border: 1px solid #146785;
+	border: 1px solid #0a374e;
 	background-color: rgba(255,255,255,0);
 }
 
 .typeSelector .buttonTrad.selected {
 	color: #FFF;
-	border: 1px solid #146785;
-	background-color: #146785;
+	border: 1px solid #0a374e;
+	background-color: #0a374e;
 }
 
 .typeSelector .buttonAltIHE {
-	border: 1px solid #38765a;
+	border: 1px solid #59b188;
 	background-color: rgba(255,255,255,0);
 }
 
 .typeSelector .buttonAltIHE.selected {
-	color: #FFF;
-	border: 1px solid #38765a;
-	background-color: #38765a;
+	border: 1px solid #59b188;
+	background-color: #59b188;
 }
 
 .typeSelector .buttonAltNot {
