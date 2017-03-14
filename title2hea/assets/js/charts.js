@@ -204,8 +204,6 @@ function scatterPlot() {
 
 				data1.sort(function(a,b) { return d3.descending(a.provider_type, b.provider_type); });
 
-				console.log(data1);
-
 				var dots = svg.selectAll(".dots")
 					.data(data1);
 
@@ -520,7 +518,7 @@ function barChart() {
 		marginTop = 0,
 		marginLeft = 75,
 		marginBottom = 40,
-		barWidth = 50,
+		barWidth = 75,
 		animateTime = 1000,
 		xMax = 100,
 		percWhole = 0, // 0 = perc, 1 = whole; default is perc
@@ -560,7 +558,7 @@ function barChart() {
 			// domains
 
 			xScale.domain([0, xMax]);
-			yScale.domain(data.map(function(d) { return d.group; }));
+			yScale.domain(data.map(function(d) { return d.categories; }));
 
 			// build chart
 
@@ -587,7 +585,6 @@ function barChart() {
 							.tickFormat(d3.format(".1%")));
 				}
 				else if (percWhole == 1) {
-					if (xMax < 1000) {
 						svg.append("g")
 						.attr("class", "xAxis")
 						.attr("transform", "translate(0," + heightAdj + ")")
@@ -595,26 +592,7 @@ function barChart() {
 							.tickValues([0, xMax])
 							.tickSize(0)
 							.tickFormat(d3.format(",.0f")));
-					}
-					if (xMax < 1000000) {
-						svg.append("g")
-						.attr("class", "xAxis")
-						.attr("transform", "translate(0," + heightAdj + ")")
-						.call(d3.axisBottom(xScale)
-							.tickValues([0, xMax])
-							.tickSize(0)
-							.tickFormat(d3.formatPrefix(".1", 1e4)));
-					}
-					else {
-						svg.append("g")
-							.attr("class", "xAxis")
-							.attr("transform", "translate(0," + heightAdj + ")")
-							.call(d3.axisBottom(xScale)
-								.tickValues([0, xMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e6)));
-					};
-				};
+				}
 			};
 
 			xAxis();
@@ -634,39 +612,31 @@ function barChart() {
 			bars.enter()
 				.append("rect")
 					.attr("class", function(d) {
-						if (d.percent === d3.max(data.map(function(d) { return d.percent; }))) { return "barMax"; }
+						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "barMax"; }
 						else { return "bar"; };
 					})
 					.attr("x", 0)
-					.attr("y", function(d) { return yScale(d.group) + (yScale.bandwidth()/2) - (barWidth/2); })
+					.attr("y", function(d) { return yScale(d.categories) + (yScale.bandwidth()/2) - (barWidth/2); })
 					.attr("width", 0)
 					.attr("height", barWidth);
 
 			bars.enter()
 				.append("text")
 					.attr("class", function(d) {
-						if (d.percent === d3.max(data.map(function(d) { return d.percent; }))) { return "barMaxLabel"; }
+						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "barMaxLabel"; }
 						else { return "barLabel"; };
 					})
 					.attr("x", function(d) {
-								if (percWhole == 0) { return xScale(d.percent/100); }
-								else if (percWhole == 1) { return xScale(d.percent); };
+								if (percWhole == 0) { return xScale(d.var1/100); }
+								else if (percWhole == 1) { return xScale(d.var1); };
 					})
 					.attr("dx", "0.65em")
-					.attr("y", function(d) { return yScale(d.group) + (yScale.bandwidth()/2); })
+					.attr("y", function(d) { return yScale(d.categories) + (yScale.bandwidth()/2); })
 					.attr("dy", "0.35em")
 					.attr("opacity", 0)
 					.text(function(d) {
-						if (percWhole == 0) { return formatPerc(d.percent/100); }
-						else if (percWhole == 1) {
-
-							var maxVal = d3.max(data.map(function(d) { return d.percent; }));
-
-							if (maxVal < 1000) { return formatNum(d.percent); }
-							else if (maxVal < 1000000) { return formatNumDec(d.percent/1000) + "k"; }
-							else { return formatNumDec(d.percent/1000000) + "M"; };
-
-						}
+						if (percWhole == 0) { return formatPerc(d.var1/100); }
+						else if (percWhole == 1) { return formatNum(d.var1); }
 					});
 
 			//check for scroll to fire transitions
@@ -683,16 +653,16 @@ function barChart() {
 						.transition("widen")
 							.duration(animateTime)
 							.attr("width", function(d) {
-								if (percWhole == 0) { return xScale(d.percent/100); }
-								else if (percWhole == 1) { return xScale(d.percent); };
+								if (percWhole == 0) { return xScale(d.var1/100); }
+								else if (percWhole == 1) { return xScale(d.var1); };
 							});
 
 					svg.selectAll("rect.barMax")
 						.transition("widen")
 							.duration(animateTime)
 							.attr("width", function(d) {
-								if (percWhole == 0) { return xScale(d.percent/100); }
-								else if (percWhole == 1) { return xScale(d.percent); };
+								if (percWhole == 0) { return xScale(d.var1/100); }
+								else if (percWhole == 1) { return xScale(d.var1); };
 							});
 
 					svg.selectAll("text.barLabel")
@@ -743,16 +713,16 @@ function barChart() {
 					.transition()
 						.duration(animateTime)
 						.attr("x", function(d) {
-							if (percWhole == 0) { return xScale(d.percent/100); }
-							else if (percWhole == 1) { return xScale(d.percent); };
+							if (percWhole == 0) { return xScale(d.var1/100); }
+							else if (percWhole == 1) { return xScale(d.var1); };
 						})
 
 				svg.selectAll("text.barMaxLabel")
 					.transition()
 						.duration(animateTime)
 						.attr("x", function(d) {
-							if (percWhole == 0) { return xScale(d.percent/100); }
-							else if (percWhole == 1) { return xScale(d.percent); };
+							if (percWhole == 0) { return xScale(d.var1/100); }
+							else if (percWhole == 1) { return xScale(d.var1); };
 						})
 
 				// check if animations have already fired
@@ -767,16 +737,16 @@ function barChart() {
 							.transition()
 								.duration(animateTime)
 								.attr("width", function(d) {
-									if (percWhole == 0) { return xScale(d.percent/100); }
-									else if (percWhole == 1) { return xScale(d.percent); };
+									if (percWhole == 0) { return xScale(d.var1/100); }
+									else if (percWhole == 1) { return xScale(d.var1); };
 								});
 
 						svg.selectAll("rect.barMax")
 							.transition()
 								.duration(animateTime)
 								.attr("width", function(d) {
-									if (percWhole == 0) { return xScale(d.percent/100); }
-									else if (percWhole == 1) { return xScale(d.percent); };
+									if (percWhole == 0) { return xScale(d.var1/100); }
+									else if (percWhole == 1) { return xScale(d.var1); };
 								});
 
 					}
@@ -1918,30 +1888,12 @@ function stackedArea() {
 							.tickFormat(d3.format(".1%")));
 				}
 				else if (percWhole == 1) {
-					if (yMax < 1000) {
 						svg.append("g")
 							.attr("class", "yAxis")
 							.call(d3.axisLeft(yScale)
 								.tickValues([0, yMax])
 								.tickSize(0)
 								.tickFormat(d3.format(",.0f")));
-					}
-					if (yMax < 1000000) {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e4)));
-					}
-					else {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e6)));
-					};
 				};
 			};
 
