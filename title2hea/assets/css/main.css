@@ -361,12 +361,7 @@ ul.topNav {
 	stroke-width: 2px;
 }
 
-.lineChart .levelLabel {
-	font: 10pt sans-serif;
-	font-weight: bold;
-}
-
-.lineChart .valueLabel {
+.lineChart .label {
 	font: 10pt sans-serif;
 	font-weight: bold;
 }

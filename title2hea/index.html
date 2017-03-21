@@ -28,7 +28,8 @@
 					<li class="blank"><a href="javascript:void();" onClick="closeMenu()">&nbsp;</a></li>
 					<li><a href="#about" onclick="closeMenu()">About</a></li>
 					<li><a href="#provProg" onclick="closeMenu()">Providers</a></li>
-					<li><a href="#enrComp" onclick="closeMenu()">Enrollment</a></li>
+					<li><a href="#enroll" onclick="closeMenu()">Enrollment</a></li>
+          <li><a href="#compl" onclick="closeMenu()">Completers</a></li>
 					<li><a href="#eval" onclick="closeMenu()">Evaluation</a></li>
 				</ul>
 			</nav>
@@ -60,7 +61,7 @@
 		<div class="wrapper">
 			<h2 class="sectionHeader">Teacher preparation providers and programs</h2>
 			<p>
-				In 2016, states reported data on 2,139 teacher preparation providers and the 27,568 teacher preparation programs offered by those providers. The providers and programs were classified by their types: traditional; alternative, IHE-based; and alternative, not IHE-based.
+				In 2016, states reported data on 2,137 teacher preparation providers and the 27,557 teacher preparation programs offered by those providers. The providers and programs were classified by their types: traditional; alternative, IHE-based; and alternative, not IHE-based.
 			</p>
 		</div>
 	</section>
@@ -72,17 +73,17 @@
 			<h3>What type of providers and programs are most common?</h3>
 			<div id="prov1" class="chart">
 				<p>
-					Most teacher preparation providers were traditional. Out of the 2,139 providers, 1,480 (69 percent) were traditional, while 455 (21 percent) were alternative, IHE-based, and 204 (10 percent) were alternative, not IHE-based.
+					Most teacher preparation providers were traditional. Out of the 2,137 providers, 1,479 (69 percent) were traditional, while 455 (21 percent) were alternative, IHE-based, and 203 (9 percent) were alternative, not IHE-based.
 				</p>
 			</div>
       <div id="prov2" class="chart">
         <p>
-          Similar to providers, most of the teacher preparation programs were traditional. Of the 27,568 total teacher preparation programs in 2016, 19,260 (70 percent) of the programs were based in traditional teacher preparation providers, while 5,158 (19 percent) were based in alternative, IHE-based providers and 3,150 (11 percent) were based in alternative, not IHE-based providers.
+          Similar to providers, most of the teacher preparation programs were traditional. Of the 27,557 total teacher preparation programs in 2016, 19,258 (70 percent) of the programs were based in traditional teacher preparation providers, while 5,158 (19 percent) were based in alternative, IHE-based providers and 3,141 (11 percent) were based in alternative, not IHE-based providers.
         </p>
       </div>
 
 	</section>
-  <section id="enrComp" class="exp">
+  <section id="enroll" class="exp">
 		<div class="wrapper">
 			<h2 class="sectionHeader">Enrollment in teacher preparation programs</h2>
 			<p>
@@ -90,7 +91,72 @@
 			</p>
 		</div>
 	</section>
-	<section id="enrCompCharts" class="chartArea">
+	<section id="enrCharts" class="chartArea">
+		<div class="wrapper">
+
+			<!-- Trend in teacher preparation enrollment -->
+
+			<h3>Is teacher preparation program enrollment increasing or decreasing?</h3>
+			<div id="enrOvr" class="chart">
+				<p>
+          Overall, teacher preparation program enrollment has been decreasing since AY 2009–10. The most substantial decrease was between AY 2011–12 (622,401 individuals enrolled) and AY 2012–13 (500,506 individuals enrolled), when enrollment in teacher preparation programs decreased by 20 percent. Between AY 2013-14 and AY 2014-15, teacher preparation program enrollment decreased by 8 percent, with 418,373 individuals enrolled in AY 2014-15 compared to 455,328 in AY 2013-14.
+				</p>
+			</div>
+
+      <!-- Enrollment by gender -->
+
+			<h3>Are teacher preparation program enrollees primarily male or female?</h3>
+			<div id="enrGen" class="chart">
+				<p>
+          Between AY 2009-10 and AY 2014-15, teacher preparation program enrollees have been primarily female - about 75 percent of enrollees are female. In AY 2014-15, the number of enrollees who reported their gender as female was 313,758, compared to 99,630 who reported their gender as male.
+				</p>
+			</div>
+      <div id="enrGenType" class="chart">
+        <p>
+          In comparison with traditional programs, however, alternative programs enroll more males. In AY 2014-15, 34 percent of enrollees in alternative programs who reported their gender were male, compared to 22 percent of the enrollees in traditional programs who reported their gender.
+        </p>
+      </div>
+
+      <!-- Enrollment by race/ethnicity -->
+
+			<h3>What is the racial/ethnic makeup of teacher preparation program enrollees?</h3>
+			<div id="enrRaceEth" class="chart">
+				<p>
+          In AY 2014–15, among individuals enrolled in teacher preparation programs who reported their race/ethnicity, 70 percent (276,018) identified as White, 13 percent (52,764) identified as Hispanic, and 9 percent (36,472) identified as Black or African American. In AY 2013–14, 72 percent (304,363) of individuals enrolled in teacher preparation programs who reported their race/ethnicity identified as White, 12 percent (50,973) identified as Hispanic, and 10 percent (42,844) identified as Black or African American.
+				</p>
+			</div>
+
+      <!-- Line chart of minority enrollment -->
+
+			<h3>Is enrollment in teacher preparation programs becoming more diverse?</h3>
+      <div id="minorityLine" class="chart">
+        <p>
+          Based on the individuals enrolled in teacher preparation programs who reported their race/ethnicity, it appears that the field of prospective teachers has become increasingly more diverse over the past five years. The percentage of minority enrollment in teacher preparation programs has increased every year since AY 2010-11; in AY 2014-15, the percentage reached 30 percent.
+        </p>
+      </div>
+
+      <!-- Scatter plot of minority and male -->
+
+			<h3>Does enrollment of males and minorities differ by program type?</h3>
+			<div id="MMScatter" class="chart">
+				<p>
+          Overall, alternative teacher preparation programs enrolled higher percentages of males and minorities compared to traditional programs. The scatter plot below shows a large cluster of traditional programs at about 20 percent male and 10 percent minorities. In comparison, alternative programs are more spread out, with less clustering around lower percentages of male and minority enrollment.
+				</p>
+        <p>
+          Use the scatter plot below to examine how teacher preparation programs are distributed by percentage of enrollees who are male or identify as minorities by state and program type.
+        </p>
+			</div>
+
+	</section>
+  <section id="compl" class="exp">
+		<div class="wrapper">
+			<h2 class="sectionHeader">Completers and individuals credentialed</h2>
+			<p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+			</p>
+		</div>
+	</section>
+	<section id="compCharts" class="chartArea">
 		<div class="wrapper">
 
 			<!-- Trend in teacher preparation enrollment -->
@@ -98,7 +164,7 @@
 			<h3>Is teacher preparation program enrollment increasing or decreasing?</h3>
 			<div id="enr1" class="chart">
 				<p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
+          Overall, teacher preparation program enrollment has been decreasing since AY 2009–10. The most substantial decrease was between AY 2011–12 (622,401 individuals enrolled) and AY 2012–13 (500,506 individuals enrolled), when enrollment in teacher preparation programs decreased by 20 percent. Between AY 2013-14 and AY 2014-15, teacher preparation program enrollment decreased by 8 percent, with 418,373 individuals enrolled in AY 2014-15 compared to 455,328 in AY 2013-14.
 				</p>
 			</div>
 
@@ -114,7 +180,7 @@
       <!-- Enrollment by race/ethnicity -->
 
 			<h3>What is the racial/ethnic makeup of teacher preparation program enrollees?</h3>
-			<div id="enr1" class="chart">
+			<div id="enrRaceEth" class="chart">
 				<p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci turpis, convallis sed sem et, fermentum viverra mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae imperdiet augue, id hendrerit enim. Suspendisse lacinia ipsum justo, eu vulputate ante ultrices quis. Aliquam semper ligula purus. Donec maximus erat est, non facilisis ipsum dapibus eu. Nulla mattis fermentum enim lacinia congue. Pellentesque eu neque vitae ante rutrum lacinia non eu est. Pellentesque tempor, lorem vel placerat tempor, nulla arcu varius arcu, quis placerat diam felis eget est.
 				</p>
@@ -177,28 +243,40 @@
 
 <script>
 
-  // raw number charts
+  // bar, waffles, columns
 
   d3.tsv("assets/data/data1.tsv", function(error, data) {
-    if (error) { throw error; }
+    if (error) throw error;
     else {
       data.forEach(function(d) {
         d.chart = d.chart;
         d.categories = d.type;
         d.order = +d.order;
+        d.year = d.year;
         d.var1 = +d.number;
+        d.var2 = +d.percent;
       });
-
-      data1 = data.filter(function(d) { return d.chart == "providers"; });
-      data2 = data.filter(function(d) { return d.chart == "programs"; });
-
-      var provChart = barChart().data(data1).chartID("prov1").percWhole(1).sortDir(1).xMax(2000).marginLeft(165);
-      var progChart = barChart().data(data2).chartID("prov2").percWhole(1).sortDir(1).xMax(20000).marginLeft(165);
-
-      d3.select("#prov1").call(provChart);
-      d3.select("#prov2").call(progChart);
-
     };
+
+    data1 = data.filter(function(d) { return d.chart == "providers"; });
+    data2 = data.filter(function(d) { return d.chart == "programs"; });
+    //data3 = data.filter(function(d) { return d.chart == "enrollment"; });
+    data4 = data.filter(function(d) { return d.chart == "enrGender"; });
+    data5 = data.filter(function(d) { return d.chart == "enrGenderType"; });
+    data6 = data.filter(function(d) { return d.chart == "enrRace"; });
+
+    var provChart = barChart().data(data1).chartID("prov1").percWhole(1).sortDir(1).xMax(2000).marginLeft(165);
+    var progChart = barChart().data(data2).chartID("prov2").percWhole(1).sortDir(1).xMax(20000).marginLeft(165);
+    var genWaff = wafflesMult().data(data4).chartID("enrGen");
+    var genProgType = barChart().data(data5).chartID("enrGenType").percWhole(0).sortDir(1).xMax(.5);
+    var rethChart = colChart().data(data6).chartID("enrRaceEth").percWhole(0).sortDir(0).yMax(1).marginLeft(50);
+
+    d3.select("#prov1").call(provChart);
+    d3.select("#prov2").call(progChart);
+    d3.select("#enrGen").call(genWaff);
+    d3.select("#enrGenType").call(genProgType);
+    d3.select("#enrRaceEth").call(rethChart);
+
   });
 
   // scatter plots
@@ -230,6 +308,41 @@
 
     };
   });
+</script>
+
+<script>
+
+  // stacked area charts
+
+  d3.tsv("assets/data/data2.tsv", type, function(error, data) {
+    if (error) throw error;
+
+    // keys for data
+
+    var keys1 = data.columns.slice(3);
+
+    // filter data for each chart
+
+    data1 = data.filter(function(d) { return d.chart == "enrollment"; });
+
+    // set up each chart
+
+    var enrOverall = stackedArea().data(data1).chartID("enrOvr").percWhole(1).sortDir(0).yMax(750000).marginLeft(45).keys(keys1);
+
+    // draw charts in right spots
+
+    d3.select("#enrOvr").call(enrOverall);
+
+  })
+
+  // bind multiseries data
+
+  function type(data, i, columns) {
+      data.year = data.year;
+      for (i = 1, t = 0; i < columns.length; i++)
+      return data;
+  };
+
 </script>
 
 <!-- Fix for IE parallax -->

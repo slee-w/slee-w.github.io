@@ -613,6 +613,7 @@ function barChart() {
 				.append("rect")
 					.attr("class", function(d) {
 						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "barMax"; }
+						else if (d.var2 === d3.max(data.map(function(d) { return d.var2; }))) { return "barMax"; }
 						else { return "bar"; };
 					})
 					.attr("x", 0)
@@ -624,10 +625,11 @@ function barChart() {
 				.append("text")
 					.attr("class", function(d) {
 						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "barMaxLabel"; }
+						else if (d.var2 === d3.max(data.map(function(d) { return d.var2; }))) { return "barMaxLabel"; }
 						else { return "barLabel"; };
 					})
 					.attr("x", function(d) {
-								if (percWhole == 0) { return xScale(d.var1/100); }
+								if (percWhole == 0) { return xScale(d.var2/100); }
 								else if (percWhole == 1) { return xScale(d.var1); };
 					})
 					.attr("dx", "0.65em")
@@ -635,7 +637,7 @@ function barChart() {
 					.attr("dy", "0.35em")
 					.attr("opacity", 0)
 					.text(function(d) {
-						if (percWhole == 0) { return formatPerc(d.var1/100); }
+						if (percWhole == 0) { return formatPerc(d.var2/100); }
 						else if (percWhole == 1) { return formatNum(d.var1); }
 					});
 
@@ -653,7 +655,7 @@ function barChart() {
 						.transition("widen")
 							.duration(animateTime)
 							.attr("width", function(d) {
-								if (percWhole == 0) { return xScale(d.var1/100); }
+								if (percWhole == 0) { return xScale(d.var2/100); }
 								else if (percWhole == 1) { return xScale(d.var1); };
 							});
 
@@ -661,7 +663,7 @@ function barChart() {
 						.transition("widen")
 							.duration(animateTime)
 							.attr("width", function(d) {
-								if (percWhole == 0) { return xScale(d.var1/100); }
+								if (percWhole == 0) { return xScale(d.var2/100); }
 								else if (percWhole == 1) { return xScale(d.var1); };
 							});
 
@@ -713,7 +715,7 @@ function barChart() {
 					.transition()
 						.duration(animateTime)
 						.attr("x", function(d) {
-							if (percWhole == 0) { return xScale(d.var1/100); }
+							if (percWhole == 0) { return xScale(d.var2/100); }
 							else if (percWhole == 1) { return xScale(d.var1); };
 						})
 
@@ -721,7 +723,7 @@ function barChart() {
 					.transition()
 						.duration(animateTime)
 						.attr("x", function(d) {
-							if (percWhole == 0) { return xScale(d.var1/100); }
+							if (percWhole == 0) { return xScale(d.var2/100); }
 							else if (percWhole == 1) { return xScale(d.var1); };
 						})
 
@@ -737,7 +739,7 @@ function barChart() {
 							.transition()
 								.duration(animateTime)
 								.attr("width", function(d) {
-									if (percWhole == 0) { return xScale(d.var1/100); }
+									if (percWhole == 0) { return xScale(d.var2/100); }
 									else if (percWhole == 1) { return xScale(d.var1); };
 								});
 
@@ -745,7 +747,7 @@ function barChart() {
 							.transition()
 								.duration(animateTime)
 								.attr("width", function(d) {
-									if (percWhole == 0) { return xScale(d.var1/100); }
+									if (percWhole == 0) { return xScale(d.var2/100); }
 									else if (percWhole == 1) { return xScale(d.var1); };
 								});
 
@@ -859,7 +861,7 @@ function colChart() {
 
 			// domains
 
-			xScale.domain(data.map(function(d) { return d.group; }));
+			xScale.domain(data.map(function(d) { return d.categories; }));
 
 			// build chart
 
@@ -1020,10 +1022,11 @@ function colChart() {
 			cols.enter()
 				.append("rect")
 					.attr("class", function(d) {
-						if (d.percent === d3.max(data.map(function(d) { return d.percent; }))) { return "colMax"; }
+						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "colMax"; }
+						else if (d.var2 === d3.max(data.map(function(d) { return d.var2; }))) { return "colMax"; }
 						else { return "col"; };
 					})
-					.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+					.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 					.attr("y", heightAdj)
 					.attr("width", colWidth)
 					.attr("height", 0);
@@ -1031,26 +1034,27 @@ function colChart() {
 			cols.enter()
 				.append("text")
 					.attr("class", function(d) {
-						if (d.percent === d3.max(data.map(function(d) { return d.percent; }))) { return "colMaxLabel"; }
+						if (d.var1 === d3.max(data.map(function(d) { return d.var1; }))) { return "colMaxLabel"; }
+						else if (d.var2 === d3.max(data.map(function(d) { return d.var2; }))) { return "colMaxLabel"; }
 						else { return "colLabel"; };
 					})
-					.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2); })
+					.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2); })
 					.attr("text-anchor", "middle")
 					.attr("y", function(d) {
-						if (percWhole == 0) { return yScale(d.percent/100); }
-						else if (percWhole == 1) { return yScale(d.percent); };
+						if (percWhole == 0) { return yScale(d.var2/100); }
+						else if (percWhole == 1) { return yScale(d.var1); };
 					})
 					.attr("dy", "-0.65em")
 					.attr("opacity", 0)
 					.text(function(d) {
-						if (percWhole == 0) { return formatPerc(d.percent/100); }
+						if (percWhole == 0) { return formatPerc(d.var2/100); }
 						else if (percWhole == 1) {
 
-							var maxVal = d3.max(data.map(function(d) { return d.percent; }));
+							var maxVal = d3.max(data.map(function(d) { return d.var1; }));
 
-							if (maxVal < 1000) { return formatNum(d.percent); }
-							else if (maxVal < 1000000) { return formatNumDec(d.percent/1000) + "k"; }
-							else { return formatNumDec(d.percent/1000000) + "M"; };
+							if (maxVal < 1000) { return formatNum(d.var1); }
+							else if (maxVal < 1000000) { return formatNumDec(d.var1/1000) + "k"; }
+							else { return formatNumDec(d.var1/1000000) + "M"; };
 
 						}
 					});
@@ -1068,27 +1072,27 @@ function colChart() {
 					svg.selectAll("rect.col")
 						.transition("heighten")
 							.duration(animateTime)
-							.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+							.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 							.attr("y", function(d) {
-								if (percWhole == 0) { return yScale(d.percent/100); }
-								else if (percWhole == 1) { return yScale(d.percent); };
+								if (percWhole == 0) { return yScale(d.var2/100); }
+								else if (percWhole == 1) { return yScale(d.var1); };
 							})
 							.attr("height", function(d) {
-								if (percWhole == 0) { return heightAdj - yScale(d.percent/100); }
-								else if (percWhole == 1) { return heightAdj - yScale(d.percent); };
+								if (percWhole == 0) { return heightAdj - yScale(d.var2/100); }
+								else if (percWhole == 1) { return heightAdj - yScale(d.var1); };
 							});
 
 					svg.selectAll("rect.colMax")
 						.transition("heighten")
 							.duration(animateTime)
-							.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+							.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 							.attr("y", function(d) {
-								if (percWhole == 0) { return yScale(d.percent/100); }
-								else if (percWhole == 1) { return yScale(d.percent); };
+								if (percWhole == 0) { return yScale(d.var2/100); }
+								else if (percWhole == 1) { return yScale(d.var1); };
 							})
 							.attr("height", function(d) {
-								if (percWhole == 0) { return heightAdj - yScale(d.percent/100); }
-								else if (percWhole == 1) { return heightAdj - yScale(d.percent); };
+								if (percWhole == 0) { return heightAdj - yScale(d.var2/100); }
+								else if (percWhole == 1) { return heightAdj - yScale(d.var1); };
 							});
 
 					svg.selectAll("text.colLabel")
@@ -1164,19 +1168,19 @@ function colChart() {
 				svg.selectAll("text.colLabel")
 					.transition()
 						.duration(animateTime)
-						.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2); })
+						.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2); })
 						.attr("y", function(d) {
-								if (percWhole == 0) { return yScale(d.percent/100); }
-								else if (percWhole == 1) { return yScale(d.percent); };
+								if (percWhole == 0) { return yScale(d.var2/100); }
+								else if (percWhole == 1) { return yScale(d.var1); };
 						});
 
 				svg.selectAll("text.colMaxLabel")
 					.transition()
 						.duration(animateTime)
-						.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2); })
+						.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2); })
 						.attr("y", function(d) {
-								if (percWhole == 0) { return yScale(d.percent/100); }
-								else if (percWhole == 1) { return yScale(d.percent); };
+								if (percWhole == 0) { return yScale(d.var2/100); }
+								else if (percWhole == 1) { return yScale(d.var1); };
 						});
 
 				// check if animations have already fired
@@ -1190,29 +1194,29 @@ function colChart() {
 						svg.selectAll("rect.col")
 							.transition()
 								.duration(animateTime)
-								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+								.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 								.attr("width", colWidth)
 								.attr("y", function(d) {
-									if (percWhole == 0) { return yScale(d.percent/100); }
-									else if (percWhole == 1) { return yScale(d.percent); };
+									if (percWhole == 0) { return yScale(d.var2/100); }
+									else if (percWhole == 1) { return yScale(d.var1); };
 								})
 								.attr("height", function(d) {
-									if (percWhole == 0) { return heightAdj - yScale(d.percent/100); }
-									else if (percWhole == 1) { return heightAdj - yScale(d.percent); };
+									if (percWhole == 0) { return heightAdj - yScale(d.var2/100); }
+									else if (percWhole == 1) { return heightAdj - yScale(d.var1); };
 								});
 
 						svg.selectAll("rect.colMax")
 							.transition()
 								.duration(animateTime)
-								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+								.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 								.attr("width", colWidth)
 								.attr("y", function(d) {
-									if (percWhole == 0) { return yScale(d.percent/100); }
-									else if (percWhole == 1) { return yScale(d.percent); };
+									if (percWhole == 0) { return yScale(d.var2/100); }
+									else if (percWhole == 1) { return yScale(d.var1); };
 								})
 								.attr("height", function(d) {
-									if (percWhole == 0) { return heightAdj - yScale(d.percent/100); }
-									else if (percWhole == 1) { return heightAdj - yScale(d.percent); };
+									if (percWhole == 0) { return heightAdj - yScale(d.var2/100); }
+									else if (percWhole == 1) { return heightAdj - yScale(d.var1); };
 								});
 
 
@@ -1223,10 +1227,10 @@ function colChart() {
 					else {
 
 							svg.selectAll("rect.col")
-								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+								.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 
 							svg.selectAll("rect.colMax")
-								.attr("x", function(d) { return xScale(d.group) + (xScale.bandwidth()/2) - (colWidth/2); })
+								.attr("x", function(d) { return xScale(d.categories) + (xScale.bandwidth()/2) - (colWidth/2); })
 
 							window.removeEventListener("scroll", fireTransitions); // remove the old scroll listener and start again
 							window.addEventListener("scroll", fireTransitions);
@@ -1744,7 +1748,8 @@ function stackedArea() {
 		percWhole = 0, // 0 = perc, 1 = whole; default is perc
 		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
 		chartID = [],
-		data = [];
+		data = [],
+		keys = [];
 
 	function chart(selection) {
 		selection.each(function() {
@@ -1888,12 +1893,30 @@ function stackedArea() {
 							.tickFormat(d3.format(".1%")));
 				}
 				else if (percWhole == 1) {
+					if (yMax < 1000) {
 						svg.append("g")
 							.attr("class", "yAxis")
 							.call(d3.axisLeft(yScale)
 								.tickValues([0, yMax])
 								.tickSize(0)
 								.tickFormat(d3.format(",.0f")));
+					}
+					if (yMax < 1000000) {
+						svg.append("g")
+							.attr("class", "yAxis")
+							.call(d3.axisLeft(yScale)
+								.tickValues([0, yMax])
+								.tickSize(0)
+								.tickFormat(d3.formatPrefix(".1", 1e4)));
+					}
+					else {
+						svg.append("g")
+							.attr("class", "yAxis")
+							.call(d3.axisLeft(yScale)
+								.tickValues([0, yMax])
+								.tickSize(0)
+								.tickFormat(d3.formatPrefix(".1", 1e6)));
+					};
 				};
 			};
 
@@ -1901,11 +1924,10 @@ function stackedArea() {
 
 			// setting up the data
 
-			var stack = d3.stack()
-				.keys(["ES", "MS", "HS", "UG"]);
+			var stack = d3.stack().keys(keys);
 
 			var area = d3.area()
-				.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
+				.x(function(d, i) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
 				.y0(function(d) { return yScale(d[0]); })
 				.y1(function(d) { return yScale(d[1]); });
 
@@ -1916,8 +1938,8 @@ function stackedArea() {
 			var series = stack(data);
 
 			var color = d3.scaleOrdinal()
-				.domain(["ES", "MS", "HS", "UG"])
-				.range(["#E56C0A", "#5DBF7E", "#2E8A95", "#215F8A", "#1C276E", "#FAC190", "#C8E9D2", "#8ED1E0", "#76B4DE", "#98A2E7"]);
+				.domain(keys)
+				.range(["#E56C0A", "#5DBF7E", "#2E8A95"]);
 
 			// build chart
 
@@ -1939,31 +1961,43 @@ function stackedArea() {
 				.style("fill", "none")
 				.attr("d", line);
 
-			// add first label (level)
+			// add line label
 
-			layer.append("text")
-				.attr("class", "levelLabel")
-				.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-				.attr("dx", "-0.65em")
-				.attr("y", function(d) { return yScale(d[0][1]); })
-				.attr("dy", "0.35em")
-				.attr("text-anchor", "end")
-				.attr("fill", function(d) { return color(d.key); })
-				.attr("opacity", 0)
-				.text(function(d) { return d.key; });
+			layer.filter(function(d) { return d[d.length - 1]; })
+		    .append("text")
+		      .attr("x", function(d) { return xScale(d[d.length - 1].data.year) + (xScale.bandwidth()/2); })
+					.attr("dx", ".35em")
+		      .attr("y", function(d) { return yScale(d[d.length - 1][1]); })
+		      .attr("dy", ".35em")
+					.style("fill", function(d) { return color(d.key); })
+		      .style("text-anchor", "start")
+		      .text(function(d) { return d.key + ", " + d[1][1]; });
 
-			// add last label (values)
+			// add data labels
 
-			layer.append("text")
-				.attr("class", "valueLabel")
-				.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
-				.attr("dx", "0.65em")
-				.attr("y", function(d) { return yScale(d[d.length-1][1]); })
-				.attr("dy", "0.35em")
-				.attr("text-anchor", "start")
-				.attr("fill", function(d) { return color(d.key); })
-				.attr("opacity", 0)
-				.text(function(d) { return formatNum(d[d.length-1][1] - d[d.length-1][0]); });
+			var label = layer.selectAll(".label")
+				.data(function(d) { return d; })
+				.enter()
+					.append("g")
+						.attr("class", "label")
+						.attr("transform", function(d, i) { return "translate(" + (xScale(d.data.year) + (xScale.bandwidth()/2)) + ", " + yScale(d[1]) + ")"; });
+
+
+			label.append("text")
+				.attr("dy", ".35em")
+				.attr("text-anchor", "middle")
+				.text(function(d) {
+
+					if (percWhole == 0) { return formatPerc((d[1]-d[0])/100); }
+					else if (percWhole == 1) {
+
+						var maxVal = d3.max(data.map(function(d) { return (d[1]-d[0]); }));
+
+						if (maxVal < 1000) { return formatNum((d[1]-d[0])); }
+						else { return formatNumDec((d[1]-d[0])/1000) + "k"; };
+
+					}
+				});
 
 			// add rect on top for animations
 
@@ -1989,7 +2023,7 @@ function stackedArea() {
 						.transition("movescreen")
 							.ease(d3.easeLinear)
 							.duration((series.length/3)*animateTime)
-							.attr("x", widthAdj)
+							.attr("x", width)
 							.transition()
 								.attr("width", 0);
 
@@ -2176,6 +2210,12 @@ function stackedArea() {
 		return chart;
 	};
 
+	chart.keys = function(value) {
+		if (!arguments.length) return keys;
+		keys = value;
+		return chart;
+	};
+
 	return chart;
 
 };
@@ -2190,7 +2230,7 @@ function wafflesMult() {
 		height,
 		widthSquares = 10, // number of squares wide
 		heightSquares = 10, // number of squares tall
-		squareSize = 16, // size of squares in pixels
+		squareSize = 13, // size of squares in pixels
 		gap = 1, // size of gap between squares
 		chartID = [],
 		data = [],
@@ -2202,18 +2242,20 @@ function wafflesMult() {
 	function chart(selection) {
 		selection.each(function() {
 
+				// sort data
+
 				// format data for use in waffles
 
 				data.forEach(function(d, i) {
-					d.units = Math.round(d.percent);
+					d.units = Math.round(d.var2);
 					waffleData = waffleData.concat(
 						Array(d.units+1).join(1).split("").map(function() {
 							return {
-								subject: d.subject,
-								use_type: d.use_type,
+								year: d.year,
+								categories: d.categories,
 								squareValue: 1,
 								units: d.units,
-								percent: d.percent,
+								percent: d.var2,
 								groupIndex: i
 							};
 						})
@@ -2222,21 +2264,21 @@ function wafflesMult() {
 
 				// nest data for multiples
 
-				var subjects = d3.nest()
-					.key(function(d) { return d.subject; })
+				var years = d3.nest()
+					.key(function(d) { return d.year; })
 					.entries(waffleData);
 
 				// colors by subject
 
 				var color = d3.scaleOrdinal()
-				  .domain(subjects.map(function(d) { return d.key; }))
+				  .domain(years.map(function(d) { return d.key; }))
 				  .range(["#E56C0A", "#5DBF7E", "#2E8A95", "#215F8A", "#1C276E", "#FAC190", "#C8E9D2", "#8ED1E0", "#76B4DE", "#98A2E7"]);
 
 				// build the charts
 
 				var waffleDiv = d3.select("#" + chartID)
 					.selectAll("div")
-					.data(subjects)
+					.data(years)
 					.each()
 						.enter()
 							.append("div")
@@ -2250,7 +2292,7 @@ function wafflesMult() {
 						.append("g");
 
 				var waffle = waffleSVG.selectAll("rect")
-					.data(subjects);
+					.data(years);
 
 				waffle.each()
 					.data(function(d) { return d.values; })
@@ -2278,21 +2320,21 @@ function wafflesMult() {
 					.attr("width", width);
 
 				var waffleCounter = waffleText.selectAll("text.waffleCounter")
-					.data(subjects);
+					.data(years);
 
 				var format = d3.format(".1%");
 
 				waffleCounter.each()
 					.data(function(d) { return d.values; })
 					.enter()
-						.filter(function(d, i) { return d.use_type == "For" && i === 0; })
+						.filter(function(d, i) { return d.categories == "Female" && i === 0; })
 						.append("text")
 							.text("0.0%")
-							.style("color", function(d) { return color(d.subject) })
+							.style("color", function(d) { return color(d.year) })
 							.attr("class", "waffleCounter");
 
 				var waffleSubject = waffleText.selectAll("p.waffleSubject")
-					.data(subjects);
+					.data(years);
 
 				waffleSubject.each()
 					.data(function(d) { return d.values; })
@@ -2300,7 +2342,7 @@ function wafflesMult() {
 						.filter(function(d, i) { return i === 0; })
 						.append("p")
 							.attr("width", width)
-							.text(function(d) { return d.subject; })
+							.text(function(d) { return d.year; })
 							.attr("class", "waffleSubject");
 
 				//check for scroll to fire transitions
@@ -2318,7 +2360,7 @@ function wafflesMult() {
 								.delay(function(d, i) { return i*25; })
 								.duration(500)
 								.style("fill", function(d) {
-									if (d.use_type == "For") { return color(d.subject); }
+									if (d.categories == "Female") { return color(d.year); }
 									else { return "#F1F2F1"; };
 								});
 
