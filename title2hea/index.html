@@ -264,18 +264,21 @@
     data4 = data.filter(function(d) { return d.chart == "enrGender"; });
     data5 = data.filter(function(d) { return d.chart == "enrGenderType"; });
     data6 = data.filter(function(d) { return d.chart == "enrRace"; });
+    data7 = data.filter(function(d) { return d.chart == "enrMinority"; });
 
     var provChart = barChart().data(data1).chartID("prov1").percWhole(1).sortDir(1).xMax(2000).marginLeft(165);
     var progChart = barChart().data(data2).chartID("prov2").percWhole(1).sortDir(1).xMax(20000).marginLeft(165);
     var genWaff = wafflesMult().data(data4).chartID("enrGen");
     var genProgType = barChart().data(data5).chartID("enrGenType").percWhole(0).sortDir(1).xMax(.5);
     var rethChart = colChart().data(data6).chartID("enrRaceEth").percWhole(0).sortDir(0).yMax(1).marginLeft(50);
+    var minLine = lineChart().data(data7).chartID("minorityLine").percWhole(0).sortDir(0).yMax(1).marginLeft(50);
 
     d3.select("#prov1").call(provChart);
     d3.select("#prov2").call(progChart);
     d3.select("#enrGen").call(genWaff);
     d3.select("#enrGenType").call(genProgType);
     d3.select("#enrRaceEth").call(rethChart);
+    d3.select("#minorityLine").call(minLine);
 
   });
 
