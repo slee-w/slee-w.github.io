@@ -5,30 +5,36 @@ providers	Alternative, not IHE-based	3	2014-15	203	9.4992981
 programs	Traditional	1	2014-15	19258	69.8842399
 programs	Alternative, IHE-based	2	2014-15	5158	18.7175672
 programs	Alternative, not IHE-based	3	2014-15	3141	11.3981928
-enrGender	Female	1	2009-10	539,681	75.12922208
-enrGender	Male	1	2009-10	178,656	24.87077792
-enrGender	Female	2	2010-11	517,530	75.4411411
-enrGender	Male	2	2010-11	168,475	24.5588589
-enrGender	Female	3	2011-12	473,433	75.69695826
-enrGender	Male	3	2011-12	151,999	24.30304174
-enrGender	Female	4	2012-13	372,452	75.71409114
-enrGender	Male	4	2012-13	119,467	24.28590886
-enrGender	Female	5	2013-14	343,066	76.12979964
-enrGender	Male	5	2013-14	107,567	23.87020036
-enrGender	Female	6	2014-15	313,758	75.89915527
-enrGender	Male	6	2014-15	99,630	24.10084473
-enrGenderType	Traditional	1	2014-15	79,752	22.45238665
-enrGenderType	Alternative	2	2014-15	19,878	34.16461853
-enrRace	American Indian or Alaska Native	1	2014-15	2,953	0.751290525
-enrRace	Asian	2	2014-15	10,420	2.651014993
-enrRace	Black or African American	3	2014-15	36,472	9.279061307
-enrRace	Hispanic	4	2014-15	52,764	13.42400721
-enrRace	Native Hawaiian or Other Pacific Islander	5	2014-15	2,702	0.687432103
-enrRace	White	6	2014-15	276,018	70.22340271
-enrRace	Two or More Races	7	2014-15	11,728	2.983791155
+enrGender	Female	1	2009-10	539681	75.12922208
+enrGender	Female	2	2010-11	517530	75.4411411
+enrGender	Female	3	2011-12	473433	75.69695826
+enrGender	Female	4	2012-13	372452	75.71409114
+enrGender	Female	5	2013-14	343066	76.12979964
+enrGender	Female	6	2014-15	313758	75.89915527
+enrGenderType	Traditional	1	2014-15	79752	22.45238665
+enrGenderType	Alternative	2	2014-15	19878	34.16461853
+enrRace	American Indian or Alaska Native	1	2014-15	2953	0.751290525
+enrRace	Asian	2	2014-15	10420	2.651014993
+enrRace	Black or African American	3	2014-15	36472	9.279061307
+enrRace	Hispanic	4	2014-15	52764	13.42400721
+enrRace	Native Hawaiian or Other Pacific Islander	5	2014-15	2702	0.687432103
+enrRace	White	6	2014-15	276018	70.22340271
+enrRace	Two or More Races	7	2014-15	11728	2.983791155
 enrMinority	Minority	1	2009-10	172520	25.85630656
 enrMinority	Minority	2	2010-11	164016	25.02055604
 enrMinority	Minority	3	2011-12	154736	25.936697
 enrMinority	Minority	4	2012-13	126264	26.86782496
 enrMinority	Minority	5	2013-14	120525	28.36629888
 enrMinority	Minority	6	2014-15	117039	29.77659729
+credentials	Individuals	10	2009-10	259236
+credentials	Individuals	11	2010-11	280342
+credentials	Individuals	12	2011-12	248042
+credentials	Individuals	13	2012-13	256124
+credentials	Individuals	14	2013-14	254963
+credentials	Individuals	15	2014-15	248499
+atrisk	Identified		At risk	19	0.889096865
+atrisk	Not identified		At risk	2118	99.11090314
+atrisk	Identified		Low performing	33	1.54422087
+atrisk	Not identified		Low performing	2104	98.45577913
+atrisk	Identified		Total	52	2.433317735
+atrisk	Not identified		Total	2085	97.56668226

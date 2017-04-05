@@ -333,7 +333,7 @@ ul.topNav {
 	stroke: #595857;
 }
 
-/* Stacked line */
+/* multi-line */
 
 .lineChart .yAxis text {
 	font: 10pt sans-serif;
@@ -358,12 +358,49 @@ ul.topNav {
 	}
 
 .lineChart .line {
+	stroke: #2E8A95;
 	stroke-width: 2px;
 }
 
 .lineChart .label {
 	font: 10pt sans-serif;
 	font-weight: bold;
+	fill: #2E8A95;
+}
+
+/* line */
+
+.multiLine .yAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.multiLine
+	.yAxis path,
+	.yAxis line {
+		stroke: #595857;
+	}
+
+.multiLine .xAxis text {
+	font: 10pt sans-serif;
+	fill: #595857;
+}
+
+.multiLine
+	.xAxis path,
+	.xAxis line {
+		display: none;
+	}
+
+.multiLine .line {
+	stroke: #2E8A95;
+	stroke-width: 2px;
+}
+
+.multiLine .label {
+	font: 10pt sans-serif;
+	font-weight: bold;
+	fill: #2E8A95;
 }
 
 /* Waffle charts */

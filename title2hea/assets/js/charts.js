@@ -1730,496 +1730,6 @@ function dumbBell() {
 
 };
 
-// Stacked area chart
-// This is built quite specifically for these data, and is **NOT** very reusable
-
-function stackedArea() {
-
-	// options that can be edited by the caller
-	// these are the default values
-
-	var width,
-		height = 400,
-		marginTop = 20,
-		marginLeft = 40,
-		marginBottomSpec = 20,
-		animateTime = 1000,
-		yMax = 100,
-		percWhole = 0, // 0 = perc, 1 = whole; default is perc
-		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
-		chartID = [],
-		data = [],
-		keys = [];
-
-	function chart(selection) {
-		selection.each(function() {
-
-			// sort data
-
-			data.sort(function(a, b) {
-				if (sortDir == 0) { return d3.ascending(a.order, b.order); }
-				else if (sortDir == 1) { return d3.descending(a.order, b.order); };
-			});
-
-			// formats
-
-			var formatNum = d3.format(",.0f");
-			var formatNumDec = d3.format(",.1f");
-			var formatPerc = d3.format(".1%");
-
-			// margins; adjust width and height to account for margins
-
-			var width = document.getElementById(chartID).offsetWidth;
-
-			var margin = {right: 20},
-				widthAdj = width - marginLeft - margin.right;
-
-			// axis scales
-
-			var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.1);
-
-			// domains
-
-			xScale.domain(data.map(function(d) { return d.year; }));
-
-			// build chart
-
-			var dom = d3.select("#" + chartID);
-
-			var svg = dom.append("svg")
-				.attr("class", "lineChart")
-				.attr("width", width)
-				.attr("height", height)
-				.append("g")
-					.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
-
-			// add axes
-			// x-axis will need label wrapping
-
-			// wrap labels (from mbostock)
-
-			function wrap(text, width) {
-				text.each(function() {
-					var text = d3.select(this),
-						words = text.text().split(/\s+/).reverse(),
-						word,
-						line = [],
-						lineNumber = 0,
-						lineHeight = 1.1, // ems
-						y = text.attr("y"),
-						dy = parseFloat(text.attr("dy")),
-						tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-					while (word = words.pop()) {
-						line.push(word);
-						tspan.text(line.join(" "));
-						if (tspan.node().getComputedTextLength() > width) {
-							line.pop();
-							tspan.text(line.join(" "));
-							line = [word];
-							tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-						}
-					}
-				});
-			}
-
-			svg.append("g")
-				.attr("class", "xAxis")
-				//.attr("transform", "translate(0," + height + ")")
-				.call(d3.axisBottom(xScale))
-				.selectAll(".xAxis text")
-					.call(wrap, xScale.bandwidth());
-
-			// figure out max number of tspans from wrapping
-
-			var tspanMax;
-
-			function tspanMaxCount() {
-
-				// find all tspans within the chart
-
-				var tspans = document.getElementById(chartID).getElementsByTagName("tspan");
-
-				// nest the tspans by the label
-
-				var tspanNest = d3.nest()
-					.key(function(d) { return d.__data__; })
-					.entries(tspans);
-
-				// find maximum length of the nested tspans
-
-				tspanMax = d3.max(tspanNest, function(d) { return d.values.length; });
-
-			}
-
-			tspanMaxCount();
-
-			svg.selectAll(".xAxis text")
-				.attr("dy", "1.5em");
-
-			// move the x-axis based on bottom margin
-
-			var marginBottom;
-
-			function marginBottomAdj() {
-				marginBottom = tspanMax * marginBottomSpec;
-			}
-
-			marginBottomAdj();
-
-			var	heightAdj = height - marginTop - marginBottom;
-
-			svg.select(".xAxis").remove();
-
-			svg.append("g")
-				.attr("class", "xAxis")
-				.attr("transform", "translate(0," + heightAdj + ")")
-				.call(d3.axisBottom(xScale))
-				.selectAll(".xAxis text")
-					.call(wrap, xScale.bandwidth());
-
-			// y-axis stuff depends on adjusted height
-
-			var	yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, yMax]);
-
-			// y-axis depends on units
-
-			function yAxis() {
-				if (percWhole == 0) {
-					svg.append("g")
-						.attr("class", "yAxis")
-						.call(d3.axisLeft(yScale)
-							.tickValues([0, yMax])
-							.tickSize(0)
-							.tickFormat(d3.format(".1%")));
-				}
-				else if (percWhole == 1) {
-					if (yMax < 1000) {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.format(",.0f")));
-					}
-					if (yMax < 1000000) {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e4)));
-					}
-					else {
-						svg.append("g")
-							.attr("class", "yAxis")
-							.call(d3.axisLeft(yScale)
-								.tickValues([0, yMax])
-								.tickSize(0)
-								.tickFormat(d3.formatPrefix(".1", 1e6)));
-					};
-				};
-			};
-
-			yAxis();
-
-			// setting up the data
-
-			var stack = d3.stack().keys(keys);
-
-			var area = d3.area()
-				.x(function(d, i) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-				.y0(function(d) { return yScale(d[0]); })
-				.y1(function(d) { return yScale(d[1]); });
-
-			var line = d3.line()
-				.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-				.y(function(d) { return yScale(d[1]); });
-
-			var series = stack(data);
-
-			var color = d3.scaleOrdinal()
-				.domain(keys)
-				.range(["#E56C0A", "#5DBF7E", "#2E8A95"]);
-
-			// build chart
-
-			var layer = svg.selectAll(".layer")
-				.data(series)
-				.enter()
-					.append("g")
-						.attr("class", "layer");
-
-			layer.append("path")
-				.attr("class", "area")
-				.style("fill", function(d) { return color(d.key); })
-				.style("fill-opacity", "0.15")
-				.attr("d", area);
-
-			layer.append("path")
-				.attr("class", "line")
-				.style("stroke", function(d) { return color(d.key); })
-				.style("fill", "none")
-				.attr("d", line);
-
-			// add line label
-
-			layer.filter(function(d) { return d[d.length - 1]; })
-		    .append("text")
-		      .attr("x", function(d) { return xScale(d[d.length - 1].data.year) + (xScale.bandwidth()/2); })
-					.attr("dx", ".35em")
-		      .attr("y", function(d) { return yScale(d[d.length - 1][1]); })
-		      .attr("dy", ".35em")
-					.style("fill", function(d) { return color(d.key); })
-		      .style("text-anchor", "start")
-		      .text(function(d) { return d.key + ", " + d[1][1]; });
-
-			// add data labels
-
-			var label = layer.selectAll(".label")
-				.data(function(d) { return d; })
-				.enter()
-					.append("g")
-						.attr("class", "label")
-						.attr("transform", function(d, i) { return "translate(" + (xScale(d.data.year) + (xScale.bandwidth()/2)) + ", " + yScale(d[1]) + ")"; });
-
-
-			label.append("text")
-				.attr("dy", ".35em")
-				.attr("text-anchor", "middle")
-				.text(function(d) {
-
-					if (percWhole == 0) { return formatPerc((d[1]-d[0])/100); }
-					else if (percWhole == 1) {
-
-						var maxVal = d3.max(data.map(function(d) { return (d[1]-d[0]); }));
-
-						if (maxVal < 1000) { return formatNum((d[1]-d[0])); }
-						else { return formatNumDec((d[1]-d[0])/1000) + "k"; };
-
-					}
-				});
-
-			// add rect on top for animations
-
-			svg.append("rect")
-				.attr("class", "screen")
-				.attr("x", marginLeft)
-				.attr("y", 0)
-				.attr("width", widthAdj)
-				.attr("height", heightAdj)
-				.attr("fill", "#FFF");
-
-			//check for scroll to fire transitions
-
-			function fireTransitions() {
-
-				if (document.getElementById(chartID).classList.contains("transitioned") == true) {	}
-
-				else if (document.getElementById(chartID).classList.contains("scroll-active") == true) {
-
-					document.getElementById(chartID).classList.add("transitioned");
-
-					svg.select("rect.screen")
-						.transition("movescreen")
-							.ease(d3.easeLinear)
-							.duration((series.length/3)*animateTime)
-							.attr("x", width)
-							.transition()
-								.attr("width", 0);
-
-					svg.selectAll("text.levelLabel")
-						.transition()
-							.delay((series.length/3)*animateTime)
-							.duration(animateTime)
-							.attr("opacity", 1);
-
-					svg.selectAll("text.valueLabel")
-						.transition()
-							.delay((series.length/3)*animateTime)
-							.duration(animateTime)
-							.attr("opacity", 1);
-
-				};
-
-			};
-
-			window.addEventListener("scroll", fireTransitions);
-
-			// resize
-
-			window.addEventListener("resize", function() {
-
-				// update width
-
-				var width = document.getElementById(chartID).offsetWidth,
-					widthAdj = width - marginLeft - margin.right;
-
-				// resize chart
-
-				xScale.rangeRound([0, widthAdj]);
-
-				dom.select("svg")
-					.attr("width", width);
-
-				svg.select(".xAxis")
-					.call(d3.axisBottom(xScale))
-					.selectAll(".xAxis text")
-						.call(wrap, xScale.bandwidth());
-
-				tspanMaxCount();
-				marginBottomAdj();
-
-				// redraw the x-axis based on new bottom margin
-
-				heightAdj = height - marginTop - marginBottom;
-
-				svg.select(".xAxis").remove();
-
-				svg.append("g")
-					.attr("class", "xAxis")
-					.attr("transform", "translate(0," + heightAdj + ")")
-					.call(d3.axisBottom(xScale))
-					.selectAll(".xAxis text")
-						.call(wrap, xScale.bandwidth());
-
-				svg.selectAll(".xAxis text")
-					.attr("dy", "1.5em");
-
-				// redraw the y-axis based on new bottom margin
-
-				yScale.rangeRound([heightAdj, 0]);
-
-				svg.select(".yAxis").remove();
-
-				yAxis();
-
-				// recalculate area/line positions
-
-				area = d3.area()
-					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-					.y0(function(d) { return yScale(d[0]); })
-					.y1(function(d) { return yScale(d[1]); });
-
-				line = d3.line()
-					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-					.y(function(d) { return yScale(d[1]); });
-
-				// check if animations have already fired
-
-				function checkAnimate() {
-
-					// if fired, just move things
-
-					if (document.getElementById(chartID).classList.contains("transitioned") == true) {
-
-						svg.selectAll("path.area")
-							.transition()
-								//.duration(animateTime)
-								.attr("d", area);
-
-						svg.selectAll("path.line")
-							.transition()
-								//.duration(animateTime)
-								.attr("d", line);
-
-						svg.selectAll("text.levelLabel")
-							.transition()
-								//.duration(animateTime)
-								.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-
-						svg.selectAll("text.valueLabel")
-							.transition()
-								//.duration(animateTime)
-								.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
-
-					}
-
-					// if not fired, run full transitions
-
-					else {
-
-							svg.selectAll("path.area")
-								.attr("d", area);
-
-							svg.selectAll("path.line")
-								.attr("d", line);
-
-							svg.select("rect.screen")
-								.attr("width", widthAdj);
-
-							svg.selectAll("text.levelLabel")
-								.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-
-							svg.selectAll("text.valueLabel")
-								.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
-
-							window.removeEventListener("scroll", fireTransitions); // remove the old scroll listener and start again
-							window.addEventListener("scroll", fireTransitions);
-
-					};
-
-				};
-
-				checkAnimate();
-
-			});
-
-		})
-
-	};
-
-	chart.sortDir = function(value) {
-		if (!arguments.length) return sortDir;
-		sortDir = value;
-		return chart;
-	}
-
-	chart.percWhole = function(value) {
-		if (!arguments.length) return percWhole;
-		percWhole = value;
-		return chart;
-	}
-
-	chart.yMax = function(value) {
-		if (!arguments.length) return yMax;
-		yMax = value;
-		return chart;
-	};
-
-	chart.marginLeft = function(value) {
-		if (!arguments.length) return marginLeft;
-		marginLeft = value;
-		return chart;
-	};
-
-	chart.marginBottomSpec = function(value) {
-		if (!arguments.length) return marginBottomSpec;
-		marginBottomSpec = value;
-		return chart;
-	};
-
-	chart.chartID = function(value) {
-		if (!arguments.length) return chartID;
-		chartID = value;
-		return chart;
-	};
-
-	chart.data = function(value) {
-		if (!arguments.length) return data;
-		data = value;
-		return chart;
-	};
-
-	chart.keys = function(value) {
-		if (!arguments.length) return keys;
-		keys = value;
-		return chart;
-	};
-
-	return chart;
-
-};
-
 // Small multiples waffles
 
 function wafflesMult() {
@@ -2230,8 +1740,9 @@ function wafflesMult() {
 		height,
 		widthSquares = 10, // number of squares wide
 		heightSquares = 10, // number of squares tall
-		squareSize = 13, // size of squares in pixels
+		squareSize = 15, // size of squares in pixels
 		gap = 1, // size of gap between squares
+		typeName = [],
 		chartID = [],
 		data = [],
 		waffleData = [];
@@ -2327,7 +1838,7 @@ function wafflesMult() {
 				waffleCounter.each()
 					.data(function(d) { return d.values; })
 					.enter()
-						.filter(function(d, i) { return d.categories == "Female" && i === 0; })
+						.filter(function(d, i) { return d.categories == typeName && i === 0; })
 						.append("text")
 							.text("0.0%")
 							.style("color", function(d) { return color(d.year) })
@@ -2360,7 +1871,7 @@ function wafflesMult() {
 								.delay(function(d, i) { return i*25; })
 								.duration(500)
 								.style("fill", function(d) {
-									if (d.categories == "Female") { return color(d.year); }
+									if (d.categories == typeName) { return color(d.year); }
 									else { return "#F1F2F1"; };
 								});
 
@@ -2397,12 +1908,19 @@ function wafflesMult() {
 
     };
 
+		chart.typeName = function(value) {
+
+	        if (!arguments.length) return typeName;
+	        typeName = value;
+	        return chart;
+
+	    };
+
 	return chart;
 
 };
 
 // Line charts
-// not very reusable
 
 function lineChart() {
 
@@ -2418,6 +1936,7 @@ function lineChart() {
 		yMax = 100,
 		percWhole = 0, // 0 = perc, 1 = whole; default is perc
 		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
+		labelPadding = 3,
 		chartID = [],
 		data = [],
 		keys = [];
@@ -2602,29 +2121,26 @@ function lineChart() {
 					if (percWhole == 1) { return yScale(d.var1); }
 				});
 
-			var series = svg.selectAll(".series")
-				.data(data)
-				.enter()
-					.append("g")
-						.attr("class", "series");
-
-			series.append("path")
+			svg.append("path")
 				.datum(data)
-				.style("stroke", "steelblue")
 				.style("fill", "none")
 				.attr("class", "line")
 				.attr("d", line);
 
 			// add data labels
 
-			var label = series.selectAll(".label")
+			var label = svg.selectAll(".label")
 				.data(data)
 				.enter()
 					.append("g")
 						.attr("class", "label")
-						.attr("transform", function(d, i) { return "translate(" + xScale(d.year) + "," + yScale(d.var2) + ")"; });
+						.attr("transform", function(d) {
+							if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var2/100) + ")"; }
+							if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var1) + ")"; }
+						});
 
 			label.append("text")
+				.attr("dy", "0.35em")
 				.style("text-anchor", "middle")
 				.text(function(d) {
 					if (percWhole == 0) { return formatPerc(d.var2/100); }
@@ -2637,45 +2153,41 @@ function lineChart() {
 						else { return formatNumDec(d.var1/1000000) + "M"; };
 
 					}
-				});
-
-			// add line label
-
-	/*		layer.filter(function(d) { return d[d.length - 1]; })
-		    .append("text")
-		      .attr("x", function(d) { return xScale(d[d.length - 1].data.year) + (xScale.bandwidth()/2); })
-					.attr("dx", ".35em")
-		      .attr("y", function(d) { return yScale(d[d.length - 1][1]); })
-		      .attr("dy", ".35em")
-					.style("fill", function(d) { return color(d.key); })
-		      .style("text-anchor", "start")
-		      .text(function(d) { return d.key + ", " + d[1][1]; });
-
-			// add data labels
-
-			var label = layer.selectAll(".label")
-				.data(function(d) { return d; })
-				.enter()
-					.append("g")
+				})
+				.filter(function(d, i) { return i === data.length - 1; })
+					.append("tspan")
 						.attr("class", "label")
-						.attr("transform", function(d, i) { return "translate(" + (xScale(d.data.year) + (xScale.bandwidth()/2)) + ", " + yScale(d[1]) + ")"; });
+						.text(function(d) { return " " + d.categories; });
 
+			label.append("rect", "text")
+					.attr("x", function() { return this.parentNode.getBBox().x - labelPadding; })
+					.attr("y", function() { return this.parentNode.getBBox().y - labelPadding; })
+					.attr("width", function() { return this.parentNode.getBBox().width + (2 * labelPadding); })
+					.attr("height", function() { return this.parentNode.getBBox().height + (2 * labelPadding); })
+					.style("fill", "#FFF");
+
+			label.selectAll("text")
+				.remove();
 
 			label.append("text")
-				.attr("dy", ".35em")
-				.attr("text-anchor", "middle")
+				.attr("dy", "0.35em")
+				.style("text-anchor", "middle")
 				.text(function(d) {
-
-					if (percWhole == 0) { return formatPerc((d[1]-d[0])/100); }
+					if (percWhole == 0) { return formatPerc(d.var2/100); }
 					else if (percWhole == 1) {
 
-						var maxVal = d3.max(data.map(function(d) { return (d[1]-d[0]); }));
+						var maxVal = d3.max(data.map(function(d) { return d.var1; }));
 
-						if (maxVal < 1000) { return formatNum((d[1]-d[0])); }
-						else { return formatNumDec((d[1]-d[0])/1000) + "k"; };
+						if (maxVal < 1000) { return formatNum(d.var1); }
+						else if (maxVal < 1000000) { return formatNumDec(d.var1/1000) + "k"; }
+						else { return formatNumDec(d.var1/1000000) + "M"; };
 
 					}
-				});
+				})
+				.filter(function(d, i) { return i === data.length - 1; })
+					.append("tspan")
+						.attr("class", "label")
+						.text(function(d) { return " " + d.categories; });
 
 			// add rect on top for animations
 
@@ -2685,13 +2197,13 @@ function lineChart() {
 				.attr("y", 0)
 				.attr("width", widthAdj)
 				.attr("height", heightAdj)
-				.attr("fill", "#FFF"); */
+				.attr("fill", "#FFF");
 
 			//check for scroll to fire transitions
 
 			function fireTransitions() {
 
-				if (document.getElementById(chartID).classList.contains("transitioned") == true) {	}
+				if (document.getElementById(chartID).classList.contains("transitioned") == true) { }
 
 				else if (document.getElementById(chartID).classList.contains("scroll-active") == true) {
 
@@ -2700,20 +2212,20 @@ function lineChart() {
 					svg.select("rect.screen")
 						.transition("movescreen")
 							.ease(d3.easeLinear)
-							.duration((series.length/3)*animateTime)
+							.duration((data.length/3)*animateTime)
 							.attr("x", width)
 							.transition()
 								.attr("width", 0);
 
 					svg.selectAll("text.levelLabel")
 						.transition()
-							.delay((series.length/3)*animateTime)
+							.delay((data.length/3)*animateTime)
 							.duration(animateTime)
 							.attr("opacity", 1);
 
 					svg.selectAll("text.valueLabel")
 						.transition()
-							.delay((series.length/3)*animateTime)
+							.delay((data.length/3)*animateTime)
 							.duration(animateTime)
 							.attr("opacity", 1);
 
@@ -2771,16 +2283,14 @@ function lineChart() {
 
 				yAxis();
 
-				// recalculate area/line positions
+				// recalculate line positions
 
-				area = d3.area()
-					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-					.y0(function(d) { return yScale(d[0]); })
-					.y1(function(d) { return yScale(d[1]); });
-
-				line = d3.line()
-					.x(function(d) { return xScale(d.data.year) + (xScale.bandwidth()/2); })
-					.y(function(d) { return yScale(d[1]); });
+				var line = d3.line()
+					.x(function(d) { return xScale(d.year) + xScale.bandwidth()/2; })
+					.y(function(d) {
+						if (percWhole == 0) { return yScale(d.var2/100); }
+						if (percWhole == 1) { return yScale(d.var1); }
+					});
 
 				// check if animations have already fired
 
@@ -2790,25 +2300,18 @@ function lineChart() {
 
 					if (document.getElementById(chartID).classList.contains("transitioned") == true) {
 
-						svg.selectAll("path.area")
-							.transition()
-								//.duration(animateTime)
-								.attr("d", area);
-
 						svg.selectAll("path.line")
 							.transition()
 								//.duration(animateTime)
 								.attr("d", line);
 
-						svg.selectAll("text.levelLabel")
+						svg.selectAll("g.label")
 							.transition()
 								//.duration(animateTime)
-								.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-
-						svg.selectAll("text.valueLabel")
-							.transition()
-								//.duration(animateTime)
-								.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
+								.attr("transform", function(d) {
+									if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var2/100) + ")"; }
+									if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var1) + ")"; }
+								});
 
 					}
 
@@ -2816,20 +2319,17 @@ function lineChart() {
 
 					else {
 
-							svg.selectAll("path.area")
-								.attr("d", area);
-
 							svg.selectAll("path.line")
 								.attr("d", line);
 
 							svg.select("rect.screen")
 								.attr("width", widthAdj);
 
-							svg.selectAll("text.levelLabel")
-								.attr("x", function(d) { return xScale(d[0].data.year) + (xScale.bandwidth()/2); })
-
-							svg.selectAll("text.valueLabel")
-								.attr("x", function(d) { return xScale(d[d.length-1].data.year) + (xScale.bandwidth()/2); })
+							svg.selectAll("g.label")
+								.attr("transform", function(d) {
+									if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var2/100) + ")"; }
+									if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.var1) + ")"; }
+								});
 
 							window.removeEventListener("scroll", fireTransitions); // remove the old scroll listener and start again
 							window.addEventListener("scroll", fireTransitions);
@@ -2845,6 +2345,511 @@ function lineChart() {
 		})
 
 	};
+
+	chart.labelPadding = function(value) {
+		if (!arguments.length) return labelPadding;
+		labelPadding = value;
+		return chart;
+	}
+
+	chart.sortDir = function(value) {
+		if (!arguments.length) return sortDir;
+		sortDir = value;
+		return chart;
+	}
+
+	chart.percWhole = function(value) {
+		if (!arguments.length) return percWhole;
+		percWhole = value;
+		return chart;
+	}
+
+	chart.yMax = function(value) {
+		if (!arguments.length) return yMax;
+		yMax = value;
+		return chart;
+	};
+
+	chart.marginLeft = function(value) {
+		if (!arguments.length) return marginLeft;
+		marginLeft = value;
+		return chart;
+	};
+
+	chart.marginBottomSpec = function(value) {
+		if (!arguments.length) return marginBottomSpec;
+		marginBottomSpec = value;
+		return chart;
+	};
+
+	chart.chartID = function(value) {
+		if (!arguments.length) return chartID;
+		chartID = value;
+		return chart;
+	};
+
+	chart.data = function(value) {
+		if (!arguments.length) return data;
+		data = value;
+		return chart;
+	};
+
+	chart.keys = function(value) {
+		if (!arguments.length) return keys;
+		keys = value;
+		return chart;
+	};
+
+	return chart;
+
+};
+
+// Multi-line charts
+// not very reusable
+
+function multiLine() {
+
+	// options that can be edited by the caller
+	// these are the default values
+
+	var width,
+		height = 400,
+		marginTop = 20,
+		marginLeft = 40,
+		marginBottomSpec = 20,
+		animateTime = 1000,
+		yMax = 100,
+		percWhole = 0, // 0 = perc, 1 = whole; default is perc
+		sortDir = 0, // 0 = ascending, 1 = descending; default is ascending
+		labelPadding = 3,
+		chartID = [],
+		data = [],
+		keys = [];
+
+	function chart(selection) {
+		selection.each(function() {
+
+			// sort data
+
+			data.sort(function(a, b) {
+				if (sortDir == 0) { return d3.ascending(a.order, b.order); }
+				else if (sortDir == 1) { return d3.descending(a.order, b.order); };
+			});
+
+			// formats
+
+			var formatNum = d3.format(",.0f");
+			var formatNumDec = d3.format(",.1f");
+			var formatPerc = d3.format(".1%");
+
+			// margins; adjust width and height to account for margins
+
+			var width = document.getElementById(chartID).offsetWidth;
+
+			var margin = {right: 20},
+				widthAdj = width - marginLeft - margin.right;
+
+			// axis scales
+
+			var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.1);
+
+			// domains
+
+			xScale.domain(["2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15"]); // FIX THIS LATER
+
+			// build chart
+
+			var dom = d3.select("#" + chartID);
+
+			var svg = dom.append("svg")
+				.attr("class", "multiLine")
+				.attr("width", width)
+				.attr("height", height)
+				.append("g")
+					.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+
+			// add axes
+			// x-axis will need label wrapping
+
+			// wrap labels (from mbostock)
+
+			function wrap(text, width) {
+				text.each(function() {
+					var text = d3.select(this),
+						words = text.text().split(/\s+/).reverse(),
+						word,
+						line = [],
+						lineNumber = 0,
+						lineHeight = 1.1, // ems
+						y = text.attr("y"),
+						dy = parseFloat(text.attr("dy")),
+						tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+					while (word = words.pop()) {
+						line.push(word);
+						tspan.text(line.join(" "));
+						if (tspan.node().getComputedTextLength() > width) {
+							line.pop();
+							tspan.text(line.join(" "));
+							line = [word];
+							tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+						}
+					}
+				});
+			}
+
+			svg.append("g")
+				.attr("class", "xAxis")
+				//.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisBottom(xScale))
+				.selectAll(".xAxis text")
+					.call(wrap, xScale.bandwidth());
+
+			// figure out max number of tspans from wrapping
+
+			var tspanMax;
+
+			function tspanMaxCount() {
+
+				// find all tspans within the chart
+
+				var tspans = document.getElementById(chartID).getElementsByTagName("tspan");
+
+				// nest the tspans by the label
+
+				var tspanNest = d3.nest()
+					.key(function(d) { return d.__data__; })
+					.entries(tspans);
+
+				// find maximum length of the nested tspans
+
+				tspanMax = d3.max(tspanNest, function(d) { return d.values.length; });
+
+			}
+
+			tspanMaxCount();
+
+			svg.selectAll(".xAxis text")
+				.attr("dy", "1.5em");
+
+			// move the x-axis based on bottom margin
+
+			var marginBottom;
+
+			function marginBottomAdj() {
+				marginBottom = tspanMax * marginBottomSpec;
+			}
+
+			marginBottomAdj();
+
+			var	heightAdj = height - marginTop - marginBottom;
+
+			svg.select(".xAxis").remove();
+
+			svg.append("g")
+				.attr("class", "xAxis")
+				.attr("transform", "translate(0," + heightAdj + ")")
+				.call(d3.axisBottom(xScale))
+				.selectAll(".xAxis text")
+					.call(wrap, xScale.bandwidth());
+
+			// y-axis stuff depends on adjusted height
+
+			var	yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, yMax]);
+
+			// y-axis depends on units
+
+			function yAxis() {
+				if (percWhole == 0) {
+					svg.append("g")
+						.attr("class", "yAxis")
+						.call(d3.axisLeft(yScale)
+							.tickValues([0, yMax])
+							.tickSize(0)
+							.tickFormat(d3.format(".1%")));
+				}
+				else if (percWhole == 1) {
+					if (yMax < 1000) {
+						svg.append("g")
+							.attr("class", "yAxis")
+							.call(d3.axisLeft(yScale)
+								.tickValues([0, yMax])
+								.tickSize(0)
+								.tickFormat(d3.format(",.0f")));
+					}
+					if (yMax < 1000000) {
+						svg.append("g")
+							.attr("class", "yAxis")
+							.call(d3.axisLeft(yScale)
+								.tickValues([0, yMax])
+								.tickSize(0)
+								.tickFormat(d3.formatPrefix(".1", 1e4)));
+					}
+					else {
+						svg.append("g")
+							.attr("class", "yAxis")
+							.call(d3.axisLeft(yScale)
+								.tickValues([0, yMax])
+								.tickSize(0)
+								.tickFormat(d3.formatPrefix(".1", 1e6)));
+					};
+				};
+			};
+
+			yAxis();
+
+			// draw lines
+
+			var color = d3.scaleOrdinal()
+				.domain(["Total", "Traditional", "Alternative, IHE-based", "Alternative, not IHE-based"]) // NEED TO FIGURE THIS OUT LATER
+				.range(["#E56C0A", "#5DBF7E", "#2E8A95", "#215F8A", "#1C276E", "#FAC190", "#C8E9D2", "#8ED1E0", "#76B4DE", "#98A2E7"]);
+
+			var line = d3.line()
+				.x(function(d) { return xScale(d.year) + xScale.bandwidth()/2; })
+				.y(function(d) {
+					if (percWhole == 0) { return yScale(d.value/100); }
+					if (percWhole == 1) { return yScale(d.value); }
+				});
+
+			var serie = svg.selectAll(".serie")
+				.data(data)
+				.enter()
+					.append("g")
+						.attr("class", "serie");
+
+			serie.append("path")
+				.style("fill", "none")
+				.style("stroke", function(d) { return color(d[0].key); })
+				.attr("class", "line")
+				.attr("d", line);
+
+			// add data labels
+
+			var label = serie.selectAll(".label")
+				.data(function(d) { return d; })
+				.enter()
+					.append("g")
+						.attr("class", "label")
+						.attr("transform", function(d) {
+							if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value/100) + ")"; }
+							if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value) + ")"; }
+						});
+
+			label.append("text")
+				.attr("dy", "0.35em")
+				.style("text-anchor", "middle")
+				.style("fill", function(d) { return color(d.key); })
+				.text(function(d) {
+					if (percWhole == 0) { return formatPerc(d.value/100); }
+					else if (percWhole == 1) {
+
+						// var maxVal = d3.max(data.map(function(d) { return d.value; }));
+
+						if (yMax < 1000) { return formatNum(d.value); }
+						else if (yMax < 1000000) { return formatNumDec(d.value/1000) + "k"; }
+						else { return formatNumDec(d.value/1000000) + "M"; };
+
+					}
+				})
+				.filter(function(d, i) { return i === data[0].length - 1; })
+					.append("tspan")
+						.attr("class", "label")
+						.style("fill", function(d) { return color(d.key); })
+						.text(function(d) { return " " + d.key; });
+
+			label.append("rect", "text")
+					.attr("x", function() { return this.parentNode.getBBox().x - labelPadding; })
+					.attr("y", function() { return this.parentNode.getBBox().y - labelPadding; })
+					.attr("width", function() { return this.parentNode.getBBox().width + (2 * labelPadding); })
+					.attr("height", function() { return this.parentNode.getBBox().height + (2 * labelPadding); })
+					.style("fill", "#FFF");
+
+			label.selectAll("text")
+				.remove();
+
+			label.append("text")
+				.attr("dy", "0.35em")
+				.style("text-anchor", "middle")
+				.style("fill", function(d) { return color(d.key); })
+				.text(function(d) {
+					if (percWhole == 0) { return formatPerc(d.value/100); }
+					else if (percWhole == 1) {
+
+						// var maxVal = d3.max(data.map(function(d) { return d.value; }));
+
+						if (yMax < 1000) { return formatNum(d.value); }
+						else if (yMax < 1000000) { return formatNumDec(d.value/1000) + "k"; }
+						else { return formatNumDec(d.value/1000000) + "M"; };
+
+					}
+				})
+				.filter(function(d, i) { return i === data[0].length - 1; })
+					.append("tspan")
+						.attr("class", "label")
+						.style("fill", function(d) { return color(d.key); })
+						.text(function(d) { return " " + d.key; });
+
+			// add rect on top for animations
+
+			svg.append("rect")
+				.attr("class", "screen")
+				.attr("x", marginLeft)
+				.attr("y", 0)
+				.attr("width", widthAdj)
+				.attr("height", heightAdj)
+				.attr("fill", "#FFF");
+
+			//check for scroll to fire transitions
+
+			function fireTransitions() {
+
+				if (document.getElementById(chartID).classList.contains("transitioned") == true) { }
+
+				else if (document.getElementById(chartID).classList.contains("scroll-active") == true) {
+
+					document.getElementById(chartID).classList.add("transitioned");
+
+					svg.select("rect.screen")
+						.transition("movescreen")
+							.ease(d3.easeLinear)
+							.duration((data.length/3)*animateTime)
+							.attr("x", width)
+							.transition()
+								.attr("width", 0);
+
+					svg.selectAll("text.levelLabel")
+						.transition()
+							.delay((data.length/3)*animateTime)
+							.duration(animateTime)
+							.attr("opacity", 1);
+
+					svg.selectAll("text.valueLabel")
+						.transition()
+							.delay((data.length/3)*animateTime)
+							.duration(animateTime)
+							.attr("opacity", 1);
+
+				};
+
+			};
+
+			window.addEventListener("scroll", fireTransitions);
+
+			// resize
+
+			window.addEventListener("resize", function() {
+
+				// update width
+
+				var width = document.getElementById(chartID).offsetWidth,
+					widthAdj = width - marginLeft - margin.right;
+
+				// resize chart
+
+				xScale.rangeRound([0, widthAdj]);
+
+				dom.select("svg")
+					.attr("width", width);
+
+				svg.select(".xAxis")
+					.call(d3.axisBottom(xScale))
+					.selectAll(".xAxis text")
+						.call(wrap, xScale.bandwidth());
+
+				tspanMaxCount();
+				marginBottomAdj();
+
+				// redraw the x-axis based on new bottom margin
+
+				heightAdj = height - marginTop - marginBottom;
+
+				svg.select(".xAxis").remove();
+
+				svg.append("g")
+					.attr("class", "xAxis")
+					.attr("transform", "translate(0," + heightAdj + ")")
+					.call(d3.axisBottom(xScale))
+					.selectAll(".xAxis text")
+						.call(wrap, xScale.bandwidth());
+
+				svg.selectAll(".xAxis text")
+					.attr("dy", "1.5em");
+
+				// redraw the y-axis based on new bottom margin
+
+				yScale.rangeRound([heightAdj, 0]);
+
+				svg.select(".yAxis").remove();
+
+				yAxis();
+
+				// recalculate line positions
+
+				var line = d3.line()
+					.x(function(d) { return xScale(d.year) + xScale.bandwidth()/2; })
+					.y(function(d) {
+						if (percWhole == 0) { return yScale(d.value/100); }
+						if (percWhole == 1) { return yScale(d.value); }
+					});
+
+				// check if animations have already fired
+
+				function checkAnimate() {
+
+					// if fired, just move things
+
+					if (document.getElementById(chartID).classList.contains("transitioned") == true) {
+
+						svg.selectAll("path.line")
+							.transition()
+								//.duration(animateTime)
+								.attr("d", line);
+
+						svg.selectAll("g.label")
+							.transition()
+								//.duration(animateTime)
+								.attr("transform", function(d) {
+									if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value/100) + ")"; }
+									if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value) + ")"; }
+								});
+
+					}
+
+					// if not fired, run full transitions
+
+					else {
+
+							svg.selectAll("path.line")
+								.attr("d", line);
+
+							svg.select("rect.screen")
+								.attr("width", widthAdj);
+
+							svg.selectAll("g.label")
+								.attr("transform", function(d) {
+									if (percWhole == 0) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value/100) + ")"; }
+									if (percWhole == 1) { return "translate(" + (xScale(d.year) + (xScale.bandwidth()/2)) + "," + yScale(d.value) + ")"; }
+								});
+
+							window.removeEventListener("scroll", fireTransitions); // remove the old scroll listener and start again
+							window.addEventListener("scroll", fireTransitions);
+
+					};
+
+				};
+
+				checkAnimate();
+
+			});
+
+		})
+
+	};
+
+	chart.labelPadding = function(value) {
+		if (!arguments.length) return labelPadding;
+		labelPadding = value;
+		return chart;
+	}
 
 	chart.sortDir = function(value) {
 		if (!arguments.length) return sortDir;
