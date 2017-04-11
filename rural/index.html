@@ -38,6 +38,10 @@
     <p>
       Data tables go here.
     </p>
+    <div id="table1" style="display: inline-block;">
+    </div>
+    <div id="table2" style="display: inline-block;">
+    </div>
   </div>
 </body>
 
@@ -58,9 +62,11 @@
 
       // Call chart functions
 
-      var tableArray1 = tableArray().chartID("mainTables").data(data);
+      var tableArray1 = tableArray().data(data).chartID("table1");
+      var tableArray2 = tableArray().data(data).chartID("table2");
 
-      d3.select("#mainTables").call(tableArray1);
+      d3.select("#table1").call(tableArray1);
+      // d3.select("#table2").call(tableArray2);
 
     };
   });

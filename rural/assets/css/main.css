@@ -1,0 +1,36 @@
+/* Main styling */
+
+body {
+	font: 10pt sans-serif;
+}
+
+/* Table styling */
+
+.dataTable {
+}
+
+.dataTable .tableHeader {
+  font-weight: bold;
+}
+
+.dataTable .tableHeader div {
+  display: inline-block;
+}
+
+.dataTable .years {
+  border: 1px solid #FFF;
+  text-align: center;
+}
+
+.dataTable .tableRow div {
+  display: inline-block;
+}
+
+.dataTable .stateName {
+}
+
+.dataTable .squares {
+  border: 1px solid #FFF;
+  text-align: center;
+  font: 8pt sans-serif;
+}
