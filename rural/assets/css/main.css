@@ -4,6 +4,11 @@ body {
 	font: 10pt sans-serif;
 }
 
+.tableContainer {
+	display: inline-block;
+	vertical-align: top;
+}
+
 /* Table styling */
 
 .dataTable {

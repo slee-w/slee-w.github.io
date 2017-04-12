@@ -15,7 +15,7 @@
 
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/main.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="assets/js/d3.v4.min.js"></script>
   <script src="assets/js/charts.js"></script>
 
   <!-- Stylesheets -->
@@ -38,9 +38,9 @@
     <p>
       Data tables go here.
     </p>
-    <div id="table1" style="display: inline-block;">
+    <div id="table1" class="tableContainer">
     </div>
-    <div id="table2" style="display: inline-block;">
+    <div id="table2" class="tableContainer">
     </div>
   </div>
 </body>
@@ -62,11 +62,11 @@
 
       // Call chart functions
 
-      var tableArray1 = tableArray().data(data).chartID("table1");
-      var tableArray2 = tableArray().data(data).chartID("table2");
+      var tableArray1 = tableArray().data(data).chartID("table1").regionSelectorID("rs1").measureSelectorID("ms1").prSelectorID("pr1").selectedMeasure("NAEP Mathematics 4");
+      var tableArray2 = tableArray().data(data).chartID("table2").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Mathematics 4").percRank(1);
 
       d3.select("#table1").call(tableArray1);
-      // d3.select("#table2").call(tableArray2);
+      d3.select("#table2").call(tableArray2);
 
     };
   });

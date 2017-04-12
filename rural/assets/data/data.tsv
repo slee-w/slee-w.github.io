@@ -4,11 +4,11 @@ NAEP Mathematics 4	South	Alabama	2009	23.22289258	3
 NAEP Mathematics 4	South	Alabama	2011	24.21532266	4
 NAEP Mathematics 4	South	Alabama	2013	26.35509869	4
 NAEP Mathematics 4	South	Alabama	2015	24.5272838	3
-NAEP Mathematics 4	West	Alaska	2007	-9	1
-NAEP Mathematics 4	West	Alaska	2009	-9	1
-NAEP Mathematics 4	West	Alaska	2011	-9	1
-NAEP Mathematics 4	West	Alaska	2013	-9	1
-NAEP Mathematics 4	West	Alaska	2015	-9	1
+NAEP Mathematics 4	West	Alaska	2007	-9	-8
+NAEP Mathematics 4	West	Alaska	2009	-9	-8
+NAEP Mathematics 4	West	Alaska	2011	-9	-8
+NAEP Mathematics 4	West	Alaska	2013	-9	-8
+NAEP Mathematics 4	West	Alaska	2015	-9	-8
 NAEP Mathematics 4	West	Arizona	2007	27.04088028	3
 NAEP Mathematics 4	West	Arizona	2009	24.49843803	4
 NAEP Mathematics 4	West	Arizona	2011	35.55977323	2
@@ -39,11 +39,11 @@ NAEP Mathematics 4	South	Delaware	2009	35.46577098	3
 NAEP Mathematics 4	South	Delaware	2011	41.39758384	3
 NAEP Mathematics 4	South	Delaware	2013	43.99942891	3
 NAEP Mathematics 4	South	Delaware	2015	42.15747979	1
-NAEP Mathematics 4	South	District of Columbia	2007	-9	2
-NAEP Mathematics 4	South	District of Columbia	2009	-9	2
-NAEP Mathematics 4	South	District of Columbia	2011	-9	2
-NAEP Mathematics 4	South	District of Columbia	2013	-9	2
-NAEP Mathematics 4	South	District of Columbia	2015	-9	2
+NAEP Mathematics 4	South	District of Columbia	2007	-9	-8
+NAEP Mathematics 4	South	District of Columbia	2009	-9	-8
+NAEP Mathematics 4	South	District of Columbia	2011	-9	-8
+NAEP Mathematics 4	South	District of Columbia	2013	-9	-8
+NAEP Mathematics 4	South	District of Columbia	2015	-9	-8
 NAEP Mathematics 4	South	Florida	2007	41.83883005	1
 NAEP Mathematics 4	South	Florida	2009	40.81134601	2
 NAEP Mathematics 4	South	Florida	2011	38.21497639	2
@@ -224,11 +224,11 @@ NAEP Mathematics 4	West	Utah	2009	49.12064958	1
 NAEP Mathematics 4	West	Utah	2011	45.55259753	1
 NAEP Mathematics 4	West	Utah	2013	50.54495024	1
 NAEP Mathematics 4	West	Utah	2015	42.62094044	2
-NAEP Mathematics 4	Northeast	Vermont	2007	-9	1
-NAEP Mathematics 4	Northeast	Vermont	2009	-9	1
-NAEP Mathematics 4	Northeast	Vermont	2011	-9	1
-NAEP Mathematics 4	Northeast	Vermont	2013	-9	1
-NAEP Mathematics 4	Northeast	Vermont	2015	-9	1
+NAEP Mathematics 4	Northeast	Vermont	2007	-9	-8
+NAEP Mathematics 4	Northeast	Vermont	2009	-9	-8
+NAEP Mathematics 4	Northeast	Vermont	2011	-9	-8
+NAEP Mathematics 4	Northeast	Vermont	2013	-9	-8
+NAEP Mathematics 4	Northeast	Vermont	2015	-9	-8
 NAEP Mathematics 4	South	Virginia	2007	36.58223913	3
 NAEP Mathematics 4	South	Virginia	2009	37.52420001	4
 NAEP Mathematics 4	South	Virginia	2011	43.86029758	2
@@ -259,11 +259,11 @@ NAEP Mathematics 8	South	Alabama	2009	18.36232894	3
 NAEP Mathematics 8	South	Alabama	2011	18.2274386	4
 NAEP Mathematics 8	South	Alabama	2013	20.30376589	3
 NAEP Mathematics 8	South	Alabama	2015	12.29280954	4
-NAEP Mathematics 8	West	Alaska	2007	-9	1
-NAEP Mathematics 8	West	Alaska	2009	-9	1
-NAEP Mathematics 8	West	Alaska	2011	-9	1
-NAEP Mathematics 8	West	Alaska	2013	-9	1
-NAEP Mathematics 8	West	Alaska	2015	-9	1
+NAEP Mathematics 8	West	Alaska	2007	-9	-8
+NAEP Mathematics 8	West	Alaska	2009	-9	-8
+NAEP Mathematics 8	West	Alaska	2011	-9	-8
+NAEP Mathematics 8	West	Alaska	2013	-9	-8
+NAEP Mathematics 8	West	Alaska	2015	-9	-8
 NAEP Mathematics 8	West	Arizona	2007	21.60485524	4
 NAEP Mathematics 8	West	Arizona	2009	27.00640376	3
 NAEP Mathematics 8	West	Arizona	2011	32.14041715	2
@@ -294,11 +294,11 @@ NAEP Mathematics 8	South	Delaware	2009	37.32515639	1
 NAEP Mathematics 8	South	Delaware	2011	36.32567438	1
 NAEP Mathematics 8	South	Delaware	2013	36.67320013	1
 NAEP Mathematics 8	South	Delaware	2015	34.91804406	1
-NAEP Mathematics 8	South	District of Columbia	2007	-9	2
-NAEP Mathematics 8	South	District of Columbia	2009	-9	2
-NAEP Mathematics 8	South	District of Columbia	2011	-9	2
-NAEP Mathematics 8	South	District of Columbia	2013	-9	2
-NAEP Mathematics 8	South	District of Columbia	2015	-9	2
+NAEP Mathematics 8	South	District of Columbia	2007	-9	-8
+NAEP Mathematics 8	South	District of Columbia	2009	-9	-8
+NAEP Mathematics 8	South	District of Columbia	2011	-9	-8
+NAEP Mathematics 8	South	District of Columbia	2013	-9	-8
+NAEP Mathematics 8	South	District of Columbia	2015	-9	-8
 NAEP Mathematics 8	South	Florida	2007	28.92946654	2
 NAEP Mathematics 8	South	Florida	2009	35.14146076	1
 NAEP Mathematics 8	South	Florida	2011	29.89988575	1
@@ -479,11 +479,11 @@ NAEP Mathematics 8	West	Utah	2009	34.84850184	2
 NAEP Mathematics 8	West	Utah	2011	33.92854826	2
 NAEP Mathematics 8	West	Utah	2013	36.61098197	2
 NAEP Mathematics 8	West	Utah	2015	38.38205409	2
-NAEP Mathematics 8	Northeast	Vermont	2007	-9	1
-NAEP Mathematics 8	Northeast	Vermont	2009	-9	1
-NAEP Mathematics 8	Northeast	Vermont	2011	-9	1
-NAEP Mathematics 8	Northeast	Vermont	2013	-9	1
-NAEP Mathematics 8	Northeast	Vermont	2015	-9	1
+NAEP Mathematics 8	Northeast	Vermont	2007	-9	-8
+NAEP Mathematics 8	Northeast	Vermont	2009	-9	-8
+NAEP Mathematics 8	Northeast	Vermont	2011	-9	-8
+NAEP Mathematics 8	Northeast	Vermont	2013	-9	-8
+NAEP Mathematics 8	Northeast	Vermont	2015	-9	-8
 NAEP Mathematics 8	South	Virginia	2007	32.94952956	2
 NAEP Mathematics 8	South	Virginia	2009	32.90607024	2
 NAEP Mathematics 8	South	Virginia	2011	34.35366082	3
@@ -514,11 +514,11 @@ NAEP Reading 4	South	Alabama	2009	28.66069397	2
 NAEP Reading 4	South	Alabama	2011	31.79036976	3
 NAEP Reading 4	South	Alabama	2013	30.85463764	2
 NAEP Reading 4	South	Alabama	2015	29.2435709	2
-NAEP Reading 4	West	Alaska	2007	-9	1
-NAEP Reading 4	West	Alaska	2009	-9	1
-NAEP Reading 4	West	Alaska	2011	-9	1
-NAEP Reading 4	West	Alaska	2013	-9	1
-NAEP Reading 4	West	Alaska	2015	-9	1
+NAEP Reading 4	West	Alaska	2007	-9	-8
+NAEP Reading 4	West	Alaska	2009	-9	-8
+NAEP Reading 4	West	Alaska	2011	-9	-8
+NAEP Reading 4	West	Alaska	2013	-9	-8
+NAEP Reading 4	West	Alaska	2015	-9	-8
 NAEP Reading 4	West	Arizona	2007	21.56094911	3
 NAEP Reading 4	West	Arizona	2009	24.40126032	2
 NAEP Reading 4	West	Arizona	2011	28.60246977	2
@@ -549,11 +549,11 @@ NAEP Reading 4	South	Delaware	2009	35.37915043	3
 NAEP Reading 4	South	Delaware	2011	36.71793243	3
 NAEP Reading 4	South	Delaware	2013	39.98629217	2
 NAEP Reading 4	South	Delaware	2015	39.8765676	2
-NAEP Reading 4	South	District of Columbia	2007	-9	2
-NAEP Reading 4	South	District of Columbia	2009	-9	2
-NAEP Reading 4	South	District of Columbia	2011	-9	2
-NAEP Reading 4	South	District of Columbia	2013	-9	2
-NAEP Reading 4	South	District of Columbia	2015	-9	2
+NAEP Reading 4	South	District of Columbia	2007	-9	-8
+NAEP Reading 4	South	District of Columbia	2009	-9	-8
+NAEP Reading 4	South	District of Columbia	2011	-9	-8
+NAEP Reading 4	South	District of Columbia	2013	-9	-8
+NAEP Reading 4	South	District of Columbia	2015	-9	-8
 NAEP Reading 4	South	Florida	2007	37.10162922	1
 NAEP Reading 4	South	Florida	2009	35.98875975	2
 NAEP Reading 4	South	Florida	2011	38.70151091	1
@@ -734,11 +734,11 @@ NAEP Reading 4	West	Utah	2009	37.14481641	1
 NAEP Reading 4	West	Utah	2011	38.46298521	1
 NAEP Reading 4	West	Utah	2013	40.54357027	2
 NAEP Reading 4	West	Utah	2015	42.56232077	1
-NAEP Reading 4	Northeast	Vermont	2007	-9	1
-NAEP Reading 4	Northeast	Vermont	2009	-9	1
-NAEP Reading 4	Northeast	Vermont	2011	-9	1
-NAEP Reading 4	Northeast	Vermont	2013	-9	1
-NAEP Reading 4	Northeast	Vermont	2015	-9	1
+NAEP Reading 4	Northeast	Vermont	2007	-9	-8
+NAEP Reading 4	Northeast	Vermont	2009	-9	-8
+NAEP Reading 4	Northeast	Vermont	2011	-9	-8
+NAEP Reading 4	Northeast	Vermont	2013	-9	-8
+NAEP Reading 4	Northeast	Vermont	2015	-9	-8
 NAEP Reading 4	South	Virginia	2007	32.54859007	4
 NAEP Reading 4	South	Virginia	2009	37.56563912	2
 NAEP Reading 4	South	Virginia	2011	39.54277297	2
@@ -769,11 +769,11 @@ NAEP Reading 8	South	Alabama	2009	22.85141944	3
 NAEP Reading 8	South	Alabama	2011	24.98005567	3
 NAEP Reading 8	South	Alabama	2013	24.6312077	3
 NAEP Reading 8	South	Alabama	2015	23.13855677	4
-NAEP Reading 8	West	Alaska	2007	-9	1
-NAEP Reading 8	West	Alaska	2009	-9	1
-NAEP Reading 8	West	Alaska	2011	-9	1
-NAEP Reading 8	West	Alaska	2013	-9	1
-NAEP Reading 8	West	Alaska	2015	-9	1
+NAEP Reading 8	West	Alaska	2007	-9	-8
+NAEP Reading 8	West	Alaska	2009	-9	-8
+NAEP Reading 8	West	Alaska	2011	-9	-8
+NAEP Reading 8	West	Alaska	2013	-9	-8
+NAEP Reading 8	West	Alaska	2015	-9	-8
 NAEP Reading 8	West	Arizona	2007	23.6123103	2
 NAEP Reading 8	West	Arizona	2009	26.71587445	2
 NAEP Reading 8	West	Arizona	2011	27.48471338	2
@@ -804,11 +804,11 @@ NAEP Reading 8	South	Delaware	2009	35.74072188	1
 NAEP Reading 8	South	Delaware	2011	41.09571083	1
 NAEP Reading 8	South	Delaware	2013	36.3578883	1
 NAEP Reading 8	South	Delaware	2015	38.46144625	1
-NAEP Reading 8	South	District of Columbia	2007	-9	2
-NAEP Reading 8	South	District of Columbia	2009	-9	2
-NAEP Reading 8	South	District of Columbia	2011	-9	2
-NAEP Reading 8	South	District of Columbia	2013	-9	2
-NAEP Reading 8	South	District of Columbia	2015	-9	2
+NAEP Reading 8	South	District of Columbia	2007	-9	-8
+NAEP Reading 8	South	District of Columbia	2009	-9	-8
+NAEP Reading 8	South	District of Columbia	2011	-9	-8
+NAEP Reading 8	South	District of Columbia	2013	-9	-8
+NAEP Reading 8	South	District of Columbia	2015	-9	-8
 NAEP Reading 8	South	Florida	2007	33.28001883	1
 NAEP Reading 8	South	Florida	2009	28.56942716	3
 NAEP Reading 8	South	Florida	2011	30.52246674	1
@@ -989,11 +989,11 @@ NAEP Reading 8	West	Utah	2009	39.95015492	1
 NAEP Reading 8	West	Utah	2011	30.12125491	4
 NAEP Reading 8	West	Utah	2013	38.86738533	3
 NAEP Reading 8	West	Utah	2015	38.21469398	2
-NAEP Reading 8	Northeast	Vermont	2007	-9	1
-NAEP Reading 8	Northeast	Vermont	2009	-9	1
-NAEP Reading 8	Northeast	Vermont	2011	-9	1
-NAEP Reading 8	Northeast	Vermont	2013	-9	1
-NAEP Reading 8	Northeast	Vermont	2015	-9	1
+NAEP Reading 8	Northeast	Vermont	2007	-9	-8
+NAEP Reading 8	Northeast	Vermont	2009	-9	-8
+NAEP Reading 8	Northeast	Vermont	2011	-9	-8
+NAEP Reading 8	Northeast	Vermont	2013	-9	-8
+NAEP Reading 8	Northeast	Vermont	2015	-9	-8
 NAEP Reading 8	South	Virginia	2007	31.49554895	2
 NAEP Reading 8	South	Virginia	2009	29.86508156	2
 NAEP Reading 8	South	Virginia	2011	31.58907053	3
