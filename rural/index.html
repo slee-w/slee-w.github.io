@@ -31,16 +31,16 @@
     </p>
   </div>
   <div id="mainTables">
+    <h3>State comparison tables</h3>
     <p>
-      <strong>Region selector:</strong><br/>
-      <strong>Actual % or rank:</strong>
+      The tables below display trend data rural areas for various measures. Use the dropdown menus to select the states displayed, the measure represented, and the basis for color coding (actual percentage or rank of rural areas relative to other areas in the state).
     </p>
-    <p>
-      Data tables go here.
-    </p>
-    <div id="table1" class="tableContainer">
-    </div>
-    <div id="table2" class="tableContainer">
+    <br/>
+    <div id="mainTableContainer">
+      <div id="table1" class="tableContainer"></div>
+      <div id="table2" class="tableContainer"></div>
+      <div id="table3" class="tableContainer"></div>
+      <div id="table4" class="tableContainer"></div>
     </div>
   </div>
 </body>
@@ -63,10 +63,14 @@
       // Call chart functions
 
       var tableArray1 = tableArray().data(data).chartID("table1").regionSelectorID("rs1").measureSelectorID("ms1").prSelectorID("pr1").selectedMeasure("NAEP Mathematics 4");
-      var tableArray2 = tableArray().data(data).chartID("table2").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Mathematics 4").percRank(1);
+      var tableArray2 = tableArray().data(data).chartID("table2").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Mathematics 8");
+      var tableArray3 = tableArray().data(data).chartID("table3").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Reading 4");
+      var tableArray4 = tableArray().data(data).chartID("table4").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Reading 8");
 
       d3.select("#table1").call(tableArray1);
       d3.select("#table2").call(tableArray2);
+      d3.select("#table3").call(tableArray3);
+      d3.select("#table4").call(tableArray4);
 
     };
   });

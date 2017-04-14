@@ -12,14 +12,14 @@ function tableArray() {
 		prSelectorID = [], // percent/rank selector ID
 		percRank = 0, // 0 = percent, 1 = rank, default is percent
 		data = [],
-		squareSize = 25;
+		squareSize = 20;
 
 	function chart(selection) {
 		selection.each(function() {
 
 			// number formats
 
-			var valueFormat = d3.format(",.1f");
+			var valueFormat = d3.format(",.0f");
 
 			// set up data for use
 			// get regions from data
@@ -44,24 +44,36 @@ function tableArray() {
 
 			// region selector
 
-			var regionSelect = dom.append("select")
-				.attr("id", regionSelectorID)
-				.attr("class", "regionSelector")
-				.on("change", function() {
+			var regionSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", (16*squareSize) + "px");
 
-					// change selected region to new region
+			regionSelectDiv.append("div")
+				.style("width", 6*squareSize + "px")
+				.append("text")
+					.text("Select region:");
 
-					selectedRegion = this.options[this.selectedIndex].text;
+			var regionSelect = regionSelectDiv.append("div")
+				.style("width", (10*squareSize) + "px")
+				.append("select")
+					.attr("id", regionSelectorID)
+					.attr("class", "regionSelector")
+					.style("width", "100%")
+					.on("change", function() {
 
-					// remove existing table
+						// change selected region to new region
 
-					dom.select(".dataTable").remove();
+						selectedRegion = this.options[this.selectedIndex].text;
 
-					// redraw table with new region
+						// remove existing table
 
-					buildTable();
+						dom.select(".dataTable").remove();
 
-				});
+						// redraw table with new region
+
+						buildTable();
+
+					});
 
 			regionSelect.append("option")
 				.property("selected", function(d) {
@@ -82,24 +94,36 @@ function tableArray() {
 
 			// measure selector
 
-			var measureSelect = dom.append("select")
-				.attr("id", measureSelectorID)
-				.attr("class", "measureSelector")
-				.on("change", function() {
+			var measureSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", (16*squareSize) + "px");
 
-					// change selected region to new region
+			measureSelectDiv.append("div")
+				.style("width", 6*squareSize + "px")
+				.append("text")
+					.text("Select measure:");
 
-					selectedMeasure = this.options[this.selectedIndex].text;
+			var measureSelect = measureSelectDiv.append("div")
+				.style("width", (10*squareSize) + "px")
+				.append("select")
+					.attr("id", measureSelectorID)
+					.attr("class", "measureSelector")
+					.style("width", "100%")
+					.on("change", function() {
 
-					// remove existing table
+						// change selected region to new region
 
-					dom.select(".dataTable").remove();
+						selectedMeasure = this.options[this.selectedIndex].text;
 
-					// redraw table with new measure
+						// remove existing table
 
-					buildTable();
+						dom.select(".dataTable").remove();
 
-				});
+						// redraw table with new measure
+
+						buildTable();
+
+					});
 
 			measureSelect.selectAll(".measureSelector")
 				.data(measures)
@@ -110,25 +134,37 @@ function tableArray() {
 
 			// percent or rank selector
 
-			var prSelect = dom.append("select")
-				.attr("id", prSelectorID)
-				.attr("class", "prSelector")
-				.on("change", function() {
+			var prSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", (16*squareSize) + "px");
 
-					// change to selected fill type
+			prSelectDiv.append("div")
+				.style("width", 6*squareSize + "px")
+				.append("text")
+					.text("Color code by:");
 
-					if (this.options[this.selectedIndex].text == "Percent") { percRank = 0; }
-					if (this.options[this.selectedIndex].text == "Rank") { percRank = 1; };
+			var prSelect = prSelectDiv.append("div")
+				.style("width", (10*squareSize) + "px")
+					.append("select")
+					.attr("id", prSelectorID)
+					.attr("class", "prSelector")
+					.style("width", "100%")
+					.on("change", function() {
 
-					// remove existing table
+						// change to selected fill type
 
-					dom.select(".dataTable").remove();
+						if (this.options[this.selectedIndex].text == "Percent") { percRank = 0; }
+						if (this.options[this.selectedIndex].text == "Rank") { percRank = 1; };
 
-					// redraw table with new fill
+						// remove existing table
 
-					buildTable();
+						dom.select(".dataTable").remove();
 
-				});
+						// redraw table with new fill
+
+						buildTable();
+
+					});
 
 			prSelect.append("option")
 				.property("selected", function() {
@@ -143,6 +179,10 @@ function tableArray() {
 					else {};
 				})
 				.text("Rank");
+
+			// add line break before table
+
+			dom.append("br");
 
 			// table begins here
 
@@ -165,7 +205,7 @@ function tableArray() {
 
 				var tableShell = dom.append("div")
 					.attr("class", "dataTable")
-					.attr("width", 16*squareSize + "px");
+					.style("width", 16*squareSize + "px");
 
 				// table header
 
@@ -202,8 +242,8 @@ function tableArray() {
 					tableRows.append("div")
 						.attr("class", "stateNames")
 						.style("width", 6*squareSize + "px")
-						.style("height", squareSize*2 + "px")
-						.style("line-height", squareSize*2 + "px")
+						/*.style("height", squareSize*2 + "px")
+						.style("line-height", squareSize*2 + "px")*/
 						.append("text")
 							.text(function(d) { return d.key; });
 
@@ -264,6 +304,9 @@ function tableArray() {
 							if (d.percent == -8) { return "—"; } // Not available
 							else { return valueFormat(d.percent); };
 						});
+
+			tableShell.append("br"); // add line break at the end of the table
+
 			};
 
 			buildTable();

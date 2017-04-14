@@ -4,14 +4,31 @@ body {
 	font: 10pt sans-serif;
 }
 
+#mainTableContainer {
+	text-align: center;
+}
+
 .tableContainer {
 	display: inline-block;
+	text-align: left;
 	vertical-align: top;
+	padding: 0px 15px;
 }
 
 /* Table styling */
 
+.selectorDiv div {
+	display: inline-block;
+	box-sizing: border-box;
+	font: 8pt sans-serif;
+}
+
+.selectorDiv select {
+	font: 8pt sans-serif;
+}
+
 .dataTable {
+	font: 8pt sans-serif;
 }
 
 .dataTable .tableHeader {
@@ -23,6 +40,7 @@ body {
 }
 
 .dataTable .years {
+	box-sizing: border-box;
   border: 1px solid #FFF;
   text-align: center;
 }
@@ -31,12 +49,14 @@ body {
   display: inline-block;
 }
 
-.dataTable .stateName {
+.dataTable .stateNames {
+	box-sizing: border-box;
+  border: 1px solid #FFF;
 }
 
 .dataTable .squares {
+	box-sizing: border-box;
   border: 1px solid #FFF;
   text-align: center;
-  font: 8pt sans-serif;
 	font-weight: bold;
 }
