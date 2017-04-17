@@ -26,9 +26,13 @@
 <body>
   <h1>Rural Data Dashboard (Prototype)</h1>
   <div id="maps">
+    <h3>Map</h3>
     <p>
-      Map goes here.
+      The map below displays data for rural areas in each state for various measures. Use the dropdown menus the measure displayed, the year of data displayed, and the basis for color coding (actual percentage or rank of rural areas relative to other areas in the state). You can also filter the states color coded by region.
     </p>
+    <div id="mainMapContainer">
+      <div id="map1" class="mapContainer"></div>
+    </div>
   </div>
   <div id="mainTables">
     <h3>State comparison tables</h3>
@@ -55,6 +59,8 @@
       // Convert numbers to numeric
 
       data.forEach(function(d) {
+        d.row = +d.row;
+        d.col = +d.col;
         d.year = +d.year;
         d.percent = +d.percent;
         d.rank = +d.rank;
@@ -62,11 +68,13 @@
 
       // Call chart functions
 
-      var tableArray1 = tableArray().data(data).chartID("table1").regionSelectorID("rs1").measureSelectorID("ms1").prSelectorID("pr1").selectedMeasure("NAEP Mathematics 4");
-      var tableArray2 = tableArray().data(data).chartID("table2").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Mathematics 8");
-      var tableArray3 = tableArray().data(data).chartID("table3").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Reading 4");
-      var tableArray4 = tableArray().data(data).chartID("table4").regionSelectorID("rs2").measureSelectorID("ms2").prSelectorID("pr2").selectedMeasure("NAEP Reading 8");
+      var tileMap1 = tileMap().data(data).chartID("map1").regionSelectorID("map1_rs").measureSelectorID("map1_ms").prSelectorID("map1_pr").selectedMeasure("NAEP Mathematics 4");
+      var tableArray1 = tableArray().data(data).chartID("table1").regionSelectorID("table1_rs").measureSelectorID("table1_ms").prSelectorID("table1_pr").selectedMeasure("NAEP Mathematics 4");
+      var tableArray2 = tableArray().data(data).chartID("table2").regionSelectorID("table2_rs").measureSelectorID("table2_ms").prSelectorID("table2_pr").selectedMeasure("NAEP Mathematics 8");
+      var tableArray3 = tableArray().data(data).chartID("table3").regionSelectorID("table3_rs").measureSelectorID("table3_ms").prSelectorID("table3_pr").selectedMeasure("NAEP Reading 4");
+      var tableArray4 = tableArray().data(data).chartID("table4").regionSelectorID("table4_rs").measureSelectorID("table41_ms").prSelectorID("table4_pr").selectedMeasure("NAEP Reading 8");
 
+      d3.select("#map1").call(tileMap1);
       d3.select("#table1").call(tableArray1);
       d3.select("#table2").call(tableArray2);
       d3.select("#table3").call(tableArray3);

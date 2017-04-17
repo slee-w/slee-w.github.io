@@ -1,3 +1,403 @@
+// tile grid map
+
+function tileMap() {
+
+	// options available to caller
+
+	var chartID = [],
+		regionSelectorID = [], // region selector ID
+		selectedRegion = "All states", // default region is all states
+		measureSelectorID = [], // measure selector ID
+		selectedMeasure = [],
+		prSelectorID = [], // percent/rank selector ID
+		percRank = 0, // 0 = percent, 1 = rank, default is percent
+		data = [],
+		squareSize = 65;
+
+	function chart(selection) {
+		selection.each(function() {
+
+			// number formats
+
+			var valueFormat = d3.format(",.0f");
+
+			// set up data for use
+			// get regions from data
+
+			var regions = d3.nest()
+				.key(function(d) { return d.region; })
+				.entries(data);
+
+			regions.sort(function(a, b) { return d3.ascending(a.key, b.key); });
+
+			// get measures from data
+
+			var measures = d3.nest()
+				.key(function(d) { return d.measure; })
+				.entries(data);
+
+			measures.sort(function(a, b) { return d3.ascending(a.key, b.key); });
+
+			// build the map
+
+			var dom = d3.select("#" + chartID);
+
+			// region selector
+
+			var regionSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", function(d) { return d3.max(data, function(d) { return d.col; }) * squareSize + "px"; });
+
+			regionSelectDiv.append("div")
+				.style("width", "15%")
+				.append("text")
+					.text("Select region:");
+
+			var regionSelect = regionSelectDiv.append("div")
+				.style("width", "85%")
+				.append("select")
+					.attr("id", regionSelectorID)
+					.attr("class", "regionSelector")
+					.style("width", "100%")
+					.on("change", function() {
+
+						// change selected region to new region
+
+						selectedRegion = this.options[this.selectedIndex].text;
+
+						// remove existing table
+
+						dom.select(".tileMap").remove();
+
+						// redraw table with new region
+
+						buildMap();
+
+					});
+
+			regionSelect.append("option")
+				.property("selected", function(d) {
+					if (selectedRegion == "All states") { return "All states"; }
+					else {};
+				})
+				.text("All states");
+
+			regionSelect.selectAll(".regionSelector")
+				.data(regions)
+				.enter()
+					.append("option")
+						.property("selected", function(d) {
+							if (selectedRegion == "All states") {}
+							else { return d.key == selectedRegion; };
+						})
+						.text(function(d) { return d.key; });
+
+			// measure selector
+
+			var measureSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", function(d) { return d3.max(data, function(d) { return d.col; }) * squareSize + "px"; });
+
+			measureSelectDiv.append("div")
+				.style("width", "15%")
+				.append("text")
+					.text("Select measure:");
+
+			var measureSelect = measureSelectDiv.append("div")
+				.style("width", "85%")
+				.append("select")
+					.attr("id", measureSelectorID)
+					.attr("class", "measureSelector")
+					.style("width", "100%")
+					.on("change", function() {
+
+						// change selected region to new region
+
+						selectedMeasure = this.options[this.selectedIndex].text;
+
+						// remove existing table
+
+						dom.select(".tileMap").remove();
+
+						// redraw table with new measure
+
+						buildMap();
+
+					});
+
+			measureSelect.selectAll(".measureSelector")
+				.data(measures)
+				.enter()
+					.append("option")
+						.property("selected", function(d) { return d.key == selectedMeasure; })
+						.text(function(d) { return d.key; });
+
+			// percent or rank selector
+
+			var prSelectDiv = dom.append("div")
+				.attr("class", "selectorDiv")
+				.style("width", function(d) { return d3.max(data, function(d) { return d.col; }) * squareSize + "px"; });
+
+			prSelectDiv.append("div")
+				.style("width", "15%")
+				.append("text")
+					.text("Color code by:");
+
+			var prSelect = prSelectDiv.append("div")
+				.style("width", "85%")
+					.append("select")
+					.attr("id", prSelectorID)
+					.attr("class", "prSelector")
+					.style("width", "100%")
+					.on("change", function() {
+
+						// change to selected fill type
+
+						if (this.options[this.selectedIndex].text == "Percent") { percRank = 0; }
+						if (this.options[this.selectedIndex].text == "Rank") { percRank = 1; };
+
+						// remove existing table
+
+						dom.select(".tileMap").remove();
+
+						// redraw table with new fill
+
+						buildMap();
+
+					});
+
+			prSelect.append("option")
+				.property("selected", function() {
+					if (percRank == 0) { return "Percent"; }
+					else {};
+				})
+				.text("Percent");
+
+			prSelect.append("option")
+				.property("selected", function() {
+					if (percRank == 1) { return "Rank"; }
+					else {};
+				})
+				.text("Rank");
+
+			// add line break before table
+
+			dom.append("br");
+
+			// map begins here
+
+			function buildMap() {
+
+				// initial filtering
+
+				data1 = data.filter(function(d) { return d.measure == selectedMeasure && d.year == "2015"; }); // INITIAL YEAR FILTER FOR DEVELOPMENT
+
+				// begin building map
+
+				var svg = dom.append("svg")
+					.attr("class", "tileMap")
+					.attr("width", function(d) { return d3.max(data1, function(d) { return d.col; }) * squareSize; })
+					.attr("height", function(d) { return d3.max(data1, function(d) { return d.row; }) * squareSize; })
+					.append("g")
+						.attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+				// draw tiles
+
+				var tiles = svg.selectAll(".tile")
+					.data(data1);
+
+				tiles.enter()
+					.append("rect")
+						.attr("class", "tile")
+						.attr("x", function(d) { return (d.col * squareSize) - squareSize; })
+						.attr("y", function(d) { return (d.row * squareSize) - squareSize; })
+						.attr("width", squareSize)
+						.attr("height", squareSize)
+						.attr("fill", function(d) {
+							if (selectedRegion == "All states") {
+								if (percRank == 0) {
+									if (d.percent < 0) { return "#DDD"; }
+									if (d.percent >= 0 && d.percent < 10) { return "#ffffcc"; }
+									if (d.percent >= 10 && d.percent < 20) { return "#c7e9b4"; }
+									if (d.percent >= 20 && d.percent < 30) { return "#7fcdbb"; }
+									if (d.percent >= 30 && d.percent < 40) { return "#41b6c4"; }
+									if (d.percent >= 40 && d.percent < 50) { return "#2c7fb8"; }
+									if (d.percent >= 50) { return "#253494"; };
+								}
+								if (percRank == 1) {
+									if (d.rank < 0) { return "#DDD"; }
+									if (d.rank == 1) { return "#253494"; }
+									if (d.rank == 2) { return "#2c7fb8"; }
+									if (d.rank == 3) { return "#7fcdbb"; }
+									if (d.rank == 4) { return "#c7e9b4"; }
+								};
+							}
+							else if (selectedRegion != "All states") {
+								if (d.region != selectedRegion) { return "#EEE"; }
+								if (d.region == selectedRegion) {
+									if (percRank == 0) {
+										if (d.percent < 0) { return "#DDD"; }
+										if (d.percent >= 0 && d.percent < 10) { return "#ffffcc"; }
+										if (d.percent >= 10 && d.percent < 20) { return "#c7e9b4"; }
+										if (d.percent >= 20 && d.percent < 30) { return "#7fcdbb"; }
+										if (d.percent >= 30 && d.percent < 40) { return "#41b6c4"; }
+										if (d.percent >= 40 && d.percent < 50) { return "#2c7fb8"; }
+										if (d.percent >= 50) { return "#253494"; };
+									}
+									if (percRank == 1) {
+										if (d.rank < 0) { return "#DDD"; }
+										if (d.rank == 1) { return "#253494"; }
+										if (d.rank == 2) { return "#2c7fb8"; }
+										if (d.rank == 3) { return "#7fcdbb"; }
+										if (d.rank == 4) { return "#c7e9b4"; }
+									};
+								};
+							};
+						});
+
+					// add data labels
+					// first, state abbreviations
+
+					tiles.enter()
+						.append("text")
+							.attr("class", "tileLabel")
+							.attr("x", function(d) { return (d.col * squareSize) + (squareSize/2) - squareSize; })
+							.attr("y", function(d) { return (d.row * squareSize) + (squareSize/4) - squareSize; })
+							.attr("dy", "1em")
+							.attr("opacity", function(d) {
+								if (selectedRegion == "All states") { return 1; }
+								else if (selectedRegion != "All states") {
+									if (d.region != selectedRegion) { return 0; }
+									if (d.region == selectedRegion) { return 1; };
+								};
+							})
+							.style("fill", function(d) {
+								if (percRank == 0) {
+									if (d.percent < 0) { return "#000"; }
+									if (d.percent >= 0 && d.percent < 10) { return "#000"; }
+									if (d.percent >= 10 && d.percent < 20) { return "#000"; }
+									if (d.percent >= 20 && d.percent < 30) { return "#000"; }
+									if (d.percent >= 30 && d.percent < 40) { return "#000"; }
+									if (d.percent >= 40 && d.percent < 50) { return "#FFF"; }
+									if (d.percent >= 50) { return "#FFF"; };
+								}
+								if (percRank == 1) {
+									if (d.rank < 0) { return "#000"; }
+									if (d.rank == 1) { return "#FFF"; }
+									if (d.rank == 2) { return "#FFF"; }
+									if (d.rank == 3) { return "#000"; }
+									if (d.rank == 4) { return "#000"; }
+								};
+							})
+							.attr("text-anchor", "middle")
+							.attr("font-weight", "bold")
+							.text(function(d) { return d.stabbr; });
+
+					// second, percents
+
+					tiles.enter()
+						.append("text")
+							.attr("class", "tileLabel")
+							.attr("x", function(d) { return (d.col * squareSize) + (squareSize/2) - squareSize; })
+							.attr("y", function(d) { return (d.row * squareSize) - (squareSize/4); })
+							//.attr("dy", "0.5em")
+							.attr("opacity", function(d) {
+								if (selectedRegion == "All states") { return 1; }
+								else if (selectedRegion != "All states") {
+									if (d.region != selectedRegion) { return 0; }
+									if (d.region == selectedRegion) { return 1; };
+								};
+							})
+							.style("fill", function(d) {
+								if (percRank == 0) {
+									if (d.percent < 0) { return "#000"; }
+									if (d.percent >= 0 && d.percent < 10) { return "#000"; }
+									if (d.percent >= 10 && d.percent < 20) { return "#000"; }
+									if (d.percent >= 20 && d.percent < 30) { return "#000"; }
+									if (d.percent >= 30 && d.percent < 40) { return "#000"; }
+									if (d.percent >= 40 && d.percent < 50) { return "#FFF"; }
+									if (d.percent >= 50) { return "#FFF"; };
+								}
+								if (percRank == 1) {
+									if (d.rank < 0) { return "#000"; }
+									if (d.rank == 1) { return "#FFF"; }
+									if (d.rank == 2) { return "#FFF"; }
+									if (d.rank == 3) { return "#000"; }
+									if (d.rank == 4) { return "#000"; }
+								}
+							})
+							.attr("text-anchor", "middle")
+							.text(function(d) {
+								if (d.percent == -9) { return "‡"; } // Suppressed
+								if (d.percent == -8) { return "—"; } // Not available
+								else { return valueFormat(d.percent); };
+							});
+
+			};
+
+			buildMap();
+
+		});
+	};
+
+	chart.chartID = function(value) {
+		if (!arguments.length) return chartID;
+		chartID = value;
+		return chart;
+	};
+
+  chart.regionSelectorID = function(value) {
+		if (!arguments.length) return regionSelectorID;
+		regionSelectorID = value;
+		return chart;
+	};
+
+	chart.selectedRegion = function(value) {
+		if (!arguments.length) return selectedRegion;
+		selectedRegion = value;
+		return chart;
+	};
+
+  chart.measureSelectorID = function(value) {
+		if (!arguments.length) return measureSelectorID;
+		measureSelectorID = value;
+		return chart;
+	};
+
+	chart.selectedMeasure = function(value) {
+		if (!arguments.length) return selectedMeasure;
+		selectedMeasure = value;
+		return chart;
+	};
+
+	chart.prSelectorID = function(value) {
+		if (!arguments.length) return prSelectorID;
+		prSelectorID = value;
+		return chart;
+	};
+
+	chart.percRank = function(value) {
+		if (!arguments.length) return percRank;
+		percRank = value;
+		return chart;
+	};
+
+	chart.data = function(value) {
+		if (!arguments.length) return data;
+		data = value;
+		return chart;
+	};
+
+	chart.squareSize = function(value) {
+		if (!arguments.length) return squareSize;
+		squareSize = value;
+		return chart;
+	};
+
+	return chart;
+
+};
+
 // table arrays
 
 function tableArray() {

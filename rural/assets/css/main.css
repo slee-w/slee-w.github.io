@@ -4,8 +4,19 @@ body {
 	font: 10pt sans-serif;
 }
 
+#mainMapContainer {
+	text-align: center;
+}
+
 #mainTableContainer {
 	text-align: center;
+}
+
+.mapContainer {
+	display: inline-block;
+	text-align: left;
+	vertical-align: top;
+	padding: 0px 15px;
 }
 
 .tableContainer {
@@ -13,6 +24,14 @@ body {
 	text-align: left;
 	vertical-align: top;
 	padding: 0px 15px;
+}
+
+/* Map styling */
+
+.tileMap .tile {
+	stroke: #FFF;
+	stroke-width: 2px;
+	shape-rendering: crispEdges;
 }
 
 /* Table styling */
