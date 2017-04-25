@@ -394,28 +394,6 @@ function tileMap() {
 				})
 				.text("Rank");
 
-			// year slider
-
-			/*var yearSliderDiv = dom.append("div")
-				.attr("class", "selectorDiv")
-				.style("width", function(d) { return d3.max(data, function(d) { return d.col; }) * squareSize + "px"; });
-
-			yearSliderDiv.append("div")
-				.style("width", "15%")
-				.append("text")
-					.text("Select year:");
-
-			var yearSlider = yearSliderDiv.append("div")
-				.attr("class", "sliderDiv")
-				.style("width", "85%")
-				.append("g")
-					.attr("class", "slider")
-					.attr("width", function(d) { return 0.85 * d3.max(data, function(d) { return d.col; }) * squareSize + "px"; })
-					.attr("height", "15px")
-					.attr("transform", "translate(" + 0 + "," + 0 + ")");
-
-			yearSlider.append("line")*/
-
 			// add line break before map
 
 			dom.append("br");
@@ -427,10 +405,13 @@ function tileMap() {
 
 			// begin building map
 
+			var width = d3.max(data1, function(d) { return d.col; }) * squareSize;
+			var height = d3.max(data1, function(d) { return d.row; }) * squareSize;
+
 			var svg = dom.append("svg")
 				.attr("class", "tileMap")
-				.attr("width", function(d) { return d3.max(data1, function(d) { return d.col; }) * squareSize; })
-				.attr("height", function(d) { return d3.max(data1, function(d) { return d.row; }) * squareSize; })
+				.attr("width", width)
+				.attr("height", height + 50)
 				.append("g")
 					.attr("transform", "translate(" + 0 + "," + 0 + ")");
 
@@ -553,6 +534,43 @@ function tileMap() {
 					.transition()
 						.duration(1000)
 						.attr("opacity", 1);
+
+				// year slider
+
+				var sliderX = d3.scaleLinear()
+					.domain(d3.extent(data, function(d) { return d.year; })) // need to adjust this based on data selected
+					.range([0, width - 50])
+					.clamp(true);
+
+				var slider = svg.append("g")
+					.attr("class", "slider")
+					.attr("transform", "translate(" + 25 + "," + (height + 25) + ")");
+
+				slider.append("line")
+					.attr("class", "track")
+					.attr("x1", sliderX.range()[0])
+					.attr("x2", sliderX.range()[1])
+					.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+						.attr("class", "track-inset")
+					.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+						.attr("class", "track-overlay")
+						.call(d3.drag()
+							.on("start.interrupt", function() { yearSlider.interrupt(); })
+							.on("start drag", function() { console.log("Dragging!"); }) );
+
+				slider.insert("g", ".track-overlay")
+			    .attr("class", "ticks")
+			    .attr("transform", "translate(0," + 18 + ")")
+				  .selectAll("text")
+				  .data(sliderX.ticks())
+				  .enter().append("text")
+				    .attr("x", sliderX)
+				    .attr("text-anchor", "middle")
+				    .text(function(d) { return d; });
+
+				var handle = slider.insert("circle", ".track-overlay")
+			    .attr("class", "handle")
+			    .attr("r", 9);
 
 		});
 	};
