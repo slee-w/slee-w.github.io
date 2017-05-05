@@ -537,10 +537,11 @@ function tileMap() {
 
 				// year slider
 
-				var sliderX = d3.scaleLinear()
-					.domain(d3.extent(data, function(d) { return d.year; })) // need to adjust this based on data selected
-					.range([0, width - 50])
-					.clamp(true);
+				data2 = data.filter(function(d) { return d.measure == selectedMeasure; }); // filter to selected measure
+
+				var sliderX = d3.scalePoint()
+					.domain(d3.map(data2, function(d) { return d.year; }).keys()) // need to adjust this based on data selected
+					.range([0, width - 50]);
 
 				var slider = svg.append("g")
 					.attr("class", "slider")
@@ -555,14 +556,14 @@ function tileMap() {
 					.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
 						.attr("class", "track-overlay")
 						.call(d3.drag()
-							.on("start.interrupt", function() { yearSlider.interrupt(); })
-							.on("start drag", function() { console.log("Dragging!"); }) );
+							.on("start.interrupt", function() { slider.interrupt(); })
+							.on("start drag", function() { /*slide(sliderX*/console.log(sliderX.point(d3.event.x)); }));
 
 				slider.insert("g", ".track-overlay")
 			    .attr("class", "ticks")
 			    .attr("transform", "translate(0," + 18 + ")")
 				  .selectAll("text")
-				  .data(sliderX.ticks())
+				  .data(sliderX.domain())
 				  .enter().append("text")
 				    .attr("x", sliderX)
 				    .attr("text-anchor", "middle")
@@ -570,7 +571,12 @@ function tileMap() {
 
 				var handle = slider.insert("circle", ".track-overlay")
 			    .attr("class", "handle")
-			    .attr("r", 9);
+			    .attr("r", 9)
+					.attr("cx", sliderX(d3.max(data1, function(d) { return d.year; }))); // initially start at most recent year
+
+				function slide(v) {
+					handle.attr("cx", sliderX(d3.format(".0f")(v)));
+				};
 
 		});
 	};
