@@ -1,0 +1,15 @@
+/* CSS styling for NSELD infographic */
+
+/* Page settings */
+
+@page {
+  size: 8.5in 11in;
+}
+
+h1 {
+  page-break-before: always;
+}
+
+h1, h2, h3, h4, h5 {
+  page-break-after: avoid;
+}

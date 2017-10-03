@@ -411,7 +411,7 @@ function tileMap() {
 			var svg = dom.append("svg")
 				.attr("class", "tileMap")
 				.attr("width", width)
-				.attr("height", height + 50)
+				.attr("height", height + 20)
 				.append("g")
 					.attr("transform", "translate(" + 0 + "," + 0 + ")");
 
@@ -541,46 +541,34 @@ function tileMap() {
 
 					data2 = data.filter(function(d) { return d.measure == selectedMeasure; }); // filter to selected measure
 
-					console.log(d3.map(data2, function(d) { return d.year; }).keys());
-
-					var sliderX = d3.scaleBand()
+					var sliderX = d3.scalePoint()
 						.domain(d3.map(data2, function(d) { return d.year; }).keys()) // need to adjust this based on data selected
-						.range([0, width - 50]);
+						.rangeRound([0, width - squareSize]);
+						//.clamp(true);
 
-					var slider = svg.append("g")
+					var slider = dom.append("div")
 						.attr("class", "slider")
-						.attr("transform", "translate(" + 25 + "," + (height + 25) + ")");
+						.append("input")
+							.data(data2)
+							.attr("id", "slider")
+							.attr("type", "range")
+							.attr("min", function(d) { return d3.min(data2, function(d) { return d.year; }); })
+							.attr("max", function(d) { return d3.max(data2, function(d) { return d.year; }); })
+							.attr("value", function(d) { return d3.max(data2, function(d) { return d.year; }); })
+							.attr("step", 2)
+							.style("width", function(d) { return d3.max(data, function(d) { return d.col; }) * squareSize + "px"; })
+							.on("input", function() { console.log(this.value); });
 
-					slider.append("line")
-						.attr("class", "track")
-						.attr("x1", sliderX.range()[0])
-						.attr("x2", sliderX.range()[1])
-						.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-							.attr("class", "track-inset")
-						.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-							.attr("class", "track-overlay")
-							.call(d3.drag()
-								.on("start.interrupt", function() { slider.interrupt(); })
-								.on("start drag", function() { /*slide(sliderX*/console.log(sliderX.point(d3.event.x)); }));
-
-					slider.insert("g", ".track-overlay")
+					slider.append("g")
+						.attr("class",insert("g", ".track-overlay")
 				    .attr("class", "ticks")
-				    .attr("transform", "translate(0," + 18 + ")")
+				    .attr("transform", "translate(0," + 20 + ")")
 					  .selectAll("text")
 					  .data(sliderX.domain())
 					  .enter().append("text")
 					    .attr("x", sliderX)
 					    .attr("text-anchor", "middle")
 					    .text(function(d) { return d; });
-
-					var handle = slider.insert("circle", ".track-overlay")
-				    .attr("class", "handle")
-				    .attr("r", 9)
-						.attr("cx", sliderX(d3.max(data1, function(d) { return d.year; }))); // initially start at most recent year
-
-					function slide(v) {
-						handle.attr("cx", sliderX(d3.format(".0f")(v)));
-					};
 
 				};
 
