@@ -7,16 +7,116 @@
     <!-- Scripts -->
 
     <script src="assets/js/d3.v4.min.js"></script>
+    <script src="assets/js/charts.js"></script>
 
     <!-- Stylesheets -->
 
     <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
   </head>
+
   <body>
-    <div class="contents">
-      <h1 id="study_design">Study Design</h1>
-      <h1 id="respondents">Characteristics of Survey Respondents</h1>
+    <div class="content">
+
+      <!-- Section 1 -->
+
+      <section id="sec1">
+        <h1 id="study_design">Study Design</h1>
+        <p>
+          A total of 767 districts responded to the survey. The districts were classified as having significant EL-student representation (more than 1,000 EL students accounting for more than 10 percent of all students in the district), moderate EL-student representation (more than 1,000 EL students accounting for less than 10 percent of all students in the district, or 101 to 1,000 EL students), and low EL-student representation (100 or fewer EL students).
+        </p>
+        <div id="sec1_1" class="chart"></div>
+        <p>
+          Within each district classifications, two types of teachers were surveyed: Mainstream teachers of EL students, and EL-specialist teachers. A small number of teachers did not identify which type of teacher they were. A total of 706 teachers responded to the survey.
+        </p>
+        <div id="sec1_2" class="chart"></div>
+      </section>
+
+      <!-- Section 2 -->
+
+      <section id="sec2">
+        <h1 id="respondents">Characteristics of District Survey Respondents</h1>
+        <p>
+          More than 50 percent of districts with significant EL-student representation had more than 10 language groups.
+        </p>
+        <div id="sec2_1"></div>
+        <p>
+          Regardless of the level of EL-representation, Spanish was the most common language background of EL students in the district.
+        </p>
+        <div id="sec2_2">
+          <div id="sec2_2a" class="chart"></div>
+          <div id="sec2_2b" class="chart"></div>
+          <div id="sec2_2c" class="chart"></div>
+        </div>
+      </section>
+
     </div>
   </body>
+
+  <!-- Charts -->
+
+  <script>
+
+    // Section 1 charts
+
+    d3.tsv("assets/data/sec1.tsv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.chart_id = d.chart_id;
+          d.name = d.name;
+          d.parent = d.parent;
+          d.count = +d.count;
+        });
+
+        sec1_1 = data.filter(function(d) { return d.chart_id == "sec1_1"; });
+        sec1_2 = data.filter(function(d) { return d.chart_id == "sec1_2"; });
+
+        var districtTree = treeDiagram().data(sec1_1).chart_id("sec1_1")
+          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+        var teacherTree = treeDiagram().data(sec1_2).chart_id("sec1_2")
+          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+
+        d3.select("#sec1_1").call(districtTree);
+        d3.select("#sec1_2").call(teacherTree);
+
+      };
+    });
+
+    // Section 2 charts
+
+    d3.tsv("assets/data/sec2.tsv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.chart_id = d.chart_id;
+          d.district_type = d.district_type;
+          d.category = d.category;
+          d.number = +d.number;
+          d.percent = +d.percent;
+        });
+
+        sec2_1 = data.filter(function(d) { return d.chart_id == "sec2_1"; });
+        sec2_2a = data.filter(function(d) { return d.chart_id == "sec2_2a"; });
+        sec2_2b = data.filter(function(d) { return d.chart_id == "sec2_2b"; });
+        sec2_2c = data.filter(function(d) { return d.chart_id == "sec2_2c"; });
+
+        //var languageCats = treeDiagram().data(sec1_1).chart_id("sec2_1").marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+        var spanishSig = donutChart().data(sec2_2a).chart_id("sec2_2a")
+          .showDistType(1);
+        var spanishMod = donutChart().data(sec2_2b).chart_id("sec2_2b")
+          .showDistType(1);
+        var spanishLow = donutChart().data(sec2_2c).chart_id("sec2_2c")
+          .showDistType(1);
+
+        //d3.select("#sec1_1").call(districtTree);
+        d3.select("#sec2_2a").call(spanishSig);
+        d3.select("#sec2_2b").call(spanishMod);
+        d3.select("#sec2_2c").call(spanishLow);
+
+      };
+    });
+
+  </script>
+
 </html>

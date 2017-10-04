@@ -1,15 +1,62 @@
 /* CSS styling for NSELD infographic */
 
+/* Main styling */
+
+body {
+  border: 1px solid red; /* This is for design purposes, disable when done */
+  overflow-y: scroll;
+}
+
+.content {
+  border: 1px solid blue;  /* This is for design purposes, disable when done */
+  font: 12px Arial, sans-serif;
+}
+
+.chart {
+  text-align: center;
+  display: inline-block;
+}
+
 /* Page settings */
 
 @page {
   size: 8.5in 11in;
+  margin-left: 0.5in;
+  margin-right: 0.5in;
 }
 
 h1 {
   page-break-before: always;
+  font: 24px Arial, sans-serif;
+  font-weight: bold;
 }
 
 h1, h2, h3, h4, h5 {
   page-break-after: avoid;
+}
+
+/* Tree diagrams */
+
+.treeDiagram {
+  font: 11px Arial, sans-serif;
+}
+
+.treeDiagram .link {
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+
+.treeDiagram .circle {
+  fill: #43a2ca;
+  stroke: #1c4e63;
+  stroke-width: 1px;
+}
+
+/* Donut charts */
+
+.distTypeHeader {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
