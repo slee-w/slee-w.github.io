@@ -5,8 +5,7 @@ function treeDiagram() {
 
   // default values that can be changed by the caller
 
-  var width = 750,
-      height = 400,
+  var height = 400,
       marginTop = 20,
       marginRight = 20,
       marginLeft = 20,
@@ -23,7 +22,8 @@ function treeDiagram() {
 
       // margins and adjusted widths and heights
 
-      var widthAdj = width - marginLeft - marginRight,
+      var width = document.getElementById(chart_id).offsetWidth;
+          widthAdj = width - marginLeft - marginRight,
           heightAdj = height - marginTop - marginBottom;
 
       // convert the data into a hierarchy
@@ -98,16 +98,88 @@ function treeDiagram() {
         .style("text-anchor", function(d) { return d.children ? "middle" : "start"; })
         .text(function(d) { return d.data.name + " (" + formatNum(d.data.data.count) + ")"; });
 
+      // resize
+
+      window.addEventListener("resize", function() {
+
+        // update width
+
+        width = document.getElementById(chart_id).offsetWidth;
+        widthAdj = width - marginLeft - marginRight;
+
+        // resize chart
+
+        dom.select("svg")
+          .attr("width", width);
+
+        treeMap = d3.tree()
+            .size([heightAdj, widthAdj]);
+
+        nodes = d3.hierarchy(treeData, function(d) {
+            return d.children;
+        });
+
+        nodes = treeMap(nodes);
+
+        svg.selectAll(".link")
+          .data(nodes.descendants().slice(1))
+          .attr("d", function(d) { return "M" + d.y + "," + d.x + "C" + (d.y + d.parent.y) / 2 + "," + d.x + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x + " " + d.parent.y + "," + d.parent.x; });
+
+        svg.selectAll(".node")
+          .data(nodes.descendants())
+          .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+      });
+
+      // resize for printing
+
+      (function() {
+
+        var beforePrint = function() {
+
+          // set width for printing
+
+          width = 750;
+          widthAdj = width - marginLeft - marginRight;
+
+          // resize chart
+
+          dom.select("svg")
+            .attr("width", width);
+
+        };
+
+        var afterPrint = function() {
+
+          // update width
+
+          width = document.getElementById(chart_id).offsetWidth;
+          widthAdj = width - marginLeft - marginRight;
+
+          // resize chart
+
+          dom.select("svg")
+            .attr("width", width);
+
+        };
+
+        if (window.matchMedia) {
+          var mediaQueryList = window.matchMedia("print");
+          mediaQueryList.addListener(function(mql) {
+            if (mql.matches) { beforePrint(); }
+            else { afterPrint(); }
+          });
+        }
+
+        window.onbeforeprint = beforePrint;
+        window.onafterprint = afterPrint;
+
+      }());
+
     })
   };
 
   // these allow the default values to be changed
-
-  chart.width = function(value) {
-    if (!arguments.length) return width;
-    width = value;
-    return chart;
-  };
 
   chart.height = function(value) {
     if (!arguments.length) return height;
