@@ -1,0 +1,15 @@
+chart_id	category	value_m	value_e	order
+sec3_1	Teach a mainstream class	0.99	0.23	1
+sec3_1	Teach a bilingual class	0	0.18	2
+sec3_1	Teach sheltered instruction class for ELs	0	0.08	3
+sec3_1	Teach ESL as staff teacher	0	0.33	4
+sec3_1	Teach ESL as itinerant teacher	0	0.1	5
+sec3_1	Teach newcomer class	0	0.02	6
+sec3_1	Co-teacher of general education class	0	0.05	7
+sec3_1	Other	0.01	0.01	8
+sec3_2	Language arts	0.49	0.56	1
+sec3_2	Math	0.53	0.39	2
+sec3_2	Science	0.43	0.33	3
+sec3_2	Social studies/social science	0.52	0.31	4
+sec3_2	English as a second language	0.11	0.66	5
+sec3_2	Other	0.31	0.03	6

@@ -1,16 +1,16 @@
 chart_id	district_type	category	value
-sec2_1	Significant	One language group	0.04
-sec2_1	Significant	Two to five	0.18
-sec2_1	Significant	Six to ten	0.12
-sec2_1	Significant	More than 10	0.66
-sec2_1	Moderate	One language group	0.07
-sec2_1	Moderate	Two to five	0.33
-sec2_1	Moderate	Six to ten	0.15
-sec2_1	Moderate	More than 10	0.46
-sec2_1	Low	One language group	0.29
-sec2_1	Low	Two to five	0.52
-sec2_1	Low	Six to ten	0.1
-sec2_1	Low	More than 10	0.09
+sec2_1a	Significant	1	0.04
+sec2_1a	Significant	2 - 5	0.18
+sec2_1a	Significant	6 - 10	0.12
+sec2_1a	Significant	10+	0.66
+sec2_1b	Moderate	1	0.07
+sec2_1b	Moderate	2 - 5	0.33
+sec2_1b	Moderate	6 - 10	0.15
+sec2_1b	Moderate	10+	0.46
+sec2_1c	Low	1	0.29
+sec2_1c	Low	2 - 5	0.52
+sec2_1c	Low	6 - 10	0.1
+sec2_1c	Low	10+	0.09
 sec2_2a	Significant	Spanish	0.94
 sec2_2a	Significant	Other languages	0.06
 sec2_2b	Moderate	Spanish	0.85

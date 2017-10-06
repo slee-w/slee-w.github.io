@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <title>Findings from the National Study of English Learners and Digital Learning Resources (NSELD)</title>
 
     <!-- Scripts -->
@@ -27,7 +28,7 @@
         </p>
         <div id="sec1_1" class="chart"></div>
         <p>
-          Within each district classifications, two types of teachers were surveyed: Mainstream teachers of EL students, and EL-specialist teachers. A small number of teachers did not identify which type of teacher they were. A total of 706 teachers responded to the survey.
+          Within each district classification, two types of teachers were surveyed: Mainstream teachers of EL students, and EL-specialist teachers. A small number of teachers did not identify which type of teacher they were. A total of 706 teachers responded to the survey.
         </p>
         <div id="sec1_2" class="chart"></div>
       </section>
@@ -35,19 +36,37 @@
       <!-- Section 2 -->
 
       <section id="sec2">
-        <h1 id="respondents">Characteristics of District Survey Respondents</h1>
+        <h1 id="dis_chars">Characteristics of District Survey Respondents</h1>
         <p>
           More than 50 percent of districts with significant EL-student representation had more than 10 language groups.
         </p>
-        <div id="sec2_1"></div>
+        <div id="sec2_1" class="chart">
+          <div id="sec2_1a" class="tripleChart"></div>
+          <div id="sec2_1b" class="tripleChart"></div>
+          <div id="sec2_1c" class="tripleChart"></div>
+        </div>
         <p>
           Regardless of the level of EL-representation, Spanish was the most common language background of EL students in the district.
         </p>
-        <div id="sec2_2">
-          <div id="sec2_2a" class="chart"></div>
-          <div id="sec2_2b" class="chart"></div>
-          <div id="sec2_2c" class="chart"></div>
+        <div id="sec2_2" class="chart">
+          <div id="sec2_2a" class="tripleChart"></div>
+          <div id="sec2_2b" class="tripleChart"></div>
+          <div id="sec2_2c" class="tripleChart"></div>
         </div>
+      </section>
+
+      <!-- Section 3 -->
+
+      <section id="sec3">
+        <h1 id="tch_chars">Characteristics of Teacher Survey Respondents</h1>
+        <p>
+          The primary teaching responsibility of EL specialists differs greatly from those of mainstream teachers.
+        </p>
+        <div id="sec3_1" class="chart"></div>
+        <p>
+          Similarly, the subject areas taught differed between EL specialists and mainstream teachers.
+        </p>
+        <div id="sec3_2" class="chart"></div>
       </section>
 
     </div>
@@ -92,16 +111,25 @@
           d.chart_id = d.chart_id;
           d.district_type = d.district_type;
           d.category = d.category;
-          d.number = +d.number;
-          d.percent = +d.percent;
+          d.percent = +d.value;
         });
 
-        sec2_1 = data.filter(function(d) { return d.chart_id == "sec2_1"; });
+        sec2_1a = data.filter(function(d) { return d.chart_id == "sec2_1a"; });
+        sec2_1b = data.filter(function(d) { return d.chart_id == "sec2_1b"; });
+        sec2_1c = data.filter(function(d) { return d.chart_id == "sec2_1c"; });
         sec2_2a = data.filter(function(d) { return d.chart_id == "sec2_2a"; });
         sec2_2b = data.filter(function(d) { return d.chart_id == "sec2_2b"; });
         sec2_2c = data.filter(function(d) { return d.chart_id == "sec2_2c"; });
 
-        //var languageCats = treeDiagram().data(sec1_1).chart_id("sec2_1").marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+        var langGroupsSig = columnChart().data(sec2_1a).chart_id("sec2_1a")
+          .height(240).marginLeft(40)
+          .showDistType(1);
+        var langGroupsMod = columnChart().data(sec2_1b).chart_id("sec2_1b")
+          .height(240).marginLeft(40)
+          .showDistType(1);
+        var langGroupsLow = columnChart().data(sec2_1c).chart_id("sec2_1c")
+          .height(240).marginLeft(40)
+          .showDistType(1);
         var spanishSig = donutChart().data(sec2_2a).chart_id("sec2_2a")
           .showDistType(1);
         var spanishMod = donutChart().data(sec2_2b).chart_id("sec2_2b")
@@ -109,10 +137,39 @@
         var spanishLow = donutChart().data(sec2_2c).chart_id("sec2_2c")
           .showDistType(1);
 
-        //d3.select("#sec1_1").call(districtTree);
+        d3.select("#sec2_1a").call(langGroupsSig);
+        d3.select("#sec2_1b").call(langGroupsMod);
+        d3.select("#sec2_1c").call(langGroupsLow);
         d3.select("#sec2_2a").call(spanishSig);
         d3.select("#sec2_2b").call(spanishMod);
         d3.select("#sec2_2c").call(spanishLow);
+
+      };
+    });
+
+    // Section 3 charts
+
+    d3.tsv("assets/data/sec3.tsv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.chart_id = d.chart_id;
+          d.category = d.category;
+          d.value_m = +d.value_m;
+          d.value_e = +d.value_e;
+          d.order = +d.order;
+        });
+
+        sec3_1 = data.filter(function(d) { return d.chart_id == "sec3_1"; });
+        sec3_2 = data.filter(function(d) { return d.chart_id == "sec3_2"; });
+
+        var priTeachRes = divergingBar().data(sec3_1).chart_id("sec3_1")
+          .marginLeft(200);
+        var subjectAreas = divergingBar().data(sec3_2).chart_id("sec3_2")
+          .marginLeft(200);
+
+        d3.select("#sec3_1").call(priTeachRes);
+        d3.select("#sec3_2").call(subjectAreas);
 
       };
     });

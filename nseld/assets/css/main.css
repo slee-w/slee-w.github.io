@@ -10,14 +10,23 @@ body {
 .content {
   border: 1px solid blue;  /* This is for design purposes, disable when done */
   font: 12px Arial, sans-serif;
-  max-width: 960px;
+  max-width: 750px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .chart {
   text-align: center;
-  /*display: inline-block;*/
+  display: inline-block;
+  max-width: 960px;
+  width: 100%;
+}
+
+.tripleChart {
+  text-align: center;
+  display: inline-block;
+  max-width: 320px;
+  width: 33%;
 }
 
 /* Page settings */
@@ -30,7 +39,7 @@ body {
 
 @media print {
   .content {
-    width: 7.5in;
+    max-width: 750px;
   }
 }
 
