@@ -269,15 +269,25 @@ function donutChart() {
 
       // add district type
 
+      var distType = dom.selectAll(".distType")
+        .data(data);
+
       function drawDistType() {
         if (showDistType == 1) {
-          dom.append("div")
-            .data(data)
-            .attr("class", "distTypeHeader")
-            .append("text")
-              .text(function(d) { return d.district_type; });
-        }
-        else if (showDistType == 0) {};
+          distType.enter()
+            .filter(function(d, i) { return i == 0; })
+            .append("div")
+              .style("display", "inline-block")
+              .style("width", "100%")
+              .style("text-align", "center")
+              .style("margin-top", "15px")
+              .attr("class", function(d) { return "donutChart distType"; })
+              .append("text")
+                .style("font-weight", "bold")
+                .attr("class", function(d) { return d.district_type.toLowerCase(); })
+                .text(function(d) { return d.district_type.toUpperCase(); });
+          }
+          else {};
       };
 
       drawDistType();
@@ -308,17 +318,30 @@ function donutChart() {
         .enter()
           .append("path")
             .attr("d", arc)
-            .attr("fill", "#bbb")
-            .attr("stroke", "#000")
-            .attr("stroke-width", "1px");
+            .attr("class", function(d, i) {
+              if (i == 0) { return "arc " + d.data.district_type.toLowerCase(); }
+              else { return "arc" };
+            });
 
       // add value label
 
-      var label = svg.append("text")
+      var label = svg.selectAll("text")
         .data(data)
-        .attr("dy", "0.35em")
-        .style("text-anchor", "middle")
+        .enter()
+          .filter(function(d, i) { return i == 0; })
+          .append("g");
+
+      label.append("text")
+        .attr("class", function(d) { return "valueLabel " + d.district_type.toLowerCase(); })
+        .attr("dy", "0.2em")
+        .attr("text-anchor", "middle")
         .text(function(d) { return formatPer(d.value); });
+
+      label.append("text")
+          .attr("class", function(d) { return d.district_type.toLowerCase(); })
+          .attr("dy", "3em")
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.category.toUpperCase(); });
 
     })
   };
@@ -409,28 +432,13 @@ function columnChart() {
 
       // axis scales
 
-      var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.1);
+      var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.25);
 
       // domains
 
       xScale.domain(data.map(function(d) { return d.category; }));
 
       var dom = d3.select("#" + chart_id);
-
-      // add district type
-
-      function drawDistType() {
-        if (showDistType == 1) {
-          dom.append("div")
-            .data(data)
-            .attr("class", "distTypeHeader")
-            .append("text")
-              .text(function(d) { return d.district_type; });
-        }
-        else if (showDistType == 0) {};
-      };
-
-      drawDistType();
 
       // append svg
 
@@ -542,7 +550,7 @@ function columnChart() {
 
 			cols.enter()
 				.append("rect")
-					.attr("class", "column")
+					.attr("class", function(d) { return "column " + d.district_type.toLowerCase(); })
 					.attr("x", function(d) { return xScale(d.category); })
 					.attr("y", function(d) { return yScale(d.value); })
 					.attr("width", xScale.bandwidth())
@@ -550,16 +558,40 @@ function columnChart() {
 
       // add data labels
 
-      var labels = svg.selectAll(".labels")
+      var labels = svg.selectAll(".label")
         .data(data);
 
       labels.enter()
         .append("text")
+          .attr("class", function(d) { return "label " + d.district_type.toLowerCase(); })
           .attr("x", function(d) { return xScale(d.category) + xScale.bandwidth()/2; })
           .attr("y", function(d) { return yScale(d.value); })
           .attr("dy", "-0.35em")
           .attr("text-anchor", "middle")
           .text(function(d) { return formatPer(d.value); });
+
+      // add district type
+
+      var distType = svg.selectAll(".distType")
+        .data(data);
+
+      function drawDistType() {
+        if (showDistType == 1) {
+          distType.enter()
+            .append("text")
+              .filter(function(d, i) { return i == 0; })
+              .attr("class", function(d) { return "distType " + d.district_type.toLowerCase(); })
+              .attr("x", widthAdj/2)
+              .attr("y", 0)
+              .attr("dy", -marginTop/2)
+              .attr("text-anchor", "middle")
+              .style("font-weight", "bold")
+              .text(function(d) { return d.district_type.toUpperCase(); });
+          }
+          else { };
+      };
+
+      drawDistType();
 
     })
   };
@@ -665,7 +697,7 @@ function divergingBar() {
       // axis scales
 
       var xScale = d3.scaleLinear().rangeRound([0, widthAdj]).domain([-1, 1]),
-          yScale = d3.scaleBand().rangeRound([heightAdj, 0]).padding(0.1);
+          yScale = d3.scaleBand().rangeRound([heightAdj, 0]).padding(0.25);
 
       // domains
 
@@ -708,10 +740,19 @@ function divergingBar() {
       bars.enter()
         .append("rect")
           .attr("class", "bar el")
-          .attr("x", function(d) { return xScale(0); })
+          .attr("x", xScale(0))
           .attr("y", function(d) { return yScale(d.category); })
           .attr("width", function(d) { return xScale(d.value_e - 1); })
           .attr("height", yScale.bandwidth());
+
+      // add zero line above bars
+
+      svg.append("line")
+        .attr("class", "zeroLine")
+        .attr("x1", xScale(0))
+        .attr("x2", xScale(0))
+        .attr("y1", 0)
+        .attr("y2", heightAdj);
 
       // add data labels
 
@@ -722,6 +763,10 @@ function divergingBar() {
 
       labels.enter()
         .append("text")
+          .attr("class", function(d) {
+            if (d.value_m > .9) { return "label white"; }
+            else { return "label main"; };
+          })
           .attr("x", function(d) { return xScale(-1 * d.value_m); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
@@ -736,17 +781,23 @@ function divergingBar() {
           .text(function(d) { return formatPer(d.value_m); });
 
       svg.append("text")
+        .attr("class", "label main")
         .attr("x", function(d) { return xScale(0); })
         .attr("y", -marginTop/2)
         .attr("dx", "-0.5em")
         .attr("dy", "0.35em")
         .attr("text-anchor", "end")
-        .text("Mainstream");
+        .style("font-weight", "bold")
+        .text("MAINSTREAM");
 
       // el
 
       labels.enter()
         .append("text")
+          .attr("class", function(d) {
+            if (d.value_m > .9) { return "label white"; }
+            else { return "label el"; };
+          })
           .attr("x", function(d) { return xScale(d.value_e); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
@@ -761,12 +812,14 @@ function divergingBar() {
           .text(function(d) { return formatPer(d.value_e); });
 
       svg.append("text")
-        .attr("x", function(d) { return xScale(0); })
+        .attr("class", "label el")
+        .attr("x", xScale(0))
         .attr("y", -marginTop/2)
         .attr("dx", "0.5em")
         .attr("dy", "0.35em")
         .attr("text-anchor", "start")
-        .text("EL specialist");
+        .style("font-weight", "bold")
+        .text("EL SPECIALIST");
 
     })
   };
@@ -800,6 +853,218 @@ function divergingBar() {
   chart.marginBottom = function(value) {
     if (!arguments.length) return marginBottom;
     marginBottom = value;
+    return chart;
+  };
+
+  chart.chart_id = function(value) {
+    if (!arguments.length) return chart_id;
+    chart_id = value;
+    return chart;
+  };
+
+  chart.data = function(value) {
+    if (!arguments.length) return data;
+    data = value;
+    return chart;
+  };
+
+  return chart;
+
+};
+
+// Slopegraphs
+
+function slopeGraph() {
+
+  // default values that can be changed by the caller
+
+  var height = 400,
+      marginTop = 40,
+      marginRight = 20,
+      marginLeft = 20,
+      marginBottom = 20,
+      dotSize = 5,
+      chart_id = [],
+      data = [];
+
+  function chart(selection) {
+    selection.each(function() {
+
+      // sort data by highest mainstream
+
+      data.sort(function(x, y) { return d3.descending(x.order, y.order); });
+
+      // number formats
+
+      var formatNum = d3.format(",.0f"),
+          formatPer = d3.format(",.0%");
+
+      // margins and adjusted widths and heights
+
+      var width = document.getElementById(chart_id).offsetWidth;
+
+      var widthAdj = width - marginLeft - marginRight,
+          heightAdj = height - marginTop - marginBottom,
+          centerSpace = widthAdj/3;
+
+      // append svg
+
+      var dom = d3.select("#" + chart_id);
+
+      var svg = dom.append("svg")
+        .attr("class", "slopeGraph")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+
+      // axis scales
+      // only need y-axis, the x-spacing is defined manually
+      // no need to draw the actual axis
+
+      var yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, 1]);
+
+      // add group lines below chart elements
+
+      svg.append("line")
+        .attr("class", "groupLine")
+        .attr("x1", (widthAdj/2) - (centerSpace/2))
+        .attr("x2", (widthAdj/2) - (centerSpace/2))
+        .attr("y1", 0)
+        .attr("y2", heightAdj);
+
+      svg.append("line")
+        .attr("class", "groupLine")
+        .attr("x1", (widthAdj/2) + (centerSpace/2))
+        .attr("x2", (widthAdj/2) + (centerSpace/2))
+        .attr("y1", 0)
+        .attr("y2", heightAdj);
+
+      // add lines
+
+      var lines = svg.selectAll(".line")
+        .data(data);
+
+      lines.enter()
+        .append("line")
+          .attr("class", "line")
+          .attr("x1", (widthAdj/2) - (centerSpace/2))
+          .attr("x2", (widthAdj/2) + (centerSpace/2))
+          .attr("y1", function(d) { return yScale(d.value_m); })
+          .attr("y2", function(d) { return yScale(d.value_e); });
+
+      // add circles
+      // mainstream on left
+      // el on right
+
+      var circles = svg.selectAll(".dot")
+        .data(data);
+
+      circles.enter()
+        .append("circle")
+          .attr("class", "dot main")
+          .attr("cx", (widthAdj/2) - (centerSpace/2))
+          .attr("cy", function(d) { return yScale(d.value_m); })
+          .attr("r", dotSize);
+
+      circles.enter()
+        .append("circle")
+          .attr("class", "dot el")
+          .attr("cx", (widthAdj/2) + (centerSpace/2))
+          .attr("cy", function(d) { return yScale(d.value_e); })
+          .attr("r", dotSize);
+
+      // add labels
+      // mainstream on left
+      // el on right
+
+      var labels = svg.selectAll(".label")
+        .data(data);
+
+      labels.enter()
+        .append("text")
+          .attr("class", "label main")
+          .attr("x", (widthAdj/2) - (centerSpace/2))
+          .attr("y", function(d) { return yScale(d.value_m); })
+          .attr("dx", "-1em")
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "end")
+          .text(function(d) { return d.category + ": " + formatPer(d.value_m); });
+
+      labels.enter()
+        .append("text")
+          .attr("class", "label el")
+          .attr("x", (widthAdj/2) + (centerSpace/2))
+          .attr("y", function(d) { return yScale(d.value_e); })
+          .attr("dx", "1em")
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "start")
+          .text(function(d) { return d.category + ": " + formatPer(d.value_e); });
+
+      // group labels
+
+      svg.append("text")
+        .attr("class", "label main")
+        .attr("x", (widthAdj/2) - (centerSpace/2))
+        .attr("y", -marginTop/2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "middle")
+        .style("font-weight", "bold")
+        .text("MAINSTREAM");
+
+      svg.append("text")
+        .attr("class", "label el")
+        .attr("x", (widthAdj/2) + (centerSpace/2))
+        .attr("y", -marginTop/2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "middle")
+        .style("font-weight", "bold")
+        .text("EL SPECIALIST");
+
+    })
+  };
+
+  // these allow the default values to be changed
+
+  chart.height = function(value) {
+    if (!arguments.length) return height;
+    height = value;
+    return chart;
+  };
+
+  chart.marginTop = function(value) {
+    if (!arguments.length) return marginTop;
+    marginTop = value;
+    return chart;
+  };
+
+  chart.marginLeft = function(value) {
+    if (!arguments.length) return marginLeft;
+    marginLeft = value;
+    return chart;
+  };
+
+  chart.marginRight = function(value) {
+    if (!arguments.length) return marginRight;
+    marginRight = value;
+    return chart;
+  };
+
+  chart.marginBottom = function(value) {
+    if (!arguments.length) return marginBottom;
+    marginBottom = value;
+    return chart;
+  };
+
+  chart.centerSpace = function(value) {
+    if (!arguments.length) return centerSpace;
+    centerSpace = value;
+    return chart;
+  };
+
+  chart.dotSize = function(value) {
+    if (!arguments.length) return dotSize;
+    dotSize = value;
     return chart;
   };
 

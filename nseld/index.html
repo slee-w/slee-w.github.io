@@ -14,6 +14,12 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
+    <!-- Fonts -->
+
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
   </head>
 
   <body>
@@ -38,7 +44,7 @@
       <section id="sec2">
         <h1 id="dis_chars">Characteristics of District Survey Respondents</h1>
         <p>
-          More than 50 percent of districts with significant EL-student representation had more than 10 language groups.
+          More than <strong>60 percent</strong> of districts with significant EL-student representation had more than 10 language groups.
         </p>
         <div id="sec2_1" class="chart">
           <div id="sec2_1a" class="tripleChart"></div>
@@ -58,7 +64,7 @@
       <!-- Section 3 -->
 
       <section id="sec3">
-        <h1 id="tch_chars">Characteristics of Teacher Survey Respondents</h1>
+        <h1 id="tch_resps">Teacher Survey Respondents: Responsibilities</h1>
         <p>
           The primary teaching responsibility of EL specialists differs greatly from those of mainstream teachers.
         </p>
@@ -67,6 +73,15 @@
           Similarly, the subject areas taught differed between EL specialists and mainstream teachers.
         </p>
         <div id="sec3_2" class="chart"></div>
+        <h1 id="tch_quals">Teacher Survey Respondents: Qualifications</h1>
+        <p>
+          As expected, EL specialists were more likely to hold ESL or bilingual certifications than mainstream teachers.
+        </p>
+        <div id="sec3_3" class="chart"></div>
+        <p>
+          In comparison with mainstream teachers, EL specialists more frequently held graduate degrees.
+        </p>
+        <div id="sec3_4" class="chart"></div>
       </section>
 
     </div>
@@ -92,9 +107,9 @@
         sec1_2 = data.filter(function(d) { return d.chart_id == "sec1_2"; });
 
         var districtTree = treeDiagram().data(sec1_1).chart_id("sec1_1")
-          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(175);
         var teacherTree = treeDiagram().data(sec1_2).chart_id("sec1_2")
-          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(210);
+          .marginTop(0).marginBottom(0).marginLeft(75).marginRight(175);
 
         d3.select("#sec1_1").call(districtTree);
         d3.select("#sec1_2").call(teacherTree);
@@ -122,13 +137,13 @@
         sec2_2c = data.filter(function(d) { return d.chart_id == "sec2_2c"; });
 
         var langGroupsSig = columnChart().data(sec2_1a).chart_id("sec2_1a")
-          .height(240).marginLeft(40)
+          .height(240).marginTop(40).marginLeft(40)
           .showDistType(1);
         var langGroupsMod = columnChart().data(sec2_1b).chart_id("sec2_1b")
-          .height(240).marginLeft(40)
+          .height(240).marginTop(40).marginLeft(40)
           .showDistType(1);
         var langGroupsLow = columnChart().data(sec2_1c).chart_id("sec2_1c")
-          .height(240).marginLeft(40)
+          .height(240).marginTop(40).marginLeft(40)
           .showDistType(1);
         var spanishSig = donutChart().data(sec2_2a).chart_id("sec2_2a")
           .showDistType(1);
@@ -162,14 +177,20 @@
 
         sec3_1 = data.filter(function(d) { return d.chart_id == "sec3_1"; });
         sec3_2 = data.filter(function(d) { return d.chart_id == "sec3_2"; });
+        sec3_3 = data.filter(function(d) { return d.chart_id == "sec3_3"; });
+        sec3_4 = data.filter(function(d) { return d.chart_id == "sec3_4"; });
 
         var priTeachRes = divergingBar().data(sec3_1).chart_id("sec3_1")
           .marginLeft(200);
         var subjectAreas = divergingBar().data(sec3_2).chart_id("sec3_2")
           .marginLeft(200);
+        var certsHeld = slopeGraph().data(sec3_3).chart_id("sec3_3");
+        var degreeHeld = slopeGraph().data(sec3_4).chart_id("sec3_4");
 
         d3.select("#sec3_1").call(priTeachRes);
         d3.select("#sec3_2").call(subjectAreas);
+        d3.select("#sec3_3").call(certsHeld);
+        d3.select("#sec3_4").call(degreeHeld);
 
       };
     });

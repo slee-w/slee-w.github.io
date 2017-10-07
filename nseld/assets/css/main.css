@@ -3,12 +3,12 @@
 /* Main styling */
 
 body {
-  border: 1px solid red; /* This is for design purposes, disable when done */
+  /*border: 1px solid red; /* This is for design purposes, disable when done */
   overflow-y: scroll;
 }
 
 .content {
-  border: 1px solid blue;  /* This is for design purposes, disable when done */
+  /*border: 1px solid blue;  /* This is for design purposes, disable when done */
   font: 12px Arial, sans-serif;
   max-width: 750px;
   margin-left: auto;
@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5 {
 /* Tree diagrams */
 
 .treeDiagram {
-  font: 11px Arial, sans-serif;
+  font: 10px Roboto, sans-serif;
 }
 
 .treeDiagram .link {
@@ -73,8 +73,152 @@ h1, h2, h3, h4, h5 {
 
 /* Donut charts */
 
-.distTypeHeader {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.donutChart {
+  font: 10px Roboto, sans-serif;
+}
+
+.distType .significant {
+  color: #253494;
+}
+
+.distType .moderate {
+  color: #2c7fb8;
+}
+
+.distType .low {
+  color: #41b6c4;
+}
+
+.donutChart .arc {
+  fill: #eee;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.donutChart .significant {
+  fill: #253494;
+}
+
+.donutChart .moderate {
+  fill: #2c7fb8;
+}
+
+.donutChart .low {
+  fill: #41b6c4;
+}
+
+.donutChart .valueLabel {
+  font: 48px Roboto, sans-serif;
   font-weight: bold;
+}
+
+/* Column charts */
+
+.columnChart {
+  font: 10px Roboto, sans-serif;
+}
+
+.columnChart .yAxis path {
+  stroke: gray;
+  stroke-width: 1px;
+}
+
+.columnChart .yAxis text {
+  fill: gray;
+}
+
+.columnChart .xAxis text {
+  fill: darkslategray;
+}
+
+.columnChart .xAxis line,
+.columnChart .xAxis path {
+  display: none;
+}
+
+.columnChart .column {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.columnChart .significant {
+  fill: #253494;
+}
+
+.columnChart .moderate {
+  fill: #2c7fb8;
+}
+
+.columnChart .low {
+  fill: #41b6c4;
+}
+
+/* Diverging bar charts */
+
+.divergingBar {
+  font: 10px Roboto, sans-serif;
+}
+
+.divergingBar .xAxis path {
+  stroke: gray;
+  stroke-width: 1px;
+}
+
+.divergingBar .xAxis text {
+  fill: gray;
+}
+
+.divergingBar .yAxis text {
+  fill: darkslategray;
+}
+
+.divergingBar .yAxis line,
+.divergingBar .yAxis path {
+  display: none;
+}
+
+.divergingBar .zeroLine {
+  stroke: #aaa;
+  stroke-dasharray: 3,3;
+}
+
+.divergingBar .bar {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.divergingBar .main {
+  fill: #008837;
+}
+
+.divergingBar .el {
+  fill: #7b3294;
+}
+
+.divergingBar .white {
+  fill: #fff;
+}
+
+/* Slopegraphs */
+
+.slopeGraph {
+  font: 10px Roboto, sans-serif;
+}
+
+.slopeGraph .groupLine {
+  stroke: #ccc;
+  stroke-dasharray: 3,3;
+}
+
+.slopeGraph .line {
+  stroke: #bbb;
+  stroke-width: 1px;
+}
+
+.slopeGraph .main {
+  fill: #008837;
+}
+
+.slopeGraph .el {
+  fill: #7b3294;
 }
