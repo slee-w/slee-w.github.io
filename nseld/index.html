@@ -59,6 +59,10 @@
           <p>
             More than <strong>60 percent</strong> of districts with significant EL-student representation had more than 10 language groups.
           </p>
+        </div>
+      </section>
+      <section id="sec2_charts" class="chartarea">
+        <div class="content">
           <div id="sec2_1" class="chart">
             <div id="sec2_1a" class="tripleChart"></div>
             <div id="sec2_1b" class="tripleChart"></div>
@@ -78,11 +82,15 @@
       <!-- Section 3 -->
 
       <section id="sec3">
-          <div class="content">
+        <div class="content">
           <h1 id="tch_resps">Teacher Survey Respondents: Responsibilities</h1>
           <p>
             The primary teaching responsibility of EL specialists differs greatly from those of mainstream teachers.
           </p>
+        </div>
+      </section>
+      <section id="sec3_charts" class="chartarea">
+        <div class="content">
           <div id="sec3_1" class="chart"></div>
           <p>
             Similarly, the subject areas taught differed between EL specialists and mainstream teachers.
@@ -97,6 +105,22 @@
             In comparison with mainstream teachers, EL specialists more frequently held graduate degrees.
           </p>
           <div id="sec3_4" class="chart"></div>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+
+      <section id="sec4">
+        <div class="content">
+          <h1 id="tch_el_exp">Teacher Survey Respondents: Responsibilities</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+      </section>
+      <section id="sec4_charts" class="chartarea">
+        <div class="content">
+          <div id="sec4_1" class="chart"></div>
         </div>
       </section>
 
@@ -194,6 +218,7 @@
         sec3_2 = data.filter(function(d) { return d.chart_id == "sec3_2"; });
         sec3_3 = data.filter(function(d) { return d.chart_id == "sec3_3"; });
         sec3_4 = data.filter(function(d) { return d.chart_id == "sec3_4"; });
+        sec3_5 = data.filter(function(d) { return d.chart_id == "sec3_5"; });
 
         var priTeachRes = divergingBar().data(sec3_1).chart_id("sec3_1")
           .marginLeft(200);
@@ -201,11 +226,37 @@
           .marginLeft(200);
         var certsHeld = slopeGraph().data(sec3_3).chart_id("sec3_3");
         var degreeHeld = slopeGraph().data(sec3_4).chart_id("sec3_4");
+        var elExperience = divergingBar().data(sec3_5).chart_id("sec3_5")
+          .marginLeft(300);
 
         d3.select("#sec3_1").call(priTeachRes);
         d3.select("#sec3_2").call(subjectAreas);
         d3.select("#sec3_3").call(certsHeld);
         d3.select("#sec3_4").call(degreeHeld);
+        d3.select("#sec3_5").call(elExperience);
+
+      };
+    });
+
+    // Section 4 charts
+
+    d3.tsv("assets/data/sec4.tsv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.chart_id = d.chart_id;
+          d.category = d.category;
+          d.value_m = +d.value_m;
+          d.value_e = +d.value_e;
+          d.order = +d.order;
+        });
+
+        sec4_1 = data.filter(function(d) { return d.chart_id == "sec4_1"; });
+
+        var elExperience = divergingBar().data(sec4_1).chart_id("sec4_1")
+          .marginLeft(225);
+
+        d3.select("#sec4_1").call(elExperience);
 
       };
     });
