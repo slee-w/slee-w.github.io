@@ -770,7 +770,7 @@ function divergingBar() {
           .attr("x", function(d) { return xScale(-1 * d.value_m); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
-            if (d.value_m > .9) { return "0.35em"; }
+            if (d.value_m > .9) { return "0.5em"; }
             else { return "-0.35em"; };
           })
           .attr("dy", "0.35em")
@@ -801,7 +801,7 @@ function divergingBar() {
           .attr("x", function(d) { return xScale(d.value_e); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
-            if (d.value_e > .9) { return "-0.35em"; }
+            if (d.value_e > .9) { return "-0.5em"; }
             else { return "0.35em"; };
           })
           .attr("dy", "0.35em")
