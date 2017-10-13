@@ -712,7 +712,7 @@ function divergingBar() {
         .call(d3.axisBottom(xScale)
           .tickValues([-1, 0, 1])
           .tickSize(0)
-          .tickFormat(d => Math.abs(100*d) + "%"));
+          .tickFormat(function(d) { return Math.abs(100*d) + "%"; }));
 
       svg.selectAll(".xAxis text")
 				.attr("dy", "1.5em");
