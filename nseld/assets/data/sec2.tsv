@@ -11,9 +11,6 @@ sec2_1c	Low	1	0.29
 sec2_1c	Low	2 - 5	0.52
 sec2_1c	Low	6 - 10	0.1
 sec2_1c	Low	10+	0.09
-sec2_2a	Significant	Spanish	0.94
-sec2_2a	Significant	Other languages	0.06
-sec2_2b	Moderate	Spanish	0.85
-sec2_2b	Moderate	Other languages	0.15
-sec2_2c	Low	Spanish	0.72
-sec2_2c	Low	Other languages	0.28
+sec2_2	Significant	Significant	0.86
+sec2_2	Moderate	Moderate	0.69
+sec2_2	Low	Low	0.36

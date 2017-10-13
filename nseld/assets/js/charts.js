@@ -23,7 +23,7 @@ function treeDiagram() {
 
       // margins and adjusted widths and heights
 
-      var width = document.getElementById(chart_id).offsetWidth;
+      var width = document.getElementById(chart_id).offsetWidth - 40;
           widthAdj = width - marginLeft - marginRight,
           heightAdj = height - marginTop - marginBottom;
 
@@ -101,7 +101,7 @@ function treeDiagram() {
 
       // function to update chart when resized/printing
 
-      function resize() {
+      /*function resize() {
 
         dom.select("svg")
           .attr("width", width);
@@ -138,11 +138,11 @@ function treeDiagram() {
 
         resize();
 
-      });
+      });*/
 
       // resize for printing
 
-      (function() {
+      /*(function() {
 
         var beforePrint = function() {
 
@@ -181,7 +181,7 @@ function treeDiagram() {
         window.onbeforeprint = beforePrint;
         window.onafterprint = afterPrint;
 
-      }());
+      }());*/
 
     })
   };
@@ -341,6 +341,7 @@ function donutChart() {
           .attr("class", function(d) { return d.district_type.toLowerCase(); })
           .attr("dy", "3em")
           .attr("text-anchor", "middle")
+          .style("font-weight", "bold")
           .text(function(d) { return d.category.toUpperCase(); });
 
     })
@@ -795,7 +796,7 @@ function divergingBar() {
       labels.enter()
         .append("text")
           .attr("class", function(d) {
-            if (d.value_m > .9) { return "label white"; }
+            if (d.value_e > .9) { return "label white"; }
             else { return "label el"; };
           })
           .attr("x", function(d) { return xScale(d.value_e); })
@@ -884,6 +885,7 @@ function slopeGraph() {
       marginLeft = 20,
       marginBottom = 20,
       dotSize = 5,
+      yMax = 1,
       chart_id = [],
       data = [];
 
@@ -922,7 +924,7 @@ function slopeGraph() {
       // only need y-axis, the x-spacing is defined manually
       // no need to draw the actual axis
 
-      var yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, 1]);
+      var yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, yMax]);
 
       // add group lines below chart elements
 
@@ -989,7 +991,10 @@ function slopeGraph() {
           .attr("dx", "-1em")
           .attr("dy", "0.35em")
           .attr("text-anchor", "end")
-          .text(function(d) { return d.category + ": " + formatPer(d.value_m); });
+          .text(function(d) {
+            if (yMax > 1) { return d.category + ": " + formatNum(d.value_m); }
+            else { return d.category + ": " + formatPer(d.value_m); }
+          });
 
       labels.enter()
         .append("text")
@@ -999,7 +1004,10 @@ function slopeGraph() {
           .attr("dx", "1em")
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(function(d) { return d.category + ": " + formatPer(d.value_e); });
+          .text(function(d) {
+            if (yMax > 1) { return d.category + ": " + formatNum(d.value_e); }
+            else { return d.category + ": " + formatPer(d.value_e); }
+          });
 
       // group labels
 
@@ -1056,15 +1064,15 @@ function slopeGraph() {
     return chart;
   };
 
-  chart.centerSpace = function(value) {
-    if (!arguments.length) return centerSpace;
-    centerSpace = value;
-    return chart;
-  };
-
   chart.dotSize = function(value) {
     if (!arguments.length) return dotSize;
     dotSize = value;
+    return chart;
+  };
+
+  chart.yMax = function(value) {
+    if (!arguments.length) return yMax;
+    yMax = value;
     return chart;
   };
 
