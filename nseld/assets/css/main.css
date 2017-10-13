@@ -7,6 +7,27 @@ body {
   overflow-y: scroll;
 }
 
+.cover {
+  height: 99vh;
+  margin: auto;
+  max-width: 750px;
+}
+
+.title_text {
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	position: absolute;
+	bottom: 20vh;
+	color: rgba(0, 0, 0, 0.8);
+	/*padding: 1em;*/
+  text-align: center;
+}
+
+.title_text p{
+  font: 24px Lato, sans-serif;
+  font-weight: bold;
+}
+
 .content {
   /*border: 1px solid blue;  /* This is for design purposes, disable when done */
   font: 12px Arial, sans-serif;
