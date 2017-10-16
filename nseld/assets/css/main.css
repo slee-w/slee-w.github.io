@@ -36,18 +36,27 @@ body {
 
 .cover {
   height: 99vh;
-  text-align: center;
+  margin: 0 auto;
+  max-width: 750px;
 }
 
 .title_text {
-  display: inline-block;
-	max-width: 750px;
+  /*border: 1px solid blue;*/
+  /*max-width: 750px;*/
+  width: 100%;
+  height: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	color: rgba(0, 0, 0, 0.8);
   position: relative;
-  top: 40vh;
-	padding: 1em;
+  bottom: 0;
+  /*padding: 1em;*/
+  vertical-align: bottom;
   text-align: center;
+}
+
+.title_content {
+  position: absolute;
+  bottom: 15vh;
 }
 
 .title_text p{
