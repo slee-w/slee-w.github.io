@@ -29,10 +29,15 @@
       <section id="cover" class="cover">
         <div id="title" class="title_text">
           <div class="title_content">
-            <img src="assets/images/Logo_Large2.png" />
             <p>
-              Findings from the National Study of English Learners and Digital Learning Resources (NSELD)<br><br>
-              Appendix B. District Contexts and Teacher Background
+              Appendix B<br />District Contexts and Teacher Background
+            </p>
+            <p>
+              &nbsp;
+            </p>
+            <img src="assets/images/Logo_Large2.png" width="25%"/>
+            <p>
+              <font style="font: 18px Lato, sans-serif">Findings from the National Study of English Learners and Digital Learning Resources (NSELD)</font>
             </p>
           </div>
         </div>
@@ -50,7 +55,7 @@
           <ul>
             <li>Significant EL-student representation: > 1,000 EL students and > 10% of total district enrollment</li>
             <li>Moderate EL-student representation: > 1,000 EL students and ≤ 10% of total district enrollment OR 101 to 1,000 EL students</li>
-            <li>Low EL-student representation: 100 or fewer EL students</li>
+            <li>Low-incidence EL-student representation: 100 or fewer EL students</li>
           </ul>
           <p>
             A total of 767 districts responded to the survey. In addition, 706 teachers who were either mainstream teachers of EL students or EL specialists were surveyed.
@@ -213,9 +218,9 @@
         sec1_2 = data.filter(function(d) { return d.chart_id == "sec1_2"; });
 
         var districtTree = treeDiagram().data(sec1_1).chart_id("sec1_1")
-          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(175);
+          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(185);
         var teacherTree = treeDiagram().data(sec1_2).chart_id("sec1_2")
-          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(175);
+          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(185);
 
         d3.select("#sec1_1").call(districtTree);
         d3.select("#sec1_2").call(teacherTree);

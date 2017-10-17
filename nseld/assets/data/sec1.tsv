@@ -2,17 +2,17 @@ chart_id	name	parent	count
 sec1_1	Districts surveyed		767
 sec1_1	Significant EL representation	Districts surveyed	269
 sec1_1	Moderate EL representation	Districts surveyed	265
-sec1_1	Low EL representation	Districts surveyed	233
+sec1_1	Low-incidence EL representation	Districts surveyed	233
 sec1_2	Teachers surveyed		706
 sec1_2	Significant EL representation	Teachers surveyed	233
 sec1_2	Moderate EL representation	Teachers surveyed	278
-sec1_2	Low EL representation	Teachers surveyed	195
+sec1_2	Low-incidence EL representation	Teachers surveyed	195
 sec1_2	Mainstream teachers	Significant EL representation	144
 sec1_2	EL-specialist teachers	Significant EL representation	85
 sec1_2	Unknown	Significant EL representation	4
 sec1_2	Mainstream teachers	Moderate EL representation	173
 sec1_2	EL-specialist teachers	Moderate EL representation	97
 sec1_2	Unknown	Moderate EL representation	8
-sec1_2	Mainstream teachers	Low EL representation	140
-sec1_2	EL-specialist teachers	Low EL representation	50
-sec1_2	Unknown	Low EL representation	5
+sec1_2	Mainstream teachers	Low-incidence EL representation	140
+sec1_2	EL-specialist teachers	Low-incidence EL representation	50
+sec1_2	Unknown	Low-incidence EL representation	5
