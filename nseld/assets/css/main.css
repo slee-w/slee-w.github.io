@@ -38,11 +38,12 @@ body {
   height: 99vh;
   margin: 0 auto;
   max-width: 750px;
+  width: 100%;
 }
 
 .title_text {
   /*border: 1px solid blue;*/
-  /*max-width: 750px;*/
+  max-width: 750px;
   width: 100%;
   height: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -50,13 +51,17 @@ body {
   position: relative;
   bottom: 0;
   /*padding: 1em;*/
-  vertical-align: bottom;
-  text-align: center;
+  /*vertical-align: bottom;
+  text-align: center;*/
 }
 
 .title_content {
+  /*border: 1px solid blue;*/
+  width: 100%;
   position: absolute;
   bottom: 25vh;
+  text-align: center;
+  vertical-align: bottom
 }
 
 .title_text p{
@@ -129,12 +134,13 @@ body {
   }
 
   .footer {
-    position: fixed;
-    bottom: 0;
+    /*position: relative;
+    bottom: 0;*/
+    font: 10px Arial, sans-serif;
+    color: #888;
     width: 100%;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 0;
   }
 
 }

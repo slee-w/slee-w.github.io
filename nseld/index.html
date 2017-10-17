@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Findings from the NSELD | Appendix B | District Contexts and Teacher Background</title>
+    <title>Appendix B: District Contexts and Teacher Background</title>
 
     <!-- Scripts -->
 
@@ -29,15 +29,9 @@
       <section id="cover" class="cover">
         <div id="title" class="title_text">
           <div class="title_content">
+            <img src="assets/images/Logo_Large2.png" width="20%"/>
             <p>
               Appendix B<br />District Contexts and Teacher Background
-            </p>
-            <p>
-              &nbsp;
-            </p>
-            <img src="assets/images/Logo_Large2.png" width="25%"/>
-            <p>
-              <font style="font: 18px Lato, sans-serif">Findings from the National Study of English Learners and Digital Learning Resources (NSELD)</font>
             </p>
           </div>
         </div>
@@ -76,6 +70,9 @@
           </div>
         </div>
       </section>
+      <section id="sec1_pager">
+        <div class="footer">Page 1</div>
+      </section>
 
       <!-- Section 2 -->
 
@@ -111,6 +108,9 @@
           </div>
         </div>
       </section>
+      <section id="sec2_pager">
+        <div class="footer">Page 2</div>
+      </section>
 
       <!-- Section 3 -->
 
@@ -137,6 +137,9 @@
           </div>
         </div>
       </section>
+      <section id="sec3_pager">
+        <div class="footer">Page 3</div>
+      </section>
 
       <section id="sec3a" class="section3a">
         <div class="content">
@@ -160,6 +163,9 @@
             </p>
           </div>
         </div>
+      </section>
+      <section id="sec3a_pager">
+        <div class="footer">Page 4</div>
       </section>
 
       <!-- Section 4 -->
@@ -187,13 +193,8 @@
           </div>
         </div>
       </section>
-
-      <!-- footer -->
-
-      <section id="footer">
-        <div class="footer">
-          <img src="assets/images/Logo_Small.png" />
-        </div>
+      <section id="sec4_pager">
+        <div class="footer">Page 5</div>
       </section>
 
   </body>
@@ -246,16 +247,16 @@
         sec2_2 = data.filter(function(d) { return d.chart_id == "sec2_2"; });
 
         var langGroupsSig = columnChart().data(sec2_1a).chart_id("sec2_1a")
-          .height(240).marginTop(40).marginLeft(40)
+          .height(250).marginTop(40).marginLeft(40)
           .showDistType(1);
         var langGroupsMod = columnChart().data(sec2_1b).chart_id("sec2_1b")
-          .height(240).marginTop(40).marginLeft(40)
+          .height(250).marginTop(40).marginLeft(40)
           .showDistType(1);
         var langGroupsLow = columnChart().data(sec2_1c).chart_id("sec2_1c")
-          .height(240).marginTop(40).marginLeft(40)
+          .height(250).marginTop(40).marginLeft(40)
           .showDistType(1);
         var refugees = columnChart().data(sec2_2).chart_id("sec2_2")
-          .height(320).marginLeft(40)
+          .height(340).marginLeft(40)
           .showDistType(0);
 
         d3.select("#sec2_1a").call(langGroupsSig);
@@ -285,13 +286,13 @@
         sec3_4 = data.filter(function(d) { return d.chart_id == "sec3_4"; });
 
         var priTeachRes = divergingBar().data(sec3_1).chart_id("sec3_1")
-          .height(330).marginLeft(200);
+          .height(340).marginLeft(200);
         var subjectAreas = divergingBar().data(sec3_2).chart_id("sec3_2")
-          .height(330).marginLeft(200);
+          .height(340).marginLeft(200);
         var certsHeld = slopeGraph().data(sec3_3).chart_id("sec3_3")
-          .height(330);
+          .height(340);
         var degreeHeld = slopeGraph().data(sec3_4).chart_id("sec3_4")
-          .height(330);
+          .height(340);
 
         d3.select("#sec3_1").call(priTeachRes);
         d3.select("#sec3_2").call(subjectAreas);
@@ -318,9 +319,9 @@
         sec4_2 = data.filter(function(d) { return d.chart_id == "sec4_2"; });
 
         var students = slopeGraph().data(sec4_1).chart_id("sec4_1")
-          .height(320).yMax(40);
+          .height(330).yMax(40);
         var elDLR = divergingBar().data(sec4_2).chart_id("sec4_2")
-          .height(320).marginLeft(225);
+          .height(330).marginLeft(225);
 
         d3.select("#sec4_1").call(students);
         d3.select("#sec4_2").call(elDLR);
