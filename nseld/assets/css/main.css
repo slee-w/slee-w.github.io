@@ -59,7 +59,10 @@ body {
   /*border: 1px solid blue;*/
   width: 100%;
   position: absolute;
-  bottom: 25vh;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  /*bottom: 25vh;*/
   text-align: center;
   vertical-align: bottom
 }
