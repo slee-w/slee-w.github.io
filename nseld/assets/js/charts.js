@@ -937,7 +937,7 @@ function divergingBar() {
         .attr("dy", "0.35em")
         .attr("text-anchor", "start")
         .style("font-weight", "bold")
-        .text("EL SPECIALIST");
+        .text("EL SPECIALISTS");
 
       // save function
       // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
@@ -1202,7 +1202,7 @@ function slopeGraph() {
         .attr("dy", "0.35em")
         .attr("text-anchor", "middle")
         .style("font-weight", "bold")
-        .text("EL SPECIALIST");
+        .text("EL SPECIALISTS");
 
       // save function
       // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
