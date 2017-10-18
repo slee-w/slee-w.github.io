@@ -61,6 +61,7 @@ function treeDiagram() {
       var dom = d3.select("#" + chart_id);
 
       var svg = dom.append("svg")
+        .attr("id", chart_id + "_svg")
         .attr("class", "treeDiagram")
         .attr("width", width)
         .attr("height", height)
@@ -98,6 +99,63 @@ function treeDiagram() {
         .attr("x", function(d) { return d.children ? 0 : 13; })
         .style("text-anchor", function(d) { return d.children ? "middle" : "start"; })
         .text(function(d) { return d.data.name + " (" + formatNum(d.data.data.count) + ")"; });
+
+      // save function
+      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+
+      var style = [];
+
+      function getCSS() {
+
+        // get styles from all required stylesheets
+        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
+
+        var requiredSheets = "assets/css/main.css"; // list of required CSS
+        for (var i=0; i<document.styleSheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            if (sheet.href) {
+                var sheetName = sheet.href.split('/').pop();
+                if (requiredSheets.indexOf(sheetName) != -1) {
+                    var rules = sheet.rules;
+                    if (rules) {
+                        for (var j=0; j<rules.length; j++) {
+                            style += (rules[j].cssText + '\n');
+                        }
+                    }
+                }
+            }
+        }
+
+      };
+
+      getCSS();
+
+      svg.insert("defs", ":first-child");
+
+      svg.select("defs")
+        .append("style")
+        .attr("type", "text/css")
+        .html(style);
+
+      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+      // add save button
+
+      var save = dom.append("div")
+        .attr("class", "export_div")
+        .append("button")
+          .attr("id", chart_id + "_save")
+          .attr("class", "export_button")
+          .text("Save as PNG");
+
+      var svgElement = document.getElementById(chart_id + "_svg");
+
+      document.getElementById(chart_id + "_save").onclick = function(){
+        var simg = new Simg(svgElement);
+        // Replace the current SVG with an image version of it.
+        simg.replace();
+        // And trigger a download of the rendered image.
+        simg.download(chart_id);
+      };
 
       // function to update chart when resized/printing
 
@@ -236,7 +294,7 @@ function treeDiagram() {
 
 // Donut charts
 
-function donutChart() {
+/*function donutChart() {
 
   // default values that can be changed by the caller
 
@@ -399,7 +457,7 @@ function donutChart() {
 
   return chart;
 
-};
+};*/
 
 // Column charts
 
@@ -444,6 +502,7 @@ function columnChart() {
       // append svg
 
       var svg = dom.append("svg")
+        .attr("id", chart_id + "_svg")
         .attr("class", "columnChart")
         .attr("width", width)
         .attr("height", height)
@@ -594,6 +653,63 @@ function columnChart() {
 
       drawDistType();
 
+      // save function
+      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+
+      var style = [];
+
+      function getCSS() {
+
+        // get styles from all required stylesheets
+        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
+
+        var requiredSheets = "assets/css/main.css"; // list of required CSS
+        for (var i=0; i<document.styleSheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            if (sheet.href) {
+                var sheetName = sheet.href.split('/').pop();
+                if (requiredSheets.indexOf(sheetName) != -1) {
+                    var rules = sheet.rules;
+                    if (rules) {
+                        for (var j=0; j<rules.length; j++) {
+                            style += (rules[j].cssText + '\n');
+                        }
+                    }
+                }
+            }
+        }
+
+      };
+
+      getCSS();
+
+      svg.insert("defs", ":first-child");
+
+      svg.select("defs")
+        .append("style")
+        .attr("type", "text/css")
+        .html(style);
+
+      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+      // add save button
+
+      var save = dom.append("div")
+        .attr("class", "export_div")
+        .append("button")
+          .attr("id", chart_id + "_save")
+          .attr("class", "export_button")
+          .text("Save as PNG");
+
+      var svgElement = document.getElementById(chart_id + "_svg");
+
+      document.getElementById(chart_id + "_save").onclick = function(){
+        var simg = new Simg(svgElement);
+        // Replace the current SVG with an image version of it.
+        simg.replace();
+        // And trigger a download of the rendered image.
+        simg.download(chart_id);
+      };
+
     })
   };
 
@@ -689,6 +805,7 @@ function divergingBar() {
       var dom = d3.select("#" + chart_id);
 
       var svg = dom.append("svg")
+        .attr("id", chart_id + "_svg")
         .attr("class", "divergingBar")
         .attr("width", width)
         .attr("height", height)
@@ -789,7 +906,7 @@ function divergingBar() {
         .attr("dy", "0.35em")
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
-        .text("MAINSTREAM");
+        .text("MAINSTREAM TEACHERS OF ELS");
 
       // el
 
@@ -821,6 +938,63 @@ function divergingBar() {
         .attr("text-anchor", "start")
         .style("font-weight", "bold")
         .text("EL SPECIALIST");
+
+      // save function
+      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+
+      var style = [];
+
+      function getCSS() {
+
+        // get styles from all required stylesheets
+        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
+
+        var requiredSheets = "assets/css/main.css"; // list of required CSS
+        for (var i=0; i<document.styleSheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            if (sheet.href) {
+                var sheetName = sheet.href.split('/').pop();
+                if (requiredSheets.indexOf(sheetName) != -1) {
+                    var rules = sheet.rules;
+                    if (rules) {
+                        for (var j=0; j<rules.length; j++) {
+                            style += (rules[j].cssText + '\n');
+                        }
+                    }
+                }
+            }
+        }
+
+      };
+
+      getCSS();
+
+      svg.insert("defs", ":first-child");
+
+      svg.select("defs")
+        .append("style")
+        .attr("type", "text/css")
+        .html(style);
+
+      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+      // add save button
+
+      var save = dom.append("div")
+        .attr("class", "export_div")
+        .append("button")
+          .attr("id", chart_id + "_save")
+          .attr("class", "export_button")
+          .text("Save as PNG");
+
+      var svgElement = document.getElementById(chart_id + "_svg");
+
+      document.getElementById(chart_id + "_save").onclick = function(){
+        var simg = new Simg(svgElement);
+        // Replace the current SVG with an image version of it.
+        simg.replace();
+        // And trigger a download of the rendered image.
+        simg.download(chart_id);
+      };
 
     })
   };
@@ -914,6 +1088,7 @@ function slopeGraph() {
       var dom = d3.select("#" + chart_id);
 
       var svg = dom.append("svg")
+        .attr("id", chart_id + "_svg")
         .attr("class", "slopeGraph")
         .attr("width", width)
         .attr("height", height)
@@ -1018,7 +1193,7 @@ function slopeGraph() {
         .attr("dy", "0.35em")
         .attr("text-anchor", "middle")
         .style("font-weight", "bold")
-        .text("MAINSTREAM");
+        .text("MAINSTREAM TEACHERS OF ELS");
 
       svg.append("text")
         .attr("class", "label el")
@@ -1028,6 +1203,63 @@ function slopeGraph() {
         .attr("text-anchor", "middle")
         .style("font-weight", "bold")
         .text("EL SPECIALIST");
+
+      // save function
+      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+
+      var style = [];
+
+      function getCSS() {
+
+        // get styles from all required stylesheets
+        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
+
+        var requiredSheets = "assets/css/main.css"; // list of required CSS
+        for (var i=0; i<document.styleSheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            if (sheet.href) {
+                var sheetName = sheet.href.split('/').pop();
+                if (requiredSheets.indexOf(sheetName) != -1) {
+                    var rules = sheet.rules;
+                    if (rules) {
+                        for (var j=0; j<rules.length; j++) {
+                            style += (rules[j].cssText + '\n');
+                        }
+                    }
+                }
+            }
+        }
+
+      };
+
+      getCSS();
+
+      svg.insert("defs", ":first-child");
+
+      svg.select("defs")
+        .append("style")
+        .attr("type", "text/css")
+        .html(style);
+
+      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+      // add save button
+
+      var save = dom.append("div")
+        .attr("class", "export_div")
+        .append("button")
+          .attr("id", chart_id + "_save")
+          .attr("class", "export_button")
+          .text("Save as PNG");
+
+      var svgElement = document.getElementById(chart_id + "_svg");
+
+      document.getElementById(chart_id + "_save").onclick = function(){
+        var simg = new Simg(svgElement);
+        // Replace the current SVG with an image version of it.
+        simg.replace();
+        // And trigger a download of the rendered image.
+        simg.download(chart_id);
+      };
 
     })
   };

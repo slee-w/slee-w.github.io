@@ -9,6 +9,7 @@
 
     <script src="assets/js/d3.v4.min.js"></script>
     <script src="assets/js/charts.js"></script>
+    <script src="assets/js/simg.js"></script>
 
     <!-- Stylesheets -->
 
@@ -127,12 +128,12 @@
         <div class="content">
           <div id="sec3_1" class="chart">
             <p class="chart_title">
-              <font color="#0094c9">Mainstream teachers</font> and <font color="#005e80">EL specialists</font> differed greatly in terms of their primary roles. Almost all of the <font color="#0094c9">mainstream teachers</font> taught a mainstream class, while the primary roles of <font color="#005e80">EL specialists</font> varied greatly.
+              <font color="#0094c9">Mainstream teachers of ELs</font> and <font color="#005e80">EL specialists</font> differed greatly in terms of their primary roles. Almost all of the <font color="#0094c9">mainstream teachers of ELs</font> taught a mainstream class, while the primary roles of <font color="#005e80">EL specialists</font> varied greatly.
             </p>
           </div>
           <div id="sec3_2" class="chart">
             <p class="chart_title">
-              <font color="#005e80">EL specialists</font> more commonly reported that they taught language arts and English as a second language, while <font color="#0094c9">mainstream teachers</font> more commonly reported teaching math, science, and social studies or social science.
+              <font color="#005e80">EL specialists</font> more commonly reported that they taught language arts and English as a second language, while <font color="#0094c9">mainstream teachers of ELs</font> more commonly reported teaching math, science, and social studies or social science.
             </p>
           </div>
         </div>
@@ -146,7 +147,7 @@
           <h1 id="tch_resps">Teachers: Qualifications</h1>
           <hr class="line_w" />
           <p class="sec_head">
-            We also asked teachers about their qualifications and level of education. The survey data show that certifications for mainstream teachers and EL specialists differed, as did the highest level of education.
+            We also asked teachers about their qualifications and level of education. The survey data show that certifications for mainstream teachers of ELs and EL specialists differed, as did the highest level of education.
           </p>
         </div>
       </section>
@@ -154,12 +155,12 @@
         <div class="content">
           <div id="sec3_3" class="chart">
             <p class="chart_title">
-              <font color="#005e80">EL specialists</font> were, as expected, much more likely to hold ESL certification and bilingual certifications than <font color="#0094c9">mainstream teachers</font>. In contrast, <font color="#005e80">EL specialists</font> were less likely to hold grade level and subject area certifications.
+              <font color="#005e80">EL specialists</font> were, as expected, much more likely to hold ESL certification and bilingual certifications than <font color="#0094c9">mainstream teachers of ELs</font>. In contrast, <font color="#005e80">EL specialists</font> were less likely to hold grade level and subject area certifications.
             </p>
           </div>
           <div id="sec3_4" class="chart">
             <p class="chart_title">
-              <font color="#005e80">EL specialists</font> more commonly reported having completed a graduate degree - either a master's degree or a doctoral degree - than <font color="#0094c9">mainstream teachers</font>, who most commonly reported having a bachelor's degree.
+              <font color="#005e80">EL specialists</font> more commonly reported having completed a graduate degree - either a master's degree or a doctoral degree - than <font color="#0094c9">mainstream teachers of ELs</font>, who most commonly reported having a bachelor's degree.
             </p>
           </div>
         </div>
@@ -183,7 +184,7 @@
         <div class="content">
           <div id="sec4_1" class="chart">
             <p class="chart_title">
-              <font color="#005e80">EL specialists</font>, on average, taught higher numbers of EL students than <font color="#0094c9">mainstream teachers</font>; on average, they taught 18 more ELs, and the median number of ELs taught was higher by 13.
+              <font color="#005e80">EL specialists</font>, on average, taught higher numbers of EL students than <font color="#0094c9">mainstream teachers of ELs</font>; on average, they taught 18 more ELs, and the median number of ELs taught was higher by 13.
             </p>
           </div>
           <div id="sec4_2" class="chart">
@@ -219,9 +220,9 @@
         sec1_2 = data.filter(function(d) { return d.chart_id == "sec1_2"; });
 
         var districtTree = treeDiagram().data(sec1_1).chart_id("sec1_1")
-          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(185);
+          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(200);
         var teacherTree = treeDiagram().data(sec1_2).chart_id("sec1_2")
-          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(185);
+          .height(300).marginTop(0).marginBottom(0).marginLeft(75).marginRight(200);
 
         d3.select("#sec1_1").call(districtTree);
         d3.select("#sec1_2").call(teacherTree);
@@ -321,7 +322,7 @@
         var students = slopeGraph().data(sec4_1).chart_id("sec4_1")
           .height(330).yMax(40);
         var elDLR = divergingBar().data(sec4_2).chart_id("sec4_2")
-          .height(330).marginLeft(225);
+          .height(330).marginLeft(235);
 
         d3.select("#sec4_1").call(students);
         d3.select("#sec4_2").call(elDLR);

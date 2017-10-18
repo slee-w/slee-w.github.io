@@ -7,10 +7,10 @@ sec2_1b	Moderate	1	0.07
 sec2_1b	Moderate	2 - 5	0.33
 sec2_1b	Moderate	6 - 10	0.15
 sec2_1b	Moderate	10+	0.46
-sec2_1c	Low	1	0.29
-sec2_1c	Low	2 - 5	0.52
-sec2_1c	Low	6 - 10	0.1
-sec2_1c	Low	10+	0.09
+sec2_1c	Low-incidence	1	0.29
+sec2_1c	Low-incidence	2 - 5	0.52
+sec2_1c	Low-incidence	6 - 10	0.1
+sec2_1c	Low-incidence	10+	0.09
 sec2_2	Significant	Significant	0.86
 sec2_2	Moderate	Moderate	0.69
-sec2_2	Low	Low	0.36
+sec2_2	Low-incidence	Low-incidence	0.36
