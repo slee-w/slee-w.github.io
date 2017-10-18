@@ -134,6 +134,26 @@ body {
   transition: opacity 1s;
 }
 
+/* hide export div for IE */
+
+@media screen and (min-width:0\0) {
+  .export_div {
+    display: none;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .export_div {
+    display: none;
+  }
+}
+
+@supports (-ms-accelerator:true) {
+  .export_div {
+    display: none;
+  }
+}
+
 /*.chart_area {
   background-color: #000;
 }*/
