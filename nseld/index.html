@@ -330,6 +330,12 @@
       };
     });
 
+  // hide export for IE
+
+  if (navigator.appName == 'Microsoft Internet Explorer') {
+    document.getElementByClass('export_div').style.display = 'none';
+  };
+
   </script>
 
 </html>
