@@ -101,44 +101,35 @@ function treeDiagram() {
         .text(function(d) { return d.data.name + " (" + formatNum(d.data.data.count) + ")"; });
 
       // save function
-      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var style = [];
+      function getCSS(file) {
 
-      function getCSS() {
-
-        // get styles from all required stylesheets
-        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
-
-        var requiredSheets = "assets/css/main.css"; // list of required CSS
-        for (var i=0; i<document.styleSheets.length; i++) {
-            var sheet = document.styleSheets[i];
-            if (sheet.href) {
-                var sheetName = sheet.href.split('/').pop();
-                if (requiredSheets.indexOf(sheetName) != -1) {
-                    var rules = sheet.rules;
-                    if (rules) {
-                        for (var j=0; j<rules.length; j++) {
-                            style += (rules[j].cssText + '\n');
-                        }
-                    }
-                }
-            }
-        }
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
 
       };
 
-      getCSS();
+      var svg_style = getCSS('assets/css/main.css');
 
-      svg.insert("defs", ":first-child");
+      dom.select("svg")
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
 
-      svg.select("defs")
-        .append("style")
-        .attr("type", "text/css")
-        .html(style);
-
-      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
       // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
 
       var save = dom.append("div")
         .attr("class", "export_div")
@@ -654,44 +645,35 @@ function columnChart() {
       drawDistType();
 
       // save function
-      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var style = [];
+      function getCSS(file) {
 
-      function getCSS() {
-
-        // get styles from all required stylesheets
-        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
-
-        var requiredSheets = "assets/css/main.css"; // list of required CSS
-        for (var i=0; i<document.styleSheets.length; i++) {
-            var sheet = document.styleSheets[i];
-            if (sheet.href) {
-                var sheetName = sheet.href.split('/').pop();
-                if (requiredSheets.indexOf(sheetName) != -1) {
-                    var rules = sheet.rules;
-                    if (rules) {
-                        for (var j=0; j<rules.length; j++) {
-                            style += (rules[j].cssText + '\n');
-                        }
-                    }
-                }
-            }
-        }
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
 
       };
 
-      getCSS();
+      var svg_style = getCSS('assets/css/main.css');
 
-      svg.insert("defs", ":first-child");
+      dom.select("svg")
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
 
-      svg.select("defs")
-        .append("style")
-        .attr("type", "text/css")
-        .html(style);
-
-      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
       // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
 
       var save = dom.append("div")
         .attr("class", "export_div")
@@ -940,44 +922,35 @@ function divergingBar() {
         .text("EL SPECIALISTS");
 
       // save function
-      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var style = [];
+      function getCSS(file) {
 
-      function getCSS() {
-
-        // get styles from all required stylesheets
-        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
-
-        var requiredSheets = "assets/css/main.css"; // list of required CSS
-        for (var i=0; i<document.styleSheets.length; i++) {
-            var sheet = document.styleSheets[i];
-            if (sheet.href) {
-                var sheetName = sheet.href.split('/').pop();
-                if (requiredSheets.indexOf(sheetName) != -1) {
-                    var rules = sheet.rules;
-                    if (rules) {
-                        for (var j=0; j<rules.length; j++) {
-                            style += (rules[j].cssText + '\n');
-                        }
-                    }
-                }
-            }
-        }
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
 
       };
 
-      getCSS();
+      var svg_style = getCSS('assets/css/main.css');
 
-      svg.insert("defs", ":first-child");
+      dom.select("svg")
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
 
-      svg.select("defs")
-        .append("style")
-        .attr("type", "text/css")
-        .html(style);
-
-      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
       // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
 
       var save = dom.append("div")
         .attr("class", "export_div")
@@ -1205,44 +1178,35 @@ function slopeGraph() {
         .text("EL SPECIALISTS");
 
       // save function
-      // first, push CSS styles into defs based on https://stackoverflow.com/a/38085847
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var style = [];
+      function getCSS(file) {
 
-      function getCSS() {
-
-        // get styles from all required stylesheets
-        // http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
-
-        var requiredSheets = "assets/css/main.css"; // list of required CSS
-        for (var i=0; i<document.styleSheets.length; i++) {
-            var sheet = document.styleSheets[i];
-            if (sheet.href) {
-                var sheetName = sheet.href.split('/').pop();
-                if (requiredSheets.indexOf(sheetName) != -1) {
-                    var rules = sheet.rules;
-                    if (rules) {
-                        for (var j=0; j<rules.length; j++) {
-                            style += (rules[j].cssText + '\n');
-                        }
-                    }
-                }
-            }
-        }
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
 
       };
 
-      getCSS();
+      var svg_style = getCSS('assets/css/main.css');
 
-      svg.insert("defs", ":first-child");
+      dom.select("svg")
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
 
-      svg.select("defs")
-        .append("style")
-        .attr("type", "text/css")
-        .html(style);
-
-      // now use http://krunkosaurus.github.io/simg/ to convert to PNG for download
       // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
 
       var save = dom.append("div")
         .attr("class", "export_div")
