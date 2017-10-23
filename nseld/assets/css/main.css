@@ -112,6 +112,12 @@ body {
   text-align: left;
 }
 
+.notes {
+  font: 10px Lato, sans-serif;
+  color: #777;
+  text-align: left;
+}
+
 .export_div {
   text-align: right;
 }
