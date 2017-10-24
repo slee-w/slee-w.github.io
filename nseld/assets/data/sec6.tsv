@@ -1,0 +1,13 @@
+chart_id	category	value_m	value_e	order
+sec6_1	None	0	0	1
+sec6_1	Discussed used of technology in some coursework	0.48	0.46	2
+sec6_1	Took course on integration of technology in instruction	0.62	0.57	3
+sec6_1	Did practicum on integrating technology in instruction	0.05	0.03	4
+sec6_1	Other	0.06	0.05	5
+sec6_1	Not applicable	0.01	0.05	6
+sec6_2	Not comfortable using DLRs	0.1	0.06	1
+sec6_2	Somewhat comfortable using DLRs	0.46	0.54	2
+sec6_2	Very comfortable using DLRs	0.45	0.4	3
+sec6_2	Have not used DLRs	0.08	0.04	4
+sec6_2	One year using DLRs	0.2	0.08	5
+sec6_2	More than one year using DLRs	0.72	0.87	6

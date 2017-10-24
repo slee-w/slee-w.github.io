@@ -1,8 +1,8 @@
 chart_id	category	value_m	value_e	order
-sec4_1	Average number of EL students	11	29	1
-sec4_1	Median number of EL students	4	17	2
+sec4_1	At the K-12 level	12	13	1
+sec4_1	At your current grade level	11	13	2
+sec4_1	In this district	11	13	3
 sec4_2	One year teaching ELs	0.24	0.04	1
-sec4_2	More than one year teaching ELs	0.77	0.96	2
-sec4_2	More than five years teaching ELs	0.47	0.68	3
-sec4_2	Somewhat confident in ability to teach EL students	0.95	1	4
-sec4_2	Very confident in ability to teach EL students	0.54	0.71	5
+sec4_2	2 - 5 years teaching ELs	0.3	0.27	2
+sec4_2	6 - 10 years teaching ELs	0.24	0.21	3
+sec4_2	11 or more years teaching ELs	0.23	0.47	4

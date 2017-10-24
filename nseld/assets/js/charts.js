@@ -760,6 +760,8 @@ function divergingBar() {
       marginRight = 20,
       marginLeft = 20,
       marginBottom = 20,
+      xMax = 1,
+      percNum = 0, // 0 = perc, 1 = num
       chart_id = [],
       data = [];
 
@@ -796,7 +798,7 @@ function divergingBar() {
 
       // axis scales
 
-      var xScale = d3.scaleLinear().rangeRound([0, widthAdj]).domain([-1, 1]),
+      var xScale = d3.scaleLinear().rangeRound([0, widthAdj]).domain([(-1 * xMax), xMax]),
           yScale = d3.scaleBand().rangeRound([heightAdj, 0]).padding(0.25);
 
       // domains
@@ -809,9 +811,12 @@ function divergingBar() {
         .attr("class", "xAxis")
         .attr("transform", "translate(0," + heightAdj + ")")
         .call(d3.axisBottom(xScale)
-          .tickValues([-1, 0, 1])
+          .tickValues([(-1 * xMax), 0, xMax])
           .tickSize(0)
-          .tickFormat(function(d) { return Math.abs(100*d) + "%"; }));
+          .tickFormat(function(d) {
+            if (percNum ==1) { return Math.abs(d); }
+            else { return Math.abs(100*d) + "%"; }
+          }));
 
       svg.selectAll(".xAxis text")
 				.attr("dy", "1.5em");
@@ -832,7 +837,10 @@ function divergingBar() {
 					.attr("class", "bar main")
 					.attr("x", function(d) { return xScale(-1 * d.value_m); })
 					.attr("y", function(d) { return yScale(d.category); })
-					.attr("width", function(d) { return xScale(d.value_m - 1); })
+					.attr("width", function(d) {
+            if (percNum == 1) { return xScale(d.value_m - xMax); }
+            else { return xScale(d.value_m - 1); }
+          })
 					.attr("height", yScale.bandwidth());
 
       // EL specialist goes right
@@ -842,7 +850,10 @@ function divergingBar() {
           .attr("class", "bar el")
           .attr("x", xScale(0))
           .attr("y", function(d) { return yScale(d.category); })
-          .attr("width", function(d) { return xScale(d.value_e - 1); })
+          .attr("width", function(d) {
+            if (percNum == 1) { return xScale(d.value_e - xMax); }
+            else { return xScale(d.value_e - 1); }
+          })
           .attr("height", yScale.bandwidth());
 
       // add zero line above bars
@@ -864,21 +875,24 @@ function divergingBar() {
       labels.enter()
         .append("text")
           .attr("class", function(d) {
-            if (d.value_m > .9) { return "label white"; }
+            if ((percNum == 1 && (d.value_m/xMax > .9)) || (percNum == 0 && d.value_m > .9)) { return "label white"; }
             else { return "label main"; };
           })
           .attr("x", function(d) { return xScale(-1 * d.value_m); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
-            if (d.value_m > .9) { return "0.5em"; }
-            else { return "-0.35em"; };
+            if ((percNum == 1 && (d.value_m/xMax > .9)) || (percNum == 0 && d.value_m > .9)) { return "0.5em"; }
+            else { return "-0.5em"; };
           })
           .attr("dy", "0.35em")
           .attr("text-anchor", function(d) {
-            if (d.value_m > .9) { return "start"; }
+            if ((percNum == 1 && (d.value_m/xMax > .9)) || (percNum == 0 && d.value_m > .9)) { return "start"; }
             else { return "end"; };
           })
-          .text(function(d) { return formatPer(d.value_m); });
+          .text(function(d) {
+            if (percNum == 1) { return formatNum(d.value_m); }
+            else { return formatPer(d.value_m); }
+          });
 
       svg.append("text")
         .attr("class", "label main")
@@ -895,21 +909,24 @@ function divergingBar() {
       labels.enter()
         .append("text")
           .attr("class", function(d) {
-            if (d.value_e > .9) { return "label white"; }
+            if ((percNum == 1 && (d.value_e/xMax > .9)) || (percNum == 0 && d.value_e > .9)) { return "label white"; }
             else { return "label el"; };
           })
           .attr("x", function(d) { return xScale(d.value_e); })
           .attr("y", function(d) { return yScale(d.category) + yScale.bandwidth()/2; })
           .attr("dx", function(d) {
-            if (d.value_e > .9) { return "-0.5em"; }
-            else { return "0.35em"; };
+            if ((percNum == 1 && (d.value_e/xMax > .9)) || (percNum == 0 && d.value_e > .9)) { return "-0.5em"; }
+            else { return "0.5em"; };
           })
           .attr("dy", "0.35em")
           .attr("text-anchor", function(d) {
-            if (d.value_e > .9) { return "end"; }
+            if ((percNum == 1 && (d.value_m/xMax > .9)) || (percNum == 0 && d.value_m > .9)) { return "end"; }
             else { return "start"; };
           })
-          .text(function(d) { return formatPer(d.value_e); });
+          .text(function(d) {
+            if (percNum == 1) { return formatNum(d.value_e); }
+            else { return formatPer(d.value_e); }
+          });
 
       svg.append("text")
         .attr("class", "label el")
@@ -1004,6 +1021,18 @@ function divergingBar() {
     return chart;
   };
 
+  chart.xMax = function(value) {
+    if (!arguments.length) return xMax;
+    xMax = value;
+    return chart;
+  };
+
+  chart.percNum = function(value) {
+    if (!arguments.length) return percNum;
+    percNum = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -1033,6 +1062,7 @@ function slopeGraph() {
       marginBottom = 20,
       dotSize = 5,
       yMax = 1,
+      percNum = 0, // 0 = perc, 1 = num
       chart_id = [],
       data = [];
 
@@ -1140,7 +1170,7 @@ function slopeGraph() {
           .attr("dy", "0.35em")
           .attr("text-anchor", "end")
           .text(function(d) {
-            if (yMax > 1) { return d.category + ": " + formatNum(d.value_m); }
+            if (percNum == 1) { return d.category + ": " + formatNum(d.value_m); }
             else { return d.category + ": " + formatPer(d.value_m); }
           });
 
@@ -1153,7 +1183,7 @@ function slopeGraph() {
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
           .text(function(d) {
-            if (yMax > 1) { return d.category + ": " + formatNum(d.value_e); }
+            if (percNum == 1) { return d.category + ": " + formatNum(d.value_e); }
             else { return d.category + ": " + formatPer(d.value_e); }
           });
 
@@ -1269,6 +1299,12 @@ function slopeGraph() {
   chart.yMax = function(value) {
     if (!arguments.length) return yMax;
     yMax = value;
+    return chart;
+  };
+
+  chart.percNum = function(value) {
+    if (!arguments.length) return percNum;
+    percNum = value;
     return chart;
   };
 
