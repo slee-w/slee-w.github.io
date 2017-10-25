@@ -560,7 +560,7 @@ function tileMap() {
 							.on("input", function() { console.log(this.value); });
 
 					slider.append("g")
-						.attr("class",insert("g", ".track-overlay")
+						/*.attr("class",insert("g", ".track-overlay"))*/
 				    .attr("class", "ticks")
 				    .attr("transform", "translate(0," + 20 + ")")
 					  .selectAll("text")
