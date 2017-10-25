@@ -183,9 +183,15 @@ body {
 }
 
 @media screen {
+
   .footer {
     display: none;
   }
+
+  #blank_page {
+    display: none;
+  }
+
 }
 
 @media print {

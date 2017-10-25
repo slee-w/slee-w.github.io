@@ -920,7 +920,7 @@ function divergingBar() {
           })
           .attr("dy", "0.35em")
           .attr("text-anchor", function(d) {
-            if ((percNum == 1 && (d.value_m/xMax > .9)) || (percNum == 0 && d.value_m > .9)) { return "end"; }
+            if ((percNum == 1 && (d.value_e/xMax > .9)) || (percNum == 0 && d.value_e > .9)) { return "end"; }
             else { return "start"; };
           })
           .text(function(d) {
