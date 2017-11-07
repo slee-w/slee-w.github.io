@@ -68,7 +68,7 @@ body {
 }
 
 .title_text p{
-  font: 24px Lato, sans-serif;
+  font: 24px Arimo, sans-serif;
   font-weight: bold;
 }
 
@@ -116,14 +116,14 @@ body {
 }
 
 .chart_title {
-  font: 14px Lato, sans-serif;
+  font: 14px Arimo, sans-serif;
   font-weight: bold;
   color: rgba(0,0,0,0.75);
   text-align: left;
 }
 
 .notes {
-  font: 10px Lato, sans-serif;
+  font: 10px Arimo, sans-serif;
   color: #777;
   text-align: left;
 }
