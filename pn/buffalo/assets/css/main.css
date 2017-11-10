@@ -10,29 +10,143 @@ body {
   margin-right: auto;
 }
 
-/* Strategies formatting */
+/* Header formatting */
 
-.strategies_header {
+#header {
+  display: flex;
+  padding: 10px;
+}
+
+#header_left {
+  width: 85%;
+  position: relative;
+}
+
+#pn_ident {
+  position: absolute;
+  bottom: 0;
+}
+
+#pn_name {
+  font: 24px Raleway, sans-serif;
+  font-weight: bold;
+  color: #08375e;
+}
+
+#pn_location {
+  font: 12px Raleway, sans-serif;
+  font-style: italic;
+  color: #08375e;
+}
+
+#header_right {
+  width: 15%;
+  text-align: right;
+}
+
+#header_right img {
+  width: 100%;
+}
+
+/* Location formatting */
+
+.people_header {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   font: 14px Arimo, sans-serif;
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
   background-color: #08375e;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
+}
+
+#people_grid_container {
+  display: flex;
+  /*flex-wrap: wrap;*/
+  margin: 2px 2px;
+  color: #0d5b9b;
+  background-color: #fff;
+  font: 11px Roboto, sans-serif;
+}
+
+#demographics {
+  width: 60%;
+  margin: 2px 2px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.people_four {
+  width: 50%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_icon {
+  /*font-size: 3em;*/
+  border-bottom: 1px solid #FF8C00;
+  padding-bottom: 10px;
+}
+
+.people_light {
+  color: #b8dcf9;
+}
+
+.people_text {
+  padding-top: 10px;
+  text-align: center;
+}
+
+#map {
+  width: 40%;
+  text-align: center;
+  padding: 15px;
+}
+
+.map_content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.map_content img {
+  width: 85%;
+  /*padding: 10px;*/
+}
+
+/* Strategies formatting */
+
+.strategies_header {
+  text-align: center;
+  padding: 15px;
+  font: 14px Arimo, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #08375e;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
 }
 
 #strategies_grid {
   font: 11px Roboto, sans-serif;
   display: flex;
   /*flex-wrap: wrap;*/
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
 }
 
 .strategies_four {
   width: 25%;
   box-sizing: border-box;
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   color: #FFF;
   background-color: #0d5b9b;
 }
@@ -51,35 +165,48 @@ body {
 /* Quotes formatting */
 
 #quote {
-  padding: 20px;
+  padding: 15px;
+  background-color: #d0e8fb;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
 }
 
 .quote {
   margin-top: 0em;
+  font: 12px Roboto, sans-serif;
+  line-height: 1.5em;
+  color: #0d5b9b;
 }
 
 .quote_source {
   margin-top: 0em;
   margin-bottom: 0em;
   text-align: right;
+  font: 12px Roboto, sans-serif;
+  font-style: italic;
+  color: #0d5b9b;
 }
 
 /* Accomplishments formatting */
 
 .accomplishments_header {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   font: 14px Arimo, sans-serif;
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
   background-color: #08375e;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
 }
 
 #accomplishments_grid {
   font: 11px Roboto, sans-serif;
   display: flex;
+  /*border: 1px solid #fff;*/
   /*flex-wrap: wrap;*/
+  margin: 2px 2px;
 }
 
 .accomplishments_four {
@@ -87,7 +214,7 @@ body {
   float: left;
   box-sizing: border-box;
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   color: #0d5b9b;
   /*background-color: #0d5b9b;*/
 }

@@ -173,10 +173,10 @@ function columnChart() {
 
   var height = 400,
       marginTop = 20,
-      marginRight = 20,
-      marginLeft = 20,
+      marginRight = 0,
+      marginLeft = 0,
       marginBottom = 20,
-      showDistType = 0,
+      /*showDistType = 0,*/
       chart_id = [],
       data = [];
 
@@ -302,12 +302,12 @@ function columnChart() {
 
 			var	yScale = d3.scaleLinear().rangeRound([heightAdj, 0]).domain([0, 1]);
 
-      svg.append("g")
+      /*svg.append("g")
 				.attr("class", "yAxis")
 				.call(d3.axisLeft(yScale)
 					.tickValues([0, 1])
 					.tickSize(0)
-					.tickFormat(d3.format(".0%")));
+					.tickFormat(d3.format(".0%")));*/
 
       // draw columns
 
@@ -338,7 +338,7 @@ function columnChart() {
 
       // add district type
 
-      var distType = svg.selectAll(".distType")
+      /*var distType = svg.selectAll(".distType")
         .data(data);
 
       function drawDistType() {
@@ -357,12 +357,12 @@ function columnChart() {
           else { };
       };
 
-      drawDistType();
+      drawDistType();*/
 
       // save function
       // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      function getCSS(file) {
+      /*function getCSS(file) {
 
       var rawFile = new XMLHttpRequest();
       var allText = '';
@@ -405,7 +405,7 @@ function columnChart() {
         simg.replace();
         // And trigger a download of the rendered image.
         simg.download(chart_id);
-      };
+      };*/
 
     })
   };
@@ -442,11 +442,11 @@ function columnChart() {
     return chart;
   };
 
-  chart.showDistType = function(value) {
+  /*chart.showDistType = function(value) {
     if (!arguments.length) return showDistType;
     showDistType = value;
     return chart;
-  };
+  };*/
 
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
@@ -472,8 +472,8 @@ function slopeGraph() {
 
   var height = 400,
       marginTop = 40,
-      marginRight = 20,
-      marginLeft = 20,
+      marginRight = 0,
+      marginLeft = 0,
       marginBottom = 0,
       dotSize = 5,
       yMax = 1,
@@ -497,11 +497,11 @@ function slopeGraph() {
 
       // margins and adjusted widths and heights
 
-      var width = document.getElementById(chart_id).offsetWidth - 40;
+      var width = document.getElementById(chart_id).offsetWidth;
 
       var widthAdj = width - marginLeft - marginRight,
           heightAdj = height - marginTop - marginBottom,
-          centerSpace = widthAdj*.75;
+          centerSpace = widthAdj*.6;
 
       // append svg
 
