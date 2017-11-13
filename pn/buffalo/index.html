@@ -103,7 +103,7 @@
           </div>
           <div id="map">
             <div class="map_content">
-              <img src="assets/images/Buffalo.png" /><br /><br />
+              <img src="assets/images/map.png" /><br /><br />
               About <strong>one square mile</strong> in Buffalo, NY
             </div>
           </div>
@@ -236,16 +236,16 @@
 
         var chart1_graph = slopeGraph().data(chart1).chart_id("ac1")
           .height(185)
-          .group1("2013").group2("2015");
+          .group1("2013").group2("2016");
         var chart2_graph = slopeGraph().data(chart2).chart_id("ac2")
           .height(185)
-          .group1("2013").group2("2015");
+          .group1("2012").group2("2016");
         var chart3_graph = slopeGraph().data(chart3).chart_id("ac3")
           .height(185)
-          .group1("2013").group2("2015");
+          .group1("2012").group2("2016");
         var chart4_graph = slopeGraph().data(chart4).chart_id("ac4")
           .height(185)
-          .group1("2013").group2("2015");
+          .group1("2012").group2("2016");
 
         d3.select("#ac1").call(chart1_graph);
         d3.select("#ac2").call(chart2_graph);
