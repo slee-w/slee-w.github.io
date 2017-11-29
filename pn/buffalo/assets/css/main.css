@@ -2,6 +2,7 @@
 
 body {
   overflow-y: scroll;
+  margin: 0;
 }
 
 .wrapper {
@@ -10,15 +11,44 @@ body {
   margin-right: auto;
 }
 
+@page {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@media print {
+  body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #header2 {
+    margin-top: 10px;
+  }
+}
+
 /* Header formatting */
 
 #header {
   display: flex;
   padding: 10px;
+  page-break-before: always;
+}
+
+#header2 {
+  display: flex;
+  padding: 10px;
+  page-break-before: always;
+}
+
+@media screen {
+  #header2 {
+    display: none;
+  }
 }
 
 #header_left {
-  width: 85%;
+  width: 70%;
   position: relative;
 }
 
@@ -39,13 +69,46 @@ body {
   color: #08375e;
 }
 
-#header_right {
+.header_right1 {
   width: 15%;
   text-align: right;
 }
 
-#header_right img {
-  width: 100%;
+.header_right1 img {
+  height: 80px;
+}
+
+.header_right2 {
+  width: 15%;
+  text-align: right;
+}
+
+.header_right2 img {
+  height: 80px;
+}
+
+/* About formatting */
+
+.about_header {
+  text-align: center;
+  padding: 15px;
+  font: 14px Arimo, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #08375e;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
+}
+
+.about_text {
+  margin-top: 0em;
+  padding: 15px;
+  font: 12px Roboto, sans-serif;
+  line-height: 1.5em;
+  margin: 2px 2px;
+  background-color: #0d5b9b;
+  color: #fff;
 }
 
 /* Location formatting */
@@ -71,16 +134,8 @@ body {
   font: 11px Roboto, sans-serif;
 }
 
-#demographics {
-  width: 60%;
-  margin: 2px 2px;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .people_four {
-  width: 50%;
+  width: 25%;
   box-sizing: border-box;
   text-align: center;
   padding: 15px;
@@ -103,21 +158,30 @@ body {
   text-align: center;
 }
 
-#map {
-  width: 40%;
+/* Map */
+
+.map_header {
   text-align: center;
   padding: 15px;
+  font: 14px Arimo, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #08375e;
+  /*border: 1px solid #fff;*/
+  margin: 2px 2px;
 }
 
 .map_content {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 15px;
+  margin: 2px 2px;
+  text-align: center;
+  font: 11px Roboto, sans-serif;
+  color: #0d5b9b;
 }
 
 .map_content img {
-  width: 85%;
-  /*padding: 10px;*/
+  width: 100%;
 }
 
 /* Strategies formatting */
@@ -137,9 +201,20 @@ body {
 #strategies_grid {
   font: 11px Roboto, sans-serif;
   display: flex;
-  /*flex-wrap: wrap;*/
+  flex-wrap: wrap;
   /*border: 1px solid #fff;*/
   margin: 2px 2px;
+  justify-content: center;
+  background-color: #0d5b9b;
+}
+
+.strategies_three {
+  width: 33%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+  color: #FFF;
+  height: 125px;
 }
 
 .strategies_four {
@@ -205,8 +280,19 @@ body {
   font: 11px Roboto, sans-serif;
   display: flex;
   /*border: 1px solid #fff;*/
-  /*flex-wrap: wrap;*/
+  flex-wrap: wrap;
   margin: 2px 2px;
+  justify-content: center;
+}
+
+.accomplishments_two {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+  color: #0d5b9b;
+  /*background-color: #0d5b9b;*/
 }
 
 .accomplishments_four {
@@ -254,4 +340,28 @@ body {
 .slopeGraph .group2 {
   font-weight: bold;
   fill: #08375e;
+}
+
+/* Donut charts */
+
+.donutChart {
+  font: 10px Roboto, sans-serif;
+  shape-rendering: geometricPrecision;
+}
+
+.donutChart .arc0 {
+  fill: #0d5b9b;
+  stroke: #094373;
+  stroke-width: 2px;
+}
+
+.donutChart .arc1 {
+  fill: #eee;
+  opacity: .75;
+}
+
+.donutChart .valueLabel {
+  fill: #0d5b9b;
+  font-weight: bold;
+  font-size: 2em;
 }

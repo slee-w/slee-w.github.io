@@ -1,4 +1,12 @@
 chart_id	category	value_1	value_2	order
+pie1	Minority	0.77		1
+pie1	Not minority	0.23		2
+pie2	Graduated	0.46		1
+pie2	Did not graduate	0.54		2
+pie3	FRL	0.88		1
+pie3	Not FRL	0.12		2
+pie4	Poverty	0.38		1
+pie4	Not poverty	0.62		2
 chart1	Chronic absenteeism rates	0.35	0.13	1
 chart2	Student mobility rate	0.21	0.15	1
 chart3	Number and percent of children in middle and high school who consume five or more servings of fruits and vegetables daily	0.39	0.48	1
