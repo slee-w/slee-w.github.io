@@ -113,6 +113,21 @@ body {
 
 /* Location formatting */
 
+.people_grid {
+  display: flex;
+  margin: 2px 2px;
+}
+
+.people_grid_left {
+  width: 25%;
+  border-right: 1px solid #fff;
+}
+
+.people_grid_right {
+  width: 75%;
+  border-left: 1px solid #fff;
+}
+
 .people_header {
   text-align: center;
   padding: 15px;
@@ -122,23 +137,51 @@ body {
   text-transform: uppercase;
   background-color: #08375e;
   /*border: 1px solid #fff;*/
-  margin: 2px 2px;
+  /*margin: 2px 2px;*/
 }
 
-#people_grid_container {
+.people_grid_container {
   display: flex;
   /*flex-wrap: wrap;*/
   margin: 2px 2px;
   color: #0d5b9b;
   background-color: #fff;
   font: 11px Roboto, sans-serif;
+  justify-content: center;
 }
 
-.people_four {
-  width: 25%;
+.people_left_full {
+  width: 100%;
   box-sizing: border-box;
   text-align: center;
   padding: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_left_full_chart {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding-bottom: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_three {
+  width: 33%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_three_chart {
+  width: 33%;
+  box-sizing: border-box;
+  text-align: center;
+  padding-bottom: 15px;
   color: #0d5b9b;
   background-color: #fff;
 }
@@ -156,6 +199,23 @@ body {
 .people_text {
   padding-top: 10px;
   text-align: center;
+}
+
+.people_chart_text {
+  /*padding-top: 10px;*/
+  text-align: center;
+}
+
+.people_sources {
+  padding-top: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  font: 9px Roboto, sans-serif;
+}
+
+.people_sources a {
+  color: #0d5b9b;
 }
 
 /* Map */
@@ -356,6 +416,12 @@ body {
 }
 
 .donutChart .arc1 {
+  fill: #5badf1;
+  stroke: #148aeb;
+  stroke-width: 2px;
+}
+
+.donutChart .arc_last {
   fill: #eee;
   opacity: .75;
 }

@@ -1,6 +1,7 @@
 chart_id	category	value_1	value_2	order
-pie1	Minority	0.77		1
-pie1	Not minority	0.23		2
+pie1	African-American	0.72		1
+pie1	Other	0.05		2
+pie1	White	0.23		3
 pie2	Graduated	0.46		1
 pie2	Did not graduate	0.54		2
 pie3	FRL	0.88		1

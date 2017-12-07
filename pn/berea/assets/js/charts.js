@@ -478,6 +478,7 @@ function slopeGraph() {
       dotSize = 5,
       yMax = 1,
       percNum = 0, // 0 = perc, 1 = num
+      center_multiplier = 0.5,
       group1 = [],
       group2 = [],
       chart_id = [],
@@ -501,7 +502,7 @@ function slopeGraph() {
 
       var widthAdj = width - marginLeft - marginRight,
           heightAdj = height - marginTop - marginBottom,
-          centerSpace = widthAdj*.6;
+          centerSpace = widthAdj*center_multiplier;
 
       // append svg
 
@@ -713,6 +714,12 @@ function slopeGraph() {
     return chart;
   };
 
+  chart.center_multiplier = function(value) {
+    if (!arguments.length) return center_multiplier;
+    center_multiplier = value;
+    return chart;
+  };
+
   chart.yMax = function(value) {
     if (!arguments.length) return yMax;
     yMax = value;
@@ -734,6 +741,148 @@ function slopeGraph() {
   chart.group2 = function(value) {
     if (!arguments.length) return group2;
     group2 = value;
+    return chart;
+  };
+
+  chart.chart_id = function(value) {
+    if (!arguments.length) return chart_id;
+    chart_id = value;
+    return chart;
+  };
+
+  chart.data = function(value) {
+    if (!arguments.length) return data;
+    data = value;
+    return chart;
+  };
+
+  return chart;
+
+};
+
+// Donut charts
+
+function donutChart() {
+
+  // default values that can be changed by the caller
+
+  var width = 150,
+      height = 240,
+      marginTop = 0,
+      marginRight = 20,
+      marginLeft = 20,
+      marginBottom = 0,
+      showDistType = 0,
+      chart_id = [],
+      data = [];
+
+  function chart(selection) {
+    selection.each(function() {
+
+      // number formats
+
+      var formatNum = d3.format(",.0f"),
+          formatPer = d3.format(",.0%");
+
+      // margins and adjusted widths and heights
+
+      /*var width = document.getElementById(chart_id).offsetWidth;*/
+
+      var widthAdj = width - marginLeft - marginRight,
+          heightAdj = height - marginTop - marginBottom,
+          radius = Math.min(widthAdj, heightAdj)/2;
+
+      var dom = d3.select("#" + chart_id);
+
+      // append svg
+
+      var svg = dom.append("svg")
+        .attr("class", "donutChart")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+
+      // define arc and pie
+
+      var arc = d3.arc()
+        .innerRadius(radius/1.5)
+        .outerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.value_1; })
+        .sort(null);
+
+      // draw pie
+
+      var path = svg.selectAll("path")
+        .data(pie(data))
+        .enter()
+          .append("path")
+            .attr("d", arc)
+            .attr("class", function(d, i) {
+              if (i == [data.length - 1]) { return "arc_last"; }
+              else { return "arc" + i; };
+            });
+
+      // add value label
+
+      var label = svg.selectAll("text")
+        .data(data)
+        .enter()
+          .filter(function(d, i) { return i == 0; })
+          .append("g");
+
+      label.append("text")
+        .attr("class", "valueLabel")
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "middle")
+        .text(function(d) { return formatPer(d.value_1); });
+
+    })
+  };
+
+  // these allow the default values to be changed
+
+  chart.width = function(value) {
+    if (!arguments.length) return width;
+    width = value;
+    return chart;
+  };
+
+  chart.height = function(value) {
+    if (!arguments.length) return height;
+    height = value;
+    return chart;
+  };
+
+  chart.marginTop = function(value) {
+    if (!arguments.length) return marginTop;
+    marginTop = value;
+    return chart;
+  };
+
+  chart.marginLeft = function(value) {
+    if (!arguments.length) return marginLeft;
+    marginLeft = value;
+    return chart;
+  };
+
+  chart.marginRight = function(value) {
+    if (!arguments.length) return marginRight;
+    marginRight = value;
+    return chart;
+  };
+
+  chart.marginBottom = function(value) {
+    if (!arguments.length) return marginBottom;
+    marginBottom = value;
+    return chart;
+  };
+
+  chart.showDistType = function(value) {
+    if (!arguments.length) return showDistType;
+    showDistType = value;
     return chart;
   };
 

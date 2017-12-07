@@ -766,7 +766,8 @@ function donutChart() {
 
   // default values that can be changed by the caller
 
-  var height = 240,
+  var width = 150,
+      height = 240,
       marginTop = 0,
       marginRight = 20,
       marginLeft = 20,
@@ -785,7 +786,7 @@ function donutChart() {
 
       // margins and adjusted widths and heights
 
-      var width = document.getElementById(chart_id).offsetWidth;
+      /*var width = document.getElementById(chart_id).offsetWidth;*/
 
       var widthAdj = width - marginLeft - marginRight,
           heightAdj = height - marginTop - marginBottom,
@@ -819,7 +820,10 @@ function donutChart() {
         .enter()
           .append("path")
             .attr("d", arc)
-            .attr("class", function(d, i) { return "arc" + i; });
+            .attr("class", function(d, i) {
+              if (i == [data.length - 1]) { return "arc_last"; }
+              else { return "arc" + i; };
+            });
 
       // add value label
 
@@ -839,6 +843,12 @@ function donutChart() {
   };
 
   // these allow the default values to be changed
+
+  chart.width = function(value) {
+    if (!arguments.length) return width;
+    width = value;
+    return chart;
+  };
 
   chart.height = function(value) {
     if (!arguments.length) return height;
