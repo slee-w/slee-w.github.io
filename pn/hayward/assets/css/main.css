@@ -74,6 +74,10 @@ body {
   text-align: right;
 }
 
+.logo {
+  text-align: right;
+}
+
 .header_right1 img {
   height: 80px;
 }
@@ -119,12 +123,12 @@ body {
 }
 
 .people_grid_left {
-  width: 25%;
+  width: 33%;
   border-right: 1px solid #fff;
 }
 
 .people_grid_right {
-  width: 75%;
+  width: 67%;
   border-left: 1px solid #fff;
 }
 
@@ -161,6 +165,24 @@ body {
 
 .people_left_full_chart {
   width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding-bottom: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_two {
+  width: 50%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+  color: #0d5b9b;
+  background-color: #fff;
+}
+
+.people_two_chart {
+  width: 50%;
   box-sizing: border-box;
   text-align: center;
   padding-bottom: 15px;
@@ -457,6 +479,12 @@ body {
 .donutChart .arc1 {
   fill: #5badf1;
   stroke: #148aeb;
+  stroke-width: 2px;
+}
+
+.donutChart .arc2 {
+  fill: #a1d0f7;
+  stroke: #72b9f3;
   stroke-width: 2px;
 }
 
