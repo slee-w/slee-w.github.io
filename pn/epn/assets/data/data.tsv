@@ -1,0 +1,8 @@
+chart_id	category	value_1	value_2	order
+pie1	Hispanic	0.68		1
+pie1	African-American	0.25		2
+pie1	White	0.07		3
+chart1	Kindergartners entering school demonstrating age-appropriate functioning	0.23	0.28	1
+chart2	Children who participate in at least 60 minutes of moderate to vigorous physical activity daily	0.23	0.3	1
+chart3	Children who consume five or more servings of fruits and vegetables daily	0.26	0.36	1
+chart4	Students who enrolled in college	0.41	0.48	1
