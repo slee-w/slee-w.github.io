@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Northside Achievement Zone Promise Neighborhood</title>
+
+    <!-- Scripts -->
+
+    <script src="assets/js/d3.v4.min.js"></script>
+    <script src="assets/js/charts.js"></script>
+
+    <!-- Stylesheets -->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+
+    <!-- Fonts -->
+
+    <link rel="stylesheet" tyle="text/css" href="assets/css/ionicons.css" />
+    <link rel="stylesheet" tyle="text/css" href="assets/css/font-awesome.css" />
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
+  </head>
+
+  <body>
+    <div class="wrapper">
+
+      <!-- Header -->
+
+      <section id="header">
+        <div id="header_left">
+          <div id="pn_ident">
+            <div id="pn_name">
+              Northside Achievement Zone<br /> Promise Neighborhood
+            </div>
+            <div id="pn_location">
+              Minneapolis, MN
+            </div>
+          </div>
+        </div>
+        <div class="header_right1">
+          <div class="logo">
+            <img src="assets/images/naz.png" />
+          </div>
+        </div>
+        <div class="header_right2">
+          <div class="logo">
+            <img src="assets/images/pn_logo.png" />
+          </div>
+        </div>
+      </section>
+
+      <!-- About the PN -->
+
+      <section id="about">
+        <div class="about_header">
+          About the Neighborhood
+        </div>
+        <div class="about_text">
+          The Northside Achievement Zone (NAZ) The NAZ is a collaboration of organizations and schools partnering with families in North Minneapolis to prepare children to graduate from high school ready for college. Supported through a public-private partnership, more than 40 service providers and schools are working towards ending multigenerational poverty within North Minneapolis. NAZ serves eight K-12 schools in the neighborhood.
+        </div>
+      </section>
+
+      <!-- People Served -->
+
+      <section id="people">
+        <div class="people_grid">
+          <div class="people_grid_left">
+            <div class="people_header">
+              People
+            </div>
+            <div class="people_grid_container">
+              <div class="people_left_full">
+                <div class="people_icon">
+                  <i class="fa fa-male fa-3x"></i>
+                  <i class="fa fa-female fa-3x"></i>
+                </div>
+                <div class="people_text">
+                  About <strong>15,000</strong> residents<br />
+                  including about <strong>5,600</strong> children
+                </div>
+              </div>
+              <div class="people_left_full_chart">
+                <div class="ac_chart" id="dem1"></div>
+                <div class="people_chart_text">
+                  <strong><font color="#0a4576">African-American</font></strong>,<br />
+                  15% <strong><font color="#0f6fbd">White</font></strong>, 5% <strong><font color="#42a2f0">Asian</font></strong>, and<br />
+                  8% <strong><font color="#a1d0f7">Hispanic</font></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="people_grid_right">
+            <div class="people_header">
+              Challenges
+            </div>
+            <div class="people_grid_container">
+              <div class="people_one">
+                <div class="people_one_icon">
+                  <i class="fa fa-users fa-3x"></i>
+                </div>
+                <div class="people_one_text">
+                  A community dominated by <strong>high rates of violence, poverty (3 times the national poverty rate), unemployment, and failing schools</strong>
+                </div>
+              </div>
+              <div class="people_one">
+                <div class="people_one_icon">
+                  <i class="fa fa-suitcase fa-3x"></i>
+                </div>
+                <div class="people_one_text">
+                  <strong>Homelessness and mobility:</strong> One in four students were homeless or highly mobile; one in two students live in single parent households
+                </div>
+              </div>
+              <div class="people_one">
+                <div class="people_one_icon">
+                  <i class="fa fa-arrows-h fa-3x"></i>
+                </div>
+                <div class="people_one_text">
+                  <strong>Large achievement gaps</strong> for 8th graders in math (49th out of 50 states) and in reading (45th out of 50 states)
+                </div>
+              </div>
+              <div class="people_one">
+                <div class="people_one_icon">
+                  <i class="fa fa-graduation-cap fa-3x"></i>
+                </div>
+                <div class="people_one_text">
+                  <strong>High school graduation rate:</strong> About half of students graduate within four years
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="people_grid_container">
+          <div class="people_sources">
+            <strong>Sources:</strong> NAZ 2011 Grant Application (<a href="https://www2.ed.gov/programs/promiseneighborhoods/2011narr/northside.pdf">https://www2.ed.gov/programs/promiseneighborhoods/2011narr/northside.pdf</a>).
+          </div>
+        </div>
+      </section>
+
+      <!-- Map -->
+
+      <section id="map">
+        <div class="map_header">
+          Place
+        </div>
+        <div class="map_content">
+          <img src="assets/images/map.png" /><br /><br />
+          <strong>A contiguous 13-by-18 block area</strong> in North Minneapolis, including 9 target schools in or near the Zone
+        </div>
+      </section>
+
+      <!-- Header for second page -->
+
+      <section id="header2">
+        <div id="header_left">
+          <div id="pn_ident">
+            <div id="pn_name">
+              Northside Achievement Zone<br />Promise Neighborhood
+            </div>
+            <div id="pn_location">
+              Minneapolis, MN
+            </div>
+          </div>
+        </div>
+        <div class="header_right1">
+          <div class="logo">
+            <img src="assets/images/naz.png" />
+          </div>
+        </div>
+        <div class="header_right2">
+          <div class="logo">
+            <img src="assets/images/pn_logo.png" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Strategies -->
+
+      <section id="strategies">
+        <div class="strategies_header">
+          Major strategies used
+        </div>
+        <div id="strategies_grid">
+          <div class="strategies_one">
+            <div class="strategies_one_icon">
+              <i class="fa fa-home fa-3x"></i>
+            </div>
+            <div class="strategies_one_text">
+              Supporting families with parents who are on a high-quality career path and strong ties to others in the community with <strong>reliable housing</strong>
+            </div>
+          </div>
+          <div class="strategies_one">
+            <div class="strategies_one_icon">
+              <i class="fa fa-university fa-3x"></i>
+            </div>
+            <div class="strategies_one_text">
+              Implementing <strong>college-going marketing campaigns and programs</strong> directed to both youth and their families
+            </div>
+          </div><div class="strategies_one">
+            <div class="strategies_one_icon">
+              <i class="fa fa-graduation-cap fa-3x"></i>
+            </div>
+            <div class="strategies_one_text">
+              <strong>Coordination with Anchor Schools</strong> to ensure students are making adequate progress toward on time graduation and post-secondary preparation
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accomplishments -->
+
+      <section id="accomplishments">
+        <div class="accomplishments_header">
+          Selected Outcomes
+        </div>
+        <div id="accomplishments_grid">
+          <div class="accomplishments_three">
+            <div class="accomplishments_icon">
+              <i class="fa fa-suitcase fa-2x"></i>
+            </div>
+            <div class="ac_chart" id="ac1"></div>
+            <div class="accomplishments_text">
+              Decrease in the <strong>student mobility rate</strong>
+            </div>
+          </div>
+          <div class="accomplishments_three">
+            <div class="accomplishments_icon">
+              <i class="fa fa-university fa-2x"></i>
+            </div>
+            <div class="ac_chart" id="ac2"></div>
+            <div class="accomplishments_text">
+              Increase in the percentage of parents who talk with their child about the <strong>importance of college and career</strong>
+            </div>
+          </div>
+          <div class="accomplishments_three">
+            <div class="accomplishments_icon">
+              <i class="fa fa-graduation-cap fa-2x"></i>
+            </div>
+            <div class="ac_chart" id="ac3"></div>
+            <div class="accomplishments_text">
+              Increase in the percentage of <strong>students graduating from high school in four years</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quote -->
+
+      <section id="quote">
+        <div>
+          <p class="quote">
+            “Through NAZ, North Minneapolis is beginning a community-wide transformation toward a college-going culture. Parents are now making college a top family priority and taking effective action to support the success of their children, starting at birth. Together, we are leading innovative efforts to close the academic achievement gap for low-income children of color.”
+          </p>
+          <p class="quote_source">
+            — Northside Achievement Zone
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </body>
+
+  <!-- Charts -->
+
+  <script>
+
+    d3.tsv("assets/data/data.tsv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.chart_id = d.chart_id;
+          d.category = d.category;
+          d.value_1 = +d.value_1;
+          d.value_2 = +d.value_2;
+          d.order = +d.order;
+        });
+
+        /* Demographics */
+
+        pie1 = data.filter(function(d) { return d.chart_id == "pie1"; });
+        /*pie2 = data.filter(function(d) { return d.chart_id == "pie2"; });
+        pie3 = data.filter(function(d) { return d.chart_id == "pie3"; });
+        pie4 = data.filter(function(d) { return d.chart_id == "pie4"; });*/
+
+        var pie1_graph = donutChart().data(pie1).chart_id("dem1")
+          .height(135);
+        /*var pie2_graph = donutChart().data(pie2).chart_id("dem2")
+          .height(135);
+        var pie3_graph = donutChart().data(pie3).chart_id("dem3")
+          .height(135);
+        var pie4_graph = donutChart().data(pie4).chart_id("dem4")
+          .height(150);*/
+
+        d3.select("#dem1").call(pie1_graph);
+        /*d3.select("#dem2").call(pie2_graph);
+        d3.select("#dem3").call(pie3_graph);
+        d3.select("#dem4").call(pie4_graph);*/
+
+        /* Accomplishments */
+
+        chart1 = data.filter(function(d) { return d.chart_id == "chart1"; });
+        chart2 = data.filter(function(d) { return d.chart_id == "chart2"; });
+        chart3 = data.filter(function(d) { return d.chart_id == "chart3"; });
+        /*chart4 = data.filter(function(d) { return d.chart_id == "chart4"; });*/
+
+        var chart1_graph = slopeGraph().data(chart1).chart_id("ac1")
+          .height(300).center_multiplier(0.70)
+          .group1("2012").group2("2016");
+        var chart2_graph = slopeGraph().data(chart2).chart_id("ac2")
+          .height(300).center_multiplier(0.70)
+          .group1("2013").group2("2016");
+        var chart3_graph = slopeGraph().data(chart3).chart_id("ac3")
+          .height(300).center_multiplier(0.70)
+          .group1("2012").group2("2016");
+        /*var chart4_graph = slopeGraph().data(chart4).chart_id("ac4")
+          .height(160).center_multiplier(0.35)
+          .group1("2013").group2("2016");*/
+
+        d3.select("#ac1").call(chart1_graph);
+        d3.select("#ac2").call(chart2_graph);
+        d3.select("#ac3").call(chart3_graph);
+        /*d3.select("#ac4").call(chart4_graph);*/
+
+      };
+    });
+
+  </script>
+
+</html>
