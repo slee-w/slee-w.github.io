@@ -528,30 +528,38 @@ body {
 
 .donutChart .arc0 {
   fill: #0a4576;
-  stroke: #08375e;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc1 {
-  fill: #0f6fbd;
-  stroke: #0d61a5;
+  fill: #106fbc;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc2 {
-  fill: #42a2f0;
-  stroke: #2b96ee;
+  fill: #148aeb;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc3 {
-  fill: #a1d0f7;
-  stroke: #89c5f5;
+  fill: #43a2ef;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.donutChart .arc4 {
+  fill: #72b9f3;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc_last {
   fill: #eee;
+  stroke: #fff;
+  stroke-width: 2px;
   opacity: .75;
 }
 

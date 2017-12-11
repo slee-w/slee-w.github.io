@@ -1,13 +1,14 @@
 chart_id	category	value_1	value_2	order
-pie1	Hispanic	0.59		1
-pie1	Asian	0.15		2
-pie1	African-American	0.13		3
-pie1	White	0.06		4
+pie1	Hispanic	0.55		1
+pie1	African-American	0.15		2
+pie1	Asian	0.14		3
+pie1	Other	0.06		4
+pie1	White	0.1		5
 pie2	College Readiness	0.4		1
 pie2		0.6		2
 pie3	Neighborhood Safety	0.3		1
 pie3		0.7		2
-chart1	Four-year adjusted cohort graduation rate	0.23	0.28	1
-chart2	Percent of students who enrolled in college or university	0.23	0.3	1
-chart3	Percent of students who feel safe at school and traveling to and from school	0.26	0.36	1
-chart4	Percent of parents who encouraged their child to read books outside of school	0.41	0.48	1
+chart1	Four-year adjusted cohort graduation rate	0.77	0.81	1
+chart2	Percent of students who enrolled in college or university	0.51	0.67	1
+chart3	Percent of students who feel safe at school and traveling to and from school	0.17	0.65	1
+chart4	Percent of parents who encouraged their child to read books outside of school	0.76	0.87	1

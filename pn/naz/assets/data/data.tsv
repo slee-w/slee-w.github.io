@@ -1,9 +1,9 @@
 chart_id	category	value_1	value_2	order
 pie1	African-American	0.47		1
-pie1	White	0.2		2
-pie1	Asian	0.18		3
-pie1	Hispanic	0.08		4
-pie1	Other	0.07		5
+pie1	Asian	0.18		2
+pie1	Hispanic	0.08		3
+pie1	Other	0.07		4
+pie1	White	0.2		5
 chart1	Student mobility rate	0.3	0.26	1
 chart2	Parents who report talking with their child about the importance of college and career	0.78	0.88	1
 chart3	Students who graduate from high school in four years	0.51	0.69	1

@@ -410,19 +410,39 @@ body {
 }
 
 .donutChart .arc0 {
-  fill: #0d5b9b;
-  stroke: #094373;
+  fill: #0a4576;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc1 {
-  fill: #5badf1;
-  stroke: #148aeb;
+  fill: #106fbc;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.donutChart .arc2 {
+  fill: #148aeb;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.donutChart .arc3 {
+  fill: #43a2ef;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.donutChart .arc4 {
+  fill: #72b9f3;
+  stroke: #fff;
   stroke-width: 2px;
 }
 
 .donutChart .arc_last {
   fill: #eee;
+  stroke: #fff;
+  stroke-width: 2px;
   opacity: .75;
 }
 
