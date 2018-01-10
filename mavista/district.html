@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>MA Vista District Reports</title>
+
+    <!-- Scripts -->
+
+    <script src="assets/js/d3.v4.min.js"></script>
+    <script src="assets/js/charts.js"></script>
+
+    <!-- Stylesheets -->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+
+    <!-- Fonts -->
+
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
+  </head>
+
+  <body>
+
+    <section id="selectors">
+      <select id="district_selector">
+      </select>
+    </section>
+
+    <section id="demographics">
+      <h1>Demographic Questions</h1>
+      <div id="i1"></div>
+    </section>
+
+  </body>
+
+  <!-- Charts -->
+
+  <script>
+    d3.csv("assets/data/district_data.csv", function(error, data) {
+      if (error) { console.log(error); }
+      else {
+        data.forEach(function(d) {
+          d.WeightedCntEstimate = +d.WeightedCntEstimate;
+          d.WeightedCntSTDError = +d.WeightedCntSTDError;
+          d.WeightedCntCILowerBound = +d.WeightedCntCILowerBound;
+          d.WeightedCntCIUpperBound = +d.WeightedCntCIUpperBound;
+          d.WeightedPctEstimate = +d.WeightedPctEstimate;
+          d.WeightedPctSTDError = +d.WeightedPctSTDError;
+          d.WeightedPctCILowerBound = +d.WeightedPctCILowerBound;
+          d.WeightedPctCIUpperBound = +d.WeightedPctCIUpperBound;
+          d.WeightedMean = +d.WeightedMean;
+          d.WeightedMeanSE = +d.WeightedMeanSE;
+          d.WeightedMeanCILowerBound = +d.WeightedMeanCILowerBound;
+          d.WeightedMeanCIUpperBound = +d.WeightedMeanCIUpperBound;
+          d.WeightedMedian = +d.WeightedMedian;
+        });
+
+        /* District dropdown */
+
+        d3.select("#district_selector")
+          .selectAll("option")
+          .data(d3.map(data, function(d) { return d.District; }).keys())
+          .enter()
+            .append("option")
+              .text(function(d) { return d; })
+              .attr("value", function(d) { return d; });
+
+        /* Charts */
+
+        data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes"; });
+
+        var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(235);
+
+        d3.select("#i1").call(chart_i1);
+
+      };
+    });
+  </script>
+
+</html>
