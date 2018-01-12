@@ -1,0 +1,53 @@
+/* Page layout */
+
+@page {
+  size: landscape;
+  margin-top: 0.5in;
+  margin-bottom: 0.5in;
+  margin-left: 1in;
+  margin-right: 1in;
+}
+
+.content {
+  width: 9in;
+  border: 1px solid red;
+}
+
+#selectors {
+  display: none;
+}
+
+/* Yes/no chart styling */
+
+.bar_yes_no {
+  font: 12pt Tahoma, sans-serif;
+}
+
+.bar_yes_no .yAxis,
+.bar_yes_no .xAxis {
+    font: 12pt Tahoma, sans-serif;
+}
+
+.bar_yes_no .yAxis .tick line,
+.bar_yes_no .xAxis .tick line {
+  display: none;
+}
+
+.bar_yes_no .yAxis path,
+.bar_yes_no .xAxis path {
+  stroke: #ccc;
+}
+
+.bar_yes_no .bar {
+  fill: #0d1969;
+}
+
+.bar_yes_no .bar_label {
+  fill: #0d1969;
+}
+
+.bar_yes_no .label_rect {
+  fill: #fff;
+  stroke: #0d1969;
+  stroke-width: 1px;
+}

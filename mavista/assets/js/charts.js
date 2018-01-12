@@ -6,8 +6,8 @@ function bar_yes_no() {
 
   var height = 400,
       marginTop = 20,
-      marginRight = 20,
-      marginLeft = 20,
+      marginRight = 40,
+      marginLeft = 40,
       marginBottom = 20,
       chart_id = [],
       data = [];
@@ -42,7 +42,7 @@ function bar_yes_no() {
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
-          .attr("class", "columnChart")
+          .attr("class", "bar_yes_no")
           .attr("width", width)
           .attr("height", height)
           .append("g")
@@ -55,7 +55,7 @@ function bar_yes_no() {
         svg.append("g")
           .attr("class", "xAxis")
           .attr("transform", "translate(0," + heightAdj + ")")
-          .call(d3.axisBottom(xScale))
+          .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0))
             .style("opacity", 0)
             .transition()
               .duration(1000)
@@ -69,7 +69,7 @@ function bar_yes_no() {
 
         svg.append("g")
           .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale))
+          .call(d3.axisLeft(yScale).tickSizeOuter(0))
             .style("opacity", 0)
             .transition()
               .duration(1000)
@@ -81,12 +81,12 @@ function bar_yes_no() {
 
       // draw bars
 
-      var bars = svg.selectAll(".bar");
+      var bars = svg.selectAll(".bar")
+        .data(data_district);
 
       function drawBars() {
 
-        bars.data(data_district)
-          .enter()
+        bars.enter()
           .append("rect")
             .attr("class", "bar")
             .attr("x", 0)
@@ -101,32 +101,58 @@ function bar_yes_no() {
 
       drawBars();
 
-      // change data on district change
+      // add data labels
 
-      d3.select("#district_selector")
-        .on("change", function() {
+      var bar_labels = svg.selectAll(".bar_label")
+        .data(data_district);
 
-          // re-filter data
+      function drawLabels() {
 
-          sel_district = d3.select("#district_selector").property("value");
-          data_district = data.filter(function(d) { return d.District == sel_district; });
+        bar_labels.enter()
+            .append("text")
+              .attr("class", "bar_label")
+              .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+              .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+              .attr("dy", "0.35em")
+              .attr("text-anchor", "end")
+              .style("opacity", 0)
+              .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+              .transition()
+                .delay(1000)
+                .duration(1000)
+                .style("opacity", 1);
 
-          // remove bars and re-draw
+      };
 
-          svg.selectAll(".bar")
-            .transition()
-              .duration(1000)
-              .attr("width", 0)
-              .on("end", function() {
+      drawLabels();
 
-                svg.selectAll(".bar")
-                  .remove()
+      // add rectangles for data bar_labels
 
-                drawBars();
-
-              });
-
+      svg.selectAll(".bar_label")
+        .each(function(d, i) {
+          data_district[i].bb = this.getBBox();
         });
+
+      var label_rects = svg.selectAll(".label_rect")
+        .data(data_district);
+
+      label_rects
+        .enter()
+          .append("rect")
+            .attr("class", "label_rect")
+            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
+            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
+            .attr("width", function(d) { return d.bb.width + 4; })
+            .attr("height", function(d) { return d.bb.height; })
+            .style("opacity", 0)
+            .transition()
+              .delay(1000)
+              .duration(1000)
+              .style("opacity", 1);
+
+      bar_labels.remove()
+
+      drawLabels();
 
     });
   };

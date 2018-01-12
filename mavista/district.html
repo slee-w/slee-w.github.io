@@ -13,7 +13,8 @@
 
     <!-- Stylesheets -->
 
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print" />
 
     <!-- Fonts -->
 
@@ -23,7 +24,7 @@
 
   </head>
 
-  <body>
+  <body class="content">
 
     <section id="selectors">
       <select id="district_selector">
@@ -32,7 +33,15 @@
 
     <section id="demographics">
       <h1>Demographic Questions</h1>
+      <p>
+        The first section fo the survey includes questions about survey respondents' experience in an administrative role and about their schools. Responses from this section may be used to understand how to target resources and supports based on school profiles.
+      </p>
       <div id="i1"></div>
+    </section>
+
+    <section id="social_emotional">
+      <h1>Social and Emotional Learning</h1>
+      <div id="d3"></div>
     </section>
 
   </body>
@@ -69,13 +78,48 @@
               .text(function(d) { return d; })
               .attr("value", function(d) { return d; });
 
+        /* Filter data */
+
+        function filterData() {
+
+          data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
+          data_d3 = data.filter(function(d) { return d.Chart == "D3" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
+
+        };
+
+        filterData();
+
         /* Charts */
 
-        data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes"; });
+        function drawCharts() {
 
-        var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(235);
+          var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(365);
+          var chart_d3 = bar_yes_no().data(data_d3).chart_id("d3").marginLeft(400);
 
-        d3.select("#i1").call(chart_i1);
+          d3.select("#i1").call(chart_i1);
+          d3.select("#d3").call(chart_d3);
+
+        };
+
+        drawCharts();
+
+        /* Upon change, re-filter and re-draw */
+
+        d3.select("#district_selector")
+          .on("change", function() {
+
+            d3.selectAll("svg")
+              .transition()
+                .duration(1000)
+                .style("opacity", 0)
+                .on("end", function() {
+
+                  d3.selectAll("svg").remove();
+                  filterData();
+                  drawCharts();
+
+                });
+          });
 
       };
     });
