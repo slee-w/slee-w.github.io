@@ -1,8 +1,127 @@
 /* Page layout */
 
-.content {
+body {
   width: 9in;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  height: 0.5in;
+  justify-content: center;
+  align-items: center;
+}
+
+.header_content {
+  /*display: flex;*/
+  /*width: 100%;*/
+  height: 0.5in;
+  text-align: center;
+  font: 16pt Roboto, sans-serif;
+  color: #5b9bd5;
+}
+
+.page_content {
+  font: 11pt Calibri, sans-serif;
+}
+
+h1 {
+  font: 14pt Calibri, sans-serif;
+  color: #2e74b5;
+}
+
+.footer_screen {
+  width: 9in;
+  height: 0.5in;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  background-color: #fff;
+  border-top: 1px solid #212F3C;
+}
+
+.footer {
+  display: none;
+}
+
+.footer_container {
+  display: flex;
+  width: 100%;
+  height: 0.5in;
+  justify-content: space-between;
+  align-items: center;
+  /*page-break-after: always;*/
+}
+
+.footer_left {
+  /*height: 0.5in;*/
+}
+
+.page_number {
+  display: none;
+}
+
+.footer_right {
+  height: 0.5in;
+}
+
+a {
+  color: #0563c1;
+}
+
+#selectors {
+  position: fixed;
+  top: 0;
+  width: 9in;
+  z-index: 1;
+  background-color: #212F3C;
+  border-bottom: 1px solid #fff;
+}
+
+.selector_container {
+  width: 100%;
+  height: 0.5in;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selector_child {
+  margin-left: 0.1in;
+  margin-right: 0.1in;
+  text-transform: uppercase;
+  font: 12pt Roboto, sans-serif;
+  font-weight: bold;
+  color: #fff;
+}
+
+#district_selector {
+  width: 250px;
+  border: 1px solid #fff;
+  font: 12pt Roboto, sans-serif;
+}
+
+.spacer {
+  height: 0.75in;
+}
+
+.spacer_half {
+  height: 0.5in;
+}
+
+.noscreen {
+  display: none;
+}
+
+.chart {
+  text-align: center;
+  font: 14pt Tahoma, sans-serif;
+  font-weight: bold;
+  color: #0d1969;
+  margin-top: 0.25in;
+  margin-bottom: 0.25in;
 }
 
 /* Yes/no chart styling */
@@ -35,6 +154,41 @@
 }
 
 .bar_yes_no .label_rect {
+  fill: #fff;
+  stroke: #0d1969;
+  stroke-width: 1px;
+}
+
+/* Mean column chart styling */
+
+.col_mean {
+  font: 12pt Tahoma, sans-serif;
+}
+
+.col_mean .yAxis,
+.col_mean .xAxis {
+    font: 12pt Tahoma, sans-serif;
+}
+
+.col_mean .yAxis .tick line,
+.col_mean .xAxis .tick line {
+  display: none;
+}
+
+.col_mean .yAxis path,
+.col_mean .xAxis path {
+  stroke: #ccc;
+}
+
+.col_mean .col {
+  fill: #0d1969;
+}
+
+.col_mean .col_label {
+  fill: #0d1969;
+}
+
+.col_mean .label_rect {
   fill: #fff;
   stroke: #0d1969;
   stroke-width: 1px;
