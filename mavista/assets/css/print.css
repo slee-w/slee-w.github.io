@@ -159,3 +159,65 @@ a {
   stroke: #0d1969;
   stroke-width: 1px;
 }
+
+/* Stacked bar styling */
+
+.stacked_bar {
+  font: 12pt Tahoma, sans-serif;
+}
+
+.stacked_bar .yAxis,
+.stacked_bar .xAxis {
+    font: 12pt Tahoma, sans-serif;
+}
+
+.stacked_bar .yAxis .tick line,
+.stacked_bar .xAxis .tick line {
+  display: none;
+}
+
+.stacked_bar .yAxis path,
+.stacked_bar .xAxis path {
+  stroke: #ccc;
+}
+
+.stacked_bar .bar_label {
+  fill: #0d1969;
+}
+
+.stacked_bar .label_rect {
+  fill: #fff;
+  stroke: #0d1969;
+  stroke-width: 1px;
+}
+
+/* Stacked column styling */
+
+.stacked_col {
+  font: 12pt Tahoma, sans-serif;
+}
+
+.stacked_col .yAxis,
+.stacked_col .xAxis {
+    font: 12pt Tahoma, sans-serif;
+}
+
+.stacked_col .yAxis .tick line,
+.stacked_col .xAxis .tick line {
+  display: none;
+}
+
+.stacked_col .yAxis path,
+.stacked_col .xAxis path {
+  stroke: #ccc;
+}
+
+.stacked_col .bar_label {
+  fill: #0d1969;
+}
+
+.stacked_col .label_rect {
+  fill: #fff;
+  stroke: #0d1969;
+  stroke-width: 1px;
+}
