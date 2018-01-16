@@ -75,7 +75,9 @@ function bar_yes_no() {
 
         g.append("g")
           .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale).tickSizeOuter(0));
+          .call(d3.axisLeft(yScale).tickSizeOuter(0))
+          .selectAll(".tick text")
+            .call(wrap, marginLeft);
             /*.style("opacity", 0)
             .transition()
               .duration(1000)
@@ -162,6 +164,36 @@ function bar_yes_no() {
 
     });
   };
+
+  // for wrapping long labels
+  // from https://bl.ocks.org/mbostock/7555321 (mbostock)
+
+  function wrap(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          x = text.attr("x"),
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        }
+      }
+      var breaks = text.selectAll("tspan").size();
+      text.selectAll("tspan").attr("y", x * (breaks-1));
+    });
+  }
 
   // these allow the default values to be changed
 
@@ -301,7 +333,7 @@ function col_mean() {
 
         g.append("text")
           .attr("x", -1*(marginLeft))
-          .attr("y", -1*(marginTop/2))
+          .attr("y", -20)
           .text(yAxisLabel);
 
       };
@@ -461,12 +493,14 @@ function stacked_bar() {
 
   // default values that can be changed by the caller
 
-  var height = 400,
+  var height = 500,
       marginTop = 20,
       marginRight = 40,
       marginLeft = 40,
-      marginBottom = 20,
+      marginBottom = 80,
       chart_id = [],
+      horiz_legend = 0,
+      horiz_legend_spacing = 30,
       data = [];
 
   function chart(selection) {
@@ -529,7 +563,7 @@ function stacked_bar() {
 
       yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
       xScale.domain([0,1]);
-      zScale.domain(data.map(function(d) { return d.ResponseCategory; }));
+      zScale.domain(d3.map(district_data, function(d) { return d.ResponseCategory; }).keys());
 
       // svg
 
@@ -596,18 +630,6 @@ function stacked_bar() {
               .duration(1000)
               .style("opacity", 1);*/
 
-      g.select(".yAxis")
-        .selectAll(".tick text")
-          .selectAll("tspan")
-            .attr("dx", -9)
-            /*.attr("dy", "0");*/
-
-      console.log(g.select(".yAxis").selectAll(".tick text").length);
-
-      /*var breaks = d3.selectAll(".yAxis").selectAll("text").selectAll("tspan")[0].length;*/
-
-      /*svg.select(".yAxis").selectAll("tspan").attr("y", -9 * (breaks-1));*/
-
       };
 
       drawYAxis();
@@ -671,6 +693,33 @@ function stacked_bar() {
 
       drawLabels();
 
+      // add legend
+
+      var legend_data = d3.map(district_data, function(d) { return d.ResponseCategory; }).keys();
+
+      var legend = svg.selectAll(".legend")
+        .data(legend_data)
+        .enter()
+          .append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) {
+
+              if (horiz_legend == 0) { return "translate(0," + (heightAdj + 70 + (i * 30)) + ")"; }
+              else if (horiz_legend == 1) { return "translate(" + (i * horiz_legend_spacing) + "," + (heightAdj + 70) + ")"; };
+
+            });
+
+      legend.append("rect")
+        .attr("fill", function(d) { return zScale(d); })
+        .attr("width", 20)
+        .attr("height", 20);
+
+      legend.append("text")
+        .attr("x", 30)
+        .attr("y", 0)
+        .attr("dy", "1em")
+        .text(function(d) { return d });
+
     });
   };
 
@@ -685,9 +734,10 @@ function stacked_bar() {
           line = [],
           lineNumber = 0,
           lineHeight = 1.1, // ems
+          x = text.attr("x"),
           y = text.attr("y"),
           dy = parseFloat(text.attr("dy")),
-          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+          tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
@@ -695,9 +745,11 @@ function stacked_bar() {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
         }
       }
+      var breaks = text.selectAll("tspan").size();
+      text.selectAll("tspan").attr("y", x * (breaks-1));
     });
   }
 
@@ -730,6 +782,18 @@ function stacked_bar() {
   chart.marginBottom = function(value) {
     if (!arguments.length) return marginBottom;
     marginBottom = value;
+    return chart;
+  };
+
+  chart.horiz_legend = function(value) {
+    if (!arguments.length) return horiz_legend;
+    horiz_legend = value;
+    return chart;
+  };
+
+  chart.horiz_legend_spacing = function(value) {
+    if (!arguments.length) return horiz_legend_spacing;
+    horiz_legend_spacing = value;
     return chart;
   };
 
