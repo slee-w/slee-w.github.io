@@ -215,6 +215,12 @@ a {
   stroke: #ccc;
 }
 
+.stacked_bar .bar {
+  stroke: #fff;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
 .stacked_bar .bar_label {
   fill: #0d1969;
 }
@@ -244,6 +250,12 @@ a {
 .stacked_col .yAxis path,
 .stacked_col .xAxis path {
   stroke: #ccc;
+}
+
+.stacked_col .col {
+  stroke: #fff;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
 }
 
 .stacked_col .bar_label {

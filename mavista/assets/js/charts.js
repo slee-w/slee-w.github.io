@@ -584,7 +584,6 @@ function stacked_bar() {
       // draw bars
 
       var bars = g.append("g")
-        .attr("class", "bar")
         .selectAll("g")
           .data(nested_data)
           .enter()
@@ -596,6 +595,7 @@ function stacked_bar() {
         .data(function(d) { return d.values; })
         .enter()
           .append("rect")
+            .attr("class", "bar")
             .attr("x", function(d) { return xScale(d.x0/100); })
             .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
             .attr("height", yScale.bandwidth())
@@ -908,7 +908,6 @@ function stacked_col() {
       // draw bars
 
       var cols = g.append("g")
-        .attr("class", "col")
         .selectAll("g")
           .data(nested_data)
           .enter()
@@ -920,6 +919,7 @@ function stacked_col() {
         .data(function(d) { return d.values; })
         .enter()
           .append("rect")
+            .attr("class", "col")
             .attr("y", function(d) { return yScale(d.y1/100); })
             .attr("width", xScale.bandwidth())
             .attr("height", function(d) { return heightAdj - yScale(d.WeightedPctEstimate/100); })
