@@ -385,46 +385,34 @@
 
         /* Filter data */
 
-        function filterData() {
-
-          data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
-          data_i2 = data.filter(function(d) { return d.Chart == "i2"; });
-          data_A1_0 = data.filter(function(d) { return d.Chart == "A1_0" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-          data_A1_1 = data.filter(function(d) { return d.Chart == "A1_1" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
-          data_A1_2 = data.filter(function(d) { return d.Chart == "A1_2" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-          data_A1_3 = data.filter(function(d) { return d.Chart == "A1_3" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-          data_A1_4 = data.filter(function(d) { return d.Chart == "A1_4" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
-          data_d3 = data.filter(function(d) { return d.Chart == "D3" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
-
-        };
-
-        filterData();
+        data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
+        data_i2 = data.filter(function(d) { return d.Chart == "i2"; });
+        data_A1_0 = data.filter(function(d) { return d.Chart == "A1_0" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
+        data_A1_1 = data.filter(function(d) { return d.Chart == "A1_1" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
+        data_A1_2 = data.filter(function(d) { return d.Chart == "A1_2" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
+        data_A1_3 = data.filter(function(d) { return d.Chart == "A1_3" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
+        data_A1_4 = data.filter(function(d) { return d.Chart == "A1_4" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
+        data_d3 = data.filter(function(d) { return d.Chart == "D3" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
 
         /* Charts */
 
-        function drawCharts() {
+        var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(365);
+        var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(540).marginTop(60).marginBottom(140).yAxisLabel("Time in years (mean)");
+        var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").marginLeft(365).marginBottom(130);
+        var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").marginLeft(385).horiz_legend(1).horiz_legend_spacing(200);
+        var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").marginLeft(385).marginBottom(160);
+        var chart_A1_3 = stacked_bar().data(data_A1_3).chart_id("A1_3").marginLeft(385).marginBottom(160);
+        var chart_A1_4 = stacked_bar().data(data_A1_4).chart_id("A1_4").marginLeft(410).horiz_legend(1).horiz_legend_spacing(200);
+        var chart_d3 = bar_yes_no().data(data_d3).chart_id("d3").marginLeft(400);
 
-          var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(365);
-          var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(540).marginTop(60).marginBottom(140).yAxisLabel("Time in years (mean)");
-          var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").marginLeft(365).marginBottom(130);
-          var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").marginLeft(385).horiz_legend(1).horiz_legend_spacing(200);
-          var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").marginLeft(385).marginBottom(160);
-          var chart_A1_3 = stacked_bar().data(data_A1_3).chart_id("A1_3").marginLeft(385).marginBottom(160);
-          var chart_A1_4 = stacked_bar().data(data_A1_4).chart_id("A1_4").marginLeft(410).horiz_legend(1).horiz_legend_spacing(200);
-          var chart_d3 = bar_yes_no().data(data_d3).chart_id("d3").marginLeft(400);
-
-          d3.select("#i1").call(chart_i1);
-          d3.select("#i2").call(chart_i2);
-          d3.select("#A1_0").call(chart_A1_0);
-          d3.select("#A1_1").call(chart_A1_1);
-          d3.select("#A1_2").call(chart_A1_2);
-          d3.select("#A1_3").call(chart_A1_3);
-          d3.select("#A1_4").call(chart_A1_4);
-          d3.select("#d3").call(chart_d3);
-
-        };
-
-        drawCharts();
+        d3.select("#i1").call(chart_i1);
+        d3.select("#i2").call(chart_i2);
+        d3.select("#A1_0").call(chart_A1_0);
+        d3.select("#A1_1").call(chart_A1_1);
+        d3.select("#A1_2").call(chart_A1_2);
+        d3.select("#A1_3").call(chart_A1_3);
+        d3.select("#A1_4").call(chart_A1_4);
+        d3.select("#d3").call(chart_d3);
 
         function updateName() {
 
@@ -432,7 +420,7 @@
             .append("text")
             .text(function() { return d3.select("#district_selector").property("value"); });
 
-        }
+        };
 
         updateName();
 
@@ -441,15 +429,11 @@
         d3.select("#district_selector")
           .on("change", function() {
 
-            d3.selectAll("svg")
-              .remove();
-
             d3.selectAll(".district_name")
-              .selectAll("text")
-              .remove();
+              .select("text")
+                .remove();
 
             updateName();
-            drawCharts();
 
           });
 

@@ -18,7 +18,7 @@ function bar_yes_no() {
       // filter data to selected district
 
       var sel_district = d3.select("#district_selector").property("value");
-      district_data = data.filter(function(d) { return d.District == sel_district; });
+      var district_data = data.filter(function(d) { return d.District == sel_district; });
 
       // number formats
 
@@ -37,6 +37,7 @@ function bar_yes_no() {
       var xScale = d3.scaleLinear().range([0, widthAdj]);
 
       yScale.domain(data.map(function(d) { return d.Item_text; }));
+      xScale.domain([0, 1]);
 
       // svg
 
@@ -56,57 +57,40 @@ function bar_yes_no() {
 
       // axes
 
-      function drawXAxis() {
+      g.append("g")
+        .attr("class", "xAxis")
+        .attr("transform", "translate(0," + heightAdj + ")")
+        .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0));
+          /*.style("opacity", 0)
+          .transition()
+            .duration(1000)
+            .style("opacity", 1);*/
 
-        g.append("g")
-          .attr("class", "xAxis")
-          .attr("transform", "translate(0," + heightAdj + ")")
-          .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0));
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
-
-      };
-
-      drawXAxis();
-
-      function drawYAxis() {
-
-        g.append("g")
-          .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale).tickSizeOuter(0))
-          .selectAll(".tick text")
-            .call(wrap, marginLeft);
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
-
-      };
-
-      drawYAxis();
+      g.append("g")
+        .attr("class", "yAxis")
+        .call(d3.axisLeft(yScale).tickSizeOuter(0))
+        .selectAll(".tick text")
+          .call(wrap, marginLeft);
+          /*.style("opacity", 0)
+          .transition()
+            .duration(1000)
+            .style("opacity", 1);*/
 
       // draw bars
 
       var bars = g.selectAll(".bar")
         .data(district_data);
 
-      function drawBars() {
-
-        bars.enter()
-          .append("rect")
-            .attr("class", "bar")
-            .attr("x", 0)
-            .attr("y", function(d) { return yScale(d.Item_text); })
-            .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
-            .attr("height", yScale.bandwidth());
-            /*.transition()
-              .duration(1000)*/
-
-      };
-
-      drawBars();
+      bars.enter()
+        .append("rect")
+          .attr("class", "bar")
+          .attr("x", 0)
+          .attr("y", function(d) { return yScale(d.Item_text); })
+          .attr("width", 0)
+          .attr("height", yScale.bandwidth())
+          .transition()
+            .duration(500)
+            .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
 
       // add data labels
 
@@ -116,13 +100,16 @@ function bar_yes_no() {
       function drawLabels() {
 
         bar_labels.enter()
-            .append("text")
-              .attr("class", "bar_label")
-              .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
-              .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
-              .attr("dy", "0.35em")
-              .attr("text-anchor", "end")
-              .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+          .append("text")
+            .attr("class", "bar_label")
+            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "end")
+            .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+            .style("opacity", 0)
+            .transition()
+              .duration(500)
               .style("opacity", function(d) {
 
                 if (d.WeightedPctEstimate < 10) { return 0; }
@@ -149,18 +136,135 @@ function bar_yes_no() {
           .attr("class", "label_rect")
           .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
           .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
-          .attr("width", function(d) { return d.bb.width + 4; })
+          .attr("width", 0)
           .attr("height", function(d) { return d.bb.height; })
-          .style("opacity", function(d) {
+          .style("opacity", 0)
+          .transition()
+            .duration(500)
+            .attr("width", function(d) { return d.bb.width + 4; })
+            .style("opacity", function(d) {
 
-            if (d.WeightedPctEstimate < 10) { return 0; }
-            else { return 1; };
+              if (d.WeightedPctEstimate < 10) { return 0; }
+              else { return 1; };
 
-          });
+            });
 
-      bar_labels.remove()
+      g.selectAll(".bar_label")
+        .remove()
 
       drawLabels();
+
+      // update data on selector change
+
+      d3.select("#district_selector")
+        .on("change." + chart_id, function() {
+
+          sel_district = d3.select("#district_selector").property("value");
+          district_data = data.filter(function(d) { return d.District == sel_district; });
+
+          // adjust bars
+
+          var bars = g.selectAll(".bar")
+            .data(district_data);
+
+          bars.exit()
+            .transition()
+              .duration(500)
+              .attr("width", 0)
+              .remove();
+
+          bars.enter()
+            .append("rect")
+              .attr("class", "bar")
+              .attr("x", 0)
+              .attr("y", function(d) { return yScale(d.Item_text); })
+              .attr("width", 0)
+              .attr("height", yScale.bandwidth())
+              .transition()
+                .duration(500)
+                .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
+
+          bars.transition()
+            .duration(500)
+            .attr("y", function(d) { return yScale(d.Item_text); })
+            .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
+
+          // redo data labels and rects
+
+          g.selectAll(".bar_label")
+            .remove();
+
+          var bar_labels = g.selectAll(".bar_label")
+            .data(district_data);
+
+          bar_labels.enter()
+            .append("text")
+              .attr("class", "bar_label")
+              .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+              .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+              .attr("dy", "0.35em")
+              .attr("text-anchor", "end")
+              .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+              .style("opacity", 0)
+              .transition()
+                .duration(500)
+                .style("opacity", function(d) {
+
+                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  else { return 1; };
+
+                });
+
+          g.selectAll(".bar_label")
+            .each(function(d, i) {
+              district_data[i].bb = this.getBBox();
+            });
+
+          g.selectAll(".label_rect")
+            .remove();
+
+          var label_rects = g.selectAll(".label_rect")
+            .data(district_data);
+
+          label_rects.enter()
+            .append("rect")
+              .attr("class", "label_rect")
+              .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
+              .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
+              .attr("width", function(d) { return d.bb.width + 4; })
+              .attr("height", function(d) { return d.bb.height; })
+              .style("opacity", 0)
+              .transition()
+                .duration(500)
+                .style("opacity", function(d) {
+
+                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  else { return 1; };
+
+                });
+
+          g.selectAll(".bar_label")
+            .remove();
+
+          bar_labels.enter()
+            .append("text")
+              .attr("class", "bar_label")
+              .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+              .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+              .attr("dy", "0.35em")
+              .attr("text-anchor", "end")
+              .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+              .style("opacity", 0)
+              .transition()
+                .duration(500)
+                .style("opacity", function(d) {
+
+                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  else { return 1; };
+
+                });
+
+        });
 
     });
   };
@@ -304,62 +408,48 @@ function col_mean() {
 
       // axes
 
-      function drawXAxis() {
+      g.append("g")
+        .attr("class", "xAxis")
+        .attr("transform", "translate(0," + heightAdj + ")")
+        .call(d3.axisBottom(xScale).tickSizeOuter(0))
+        .selectAll(".tick text")
+          .call(wrap, xScale.bandwidth());
+          /*.style("opacity", 0)
+          .transition()
+            .duration(1000)
+            .style("opacity", 1);*/
 
-        g.append("g")
-          .attr("class", "xAxis")
-          .attr("transform", "translate(0," + heightAdj + ")")
-          .call(d3.axisBottom(xScale).tickSizeOuter(0))
-          .selectAll(".tick text")
-            .call(wrap, xScale.bandwidth());
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
+      g.append("g")
+        .attr("class", "yAxis")
+        .call(d3.axisLeft(yScale).tickSizeOuter(0));
+          /*.style("opacity", 0)
+          .transition()
+            .duration(1000)
+            .style("opacity", 1);*/
 
-      };
-
-      drawXAxis();
-
-      function drawYAxis() {
-
-        g.append("g")
-          .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale).tickSizeOuter(0));
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
-
-        g.append("text")
-          .attr("x", -1*(marginLeft))
-          .attr("y", -20)
-          .text(yAxisLabel);
-
-      };
-
-      drawYAxis();
+      g.append("text")
+        .attr("x", -1*(marginLeft))
+        .attr("y", -20)
+        .text(yAxisLabel);
 
       // draw bars
 
       var cols = g.selectAll(".col")
         .data(district_data);
 
-      function drawCols() {
-
-        cols.enter()
-          .append("rect")
-            .attr("class", "col")
-            .attr("x", function(d) { return xScale(d.Item_text); })
+      cols.enter()
+        .append("rect")
+          .attr("class", "col")
+          .attr("x", function(d) { return xScale(d.Item_text); })
+          .attr("y", heightAdj)
+          .attr("width", xScale.bandwidth())
+          .attr("height", 0)
+          .transition()
+            .duration(500)
             .attr("y", function(d) { return yScale(d.WeightedMean); })
-            .attr("width", xScale.bandwidth())
             .attr("height", function(d) { return heightAdj - yScale(d.WeightedMean); });
-            /*.transition()
-              .duration(1000)*/
-
-      };
-
-      drawCols();
+          /*.transition()
+            .duration(1000)*/
 
       // add data labels
 
@@ -375,7 +465,11 @@ function col_mean() {
               .attr("y", function(d) { return yScale(d.WeightedMean); })
               .attr("dy", 19)
               .attr("text-anchor", "middle")
-              .text(function(d) { return formatNum(d.WeightedMean); });
+              .text(function(d) { return formatNum(d.WeightedMean); })
+              .style("opacity", 0)
+              .transition()
+                .duration(500)
+                .style("opacity", 1);
 
       };
 
@@ -397,11 +491,122 @@ function col_mean() {
           .attr("x", function(d) { return xScale(d.Item_text) + xScale.bandwidth()/2 - d.bb.width/2 - 2; })
           .attr("y", function(d) { return yScale(d.WeightedMean) + 3; })
           .attr("width", function(d) { return d.bb.width + 4; })
-          .attr("height", function(d) { return d.bb.height; });
+          .attr("height", function(d) { return d.bb.height; })
+          .style("opacity", 0)
+          .transition()
+            .duration(500)
+            .style("opacity", 1);
 
-      col_labels.remove()
-
+      g.selectAll(".col_label").remove()
       drawLabels();
+
+      // update data on selector change
+
+      d3.select("#district_selector")
+        .on("change." + chart_id, function() {
+
+          sel_district = d3.select("#district_selector").property("value");
+          district_data = data.filter(function(d) { return d.District == sel_district; });
+
+          // adjust axes
+
+          yScale.domain([0, d3.max(district_data, function(d) { return d.WeightedMean; })]).nice();
+
+          g.select(".yAxis")
+            .transition()
+              .duration(500)
+              .call(d3.axisLeft(yScale).tickSizeOuter(0));
+
+          // adjust cols
+
+          var cols = g.selectAll(".col")
+            .data(district_data);
+
+          cols.exit()
+            .transition()
+              .duration(500)
+              .attr("height", 0)
+              .remove();
+
+          cols.enter()
+            .append("rect")
+              .attr("class", "col")
+              .attr("x", function(d) { return xScale(d.Item_text); })
+              .attr("y", heightAdj)
+              .attr("width", xScale.bandwidth())
+              .attr("height", 0)
+              .transition()
+                .duration(500)
+                .attr("y", function(d) { return yScale(d.WeightedMean); })
+                .attr("height", function(d) { return heightAdj - yScale(d.WeightedMean); });
+
+          cols.transition()
+            .duration(500)
+            .attr("x", function(d) { return xScale(d.Item_text); })
+            .attr("y", function(d) { return yScale(d.WeightedMean); })
+            .attr("height", function(d) { return heightAdj - yScale(d.WeightedMean); });
+
+          // re-do data labels and rects
+
+          g.selectAll(".col_label")
+            .remove();
+
+          var col_labels = g.selectAll(".col_label")
+            .data(district_data);
+
+          col_labels.enter()
+              .append("text")
+                .attr("class", "col_label")
+                .attr("x", function(d) { return xScale(d.Item_text) + xScale.bandwidth()/2; })
+                .attr("y", function(d) { return yScale(d.WeightedMean); })
+                .attr("dy", 19)
+                .attr("text-anchor", "middle")
+                .text(function(d) { return formatNum(d.WeightedMean); })
+                .style("opacity", 0)
+                .transition()
+                  .duration(500)
+                  .style("opacity", 1);
+
+          g.selectAll(".col_label")
+            .each(function(d, i) {
+              district_data[i].bb = this.getBBox();
+            });
+
+          g.selectAll(".label_rect")
+            .remove();
+
+          var label_rects = g.selectAll(".label_rect")
+            .data(district_data);
+
+          label_rects.enter()
+            .append("rect")
+              .attr("class", "label_rect")
+              .attr("x", function(d) { return xScale(d.Item_text) + xScale.bandwidth()/2 - d.bb.width/2 - 2; })
+              .attr("y", function(d) { return yScale(d.WeightedMean) + 3; })
+              .attr("width", function(d) { return d.bb.width + 4; })
+              .attr("height", function(d) { return d.bb.height; })
+              .style("opacity", 0)
+              .transition()
+                .duration(500)
+                .style("opacity", 1);
+
+          g.selectAll(".col_label")
+            .remove();
+
+          col_labels.enter()
+              .append("text")
+                .attr("class", "col_label")
+                .attr("x", function(d) { return xScale(d.Item_text) + xScale.bandwidth()/2; })
+                .attr("y", function(d) { return yScale(d.WeightedMean); })
+                .attr("dy", 19)
+                .attr("text-anchor", "middle")
+                .text(function(d) { return formatNum(d.WeightedMean); })
+                .style("opacity", 0)
+                .transition()
+                  .duration(500)
+                  .style("opacity", 1);
+
+        });
 
     });
   };
@@ -597,9 +802,13 @@ function stacked_bar() {
           .append("rect")
             .attr("class", "bar")
             .attr("x", function(d) { return xScale(d.x0/100); })
-            .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
+            .attr("width", 0)
             .attr("height", yScale.bandwidth())
-            .attr("fill", function(d) { return zScale(d.ResponseCategory); });
+            .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+            .transition()
+              .delay(function(d, i) { return (500/categories)*i; })
+              .duration(500)
+              .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
 
       // axes
 
@@ -648,12 +857,16 @@ function stacked_bar() {
               .attr("dy", "0.35em")
               .attr("text-anchor", "middle")
               .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
-              .style("opacity", function(d) {
+              .style("opacity", 0)
+              .transition()
+                .delay(function(d, i) { return (500/categories)*i; })
+                .duration(500)
+                .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
+                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  else { return 1; };
 
-              });
+                });
 
       };
 
@@ -681,12 +894,16 @@ function stacked_bar() {
             .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
             .attr("height", function(d) { return d.bb.height; })
-            .style("opacity", function(d) {
+            .style("opacity", 0)
+            .transition()
+              .delay(function(d, i) { return (500/categories)*i; })
+              .duration(500)
+              .style("opacity", function(d) {
 
-              if (d.WeightedPctEstimate < 10) { return 0; }
-              else { return 1; };
+                if (d.WeightedPctEstimate < 10) { return 0; }
+                else { return 1; };
 
-            });
+              });
 
       bars.selectAll(".bar_label")
         .remove();
@@ -719,6 +936,145 @@ function stacked_bar() {
         .attr("y", 0)
         .attr("dy", "1em")
         .text(function(d) { return d });
+
+      // update data on selector change
+
+      d3.select("#district_selector")
+        .on("change." + chart_id, function() {
+
+          // filter data to selected district
+
+          sel_district = d3.select("#district_selector").property("value");
+          district_data = data.filter(function(d) { return d.District == sel_district; });
+
+          // generate stacked x-coordinates
+          // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
+
+          var nested_data = d3.nest()
+            .key(function(d) { return d.Item_text; })
+            .entries(district_data);
+
+          nested_data.forEach(function(group) {
+            var x0 = 0;
+            group.values.forEach(function(entry, index) {
+              entry.x0 = x0;
+              entry.x1 = +entry.WeightedPctEstimate + x0;
+              x0 = entry.x1;
+            });
+            group.total = group.values[group.values.length - 1].x1;
+          });
+
+          // adjust bars
+
+          g.selectAll(".g")
+            .transition()
+              .duration(500)
+              .style("opacity", 0)
+              .remove();
+
+          var bars = g.append("g")
+            .selectAll("g")
+              .data(nested_data)
+              .enter()
+                .append("g")
+                  .attr("class", "g")
+                  .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
+
+          bars.selectAll("rect")
+            .data(function(d) { return d.values; })
+            .enter()
+              .append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return xScale(d.x0/100); })
+                .attr("width", 0)
+                .attr("height", yScale.bandwidth())
+                .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+                .transition()
+                  .delay(function(d, i) { return (500/categories)*i; })
+                  .duration(500)
+                  .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
+
+          bars.selectAll("rect")
+            .transition()
+              .duration(500)
+              .attr("x", function(d) { return xScale(d.x0/100); })
+              .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
+              .attr("height", yScale.bandwidth())
+              .attr("fill", function(d) { return zScale(d.ResponseCategory); });
+
+          // redo labels
+
+          g.selectAll(".bar_label")
+            .remove();
+
+          drawLabels();
+
+          // add rectangles for data bar_labels
+
+          g.selectAll(".bar_label")
+            .each(function(d, i) {
+              district_data[i].bb = this.getBBox();
+            });
+
+          // re-nest the data
+
+          nested_data = d3.nest()
+            .key(function(d) { return d.Item_text; })
+            .entries(district_data);
+
+          bars.selectAll(".label_rect")
+            .data(function(d) { return d.values; })
+            .enter()
+              .append("rect")
+                .attr("class", "label_rect")
+                .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
+                .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
+                .attr("width", function(d) { return d.bb.width + 4; })
+                .attr("height", function(d) { return d.bb.height; })
+                .style("opacity", 0)
+                .transition()
+                  .delay(function(d, i) { return (500/categories)*i; })
+                  .duration(500)
+                  .style("opacity", function(d) {
+
+                    if (d.WeightedPctEstimate < 10) { return 0; }
+                    else { return 1; };
+
+                  });
+
+          bars.selectAll(".bar_label")
+            .remove();
+
+          bars.selectAll("text")
+            .data(function(d) { return d.values; })
+            .enter()
+              .append("text")
+                .attr("class", "bar_label")
+                .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
+                .attr("y", yScale.bandwidth()/2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+                .style("opacity", 0)
+                .transition()
+                  .delay(function(d, i) { return (500/categories)*i; })
+                  .duration(500)
+                  .style("opacity", function(d) {
+
+                    if (d.WeightedPctEstimate < 10) { return 0; }
+                    else { return 1; };
+
+                  });
+
+          // redraw axes on top
+
+          g.select(".xAxis").remove();
+          g.select(".yAxis").remove();
+
+          drawXAxis();
+          drawYAxis();
+
+        });
 
     });
   };
