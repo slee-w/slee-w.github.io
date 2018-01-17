@@ -442,6 +442,8 @@
         d3.select("#district_selector")
           .on("change", function() {
 
+            var scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
+
             d3.selectAll("svg")
               .transition()
                 .duration(500)
@@ -459,6 +461,8 @@
               .remove();
 
             updateName();
+
+            document.body.scrollTop = scrollPos;
 
           });
 
