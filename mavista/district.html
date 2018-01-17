@@ -400,7 +400,6 @@
 
         filterData();
 
-
         /* Charts */
 
         function drawCharts() {
@@ -442,28 +441,15 @@
         d3.select("#district_selector")
           .on("change", function() {
 
-            var scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
-            console.log(scrollPos);
-
             d3.selectAll("svg")
-              .transition()
-                .duration(500)
-                .style("opacity", 0)
-                .on("end", function() {
-
-                  d3.selectAll("svg").remove();
-                  filterData();
-                  drawCharts();
-
-                });
+              .remove();
 
             d3.selectAll(".district_name")
               .selectAll("text")
               .remove();
 
             updateName();
-
-            window.scrollTo(0, scrollPos);
+            drawCharts();
 
           });
 
