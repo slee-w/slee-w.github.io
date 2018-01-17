@@ -443,6 +443,7 @@
           .on("change", function() {
 
             var scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
+            console.log(scrollPos);
 
             d3.selectAll("svg")
               .transition()
@@ -462,7 +463,7 @@
 
             updateName();
 
-            document.body.scrollTop = scrollPos;
+            window.scrollTo(0, scrollPos);
 
           });
 
