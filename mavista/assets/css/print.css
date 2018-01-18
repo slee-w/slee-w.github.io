@@ -4,18 +4,23 @@
   size: landscape;
   /*margin-top: 0.5in;
   margin-bottom: 0.5in;*/
-  margin: 0in 1in;
+  margin-top: 0.5in;
+  margin-bottom: 0.5in;
+  margin-left: 1in;
+  margin-right: 1in;
 }
 
 body {
   width: 9in;
+  /*text-align: center;*/
+  /*height: 6.25in;*/
 }
 
 .header {
   display: flex;
   width: 100%;
   height: 0.5in;
-  margin-top: 0.5in;
+  /*margin-top: 0.5in;*/
   justify-content: center;
   align-items: center;
   page-break-before: always;
@@ -29,10 +34,12 @@ body {
 }
 
 .page_content {
+
   font: 11pt Calibri, sans-serif;
-  height: 6.5in;
-  width: 9in;
-  border: 1px solid #fff;
+  text-align: left;
+  height: 6.25in;
+  width: 100%;
+  border: 1px solid red;
 }
 
 h1 {
@@ -41,7 +48,7 @@ h1 {
 }
 
 .footer {
-  width: 9in;
+  width: 100%;
   height: 0.5in;
 }
 
