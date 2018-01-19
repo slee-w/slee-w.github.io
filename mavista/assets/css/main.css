@@ -352,13 +352,13 @@ a {
 
 /* IE10+ printing */
 
-@media print and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 
   @page {
     size: landscape;
     /*margin-top: 0.5in;
     margin-bottom: 0.5in;*/
-    margin: 0in 1in;
+    margin: 0.5in 1in;
   }
 
   #selectors {
