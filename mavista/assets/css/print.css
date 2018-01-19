@@ -1,5 +1,12 @@
 /* Page layout */
 
+@media print and (-webkit-min-device-pixel-ratio:0) {
+
+  @page { margin: 0in 1in; }
+  .header { margin-top: 0.5in; }
+
+}
+
 @page {
   size: landscape;
   /*margin-top: 0.5in;
@@ -37,7 +44,7 @@ body {
 
   font: 11pt Calibri, sans-serif;
   text-align: left;
-  height: 6.25in;
+  height: 6.5in;
   width: 100%;
   border: 1px solid #fff;
 }
