@@ -97,10 +97,20 @@ a {
   color: #fff;
 }
 
-#district_selector {
-  width: 250px;
+#subpop1_selector {
+  width: 175px;
   border: 1px solid #fff;
   font: 12pt Roboto, sans-serif;
+}
+
+#subpop2_selector {
+  width: 175px;
+  border: 1px solid #fff;
+  font: 12pt Roboto, sans-serif;
+}
+
+select:disabled {
+  background: #ddd;
 }
 
 .spacer {
