@@ -208,6 +208,41 @@ select:disabled {
   stroke-width: 1px;
 }
 
+/* Mean bar chart styling */
+
+.bar_mean {
+  font: 12pt Tahoma, sans-serif;
+}
+
+.bar_mean .yAxis,
+.bar_mean .xAxis {
+    font: 12pt Tahoma, sans-serif;
+}
+
+.bar_mean .yAxis .tick line,
+.bar_mean .xAxis .tick line {
+  display: none;
+}
+
+.bar_mean .yAxis path,
+.bar_mean .xAxis path {
+  stroke: #ccc;
+}
+
+.bar_mean .bar {
+  fill: #0d1969;
+}
+
+.bar_mean .bar_label {
+  fill: #0d1969;
+}
+
+.bar_mean .label_rect {
+  fill: #fff;
+  stroke: #0d1969;
+  stroke-width: 1px;
+}
+
 /* Stacked bar styling */
 
 .stacked_bar {
