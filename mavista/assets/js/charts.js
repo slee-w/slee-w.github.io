@@ -10,6 +10,7 @@ function bar_yes_no() {
       marginLeft = 40,
       marginBottom = 20,
       yAxisOff = 0,
+      sortDesc = 0,
       chart_id = [],
       data = [];
 
@@ -21,6 +22,11 @@ function bar_yes_no() {
       var sel_subpop1 = d3.select("#subpop1_selector").property("value");
       var sel_subpop2 = d3.select("#subpop2_selector").property("value");
       var sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
+
+      // sort if needed
+
+      if (sortDesc === 1) { sel_data.sort(function(a,b) { return d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); }) }
+      else {};
 
       // number formats
 
@@ -38,7 +44,7 @@ function bar_yes_no() {
       var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
       var xScale = d3.scaleLinear().range([0, widthAdj]);
 
-      yScale.domain(data.map(function(d) { return d.Item_text; }));
+      yScale.domain(sel_data.map(function(d) { return d.Item_text; }));
       xScale.domain([0, 1]);
 
       // svg
@@ -85,6 +91,10 @@ function bar_yes_no() {
           .attr("y", function(d) { return yScale(d.Item_text); })
           .attr("width", 0)
           .attr("height", yScale.bandwidth())
+          .style("opacity", function(d) {
+            if (d.Flag_Row === "Y") { return 0; }
+            else { return 1; };
+          })
           .transition()
             .duration(500)
             .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
@@ -109,7 +119,7 @@ function bar_yes_no() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                 else { return 1; };
 
               });
@@ -141,7 +151,7 @@ function bar_yes_no() {
             .attr("width", function(d) { return d.bb.width + 4; })
             .style("opacity", function(d) {
 
-              if (d.WeightedPctEstimate < 10) { return 0; }
+              if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
               else { return 1; };
 
             });
@@ -155,9 +165,37 @@ function bar_yes_no() {
 
       function updateData() {
 
+        // refilter
+
         sel_subpop1 = d3.select("#subpop1_selector").property("value");
         sel_subpop2 = d3.select("#subpop2_selector").property("value");
         sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
+
+        // sort if needed
+
+        if (sortDesc === 1) {
+          sel_data.sort(function(a, b) { return d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+          yScale.domain(sel_data.map(function(d) { return d.Item_text; }));
+        }
+        else {};
+
+        // redraw y-axis if needed
+
+        if (sortDesc === 1) {
+
+          g.select(".yAxis")
+            .remove();
+
+          if (yAxisOff == 1) {}
+          else {
+            g.append("g")
+              .attr("class", "yAxis")
+              .call(d3.axisLeft(yScale).tickSizeOuter(0))
+              .selectAll(".tick text")
+                .call(wrap, marginLeft);
+          };
+        }
+        else {};
 
         // adjust bars
 
@@ -173,6 +211,10 @@ function bar_yes_no() {
             .attr("y", function(d) { return yScale(d.Item_text); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
+            .style("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            })
             .transition()
               .duration(500)
               .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
@@ -201,7 +243,7 @@ function bar_yes_no() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                 else { return 1; };
 
               });
@@ -226,7 +268,7 @@ function bar_yes_no() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                 else { return 1; };
 
               });
@@ -247,7 +289,7 @@ function bar_yes_no() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                 else { return 1; };
 
               });
@@ -336,6 +378,12 @@ function bar_yes_no() {
   chart.yAxisOff = function(value) {
     if (!arguments.length) return yAxisOff;
     yAxisOff = value;
+    return chart;
+  };
+
+  chart.sortDesc = function(value) {
+    if (!arguments.length) return sortDesc;
+    sortDesc = value;
     return chart;
   };
 
@@ -449,6 +497,10 @@ function col_mean() {
           .attr("y", heightAdj)
           .attr("width", xScale.bandwidth())
           .attr("height", 0)
+          .style("opacity", function(d) {
+            if (d.Flag_Row === "Y") { return 0; }
+            else { return 1; };
+          })
           .transition()
             .duration(500)
             .attr("y", function(d) { return yScale(d.WeightedMean); })
@@ -472,7 +524,10 @@ function col_mean() {
               .style("opacity", 0)
               .transition()
                 .duration(500)
-                .style("opacity", 1);
+                .style("opacity", function(d) {
+                  if (d.Flag_Row === "Y") { return 0; }
+                  else { return 1; };
+                });
 
       };
 
@@ -498,7 +553,10 @@ function col_mean() {
           .style("opacity", 0)
           .transition()
             .duration(500)
-            .style("opacity", 1);
+            .style("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            });
 
       g.selectAll(".col_label").remove();
 
@@ -540,6 +598,10 @@ function col_mean() {
             .attr("y", heightAdj)
             .attr("width", xScale.bandwidth())
             .attr("height", 0)
+            .style("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            })
             .transition()
               .duration(500)
               .attr("y", function(d) { return yScale(d.WeightedMean); })
@@ -564,7 +626,10 @@ function col_mean() {
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
         g.selectAll(".col_label")
           .each(function(d, i) {
@@ -587,7 +652,10 @@ function col_mean() {
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
         g.selectAll(".col_label")
           .remove();
@@ -603,7 +671,10 @@ function col_mean() {
               .style("opacity", 0)
               .transition()
                 .duration(500)
-                .style("opacity", 1);
+                .style("opacity", function(d) {
+                  if (d.Flag_Row === "Y") { return 0; }
+                  else { return 1; };
+                });
 
       };
 
@@ -806,6 +877,10 @@ function bar_mean() {
           .attr("y", function(d) { return yScale(d.Item_text); })
           .attr("width", 0)
           .attr("height", yScale.bandwidth())
+          .attr("opacity", function(d) {
+            if (d.Flag_Row === "Y") { return 0; }
+            else { return 1; };
+          })
           .transition()
             .duration(500)
             .attr("width", function(d) { return xScale(d.WeightedMean); });
@@ -828,7 +903,10 @@ function bar_mean() {
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
       };
 
@@ -855,7 +933,10 @@ function bar_mean() {
           .transition()
             .duration(500)
             .attr("width", function(d) { return d.bb.width + 4; })
-            .style("opacity", 1);
+            .style("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            });
 
       g.selectAll(".col_label").remove();
 
@@ -896,6 +977,10 @@ function bar_mean() {
             .attr("y", function(d) { return yScale(d.Item_text); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
+            .attr("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            })
             .transition()
               .duration(500)
               .attr("width", function(d) { return xScale(d.WeightedMean); });
@@ -922,7 +1007,10 @@ function bar_mean() {
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
         g.selectAll(".bar_label")
           .each(function(d, i) {
@@ -943,7 +1031,10 @@ function bar_mean() {
             .transition()
               .duration(500)
               .attr("width", function(d) { return d.bb.width + 4; })
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
         g.selectAll(".bar_label")
           .remove();
@@ -959,7 +1050,10 @@ function bar_mean() {
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", 1);
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              });
 
       };
 
@@ -1092,11 +1186,15 @@ function stacked_bar() {
   function chart(selection) {
     selection.each(function() {
 
-      // filter data
-
       data.forEach(function(d) {
         d.Value = +d.Value;
       });
+
+      // sort data
+
+      data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
+      // filter data
 
       var sel_subpop1 = d3.select("#subpop1_selector").property("value");
       var sel_subpop2 = d3.select("#subpop2_selector").property("value");
@@ -1105,11 +1203,13 @@ function stacked_bar() {
       // generate stacked x-coordinates
       // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
 
-      // sort
-
       var nested_data = d3.nest()
         .key(function(d) { return d.Item_text; })
         .entries(sel_data);
+
+      nested_data.forEach(function(d) {
+        d.values.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+      });
 
       nested_data.forEach(function(group) {
         var x0 = 0;
@@ -1134,7 +1234,12 @@ function stacked_bar() {
 
       // scales and domains
 
-      var categories = nested_data[0].values.length;
+      var data_asc = data.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+      var categories = d3.nest()
+        .key(function(d) { return d.ResponseCategory; })
+        .entries(data_asc);
+
+      var cat_num = categories.length;
 
       var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
       var xScale = d3.scaleLinear().range([0, widthAdj]);
@@ -1142,25 +1247,22 @@ function stacked_bar() {
 
       function color_categories() {
 
-        if (categories == 3) { zScale = d3.scaleOrdinal().range(['#e86b01', '#adb6f5', '#0d1969']); }
-        else if (categories == 4) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#0d1969']); }
-        else if (categories == 5) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
-        else if (categories == 6) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
-        else if (categories == 7) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#d2d7fa','#adb6f5','#5769eb','#0d1969']); };
+        if (cat_num == 3) { zScale = d3.scaleOrdinal().range(['#e86b01', '#adb6f5', '#0d1969']); }
+        else if (cat_num == 4) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#0d1969']); }
+        else if (cat_num == 5) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
+        else if (cat_num == 6) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
+        else if (cat_num == 7) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#d2d7fa','#adb6f5','#5769eb','#0d1969']); };
 
       };
 
       color_categories();
 
       // adjust zScale later to be based on # of categories
-      // sort resopnse categories for domains
-
-      vals_sorted = sel_data;
-      vals_sorted.sort(function(a, b) { return +a.Value - +b.Value; });
+      // sort response categories for domains
 
       yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
       xScale.domain([0,1]);
-      zScale.domain(d3.map(vals_sorted, function(d) { return d.ResponseCategory; }).keys());
+      zScale.domain(d3.values(categories).map(function(d) { return d.key; }));
 
       // svg
 
@@ -1180,12 +1282,11 @@ function stacked_bar() {
 
       // draw bars
 
-      var bars = g.append("g")
-        .selectAll("g")
+      var bars = g.selectAll(".bar_group")
           .data(nested_data)
           .enter()
             .append("g")
-              .attr("class", "g")
+              .attr("class", "bar_group")
               .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
 
       bars.selectAll("rect")
@@ -1197,8 +1298,12 @@ function stacked_bar() {
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
             .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+            .style("opacity", function(d) {
+              if (d.Flag_Row === "Y") { return 0; }
+              else { return 1; };
+            })
             .transition()
-              .delay(function(d, i) { return (500/categories)*i; })
+              .delay(function(d, i) { return (500/categories.length)*i; })
               .duration(500)
               .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
 
@@ -1210,10 +1315,6 @@ function stacked_bar() {
           .attr("class", "xAxis")
           .attr("transform", "translate(0," + heightAdj + ")")
           .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0));
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
 
       };
 
@@ -1226,10 +1327,6 @@ function stacked_bar() {
           .call(d3.axisLeft(yScale).tickSizeOuter(0))
           .selectAll(".tick text")
             .call(wrap, marginLeft);
-            /*.style("opacity", 0)
-            .transition()
-              .duration(1000)
-              .style("opacity", 1);*/
 
       };
 
@@ -1251,11 +1348,11 @@ function stacked_bar() {
               .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
               .style("opacity", 0)
               .transition()
-                .delay(function(d, i) { return (500/categories)*i; })
+                .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                   else { return 1; };
 
                 });
@@ -1265,17 +1362,46 @@ function stacked_bar() {
       drawLabels();
 
       // add rectangles for data bar_labels
+      // first need to reverse-nest the nested data
+
+      var reversed = [];
+
+      nested_data.forEach(function(group) {
+        group.values.forEach(function(vals) {
+          reversed.push({
+            Item_text: group.key,
+            ResponseCategory: vals.ResponseCategory,
+            WeightedPctEstimate: vals.WeightedPctEstimate,
+            Flag_Row: vals.Flag_Row
+          });
+        });
+      });
 
       g.selectAll(".bar_label")
         .each(function(d, i) {
-          sel_data[i].bb = this.getBBox();
+
+          reversed[i].bb = this.getBBox();
+
         });
 
       // re-nest the data
 
-      nested_data = d3.nest()
+      var nested_reversed = d3.nest()
         .key(function(d) { return d.Item_text; })
-        .entries(sel_data);
+        .entries(reversed);
+
+      nested_reversed.forEach(function(group) {
+        var x0 = 0;
+        group.values.forEach(function(entry, index) {
+          entry.x0 = x0;
+          entry.x1 = +entry.WeightedPctEstimate + x0;
+          x0 = entry.x1;
+        });
+        group.total = group.values[group.values.length - 1].x1;
+      });
+
+      bars = g.selectAll(".bar_group")
+        .data(nested_reversed);
 
       bars.selectAll(".label_rect")
         .data(function(d) { return d.values; })
@@ -1288,11 +1414,11 @@ function stacked_bar() {
             .attr("height", function(d) { return d.bb.height; })
             .style("opacity", 0)
             .transition()
-              .delay(function(d, i) { return (500/categories)*i; })
+              .delay(function(d, i) { return (500/categories.length)*i; })
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                 else { return 1; };
 
               });
@@ -1304,7 +1430,7 @@ function stacked_bar() {
 
       // add legend
 
-      var legend_data = d3.map(sel_data, function(d) { return d.ResponseCategory; }).keys();
+      var legend_data = d3.values(categories).map(function(d) { return d.key; });
 
       var legend = svg.selectAll(".legend")
         .data(legend_data)
@@ -1333,6 +1459,10 @@ function stacked_bar() {
 
       function updateData() {
 
+        // re-sort data
+
+        data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
         // re-filter data
 
         sel_subpop1 = d3.select("#subpop1_selector").property("value");
@@ -1346,6 +1476,10 @@ function stacked_bar() {
           .key(function(d) { return d.Item_text; })
           .entries(sel_data);
 
+        nested_data.forEach(function(d) {
+          d.values.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+        });
+
         nested_data.forEach(function(group) {
           var x0 = 0;
           group.values.forEach(function(entry, index) {
@@ -1356,18 +1490,21 @@ function stacked_bar() {
           group.total = group.values[group.values.length - 1].x1;
         });
 
+        // refresh y domain
+
+        yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
+
         // adjust bars
 
-        g.selectAll(".g")
+        g.selectAll(".bar_group")
           .remove();
 
-        bars = g.append("g")
-          .selectAll("g")
-            .data(nested_data)
-            .enter()
-              .append("g")
-                .attr("class", "g")
-                .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
+        bars = g.selectAll(".bar_group")
+          .data(nested_data)
+          .enter()
+            .append("g")
+              .attr("class", "bar_group")
+              .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
 
         bars.selectAll("rect")
           .data(function(d) { return d.values; })
@@ -1378,18 +1515,14 @@ function stacked_bar() {
               .attr("width", 0)
               .attr("height", yScale.bandwidth())
               .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+              .style("opacity", function(d) {
+                if (d.Flag_Row === "Y") { return 0; }
+                else { return 1; };
+              })
               .transition()
-                .delay(function(d, i) { return (500/categories)*i; })
+                .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
                 .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
-
-        bars.selectAll("rect")
-          .transition()
-            .duration(500)
-            .attr("x", function(d) { return xScale(d.x0/100); })
-            .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); })
-            .attr("height", yScale.bandwidth())
-            .attr("fill", function(d) { return zScale(d.ResponseCategory); });
 
         // redo labels
 
@@ -1400,16 +1533,44 @@ function stacked_bar() {
 
         // add rectangles for data bar_labels
 
+        reversed = [];
+
+        nested_data.forEach(function(group) {
+          group.values.forEach(function(vals) {
+            reversed.push({
+              Item_text: group.key,
+              ResponseCategory: vals.ResponseCategory,
+              WeightedPctEstimate: vals.WeightedPctEstimate,
+              Flag_Row: vals.Flag_Row
+            });
+          });
+        });
+
         g.selectAll(".bar_label")
           .each(function(d, i) {
-            sel_data[i].bb = this.getBBox();
+
+            reversed[i].bb = this.getBBox();
+
           });
 
         // re-nest the data
 
-        nested_data = d3.nest()
+        nested_reversed = d3.nest()
           .key(function(d) { return d.Item_text; })
-          .entries(sel_data);
+          .entries(reversed);
+
+        nested_reversed.forEach(function(group) {
+          var x0 = 0;
+          group.values.forEach(function(entry, index) {
+            entry.x0 = x0;
+            entry.x1 = +entry.WeightedPctEstimate + x0;
+            x0 = entry.x1;
+          });
+          group.total = group.values[group.values.length - 1].x1;
+        });
+
+        bars = g.selectAll(".bar_group")
+          .data(nested_reversed);
 
         bars.selectAll(".label_rect")
           .data(function(d) { return d.values; })
@@ -1422,11 +1583,11 @@ function stacked_bar() {
               .attr("height", function(d) { return d.bb.height; })
               .style("opacity", 0)
               .transition()
-                .delay(function(d, i) { return (500/categories)*i; })
+                .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                   else { return 1; };
 
                 });
@@ -1446,11 +1607,11 @@ function stacked_bar() {
               .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
               .style("opacity", 0)
               .transition()
-                .delay(function(d, i) { return (500/categories)*i; })
+                .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
                   else { return 1; };
 
                 });
