@@ -1200,6 +1200,15 @@ function stacked_bar() {
       var sel_subpop2 = d3.select("#subpop2_selector").property("value");
       var sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
 
+      // replace suppressed values with 0
+
+      sel_data.forEach(function(d) {
+        if (d.Flag_Row === "Y") { d.WeightedPctEstimate = 0; }
+        else {};
+      });
+
+      sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
       // generate stacked x-coordinates
       // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
 
@@ -1294,14 +1303,14 @@ function stacked_bar() {
         .enter()
           .append("rect")
             .attr("class", "bar")
+            .classed("flagged", function(d) {
+              if (d.Flag_Row === "Y") { return true; }
+              else { return false; };
+            })
             .attr("x", function(d) { return xScale(d.x0/100); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
             .attr("fill", function(d) { return zScale(d.ResponseCategory); })
-            .style("opacity", function(d) {
-              if (d.Flag_Row === "Y") { return 0; }
-              else { return 1; };
-            })
             .transition()
               .delay(function(d, i) { return (500/categories.length)*i; })
               .duration(500)
@@ -1341,6 +1350,10 @@ function stacked_bar() {
           .enter()
             .append("text")
               .attr("class", "bar_label")
+              .classed("flagged", function(d) {
+                if (d.Flag_Row === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
               .attr("y", yScale.bandwidth()/2)
               .attr("dy", "0.35em")
@@ -1352,7 +1365,7 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
+                  if (d.WeightedPctEstimate < 10) { return 0; }
                   else { return 1; };
 
                 });
@@ -1408,6 +1421,10 @@ function stacked_bar() {
         .enter()
           .append("rect")
             .attr("class", "label_rect")
+            .classed("flagged", function(d) {
+              if (d.Flag_Row === "Y") { return true; }
+              else { return false; };
+            })
             .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
             .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
@@ -1418,7 +1435,7 @@ function stacked_bar() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
+                if (d.WeightedPctEstimate < 10) { return 0; }
                 else { return 1; };
 
               });
@@ -1427,6 +1444,11 @@ function stacked_bar() {
         .remove();
 
       drawLabels();
+
+      // removed suppressed portions
+
+      svg.selectAll(".flagged")
+        .remove();
 
       // add legend
 
@@ -1468,6 +1490,15 @@ function stacked_bar() {
         sel_subpop1 = d3.select("#subpop1_selector").property("value");
         sel_subpop2 = d3.select("#subpop2_selector").property("value");
         sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
+
+        // replace suppressed values with 0
+
+        sel_data.forEach(function(d) {
+          if (d.Flag_Row === "Y") { d.WeightedPctEstimate = 0; }
+          else {};
+        });
+
+        sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
 
         // generate stacked x-coordinates
         // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
@@ -1511,14 +1542,14 @@ function stacked_bar() {
           .enter()
             .append("rect")
               .attr("class", "bar")
+              .classed("flagged", function(d) {
+                if (d.Flag_Row === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale(d.x0/100); })
               .attr("width", 0)
               .attr("height", yScale.bandwidth())
               .attr("fill", function(d) { return zScale(d.ResponseCategory); })
-              .style("opacity", function(d) {
-                if (d.Flag_Row === "Y") { return 0; }
-                else { return 1; };
-              })
               .transition()
                 .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
@@ -1577,6 +1608,10 @@ function stacked_bar() {
           .enter()
             .append("rect")
               .attr("class", "label_rect")
+              .classed("flagged", function(d) {
+                if (d.Flag_Row === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
               .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
               .attr("width", function(d) { return d.bb.width + 4; })
@@ -1587,7 +1622,7 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
+                  if (d.WeightedPctEstimate < 10) { return 0; }
                   else { return 1; };
 
                 });
@@ -1600,6 +1635,10 @@ function stacked_bar() {
           .enter()
             .append("text")
               .attr("class", "bar_label")
+              .classed("flagged", function(d) {
+                if (d.Flag_Row === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
               .attr("y", yScale.bandwidth()/2)
               .attr("dy", "0.35em")
@@ -1611,10 +1650,15 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10 || d.Flag_Row === "Y") { return 0; }
+                  if (d.WeightedPctEstimate < 10) { return 0; }
                   else { return 1; };
 
                 });
+
+        // remove flagged items
+
+        g.selectAll(".flagged")
+          .remove();
 
         // redraw axes on top
 
