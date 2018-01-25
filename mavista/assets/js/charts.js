@@ -51,6 +51,7 @@ function bar_yes_no() {
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
+          .attr("id", "chart_" + chart_id)
           .attr("class", "bar_yes_no")
           .attr("width", width)
           .attr("height", height)
@@ -326,6 +327,8 @@ function bar_yes_no() {
 
       };
 
+      // update data on selector change
+
       d3.select("#subpop1_selector")
         .on("change." + chart_id, function() {
 
@@ -338,6 +341,63 @@ function bar_yes_no() {
         .on("change." + chart_id, function() {
 
           updateData();
+
+        });
+
+      // save function
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
+
+      var dom = d3.select("#" + chart_id);
+
+      function getCSS(file) {
+
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
+
+      };
+
+      var svg_style = getCSS('assets/css/main.css');
+
+      d3.select("#chart_" + chart_id)
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
+
+      // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+
+      var save = dom.append("div")
+        .attr("class", "export_div")
+        .append("button")
+          .attr("id", chart_id + "_save")
+          .attr("class", "export_button")
+          .text("Save as PNG");
+
+      var svgElement = document.getElementById("chart_" + chart_id);
+
+      d3.select("#" + chart_id + "_save")
+        .on("click", function(){
+
+          var simg = new Simg(svgElement);
+
+          // Replace the current SVG with an image version of it.
+
+          simg.replace();
+
+          // And trigger a download of the rendered image.
+
+          simg.download(chart_id);
 
         });
 

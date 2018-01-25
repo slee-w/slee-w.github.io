@@ -138,6 +138,12 @@ select:disabled {
   margin-bottom: 0.25in;
 }
 
+/* White background for all SVGs */
+
+svg {
+  background-color: #fff;
+}
+
 /* Yes/no chart styling */
 
 .bar_yes_no {
