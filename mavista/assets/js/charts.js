@@ -1245,9 +1245,15 @@ function stacked_bar() {
   function chart(selection) {
     selection.each(function() {
 
+      // convert value to numeric
+
       data.forEach(function(d) {
         d.Value = +d.Value;
       });
+
+      // identify maximum response value
+
+      var max_response = d3.max(data, function(d) { return d.Value; });
 
       // sort data
 
@@ -1259,11 +1265,21 @@ function stacked_bar() {
       var sel_subpop2 = d3.select("#subpop2_selector").property("value");
       var sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
 
-      // replace suppressed values with 0
-
       sel_data.forEach(function(d) {
+
+        // replace suppressed values with 0
+
         if (d.Flag_Item === "Y") { d.WeightedPctEstimate = 0; }
         else {};
+
+        // indicate data labels to be displayed
+        // top two response values should be displayed regardless of values
+        // for other values, if % is < 10 they can be hidden
+
+        if (d.Value >= (max_response - 1)) { return d.Display_Label = "Y"; }
+        else if (d.WeightedPctEstimate < 10) { return d.Display_Label = "N"; }
+        else { return d.Display_Label = "Y"; };
+
       });
 
       sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
@@ -1424,7 +1440,7 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.Display_Label == "N") { return 0; }
                   else { return 1; };
 
                 });
@@ -1444,7 +1460,8 @@ function stacked_bar() {
             Item_text: group.key,
             ResponseCategory: vals.ResponseCategory,
             WeightedPctEstimate: vals.WeightedPctEstimate,
-            Flag_Item: vals.Flag_Item
+            Flag_Item: vals.Flag_Item,
+            Display_Label: vals.Display_Label
           });
         });
       });
@@ -1494,7 +1511,7 @@ function stacked_bar() {
               .duration(500)
               .style("opacity", function(d) {
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
+                if (d.Display_Label == "N") { return 0; }
                 else { return 1; };
 
               });
@@ -1550,11 +1567,21 @@ function stacked_bar() {
         sel_subpop2 = d3.select("#subpop2_selector").property("value");
         sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
 
-        // replace suppressed values with 0
-
         sel_data.forEach(function(d) {
+
+          // replace suppressed values with 0
+
           if (d.Flag_Item === "Y") { d.WeightedPctEstimate = 0; }
           else {};
+
+          // indicate data labels to be displayed
+          // top two response values should be displayed regardless of values
+          // for other values, if % is < 10 they can be hidden
+
+          if (d.Value >= (max_response - 1)) { return d.Display_Label = "Y"; }
+          else if (d.WeightedPctEstimate < 10) { return d.Display_Label = "N"; }
+          else { return d.Display_Label = "Y"; };
+
         });
 
         sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
@@ -1631,7 +1658,8 @@ function stacked_bar() {
               Item_text: group.key,
               ResponseCategory: vals.ResponseCategory,
               WeightedPctEstimate: vals.WeightedPctEstimate,
-              Flag_Item: vals.Flag_Item
+              Flag_Item: vals.Flag_Item,
+              Display_Label: vals.Display_Label
             });
           });
         });
@@ -1681,7 +1709,7 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.Display_Label == "N") { return 0; }
                   else { return 1; };
 
                 });
@@ -1709,7 +1737,7 @@ function stacked_bar() {
                 .duration(500)
                 .style("opacity", function(d) {
 
-                  if (d.WeightedPctEstimate < 10) { return 0; }
+                  if (d.Display_Label == "N") { return 0; }
                   else { return 1; };
 
                 });
