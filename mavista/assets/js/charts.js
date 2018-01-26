@@ -2306,6 +2306,10 @@ function likert() {
         .enter()
           .append("rect")
             .attr("class", "bar")
+            .classed("flagged", function(d) {
+              if (d.Flag_Item === "Y") { return true; }
+              else { return false; };
+            })
             .attr("x", function(d) { return xScale(d.x0/100); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
@@ -2328,21 +2332,21 @@ function likert() {
           .selectAll(".tick text")
           .remove();
 
-        g.append("text")
-          .attr("x", 0)
-          .attr("y", heightAdj + 20)
-          .attr("text-anchor", "start")
-          .text("(1) Predominantly compliance");
-
-        g.append("text")
-          .attr("x", widthAdj)
-          .attr("y", heightAdj + 20)
-          .attr("text-anchor", "end")
-          .text("Predominantly assistance (9)");
-
       };
 
       drawXAxis();
+
+      g.append("text")
+        .attr("x", 0)
+        .attr("y", heightAdj + 20)
+        .attr("text-anchor", "start")
+        .text("(1) Predominantly compliance");
+
+      g.append("text")
+        .attr("x", widthAdj)
+        .attr("y", heightAdj + 20)
+        .attr("text-anchor", "end")
+        .text("Predominantly assistance (9)");
 
       // add data labels
 
@@ -2353,6 +2357,10 @@ function likert() {
           .enter()
             .append("text")
               .attr("class", "bar_label")
+              .classed("flagged", function(d) {
+                if (d.Flag_Item === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
               .attr("y", yScale.bandwidth()/2)
               .attr("dy", "0.35em")
@@ -2415,6 +2423,10 @@ function likert() {
         .enter()
           .append("rect")
             .attr("class", "label_rect")
+            .classed("flagged", function(d) {
+              if (d.Flag_Item === "Y") { return true; }
+              else { return false; };
+            })
             .classed("flagged", function(d) {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
@@ -2506,6 +2518,10 @@ function likert() {
           .enter()
             .append("rect")
               .attr("class", "bar")
+              .classed("flagged", function(d) {
+                if (d.Flag_Item === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale(d.x0/100); })
               .attr("width", 0)
               .attr("height", yScale.bandwidth())
@@ -2568,6 +2584,10 @@ function likert() {
           .enter()
             .append("rect")
               .attr("class", "label_rect")
+              .classed("flagged", function(d) {
+                if (d.Flag_Item === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
               .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
               .attr("width", function(d) { return d.bb.width + 4; })
@@ -2586,6 +2606,10 @@ function likert() {
           .enter()
             .append("text")
               .attr("class", "bar_label")
+              .classed("flagged", function(d) {
+                if (d.Flag_Item === "Y") { return true; }
+                else { return false; };
+              })
               .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
               .attr("y", yScale.bandwidth()/2)
               .attr("dy", "0.35em")
