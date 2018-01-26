@@ -135,7 +135,7 @@ select:disabled {
   font-weight: bold;
   color: #0d1969;
   margin-top: 0.25in;
-  margin-bottom: 0.25in;
+  /*margin-bottom: 0.25in;*/
 }
 
 /* White background for all SVGs */
@@ -144,15 +144,56 @@ svg {
   background-color: #fff;
 }
 
+/* Export area styling */
+
+.export_container {
+  display: flex;
+  margin-top: 0.125in;
+  margin-bottom: 0.25in;
+  justify-content: space-between;
+  /*border: 1px solid red;*/
+  align-items: center;
+}
+
+.export_div {
+  font: 10pt Tahoma, sans-serif;
+  font-weight: bold;
+  color: #aaa;
+}
+
+.export_div button {
+  font: 10px Roboto, sans-serif;
+  background-color: rgba(0,0,0,.05);
+  border: 1px solid slategray;
+}
+
+.export_div button:hover {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.export_div button:not(:hover) {
+  opacity: 0.33;
+  transition: opacity 1s;
+}
+
+.convert_button {
+  visibility: hidden;
+}
+
+.id {
+  visibility: visible; /* SET TO HIDDEN FOR PRODUCTION */
+}
+
 /* Yes/no chart styling */
 
 .bar_yes_no {
-  font: 12pt Tahoma, sans-serif;
+  font: 11pt Tahoma, sans-serif;
 }
 
 .bar_yes_no .yAxis,
 .bar_yes_no .xAxis {
-    font: 12pt Tahoma, sans-serif;
+    font: 11pt Tahoma, sans-serif;
 }
 
 .bar_yes_no .yAxis .tick line,
@@ -182,12 +223,12 @@ svg {
 /* Mean column chart styling */
 
 .col_mean {
-  font: 12pt Tahoma, sans-serif;
+  font: 11pt Tahoma, sans-serif;
 }
 
 .col_mean .yAxis,
 .col_mean .xAxis {
-    font: 12pt Tahoma, sans-serif;
+    font: 11pt Tahoma, sans-serif;
 }
 
 .col_mean .yAxis .tick line,
@@ -217,12 +258,12 @@ svg {
 /* Mean bar chart styling */
 
 .bar_mean {
-  font: 12pt Tahoma, sans-serif;
+  font: 11pt Tahoma, sans-serif;
 }
 
 .bar_mean .yAxis,
 .bar_mean .xAxis {
-    font: 12pt Tahoma, sans-serif;
+    font: 11pt Tahoma, sans-serif;
 }
 
 .bar_mean .yAxis .tick line,
@@ -252,12 +293,12 @@ svg {
 /* Stacked bar styling */
 
 .stacked_bar {
-  font: 12pt Tahoma, sans-serif;
+  font: 11pt Tahoma, sans-serif;
 }
 
 .stacked_bar .yAxis,
 .stacked_bar .xAxis {
-    font: 12pt Tahoma, sans-serif;
+    font: 11pt Tahoma, sans-serif;
 }
 
 .stacked_bar .yAxis .tick line,
@@ -289,12 +330,12 @@ svg {
 /* Stacked column styling */
 
 .stacked_col {
-  font: 12pt Tahoma, sans-serif;
+  font: 11pt Tahoma, sans-serif;
 }
 
 .stacked_col .yAxis,
 .stacked_col .xAxis {
-    font: 12pt Tahoma, sans-serif;
+    font: 11pt Tahoma, sans-serif;
 }
 
 .stacked_col .yAxis .tick line,
@@ -321,6 +362,20 @@ svg {
   fill: #fff;
   stroke: #0d1969;
   stroke-width: 1px;
+}
+
+/* IE 10+ target buttons */
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+
+  .convert_button {
+    visibility: visible;
+  }
+
+  .save_button {
+    display: none;
+  }
+
 }
 
 /* Print styling */
@@ -400,6 +455,10 @@ svg {
   }
 
   .footer_screen {
+    display: none;
+  }
+
+  .export_container {
     display: none;
   }
 

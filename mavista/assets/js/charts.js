@@ -6,9 +6,9 @@ function bar_yes_no() {
 
   var height = 400,
       marginTop = 20,
-      marginRight = 40,
+      marginRight = 30,
       marginLeft = 40,
-      marginBottom = 20,
+      marginBottom = 30,
       yAxisOff = 0,
       sortDesc = 0,
       chart_id = [],
@@ -377,23 +377,36 @@ function bar_yes_no() {
       // add save button
       // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
 
-      var save = dom.append("div")
+      var export_container = dom.append("div")
+        .attr("class", "export_container");
+
+      var id_div = export_container.append("div")
+        .attr("class", "export_div id")
+        .text("Chart ID: " + chart_id);
+
+      var export_buttons = export_container.append("div")
         .attr("class", "export_div")
-        .append("button")
-          .attr("id", chart_id + "_save")
-          .attr("class", "export_button")
-          .text("Save as PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "convert_button")
+        .text("Convert to PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "save_button")
+        .text("Save as PNG");
 
       var svgElement = document.getElementById("chart_" + chart_id);
 
-      d3.select("#" + chart_id + "_save")
+      d3.selectAll("#" + chart_id + "_save")
         .on("click", function(){
 
           var simg = new Simg(svgElement);
 
           // Replace the current SVG with an image version of it.
 
-          simg.replace();
+          /*simg.replace();*/
 
           // And trigger a download of the rendered image.
 
@@ -503,9 +516,9 @@ function col_mean() {
 
   var height = 400,
       marginTop = 20,
-      marginRight = 40,
+      marginRight = 30,
       marginLeft = 40,
-      marginBottom = 20,
+      marginBottom = 30,
       chart_id = [],
       yAxisLabel = "",
       data = [];
@@ -542,6 +555,7 @@ function col_mean() {
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
+          .attr("id", "chart_" + chart_id)
           .attr("class", "col_mean")
           .attr("width", width)
           .attr("height", height)
@@ -801,6 +815,76 @@ function col_mean() {
 
         });
 
+      // save function
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
+
+      var dom = d3.select("#" + chart_id);
+
+      function getCSS(file) {
+
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
+
+      };
+
+      var svg_style = getCSS('assets/css/main.css');
+
+      d3.select("#chart_" + chart_id)
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
+
+      // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+
+      var export_container = dom.append("div")
+        .attr("class", "export_container");
+
+      var id_div = export_container.append("div")
+        .attr("class", "export_div id")
+        .text("Chart ID: " + chart_id);
+
+      var export_buttons = export_container.append("div")
+        .attr("class", "export_div")
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "convert_button")
+        .text("Convert to PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "save_button")
+        .text("Save as PNG");
+
+      var svgElement = document.getElementById("chart_" + chart_id);
+
+      d3.selectAll("#" + chart_id + "_save")
+        .on("click", function(){
+
+          var simg = new Simg(svgElement);
+
+          // Replace the current SVG with an image version of it.
+
+          /*simg.replace();*/
+
+          // And trigger a download of the rendered image.
+
+          simg.download(chart_id);
+
+        });
+
     });
   };
 
@@ -893,9 +977,9 @@ function bar_mean() {
 
   var height = 400,
       marginTop = 20,
-      marginRight = 40,
+      marginRight = 30,
       marginLeft = 40,
-      marginBottom = 20,
+      marginBottom = 30,
       chart_id = [],
       xAxisLabel = "",
       yAxisOff = 0,
@@ -933,6 +1017,7 @@ function bar_mean() {
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
+          .attr("id", "chart_" + chart_id)
           .attr("class", "bar_mean")
           .attr("width", width)
           .attr("height", height)
@@ -962,7 +1047,7 @@ function bar_mean() {
           .attr("class", "yAxis")
           .call(d3.axisLeft(yScale).tickSizeOuter(0))
           .selectAll(".tick text")
-            .call(wrap, yScale.bandwidth());
+            .call(wrap, marginLeft);
       };
 
       g.append("text")
@@ -1193,6 +1278,76 @@ function bar_mean() {
 
         });
 
+      // save function
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
+
+      var dom = d3.select("#" + chart_id);
+
+      function getCSS(file) {
+
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
+
+      };
+
+      var svg_style = getCSS('assets/css/main.css');
+
+      d3.select("#chart_" + chart_id)
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
+
+      // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+
+      var export_container = dom.append("div")
+        .attr("class", "export_container");
+
+      var id_div = export_container.append("div")
+        .attr("class", "export_div id")
+        .text("Chart ID: " + chart_id);
+
+      var export_buttons = export_container.append("div")
+        .attr("class", "export_div")
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "convert_button")
+        .text("Convert to PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "save_button")
+        .text("Save as PNG");
+
+      var svgElement = document.getElementById("chart_" + chart_id);
+
+      d3.selectAll("#" + chart_id + "_save")
+        .on("click", function(){
+
+          var simg = new Simg(svgElement);
+
+          // Replace the current SVG with an image version of it.
+
+          /*simg.replace();*/
+
+          // And trigger a download of the rendered image.
+
+          simg.download(chart_id);
+
+        });
+
     });
   };
 
@@ -1294,12 +1449,13 @@ function stacked_bar() {
 
   var height = 500,
       marginTop = 20,
-      marginRight = 40,
+      marginRight = 30,
       marginLeft = 40,
       marginBottom = 80,
       chart_id = [],
       horiz_legend = 0,
       horiz_legend_spacing = 30,
+      yAxisOff = 0,
       data = [];
 
   function chart(selection) {
@@ -1393,9 +1549,9 @@ function stacked_bar() {
 
         if (cat_num == 3) { zScale = d3.scaleOrdinal().range(['#e86b01', '#adb6f5', '#0d1969']); }
         else if (cat_num == 4) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#0d1969']); }
-        else if (cat_num == 5) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
+        else if (cat_num == 5) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#ffff99','#adb6f5','#0d1969']); }
         else if (cat_num == 6) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
-        else if (cat_num == 7) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#d2d7fa','#adb6f5','#5769eb','#0d1969']); };
+        else if (cat_num == 7) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#ffff99','#adb6f5','#5769eb','#0d1969']); };
 
       };
 
@@ -1412,6 +1568,7 @@ function stacked_bar() {
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
+          .attr("id", "chart_" + chart_id)
           .attr("class", "stacked_bar")
           .attr("width", width)
           .attr("height", height)
@@ -1466,11 +1623,14 @@ function stacked_bar() {
 
       function drawYAxis() {
 
-        g.append("g")
-          .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale).tickSizeOuter(0))
-          .selectAll(".tick text")
-            .call(wrap, marginLeft);
+        if (yAxisOff == 1) {}
+        else {
+          g.append("g")
+            .attr("class", "yAxis")
+            .call(d3.axisLeft(yScale).tickSizeOuter(0))
+            .selectAll(".tick text")
+              .call(wrap, marginLeft);
+        };
 
       };
 
@@ -1810,9 +1970,9 @@ function stacked_bar() {
         // redraw axes on top
 
         g.select(".xAxis").remove();
-        g.select(".yAxis").remove();
-
         drawXAxis();
+
+        g.select(".yAxis").remove();
         drawYAxis();
 
       };
@@ -1831,6 +1991,76 @@ function stacked_bar() {
         .on("change." + chart_id, function() {
 
           updateData();
+
+        });
+
+      // save function
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
+
+      var dom = d3.select("#" + chart_id);
+
+      function getCSS(file) {
+
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
+
+      };
+
+      var svg_style = getCSS('assets/css/main.css');
+
+      d3.select("#chart_" + chart_id)
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
+
+      // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+
+      var export_container = dom.append("div")
+        .attr("class", "export_container");
+
+      var id_div = export_container.append("div")
+        .attr("class", "export_div id")
+        .text("Chart ID: " + chart_id);
+
+      var export_buttons = export_container.append("div")
+        .attr("class", "export_div")
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "convert_button")
+        .text("Convert to PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "save_button")
+        .text("Save as PNG");
+
+      var svgElement = document.getElementById("chart_" + chart_id);
+
+      d3.selectAll("#" + chart_id + "_save")
+        .on("click", function(){
+
+          var simg = new Simg(svgElement);
+
+          // Replace the current SVG with an image version of it.
+
+          /*simg.replace();*/
+
+          // And trigger a download of the rendered image.
+
+          simg.download(chart_id);
 
         });
 
@@ -1911,6 +2141,12 @@ function stacked_bar() {
     return chart;
   };
 
+  chart.yAxisOff = function(value) {
+    if (!arguments.length) return yAxisOff;
+    yAxisOff = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -1927,43 +2163,84 @@ function stacked_bar() {
 
 };
 
-/* stacked column charts */
+/* stacked bar charts */
 
-/*function stacked_col() {
+function likert() {
 
   // default values that can be changed by the caller
 
-  var height = 400,
+  var height = 500,
       marginTop = 20,
-      marginRight = 40,
-      marginLeft = 40,
-      marginBottom = 20,
+      marginRight = 30,
+      marginLeft = 30,
+      marginBottom = 80,
       chart_id = [],
+      horiz_legend = 0,
+      horiz_legend_spacing = 30,
+      yAxisOff = 0,
       data = [];
 
   function chart(selection) {
     selection.each(function() {
 
-      // filter data to selected district
+      // convert value to numeric
 
-      var sel_district = d3.select("#district_selector").property("value");
-      district_data = data.filter(function(d) { return d.District == sel_district; });
+      data.forEach(function(d) {
+        d.Value = +d.Value;
+      });
+
+      // identify maximum response value
+
+      var max_response = d3.max(data, function(d) { return d.Value; });
+
+      // sort data
+
+      data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
+      // filter data
+
+      var sel_subpop1 = d3.select("#subpop1_selector").property("value");
+      var sel_subpop2 = d3.select("#subpop2_selector").property("value");
+      var sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
+
+      sel_data.forEach(function(d) {
+
+        // replace suppressed values with 0
+
+        if (d.Flag_Item === "Y") { d.WeightedPctEstimate = 0; }
+        else {};
+
+        // indicate data labels to be displayed
+        // top two response values should be displayed regardless of values
+        // for other values, if % is < 10 they can be hidden
+
+        if (d.Value >= (max_response - 1)) { return d.Display_Label = "Y"; }
+        else if (d.WeightedPctEstimate < 10) { return d.Display_Label = "N"; }
+        else { return d.Display_Label = "Y"; };
+
+      });
+
+      sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
 
       // generate stacked x-coordinates
       // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
 
       var nested_data = d3.nest()
         .key(function(d) { return d.Item_text; })
-        .entries(district_data);
+        .entries(sel_data);
+
+      nested_data.forEach(function(d) {
+        d.values.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+      });
 
       nested_data.forEach(function(group) {
-        var y0 = 0;
+        var x0 = 0;
         group.values.forEach(function(entry, index) {
-          entry.y0 = y0;
-          entry.y1 = +entry.WeightedPctEstimate + y0;
-          y0 = entry.y1;
+          entry.x0 = x0;
+          entry.x1 = +entry.WeightedPctEstimate + x0;
+          x0 = entry.x1;
         });
-        group.total = group.values[group.values.length - 1].y1;
+        group.total = group.values[group.values.length - 1].x1;
       });
 
       // number formats
@@ -1979,35 +2256,31 @@ function stacked_bar() {
 
       // scales and domains
 
-      var categories = nested_data[0].values.length;
+      var data_asc = data.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+      var categories = d3.nest()
+        .key(function(d) { return d.ResponseCategory; })
+        .entries(data_asc);
 
-      var yScale = d3.scaleLinear().range([heightAdj, 0]);
-      var xScale = d3.scaleBand().rangeRound([0, widthAdj]).padding(0.25);
-      var zScale = [];
+      var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
+      var xScale = d3.scaleLinear().range([0, widthAdj]);
 
-      function color_categories() {
+      // there are 9 categories on the likert scale questions
 
-        if (categories == 3) { zScale = d3.scaleOrdinal().range(['#e86b01', '#adb6f5', '#0d1969']); }
-        else if (categories == 4) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#0d1969']); }
-        else if (categories == 5) { zScale = d3.scaleOrdinal().range(['#e86b01','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
-        else if (categories == 6) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#adb6f5','#5769eb','#0d1969']); }
-        else if (categories == 7) { zScale = d3.scaleOrdinal().range(['#e86b01','#ff943b','#ffc28f','#d2d7fa','#adb6f5','#5769eb','#0d1969']); };
-
-      };
-
-      color_categories();
+      var zScale = d3.scaleOrdinal().range(["#777daa", "#878ec0", "#959dd4", "#a2aae5", "#adb6f5", "#bbc2f6", "#c9cef8", "#d5d9f9", "#e0e3fb"]);
 
       // adjust zScale later to be based on # of categories
+      // sort response categories for domains
 
-      yScale.domain([0,1]);
-      xScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
-      zScale.domain(data.map(function(d) { return d.ResponseCategory; }));
+      yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
+      xScale.domain([0,1]);
+      zScale.domain(d3.values(categories).map(function(d) { return d.key; }));
 
       // svg
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
-          .attr("class", "stacked_col")
+          .attr("id", "chart_" + chart_id)
+          .attr("class", "stacked_bar")
           .attr("width", width)
           .attr("height", height)
           .style("opacity", 0);
@@ -2021,23 +2294,26 @@ function stacked_bar() {
 
       // draw bars
 
-      var cols = g.append("g")
-        .selectAll("g")
+      var bars = g.selectAll(".bar_group")
           .data(nested_data)
           .enter()
             .append("g")
-              .attr("class", "g")
-              .attr("transform", function(d) { return "translate(" + xScale(d.key) + ",0)"; });
+              .attr("class", "bar_group")
+              .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
 
-      cols.selectAll("rect")
+      bars.selectAll("rect")
         .data(function(d) { return d.values; })
         .enter()
           .append("rect")
-            .attr("class", "col")
-            .attr("y", function(d) { return yScale(d.y1/100); })
-            .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return heightAdj - yScale(d.WeightedPctEstimate/100); })
-            .attr("fill", function(d) { return zScale(d.ResponseCategory); });
+            .attr("class", "bar")
+            .attr("x", function(d) { return xScale(d.x0/100); })
+            .attr("width", 0)
+            .attr("height", yScale.bandwidth())
+            .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+            .transition()
+              .delay(function(d, i) { return (500/categories.length)*i; })
+              .duration(500)
+              .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
 
       // axes
 
@@ -2046,82 +2322,379 @@ function stacked_bar() {
         g.append("g")
           .attr("class", "xAxis")
           .attr("transform", "translate(0," + heightAdj + ")")
-          .call(d3.axisBottom(xScale).tickSizeOuter(0))
+          .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0));
+
+        g.select(".xAxis")
           .selectAll(".tick text")
-            .call(wrap, xScale.bandwidth());
+          .remove();
+
+        g.append("text")
+          .attr("x", 0)
+          .attr("y", heightAdj + 20)
+          .attr("text-anchor", "start")
+          .text("(1) Predominantly compliance");
+
+        g.append("text")
+          .attr("x", widthAdj)
+          .attr("y", heightAdj + 20)
+          .attr("text-anchor", "end")
+          .text("Predominantly assistance (9)");
 
       };
 
       drawXAxis();
 
-      function drawYAxis() {
-
-        g.append("g")
-          .attr("class", "yAxis")
-          .call(d3.axisLeft(yScale).ticks(5).tickFormat(d3.format(",.0%")).tickSizeOuter(0));
-
-      };
-
-      drawYAxis();
-
       // add data labels
 
       function drawLabels() {
 
-        cols.selectAll("text")
+        bars.selectAll("text")
           .data(function(d) { return d.values; })
           .enter()
             .append("text")
-              .attr("class", "col_label")
-              .attr("y", function(d) { return yScale((d.y0/100 + d.y1/100)/2); })
-              .attr("x", xScale.bandwidth()/2)
+              .attr("class", "bar_label")
+              .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
+              .attr("y", yScale.bandwidth()/2)
               .attr("dy", "0.35em")
               .attr("text-anchor", "middle")
               .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
-              .style("opacity", function(d) {
-
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
-
-              });
+              .style("opacity", 0)
+              .transition()
+                .delay(function(d, i) { return (500/categories.length)*i; })
+                .duration(500)
+                .style("opacity", 1);
 
       };
 
       drawLabels();
 
       // add rectangles for data bar_labels
+      // first need to reverse-nest the nested data
 
-      g.selectAll(".col_label")
+      var reversed = [];
+
+      nested_data.forEach(function(group) {
+        group.values.forEach(function(vals) {
+          reversed.push({
+            Item_text: group.key,
+            ResponseCategory: vals.ResponseCategory,
+            WeightedPctEstimate: vals.WeightedPctEstimate,
+            Flag_Item: vals.Flag_Item
+          });
+        });
+      });
+
+      g.selectAll(".bar_label")
         .each(function(d, i) {
-          district_data[i].bb = this.getBBox();
+
+          reversed[i].bb = this.getBBox();
+
         });
 
       // re-nest the data
 
-      nested_data = d3.nest()
+      var nested_reversed = d3.nest()
         .key(function(d) { return d.Item_text; })
-        .entries(district_data);
+        .entries(reversed);
 
-      cols.selectAll(".label_rect")
+      nested_reversed.forEach(function(group) {
+        var x0 = 0;
+        group.values.forEach(function(entry, index) {
+          entry.x0 = x0;
+          entry.x1 = +entry.WeightedPctEstimate + x0;
+          x0 = entry.x1;
+        });
+        group.total = group.values[group.values.length - 1].x1;
+      });
+
+      bars = g.selectAll(".bar_group")
+        .data(nested_reversed);
+
+      bars.selectAll(".label_rect")
         .data(function(d) { return d.values; })
         .enter()
           .append("rect")
             .attr("class", "label_rect")
-            .attr("y", function(d) { return yScale((d.y1/100 + d.y0/100)/2) - d.bb.height/2 - 2; })
-            .attr("x", function(d) { return xScale.bandwidth()/2 - d.bb.width/2; })
+            .classed("flagged", function(d) {
+              if (d.Flag_Item === "Y") { return true; }
+              else { return false; };
+            })
+            .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
+            .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
             .attr("height", function(d) { return d.bb.height; })
-            .style("opacity", function(d) {
+            .style("opacity", 0)
+            .transition()
+              .delay(function(d, i) { return (500/categories.length)*i; })
+              .duration(500)
+              .style("opacity", 1);
 
-              if (d.WeightedPctEstimate < 10) { return 0; }
-              else { return 1; };
-
-            });
-
-      cols.selectAll(".bar_label")
+      bars.selectAll(".bar_label")
         .remove();
 
       drawLabels();
+
+      // removed suppressed portions
+
+      svg.selectAll(".flagged")
+        .remove();
+
+      // update data function
+
+      function updateData() {
+
+        // re-sort data
+
+        data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
+        // re-filter data
+
+        sel_subpop1 = d3.select("#subpop1_selector").property("value");
+        sel_subpop2 = d3.select("#subpop2_selector").property("value");
+        sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2; });
+
+        sel_data.forEach(function(d) {
+
+          // replace suppressed values with 0
+
+          if (d.Flag_Item === "Y") { d.WeightedPctEstimate = 0; }
+          else {};
+
+        });
+
+        sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+
+        // generate stacked x-coordinates
+        // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
+
+        nested_data = d3.nest()
+          .key(function(d) { return d.Item_text; })
+          .entries(sel_data);
+
+        nested_data.forEach(function(d) {
+          d.values.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
+        });
+
+        nested_data.forEach(function(group) {
+          var x0 = 0;
+          group.values.forEach(function(entry, index) {
+            entry.x0 = x0;
+            entry.x1 = +entry.WeightedPctEstimate + x0;
+            x0 = entry.x1;
+          });
+          group.total = group.values[group.values.length - 1].x1;
+        });
+
+        // refresh y domain
+
+        yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
+
+        // adjust bars
+
+        g.selectAll(".bar_group")
+          .remove();
+
+        bars = g.selectAll(".bar_group")
+          .data(nested_data)
+          .enter()
+            .append("g")
+              .attr("class", "bar_group")
+              .attr("transform", function(d) { return "translate(0," + yScale(d.key) + ")"; });
+
+        bars.selectAll("rect")
+          .data(function(d) { return d.values; })
+          .enter()
+            .append("rect")
+              .attr("class", "bar")
+              .attr("x", function(d) { return xScale(d.x0/100); })
+              .attr("width", 0)
+              .attr("height", yScale.bandwidth())
+              .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+              .transition()
+                .delay(function(d, i) { return (500/categories.length)*i; })
+                .duration(500)
+                .attr("width", function(d) { return xScale(d.WeightedPctEstimate/100); });
+
+        // redo labels
+
+        g.selectAll(".bar_label")
+          .remove();
+
+        drawLabels();
+
+        // add rectangles for data bar_labels
+
+        reversed = [];
+
+        nested_data.forEach(function(group) {
+          group.values.forEach(function(vals) {
+            reversed.push({
+              Item_text: group.key,
+              ResponseCategory: vals.ResponseCategory,
+              WeightedPctEstimate: vals.WeightedPctEstimate,
+              Flag_Item: vals.Flag_Item
+            });
+          });
+        });
+
+        g.selectAll(".bar_label")
+          .each(function(d, i) {
+
+            reversed[i].bb = this.getBBox();
+
+          });
+
+        // re-nest the data
+
+        nested_reversed = d3.nest()
+          .key(function(d) { return d.Item_text; })
+          .entries(reversed);
+
+        nested_reversed.forEach(function(group) {
+          var x0 = 0;
+          group.values.forEach(function(entry, index) {
+            entry.x0 = x0;
+            entry.x1 = +entry.WeightedPctEstimate + x0;
+            x0 = entry.x1;
+          });
+          group.total = group.values[group.values.length - 1].x1;
+        });
+
+        bars = g.selectAll(".bar_group")
+          .data(nested_reversed);
+
+        bars.selectAll(".label_rect")
+          .data(function(d) { return d.values; })
+          .enter()
+            .append("rect")
+              .attr("class", "label_rect")
+              .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
+              .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
+              .attr("width", function(d) { return d.bb.width + 4; })
+              .attr("height", function(d) { return d.bb.height; })
+              .style("opacity", 0)
+              .transition()
+                .delay(function(d, i) { return (500/categories.length)*i; })
+                .duration(500)
+                .style("opacity", 1);
+
+        bars.selectAll(".bar_label")
+          .remove();
+
+        bars.selectAll("text")
+          .data(function(d) { return d.values; })
+          .enter()
+            .append("text")
+              .attr("class", "bar_label")
+              .attr("x", function(d) { return xScale((d.x0/100 + d.x1/100)/2); })
+              .attr("y", yScale.bandwidth()/2)
+              .attr("dy", "0.35em")
+              .attr("text-anchor", "middle")
+              .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
+              .style("opacity", 0)
+              .transition()
+                .delay(function(d, i) { return (500/categories.length)*i; })
+                .duration(500)
+                .style("opacity", 1);
+
+        // remove flagged items
+
+        g.selectAll(".flagged")
+          .remove();
+
+        // redraw axes on top
+
+        g.select(".xAxis").remove();
+        drawXAxis();
+
+      };
+
+      // update data on selector change
+
+      d3.select("#subpop1_selector")
+        .on("change." + chart_id, function() {
+
+          document.getElementById("subpop2_selector").value = null;
+          updateData();
+
+        });
+
+      d3.select("#subpop2_selector")
+        .on("change." + chart_id, function() {
+
+          updateData();
+
+        });
+
+      // save function
+      // push CSS styles into defs based on https://stackoverflow.com/a/41998045
+
+      var dom = d3.select("#" + chart_id);
+
+      function getCSS(file) {
+
+      var rawFile = new XMLHttpRequest();
+      var allText = '';
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function () {
+              if(rawFile.readyState === 4) {
+                  if(rawFile.status === 200 || rawFile.status == 0) {
+                      allText = rawFile.responseText;
+                  }
+              }
+          };
+          rawFile.send(null);
+          return allText;
+
+      };
+
+      var svg_style = getCSS('assets/css/main.css');
+
+      d3.select("#chart_" + chart_id)
+        .append("defs")
+          .append("style")
+            .attr("type", "text/css")
+            .html("\n<![CDATA[" + svg_style + "]]>\n");
+
+      // add save button
+      // use http://krunkosaurus.github.io/simg/ to convert to PNG for download
+
+      var export_container = dom.append("div")
+        .attr("class", "export_container");
+
+      var id_div = export_container.append("div")
+        .attr("class", "export_div id")
+        .text("Chart ID: " + chart_id);
+
+      var export_buttons = export_container.append("div")
+        .attr("class", "export_div")
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "convert_button")
+        .text("Convert to PNG");
+
+      export_buttons.append("button")
+        .attr("id", chart_id + "_save")
+        .attr("class", "save_button")
+        .text("Save as PNG");
+
+      var svgElement = document.getElementById("chart_" + chart_id);
+
+      d3.selectAll("#" + chart_id + "_save")
+        .on("click", function(){
+
+          var simg = new Simg(svgElement);
+
+          // Replace the current SVG with an image version of it.
+
+          /*simg.replace();*/
+
+          // And trigger a download of the rendered image.
+
+          simg.download(chart_id);
+
+        });
 
     });
   };
@@ -2137,9 +2710,10 @@ function stacked_bar() {
           line = [],
           lineNumber = 0,
           lineHeight = 1.1, // ems
+          x = text.attr("x"),
           y = text.attr("y"),
           dy = parseFloat(text.attr("dy")),
-          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+          tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
@@ -2147,9 +2721,11 @@ function stacked_bar() {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
         }
       }
+      var breaks = text.selectAll("tspan").size();
+      text.selectAll("tspan").attr("y", x * (breaks-1));
     });
   }
 
@@ -2185,6 +2761,24 @@ function stacked_bar() {
     return chart;
   };
 
+  chart.horiz_legend = function(value) {
+    if (!arguments.length) return horiz_legend;
+    horiz_legend = value;
+    return chart;
+  };
+
+  chart.horiz_legend_spacing = function(value) {
+    if (!arguments.length) return horiz_legend_spacing;
+    horiz_legend_spacing = value;
+    return chart;
+  };
+
+  chart.yAxisOff = function(value) {
+    if (!arguments.length) return yAxisOff;
+    yAxisOff = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -2199,4 +2793,4 @@ function stacked_bar() {
 
   return chart;
 
-};*/
+};
