@@ -1450,7 +1450,7 @@ function stacked_bar() {
   var height = 500,
       marginTop = 20,
       marginRight = 30,
-      marginLeft = 40,
+      marginLeft = 30,
       marginBottom = 80,
       chart_id = [],
       horiz_legend = 0,
@@ -1750,28 +1750,42 @@ function stacked_bar() {
 
       var legend_data = d3.values(categories).map(function(d) { return d.key; });
 
-      var legend = svg.selectAll(".legend")
+      var legend = svg.append("g")
+        .attr("transform", function(d) {
+          if (horiz_legend === 0) { return "translate(0," + (heightAdj + 70) + ")"; }
+          else if (horiz_legend === 1) { return "translate(" + ((width/2) - (legend_data.length*horiz_legend_spacing)/2) + "," + (heightAdj + 70) + ")"; };
+        });
+
+      legend.selectAll("rect")
         .data(legend_data)
         .enter()
-          .append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) {
+          .append("rect")
+            .attr("x", function(d, i) {
+              if (horiz_legend === 1) { return i * horiz_legend_spacing; }
+              else if (horiz_legend === 0) { return 0; };
+            })
+            .attr("y", function(d, i) {
+              if (horiz_legend === 1) { return 0; }
+              else if (horiz_legend === 0) { return i * 30; };
+            })
+            .attr("fill", function(d) { return zScale(d); })
+            .attr("width", 20)
+            .attr("height", 20);
 
-              if (horiz_legend == 0) { return "translate(0," + (heightAdj + 70 + (i * 30)) + ")"; }
-              else if (horiz_legend == 1) { return "translate(" + (i * horiz_legend_spacing) + "," + (heightAdj + 70) + ")"; };
-
-            });
-
-      legend.append("rect")
-        .attr("fill", function(d) { return zScale(d); })
-        .attr("width", 20)
-        .attr("height", 20);
-
-      legend.append("text")
-        .attr("x", 30)
-        .attr("y", 0)
-        .attr("dy", "1em")
-        .text(function(d) { return d });
+      legend.selectAll("text")
+        .data(legend_data)
+        .enter()
+          .append("text")
+            .attr("x", function(d, i) {
+              if (horiz_legend === 1) { return (i * horiz_legend_spacing) + 30; }
+              else if (horiz_legend === 0) { return 30; };
+            })
+            .attr("y", function(d, i) {
+              if (horiz_legend === 1) { return 0; }
+              else if (horiz_legend === 0) { return i * 30; };
+            })
+            .attr("dy", "1em")
+            .text(function(d) { return d });
 
       // update data function
 
@@ -2163,7 +2177,7 @@ function stacked_bar() {
 
 };
 
-/* stacked bar charts */
+/* likert scale charts */
 
 function likert() {
 
@@ -2175,8 +2189,8 @@ function likert() {
       marginLeft = 30,
       marginBottom = 80,
       chart_id = [],
-      horiz_legend = 0,
-      horiz_legend_spacing = 30,
+      horiz_legend = 1,
+      horiz_legend_spacing = 60,
       yAxisOff = 0,
       data = [];
 
@@ -2188,14 +2202,6 @@ function likert() {
       data.forEach(function(d) {
         d.Value = +d.Value;
       });
-
-      // identify maximum response value
-
-      var max_response = d3.max(data, function(d) { return d.Value; });
-
-      // sort data
-
-      data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
 
       // filter data
 
@@ -2210,17 +2216,9 @@ function likert() {
         if (d.Flag_Item === "Y") { d.WeightedPctEstimate = 0; }
         else {};
 
-        // indicate data labels to be displayed
-        // top two response values should be displayed regardless of values
-        // for other values, if % is < 10 they can be hidden
-
-        if (d.Value >= (max_response - 1)) { return d.Display_Label = "Y"; }
-        else if (d.WeightedPctEstimate < 10) { return d.Display_Label = "N"; }
-        else { return d.Display_Label = "Y"; };
-
       });
 
-      sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+      sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value); });
 
       // generate stacked x-coordinates
       // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
@@ -2258,29 +2256,24 @@ function likert() {
 
       var data_asc = data.sort(function(a, b) { return d3.ascending(a.Value, b.Value); });
       var categories = d3.nest()
-        .key(function(d) { return d.ResponseCategory; })
+        .key(function(d) { return d.Value; })
         .entries(data_asc);
 
       var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
       var xScale = d3.scaleLinear().range([0, widthAdj]);
-
-      // there are 9 categories on the likert scale questions
-
-      var zScale = d3.scaleOrdinal().range(["#777daa", "#878ec0", "#959dd4", "#a2aae5", "#adb6f5", "#bbc2f6", "#c9cef8", "#d5d9f9", "#e0e3fb"]);
 
       // adjust zScale later to be based on # of categories
       // sort response categories for domains
 
       yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
       xScale.domain([0,1]);
-      zScale.domain(d3.values(categories).map(function(d) { return d.key; }));
 
       // svg
 
       var svg = d3.select("#" + chart_id)
         .append("svg")
           .attr("id", "chart_" + chart_id)
-          .attr("class", "stacked_bar")
+          .attr("class", "likert")
           .attr("width", width)
           .attr("height", height)
           .style("opacity", 0);
@@ -2313,7 +2306,17 @@ function likert() {
             .attr("x", function(d) { return xScale(d.x0/100); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
-            .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+            .attr("fill", function(d) {
+              if (d.Value === 1) { return "#777daa"; }
+              else if (d.Value === 2) { return "#878ec0"; }
+              else if (d.Value === 3) { return "#959dd4"; }
+              else if (d.Value === 4) { return "#a2aae5"; }
+              else if (d.Value === 5) { return "#adb6f5"; }
+              else if (d.Value === 6) { return "#bbc2f6"; }
+              else if (d.Value === 7) { return "#c9cef8"; }
+              else if (d.Value === 8) { return "#d5d9f9"; }
+              else if (d.Value === 9) { return "#e0e3fb"; };
+            })
             .transition()
               .delay(function(d, i) { return (500/categories.length)*i; })
               .duration(500)
@@ -2385,6 +2388,7 @@ function likert() {
         group.values.forEach(function(vals) {
           reversed.push({
             Item_text: group.key,
+            Value: group.value,
             ResponseCategory: vals.ResponseCategory,
             WeightedPctEstimate: vals.WeightedPctEstimate,
             Flag_Item: vals.Flag_Item
@@ -2427,10 +2431,6 @@ function likert() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .classed("flagged", function(d) {
-              if (d.Flag_Item === "Y") { return true; }
-              else { return false; };
-            })
             .attr("x", function(d) { return xScale((d.x1/100 + d.x0/100)/2) - d.bb.width/2 - 2; })
             .attr("y", function(d) { return yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
@@ -2451,13 +2451,45 @@ function likert() {
       svg.selectAll(".flagged")
         .remove();
 
+      // add legend
+
+      var legend_data = d3.values(categories).map(function(d) { return d.key; });
+
+      var legend = svg.append("g")
+          .attr("transform", "translate(" + ((width/2) - (legend_data.length*horiz_legend_spacing)/2) + "," + (heightAdj + 70) + ")");
+
+      legend.selectAll("rect")
+        .data(legend_data)
+        .enter()
+          .append("rect")
+          .attr("x", function(d, i) { return i * horiz_legend_spacing })
+          .attr("y", 0)
+          .attr("fill", function(d) {
+            if (d === "1") { return "#777daa"; }
+            else if (d === "2") { return "#878ec0"; }
+            else if (d === "3") { return "#959dd4"; }
+            else if (d === "4") { return "#a2aae5"; }
+            else if (d === "5") { return "#adb6f5"; }
+            else if (d === "6") { return "#bbc2f6"; }
+            else if (d === "7") { return "#c9cef8"; }
+            else if (d === "8") { return "#d5d9f9"; }
+            else if (d === "9") { return "#e0e3fb"; };
+          })
+          .attr("width", 20)
+          .attr("height", 20);
+
+      legend.selectAll("text")
+        .data(legend_data)
+        .enter()
+          .append("text")
+          .attr("x", function(d, i) { return (i * horiz_legend_spacing) + 30; })
+          .attr("y", 0)
+          .attr("dy", "1em")
+          .text(function(d) { return d });
+
       // update data function
 
       function updateData() {
-
-        // re-sort data
-
-        data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
 
         // re-filter data
 
@@ -2474,7 +2506,7 @@ function likert() {
 
         });
 
-        sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value) || d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
+        sel_data.sort(function(a, b) { return d3.descending(a.Value, b.Value); });
 
         // generate stacked x-coordinates
         // based on https://stackoverflow.com/questions/44416221/proper-data-structure-for-d3-stacked-bar-chart
@@ -2525,7 +2557,17 @@ function likert() {
               .attr("x", function(d) { return xScale(d.x0/100); })
               .attr("width", 0)
               .attr("height", yScale.bandwidth())
-              .attr("fill", function(d) { return zScale(d.ResponseCategory); })
+              .attr("fill", function(d) {
+                if (d.Value === 1) { return "#777daa"; }
+                else if (d.Value === 2) { return "#878ec0"; }
+                else if (d.Value === 3) { return "#959dd4"; }
+                else if (d.Value === 4) { return "#a2aae5"; }
+                else if (d.Value === 5) { return "#adb6f5"; }
+                else if (d.Value === 6) { return "#bbc2f6"; }
+                else if (d.Value === 7) { return "#c9cef8"; }
+                else if (d.Value === 8) { return "#d5d9f9"; }
+                else if (d.Value === 9) { return "#e0e3fb"; };
+              })
               .transition()
                 .delay(function(d, i) { return (500/categories.length)*i; })
                 .duration(500)
@@ -2546,6 +2588,7 @@ function likert() {
           group.values.forEach(function(vals) {
             reversed.push({
               Item_text: group.key,
+              Value: group.value,
               ResponseCategory: vals.ResponseCategory,
               WeightedPctEstimate: vals.WeightedPctEstimate,
               Flag_Item: vals.Flag_Item
