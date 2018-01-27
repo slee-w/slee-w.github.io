@@ -8,9 +8,11 @@
 
     <!-- Scripts -->
 
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/d3.v4.min.js"></script>
     <script src="assets/js/charts.js"></script>
     <script src="assets/js/simg.js"></script>
+    <script src="assets/js/fontawesome-all.js"></script>
 
     <!-- Stylesheets -->
 
@@ -37,7 +39,6 @@
           <select id="subpop2_selector"></select>
         </div>
       </div>
-
     </section>
 
     <section id="overview">
@@ -73,7 +74,7 @@
             </ol>
           </p>
           <p>
-            This report is broken down by section and includes graphical representation of all selected-response (e.g., multiple choice) survey questions. Non-numeric open-ended text response questions are not included in this report. Data tables are provided in an <a href="#">Appendix</a>.
+            This report is broken down by section and includes graphical representation of all selected-response (e.g., multiple choice) survey questions. Non-numeric open-ended text response questions are not included in this report. Data tables are provided in an <a href="#appendix">Appendix</a>.
           </p>
           <p>
             In order to protect respondent confidentiality, the report does not include response data if a survey question had fewer than six respondents and/or if all respondents or all but one respondent selected a single response option.
@@ -1207,6 +1208,12 @@
     </section>
 
     <section class="footer_screen">
+      <div id="top_button_container">
+        <div>&nbsp;</div>
+        <div>
+          <button onclick="scrollToTop()" id="top_button"><i class="fas fa-arrow-up"></i></button>
+        </div>
+      </div>
       <div class="footer_container">
         <div class="footer_left">
           <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
@@ -1464,6 +1471,33 @@
 
       };
     });
+  </script>
+
+  <!-- Smooth scrolling + top of anchor -->
+
+  <script>
+
+    //smooth scrolling
+    // from https://stackoverflow.com/questions/7717527/smooth-scrolling-when-clicking-an-anchor-link
+
+    $('a[href*=\\#]').on('click', function(event){
+        event.preventDefault();
+        $('html,body').animate({scrollTop:$(this.hash).offset().top - 65}, 500);
+    });
+
+    // scroll to top button
+
+    function scrollToTop() {
+      $('html,body').animate({scrollTop:0}, 500);
+    };
+
+    // hide/show scroll to top button
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) { document.getElementById("top_button_container").style.visibility = "visible"; }
+      else { document.getElementById("top_button_container").style.visibility = "hidden"; };
+    };
+
   </script>
 
 </html>
