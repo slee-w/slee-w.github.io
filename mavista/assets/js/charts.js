@@ -2861,3 +2861,242 @@ function likert() {
   return chart;
 
 };
+
+/* table generator for appendix */
+
+/* yes/no bar charts */
+
+function table() {
+
+  // default values that can be changed by the caller
+
+  var nohead = 0,
+      table_id = [],
+      data = [];
+
+  function chart(selection) {
+    selection.each(function() {
+
+      data.forEach(function(d) {
+
+        // identify response type
+
+        if (d.Type === "Continuous") { d.EstType = "Mean"; }
+        else { d.EstType = "Percent"; };
+
+        // additional filter for data
+        // also remove suppressed data
+
+        if (d.Type === "Ordinal" && (d.Value === "-1" || d.Value === "" || d.Value === "(missing)")) { d.Display_Data = "N"; }
+        else if (d.Type === "Yes/No" && (d.Value === "0" || d.Value === "" | d.Value === "(missing)")) { d.Display_Data = "N"; }
+        else if (d.Type === "Yes/No2" && (d.Value === "2" || d.Value === "" | d.Value === "(missing)")) { d.Display_Data = "N"; }
+        else { d.Display_Data = "Y"; };
+
+      });
+
+      // filter data to selected subpopulation
+
+      var sel_subpop1 = d3.select("#subpop1_selector").property("value");
+      var sel_subpop2 = d3.select("#subpop2_selector").property("value");
+      var sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2 && d.Display_Data === "Y"; });
+
+      // number formats
+
+      var formatNum = d3.format(",.0f"),
+          formatPer = d3.format(",.0%");
+
+      // table width
+
+      var width = document.getElementById(table_id).offsetWidth;
+
+      // begin table construction
+
+      var table = d3.select("#" + table_id)
+        .append("table")
+          .attr("width", width)
+          .attr("class", "appendix_table");
+
+      // table headers
+
+      var header_cols = ["#", "Matrix_Text", "Item_Text", "Response", "EstType", "Est.", "CI", "N"];
+
+      var table_header = table.append("thead")
+        .classed("invisible", function() {
+          if (nohead === 1) { return true; }
+          else { return false; };
+        });
+
+      table_header.selectAll(".table_header")
+        .data(header_cols)
+        .enter()
+          .append("th")
+            .attr("class", function(d, i) { return "col_" + i; })
+            .html(function(d) { return d; });
+
+      // table rows
+
+      var table_rows = table.selectAll("tr")
+        .data(sel_data)
+        .enter()
+          .append("tr");
+
+      table_rows.append("td")
+        .attr("class", "col_0")
+        .html(function(d) { return d.Var_name; });
+
+      table_rows.append("td")
+        .attr("class", "col_1")
+        .html(function(d) { return d.Matrix_prompt; });
+
+      table_rows.append("td")
+        .attr("class", "col_2")
+        .html(function(d) { return d.Item_text; });
+
+      table_rows.append("td")
+        .attr("class", "col_3")
+        .html(function(d) { return d.ResponseCategory; });
+
+      table_rows.append("td")
+        .attr("class", "col_4")
+        .html(function(d) { return d.EstType; });
+
+      table_rows.append("td")
+        .attr("class", "col_5")
+        .html(function(d) {
+          if (d.Flag_Item === "Y") { }
+          else if (d.EstType === "Percent") { return formatPer(d.WeightedPctEstimate/100); }
+          else if (d.EstType === "Mean") { return formatNum(d.WeightedMean); };
+        });
+
+      table_rows.append("td")
+        .attr("class", "col_6")
+        .html(function(d) {
+          if (d.Flag_Item === "Y") { }
+          else if (d.EstType === "Percent") { return formatPer(d.WeightedPctCILowerBound/100) + " - " + formatPer(d.WeightedPctCIUpperBound/100); }
+          else if (d.EstType === "Mean") { return formatNum(d.WeightedMeanCILowerBound) + " - " + formatNum(d.WeightedMeanCIUpperBound); };
+        });
+
+      table_rows.append("td")
+        .attr("class", "col_7")
+        .html(function(d) {
+          if (d.Flag_Item === "Y") { }
+          else if (d.EstType === "Percent") { return d.Item_N; }
+          else if (d.EstType === "Mean") { return "N/A"; };
+        });
+
+      // remove suppressed
+
+      /*svg.selectAll(".flagged")
+        .remove();*/
+
+      // update data on selector change
+
+      function updateData() {
+
+        // refilter
+
+        sel_subpop1 = d3.select("#subpop1_selector").property("value");
+        sel_subpop2 = d3.select("#subpop2_selector").property("value");
+        sel_data = data.filter(function(d) { return d.SubPopVar == sel_subpop1 && d.SubPopVal == sel_subpop2 && d.Display_Data === "Y"; });
+
+        // remove all rows
+
+        table.selectAll("tr")
+          .remove()
+
+        // rebuild
+
+        var table_rows = table.selectAll("tr")
+          .data(sel_data)
+          .enter()
+            .append("tr");
+
+        table_rows.append("td")
+          .attr("class", "col_0")
+          .html(function(d) { return d.Var_name; });
+
+        table_rows.append("td")
+          .attr("class", "col_1")
+          .html(function(d) { return d.Matrix_prompt; });
+
+        table_rows.append("td")
+          .attr("class", "col_2")
+          .html(function(d) { return d.Item_text; });
+
+        table_rows.append("td")
+          .attr("class", "col_3")
+          .html(function(d) { return d.ResponseCategory; });
+
+        table_rows.append("td")
+          .attr("class", "col_4")
+          .html(function(d) { return d.EstType; });
+
+        table_rows.append("td")
+          .attr("class", "col_5")
+          .html(function(d) {
+            if (d.Flag_Item === "Y") { }
+            else if (d.EstType === "Percent") { return formatPer(d.WeightedPctEstimate/100); }
+            else if (d.EstType === "Mean") { return formatNum(d.WeightedMean); };
+          });
+
+        table_rows.append("td")
+          .attr("class", "col_6")
+          .html(function(d) {
+            if (d.Flag_Item === "Y") { }
+            else if (d.EstType === "Percent") { return formatPer(d.WeightedPctCILowerBound/100) + " - " + formatPer(d.WeightedPctCIUpperBound/100); }
+            else if (d.EstType === "Mean") { return formatNum(d.WeightedMeanCILowerBound) + " - " + formatNum(d.WeightedMeanCIUpperBound); };
+          });
+
+        table_rows.append("td")
+          .attr("class", "col_7")
+          .html(function(d) {
+            if (d.Flag_Item === "Y") { }
+            else if (d.EstType === "Percent") { return d.Item_N; }
+            else if (d.EstType === "Mean") { return "N/A"; };
+          });      
+
+      };
+
+      // update data on selector change
+
+      d3.select("#subpop1_selector")
+        .on("change." + table_id, function() {
+
+          document.getElementById("subpop2_selector").value = null;
+          updateData();
+
+        });
+
+      d3.select("#subpop2_selector")
+        .on("change." + table_id, function() {
+
+          updateData();
+
+        });
+
+    });
+  };
+
+  // these allow the default values to be changed
+
+  chart.nohead = function(value) {
+    if (!arguments.length) return nohead;
+    nohead = value;
+    return chart;
+  };
+
+  chart.table_id = function(value) {
+    if (!arguments.length) return table_id;
+    table_id = value;
+    return chart;
+  };
+
+  chart.data = function(value) {
+    if (!arguments.length) return data;
+    data = value;
+    return chart;
+  };
+
+  return chart;
+
+};

@@ -6,6 +6,43 @@ body {
   margin: auto;
 }
 
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.loader_div {
+  width: 100%;
+  text-align: center;
+  font: 14pt Roboto, sans-serif;
+  font-weight: bold;
+}
+
+.loader_circle {
+  margin: 0 auto;
+  border: 16px solid #eee; /* Light grey */
+  border-top: 16px solid #0d1969; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .header {
   display: flex;
   width: 100%;
@@ -412,6 +449,87 @@ svg {
   stroke-width: 1px;
 }
 
+/* Appendix table styling */
+
+.appendix_table {
+  font: 9pt Calibri, sans-serif;
+  /*border: 1px solid #000;*/
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.appendix_table .invisible {
+  display: none;
+}
+
+.appendix_table thead {
+  border-bottom: 1px solid #000;
+}
+
+.appendix_table tr {
+  border-bottom: 1px dashed #ddd;
+}
+
+.appendix_table th, td {
+  padding: 0in 0.08in;
+}
+
+.appendix_table .col_0 {
+  width: 5%;
+  vertical-align: top;
+  text-align: left;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_1 {
+  width: 30%;
+  vertical-align: top;
+  text-align: left;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_2 {
+  width: 30%;
+  vertical-align: top;
+  text-align: left;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_3 {
+  width: 10%;
+  vertical-align: top;
+  text-align: left;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_4 {
+  width: 7.5%;
+  vertical-align: top;
+  text-align: left;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_5 {
+  width: 3.75%;
+  vertical-align: top;
+  text-align: center;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_6 {
+  width: 10%;
+  vertical-align: top;
+  text-align: center;
+  /*border: 1px solid #000;*/
+}
+
+.appendix_table .col_7 {
+  width: 3.75%;
+  vertical-align: top;
+  text-align: center;
+  /*border: 1px solid #000;*/
+}
+
 /* IE 10+ target buttons */
 
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
@@ -435,6 +553,10 @@ svg {
     /*margin-top: 0.5in;
     margin-bottom: 0.5in;*/
     margin: 0in 1in;
+  }
+
+  .loader {
+    display: none;
   }
 
   #selectors {
@@ -508,6 +630,14 @@ svg {
 
   .export_container {
     display: none;
+  }
+
+  .appendix_table .invisible {
+    display: table-header-group;
+  }
+
+  .print_top_margin {
+    margin-top: 0.25in;
   }
 
 }
