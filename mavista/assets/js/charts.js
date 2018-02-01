@@ -77,7 +77,7 @@ function bar_yes_no() {
           .attr("class", "yAxis")
           .call(d3.axisLeft(yScale).tickSizeOuter(0))
           .selectAll(".tick text")
-            .call(wrap, marginLeft);
+            .call(wrap, marginLeft - 20);
       };
 
       // draw bars
@@ -206,7 +206,7 @@ function bar_yes_no() {
               .attr("class", "yAxis")
               .call(d3.axisLeft(yScale).tickSizeOuter(0))
               .selectAll(".tick text")
-                .call(wrap, marginLeft);
+                .call(wrap, marginLeft - 20);
           };
         }
         else {};
@@ -586,7 +586,7 @@ function col_mean() {
           }));
 
       g.append("text")
-        .attr("x", -1*(marginLeft))
+        .attr("x", -1*(marginLeft/2))
         .attr("y", -20)
         .text(yAxisLabel);
 
@@ -1047,7 +1047,7 @@ function bar_mean() {
           .attr("class", "yAxis")
           .call(d3.axisLeft(yScale).tickSizeOuter(0))
           .selectAll(".tick text")
-            .call(wrap, marginLeft);
+            .call(wrap, marginLeft - 20);
       };
 
       g.append("text")
@@ -1629,7 +1629,7 @@ function stacked_bar() {
             .attr("class", "yAxis")
             .call(d3.axisLeft(yScale).tickSizeOuter(0))
             .selectAll(".tick text")
-              .call(wrap, marginLeft);
+              .call(wrap, marginLeft - 20);
         };
 
       };
@@ -2185,8 +2185,8 @@ function likert() {
 
   var height = 500,
       marginTop = 20,
-      marginRight = 30,
-      marginLeft = 30,
+      marginRight = 20,
+      marginLeft = 20,
       marginBottom = 80,
       chart_id = [],
       horiz_legend = 1,
@@ -2766,7 +2766,7 @@ function likert() {
     });
   };
 
-  // for wrapping long labels
+  // for ping long labels
   // from https://bl.ocks.org/mbostock/7555321 (mbostock)
 
   function wrap(text, width) {
@@ -3053,7 +3053,7 @@ function table() {
             if (d.Flag_Item === "Y") { }
             else if (d.EstType === "Percent") { return d.Item_N; }
             else if (d.EstType === "Mean") { return "N/A"; };
-          });      
+          });
 
       };
 

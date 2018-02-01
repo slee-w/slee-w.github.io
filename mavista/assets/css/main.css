@@ -6,6 +6,8 @@ body {
   margin: auto;
 }
 
+/* Loader */
+
 .loader {
   position: fixed;
   top: 0;
@@ -43,6 +45,8 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+/* Back to page layout */
+
 .header {
   display: flex;
   width: 100%;
@@ -62,6 +66,7 @@ body {
 
 .page_content {
   font: 11pt Calibri, sans-serif;
+  border: 1px solid red;
 }
 
 h1 {
