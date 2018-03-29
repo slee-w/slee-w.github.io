@@ -112,6 +112,8 @@ function reset() {
 	messageDisplay.textContent = "";
 	resetBtn.textContent = "New Colors";
 
+	h1.style.backgroundColor = "steelblue";
+
 };
 
 // function to apply colors to squares;
