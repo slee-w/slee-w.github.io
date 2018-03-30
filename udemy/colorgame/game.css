@@ -29,6 +29,15 @@ h1 {
 	text-align: center;
 }
 
+.menuContainer {
+	margin: 0 auto;
+	max-width: 600px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-content: center;
+}
+
 #container {
 	max-width: 600px;
 	margin: 20px auto;
@@ -48,8 +57,11 @@ h1 {
 }
 
 #message {
-	display: inline-block;
-	width: 20%;
+	/* display: table-cell; */
+	/* vertical-align: middle; */
+	/* width: 20%; */
+	line-height: 30px;
+	height: 30px;
 }
 
 button {
@@ -73,6 +85,6 @@ button:hover {
 }
 
 .selected {
-	background: steelblue;	
-	color: white;	
+	background: steelblue;
+	color: white;
 }

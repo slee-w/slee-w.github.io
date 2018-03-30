@@ -2,8 +2,9 @@
 <html>
 <head>
 	<title>Color Guessing Game</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="game.css">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">	
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
 
@@ -16,11 +17,17 @@
 <!-- Navigation -->
 
 <div id="stripe">
-	<button id="reset">New Colors</button>
-	<span id="message"></span>
-	<button id="easy" class="mode">Easy</button>
-	<button id="medium" class="mode selected">Medium</button>
-	<button id="hard" class="mode">Hard</button>
+	<div class="menuContainer">
+		<div>
+			<button id="reset">New Colors</button>
+		</div>
+		<div id="message">test</div>
+		<div>
+			<button id="easy" class="mode">Easy</button>
+			<button id="medium" class="mode selected">Medium</button>
+			<button id="hard" class="mode">Hard</button>
+		</div>
+	</div>
 </div>
 
 <!-- Grid -->
