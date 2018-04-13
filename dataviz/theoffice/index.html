@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Visualizing "The Office"</title>
+
+    <!-- Import scripts -->
+    <script src="assets/js/lib/d3.min.js"></script>
+    <script src="assets/js/charts.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+
+  </head>
+  <body>
+    <div id="allEpisodes"></div>
+    <div id="season1"></div>
+  </body>
+
+  <!-- Charts -->
+
+  <script>
+    // import data
+    d3.csv("assets/data/the-office-lines.csv")
+      .then((data) => {
+        // change data formats
+        data.forEach((d) => {
+          d.Speaker = d.Speaker;
+          d.Season = d.Season;
+          d.Episode = d.Episode;
+          d.SeriesNumber = d.SeriesNumber;
+          d.EpisodeCount = +d.EpisodeCount;
+          d.EpisodeTotal = +d.EpisodeTotal;
+          d.EpisodePct = +d.EpisodePct;
+        });
+
+        // filter data
+        var allEpisodesData = data;
+        var season1Data = data.filter((d) => { return d.Season === "1"; });
+
+        // define Charts
+        var allEpisodes = heatmap().data(allEpisodesData).chartId("allEpisodes").boxSize(20).dataType("all");
+        var season1 = heatmap().data(season1Data).chartId("season1").boxSize(20).dataType("season");
+
+        // call charts
+        d3.select("#allEpisodes").call(allEpisodes);
+        d3.select("#season1").call(season1);
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  </script>
+
+</html>

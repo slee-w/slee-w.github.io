@@ -1,0 +1,21 @@
+body {
+  font-family: Tahoma;
+}
+
+.box {
+  border: 1px solid white;
+}
+
+.axis .domain,
+.axis .tick line {
+  display: none;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #fff;
+  font-size: 12px;
+}
