@@ -2,19 +2,27 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width"> -->
     <title>Visualizing "The Office"</title>
 
     <!-- Import scripts -->
     <script src="assets/js/lib/d3.min.js"></script>
-    <script src="assets/js/charts.js"></script>
+    <!-- <script src="assets/js/charts.js"></script> -->
 
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
   </head>
   <body>
-    <div id="allEpisodes"></div>
-    <div id="season1"></div>
+    <div class="container">
+      <div id="intro">
+        <h1>The Office</h1>
+        <p>Visualizing each character's prominence by episode, as determined by the percentage of each episode's lines spoken by that character. Characters listed are those that are categorized as "Main" and "Additional Main" on <a href="https://en.wikipedia.org/wiki/List_of_The_Office_(U.S._TV_series)_characters" target="_blank">Wikipedia</a>.</p>
+        <p>Hover over each cell to find out the percentage of lines in that episode spoken by that character. Percentages range from <span id="min">0%</span> to <span id="max">50%</span>.</p> 
+      </div>
+      <div id="dataTable"></div>
+      <div id="tooltip"></div>
+    </div>
   </body>
 
   <!-- Charts -->
@@ -26,6 +34,8 @@
         // change data formats
         data.forEach((d) => {
           d.Speaker = d.Speaker;
+          d.Initials = d.Initials;
+          d.Order = +d.Order;
           d.Season = d.Season;
           d.Episode = d.Episode;
           d.SeriesNumber = d.SeriesNumber;
@@ -34,18 +44,78 @@
           d.EpisodePct = +d.EpisodePct;
         });
 
-        // filter data
-        var allEpisodesData = data;
-        var season1Data = data.filter((d) => { return d.Season === "1"; });
+        // identify div
 
-        // define Charts
-        var allEpisodes = heatmap().data(allEpisodesData).chartId("allEpisodes").boxSize(20).dataType("all");
-        var season1 = heatmap().data(season1Data).chartId("season1").boxSize(20).dataType("season");
+        var tableDiv = d3.select("#dataTable");
 
-        // call charts
-        d3.select("#allEpisodes").call(allEpisodes);
-        d3.select("#season1").call(season1);
+        // first, get initials of speakers as keys
 
+        var speakers = d3.map(data, d => d.Speaker).keys();
+
+        // add table header using initials
+
+        var tableHeader = tableDiv.append("div")
+          .attr("class", "tableHeader");
+
+        // first append first column
+
+        tableHeader.append("div")
+          .attr("class", "firstCol");
+
+        // then append initials
+
+        var initialsCols = tableHeader.selectAll(".otherCol")
+          .data(speakers)
+          .enter()
+            .append("div")
+              .attr("class", "otherCol")
+              .html(d => d);
+
+        // now append rows
+        // data need to be nested by series number
+
+        var nested = d3.nest()
+          .key(d => d.SeriesNumber)
+          .entries(data);
+
+        var tableRow = tableDiv.selectAll(".tableRow")
+          .data(nested)
+          .enter()
+            .append("div")
+              .attr("class", "tableRow")
+
+        // append series name in the first column
+
+        tableRow.append("div")
+          .attr("class", "firstCol")
+          .html(d => `Season ${d.values[0].Season}, Episode ${d.values[0].Episode}`);
+
+        // color gradient
+        var color = d3.scaleLinear()
+          .domain([0, 0.5])
+          .range(["#fafafa", "#000857"])
+
+        // select tooltip
+        var tooltip = d3.select("#tooltip");
+        var formatPer = d3.format(".0%");
+
+        // now append individual columns
+        tableRow.selectAll(".otherCol")
+          .data(d => d.values)
+          .enter()
+            .append("div")
+              .attr("class", "otherCol")
+              .style("background-color", d => color(d.EpisodePct))
+              .on("mouseover", d => {
+                tooltip.style("opacity", .9);
+
+                tooltip.html("<strong>" + d.Speaker + "</strong> (Season " + d.Season + ", Episode " + d.Episode + "): " + formatPer(d.EpisodePct))
+                  .style("left", (d3.event.pageX + 25) + "px")
+                  .style("top", (d3.event.pageY) + "px");
+              })
+              .on("mouseout", () => {
+                tooltip.style("opacity", 0);
+              });
       })
       .catch((err) => {
         console.log(err);

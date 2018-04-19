@@ -1,21 +1,90 @@
 body {
+}
+
+h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 700;
+	line-height: 26.4px;
+}
+
+p {
   font-family: Tahoma;
+  font-size: 12px;
+  padding: 3px;
 }
 
-.box {
-  border: 1px solid white;
+span {
+  border: 1px solid #000;
+  padding: 3px;
 }
 
-.axis .domain,
-.axis .tick line {
-  display: none;
+#min {
+  background-color: #fafafa;
 }
 
-.tooltip {
+#max {
+  background-color: #000857;
+  color: #fff;
+}
+
+.container {
+  width: 1400px;
+  margin: 0 auto;
+}
+
+#dataTable {
+  font-family: Tahoma;
+  font-size: 11px;
+}
+
+.tableHeader {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+  z-index: 1;
+}
+
+.tableHeader,
+.tableRow {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.tableHeader div,
+.tableRow div {
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  height: 50px;
+  line-height: 50px;
+}
+
+.firstCol {
+  flex-grow: 1;
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  /* text-align: right;
+  padding-right: 20px; */
+}
+
+.otherCol {
+  flex-basis: 50px;
+  text-align: center;
+}
+
+#tooltip {
+  font-family: Tahoma;
+  font-size: 11px;
   position: absolute;
   background-color: rgba(0,0,0,0.8);
   color: #fff;
   padding: 10px;
   border: 1px solid #fff;
   font-size: 12px;
+  opacity: 0;
 }
