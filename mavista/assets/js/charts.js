@@ -1543,7 +1543,7 @@ function stacked_bar() {
 
       var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
       var xScale = d3.scaleLinear().range([0, widthAdj]);
-      var zScale = [];
+      var zScale;
 
       function color_categories() {
 
@@ -1753,8 +1753,10 @@ function stacked_bar() {
       var legend = svg.append("g")
         .attr("transform", function(d) {
           if (horiz_legend === 0) { return "translate(0," + (heightAdj + 70) + ")"; }
-          else if (horiz_legend === 1) { return "translate(" + ((width/2) - (legend_data.length*horiz_legend_spacing)/2) + "," + (heightAdj + 70) + ")"; };
+          else if (horiz_legend === 1) { return "translate(0," + (heightAdj + 70) + ")"; };
         });
+
+      // replace x translation with " + ((width/2) - (legend_data.length*horiz_legend_spacing)/2) + " if center is desired
 
       legend.selectAll("rect")
         .data(legend_data)
