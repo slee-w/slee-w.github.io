@@ -272,7 +272,7 @@ svg {
 }
 
 .id {
-  visibility: visible; /* SET TO HIDDEN FOR PRODUCTION */
+  visibility: hidden; /* SET TO HIDDEN FOR PRODUCTION */
 }
 
 /* Yes/no chart styling */
@@ -487,21 +487,21 @@ svg {
 }
 
 .appendix_table .col_1 {
-  width: 30%;
+  width: 29.5%;
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/
 }
 
 .appendix_table .col_2 {
-  width: 30%;
+  width: 29.5%;
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/
 }
 
 .appendix_table .col_3 {
-  width: 10%;
+  width: 11%;
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/
