@@ -11,11 +11,21 @@ function bar_yes_no() {
       marginBottom = 30,
       yAxisOff = 0,
       sortDesc = 0,
+      useRespCat = 0,
       chart_id = [],
       data = [];
 
   function chart(selection) {
     selection.each(function() {
+
+      // determine category to use - Item_text or ResponseCategory
+      data.forEach(function(d) {
+        if (useRespCat === 1) {
+          d.Category = d.ResponseCategory;
+        } else {
+          d.Category = d.Item_text;
+        };
+      });
 
       // filter data to selected subpopulation
 
@@ -25,8 +35,7 @@ function bar_yes_no() {
 
       // sort if needed
 
-      if (sortDesc === 1) { sel_data.sort(function(a,b) { return d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); }) }
-      else {};
+      if (sortDesc === 1) { sel_data.sort(function(a,b) { return d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); }) };
 
       // number formats
 
@@ -44,7 +53,7 @@ function bar_yes_no() {
       var yScale = d3.scaleBand().rangeRound([0, heightAdj]).padding(0.25);
       var xScale = d3.scaleLinear().range([0, widthAdj]);
 
-      yScale.domain(sel_data.map(function(d) { return d.Item_text; }));
+      yScale.domain(sel_data.map(function(d) { return d.Category; }));
       xScale.domain([0, 1]);
 
       // svg
@@ -93,7 +102,7 @@ function bar_yes_no() {
             else { return false; };
           })
           .attr("x", 0)
-          .attr("y", function(d) { return yScale(d.Item_text); })
+          .attr("y", function(d) { return yScale(d.Category); })
           .attr("width", 0)
           .attr("height", yScale.bandwidth())
           .transition()
@@ -115,7 +124,7 @@ function bar_yes_no() {
               else { return false; };
             })
             .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
-            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+            .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
             .attr("text-anchor", "end")
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
@@ -151,7 +160,7 @@ function bar_yes_no() {
             else { return false; };
           })
           .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
-          .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
+          .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2 - d.bb.height/2; })
           .attr("width", 0)
           .attr("height", function(d) { return d.bb.height; })
           .style("opacity", 0)
@@ -189,7 +198,7 @@ function bar_yes_no() {
 
         if (sortDesc === 1) {
           sel_data.sort(function(a, b) { return d3.descending(a.WeightedPctEstimate, b.WeightedPctEstimate); });
-          yScale.domain(sel_data.map(function(d) { return d.Item_text; }));
+          yScale.domain(sel_data.map(function(d) { return d.Category; }));
         }
         else {};
 
@@ -226,7 +235,7 @@ function bar_yes_no() {
               else { return false; };
             })
             .attr("x", 0)
-            .attr("y", function(d) { return yScale(d.Item_text); })
+            .attr("y", function(d) { return yScale(d.Category); })
             .attr("width", 0)
             .attr("height", yScale.bandwidth())
             .transition()
@@ -252,7 +261,7 @@ function bar_yes_no() {
               else { return false; };
             })
             .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
-            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+            .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
             .attr("text-anchor", "end")
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
@@ -282,7 +291,7 @@ function bar_yes_no() {
               else { return false; };
             })
             .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
-            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
+            .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
             .attr("height", function(d) { return d.bb.height; })
             .style("opacity", 0)
@@ -306,7 +315,7 @@ function bar_yes_no() {
               else { return false; };
             })
             .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
-            .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
+            .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
             .attr("text-anchor", "end")
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
@@ -488,6 +497,12 @@ function bar_yes_no() {
   chart.sortDesc = function(value) {
     if (!arguments.length) return sortDesc;
     sortDesc = value;
+    return chart;
+  };
+
+  chart.useRespCat = function(value) {
+    if (!arguments.length) return useRespCat;
+    useRespCat = value;
     return chart;
   };
 
@@ -1090,10 +1105,22 @@ function bar_mean() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .attr("x", function(d) { return xScale(d.WeightedMean) - 5; })
+            .attr("x", function(d) {
+              if (d.WeightedMean < 0.025) {
+                return xScale(d.WeightedMean) + 5;
+              } else {
+                return xScale(d.WeightedMean) - 5;
+              }
+            })
             .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
-            .attr("text-anchor", "end")
+            .attr("text-anchor", function(d) {
+              if (d.WeightedMean < 0.025) {
+                return "start"
+              } else {
+                return "end"
+              }
+            })
             .text(function(d) { return formatNum(d.WeightedMean); })
             .style("opacity", 0)
             .transition()
@@ -1121,7 +1148,13 @@ function bar_mean() {
             if (d.Flag_Item === "Y") { return true; }
             else { return false; };
           })
-          .attr("x", function(d) { return xScale(d.WeightedMean) - d.bb.width - 7; })
+          .attr("x", function(d) {
+            if (d.WeightedMean < 0.025) {
+              return xScale(d.WeightedMean) + 3.5;
+            } else {
+              return xScale(d.WeightedMean) - d.bb.width - 7;
+            }
+          })
           .attr("y", function(d) { return yScale(d.Item_text) + yScale.bandwidth()/2 - d.bb.height/2; })
           .attr("width", 0)
           .attr("height", function(d) { return d.bb.height; })
