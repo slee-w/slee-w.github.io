@@ -272,7 +272,7 @@ svg {
 }
 
 .id {
-  visibility: hidden; /* SET TO HIDDEN FOR PRODUCTION */
+  visibility: visible;
 }
 
 /* Yes/no chart styling */
@@ -633,7 +633,8 @@ svg {
     display: none;
   }
 
-  .export_container {
+  .save_button,
+  .convert_button {
     display: none;
   }
 
