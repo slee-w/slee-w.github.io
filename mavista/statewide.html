@@ -3400,7 +3400,7 @@
           data_B3 = data.filter(function(d) { return (b3_vars.indexOf(d.Var_name) !== -1 && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""); });
           data_B4 = data.filter(function(d) { return (b4_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
           data_B5 = data.filter(function(d) { return (b5_vars.indexOf(d.Var_name) !== -1); });
-          data_B5_2 = data.filter(function(d) { return (b5_2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Yes"; });
+          data_B5_2 = data.filter(function(d) { return (b5_2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory == "Yes"; });
           data_B6 = data.filter(function(d) { return (b6_vars.indexOf(d.Var_name) !== -1); });
           data_C1 = data.filter(function(d) { return (c1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
           data_C2_1 = data.filter(function(d) { return (c2_1_vars.indexOf(d.Var_name) !== -1); });

@@ -123,20 +123,34 @@ function bar_yes_no() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+            .attr("x", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return xScale(d.WeightedPctEstimate/100) + 5;
+              } else {
+                return xScale(d.WeightedPctEstimate/100) - 5;
+              }
+            })
             .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
-            .attr("text-anchor", "end")
+            .attr("text-anchor", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return "start";
+              } else {
+                return "end";
+              }
+            })
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", function(d) {
+              .style("opacity", 1);
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
-
-              });
+              // function(d) {
+              //
+              //   if (d.WeightedPctEstimate < 10) { return 0; }
+              //   else { return 1; };
+              //
+              // });
 
       };
 
@@ -159,7 +173,13 @@ function bar_yes_no() {
             if (d.Flag_Item === "Y") { return true; }
             else { return false; };
           })
-          .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
+          .attr("x", function(d) {
+            if (d.WeightedPctEstimate < 7.5) {
+              return xScale(d.WeightedPctEstimate/100) + 3.5;
+            } else {
+              return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7;
+            }
+          })
           .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2 - d.bb.height/2; })
           .attr("width", 0)
           .attr("height", function(d) { return d.bb.height; })
@@ -167,12 +187,14 @@ function bar_yes_no() {
           .transition()
             .duration(500)
             .attr("width", function(d) { return d.bb.width + 4; })
-            .style("opacity", function(d) {
+            .style("opacity", 1);
 
-              if (d.WeightedPctEstimate < 10) { return 0; }
-              else { return 1; };
-
-            });
+            // function(d) {
+            //
+            //   if (d.WeightedPctEstimate < 10) { return 0; }
+            //   else { return 1; };
+            //
+            // });
 
       g.selectAll(".bar_label")
         .remove()
@@ -260,20 +282,34 @@ function bar_yes_no() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+            .attr("x", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return xScale(d.WeightedPctEstimate/100) + 5;
+              } else {
+                return xScale(d.WeightedPctEstimate/100) - 5;
+              }
+            })
             .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
-            .attr("text-anchor", "end")
+            .attr("text-anchor", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return "start";
+              } else {
+                return "end";
+              }
+            })
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", function(d) {
+              .style("opacity", 1);
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
-
-              });
+              // function(d) {
+              //
+              //   if (d.WeightedPctEstimate < 10) { return 0; }
+              //   else { return 1; };
+              //
+              // });
 
         g.selectAll(".bar_label")
           .each(function(d, i) {
@@ -290,19 +326,27 @@ function bar_yes_no() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7; })
+            .attr("x", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return xScale(d.WeightedPctEstimate/100) + 3.5;
+              } else {
+                return xScale(d.WeightedPctEstimate/100) - d.bb.width - 7;
+              }
+            })
             .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2 - d.bb.height/2; })
             .attr("width", function(d) { return d.bb.width + 4; })
             .attr("height", function(d) { return d.bb.height; })
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", function(d) {
+              .style("opacity", 1);
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
-
-              });
+              // function(d) {
+              //
+              //   if (d.WeightedPctEstimate < 10) { return 0; }
+              //   else { return 1; };
+              //
+              // });
 
         g.selectAll(".bar_label")
           .remove();
@@ -314,20 +358,34 @@ function bar_yes_no() {
               if (d.Flag_Item === "Y") { return true; }
               else { return false; };
             })
-            .attr("x", function(d) { return xScale(d.WeightedPctEstimate/100) - 5; })
+            .attr("x", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return xScale(d.WeightedPctEstimate/100) + 5;
+              } else {
+                return xScale(d.WeightedPctEstimate/100) - 5;
+              }
+            })
             .attr("y", function(d) { return yScale(d.Category) + yScale.bandwidth()/2; })
             .attr("dy", "0.35em")
-            .attr("text-anchor", "end")
+            .attr("text-anchor", function(d) {
+              if (d.WeightedPctEstimate < 7.5) {
+                return "start";
+              } else {
+                return "end";
+              }
+            })
             .text(function(d) { return formatPer(d.WeightedPctEstimate/100); })
             .style("opacity", 0)
             .transition()
               .duration(500)
-              .style("opacity", function(d) {
+              .style("opacity", 1);
 
-                if (d.WeightedPctEstimate < 10) { return 0; }
-                else { return 1; };
-
-              });
+              // function(d) {
+              //
+              //   if (d.WeightedPctEstimate < 10) { return 0; }
+              //   else { return 1; };
+              //
+              // });
 
         // remove suppressed
 
