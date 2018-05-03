@@ -536,11 +536,27 @@ svg {
 }
 
 /* IE 10+ target buttons */
+/* HIDING BUTTONS, IE/EDGE CAN NATIVELY SAVE AS PNG */
 
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
 
   .convert_button {
-    visibility: hidden; /* HIDING BUTTON, IE/EDGE CAN NATIVELY SAVE AS PNG */
+    display: none;
+  }
+
+  .save_button {
+    display: none;
+  }
+
+}
+
+/* EDGE target buttons */
+/* HIDING BUTTONS, IE/EDGE CAN NATIVELY SAVE AS PNG */
+
+@supports (-ms-ime-align:auto) {
+
+  .convert_button {
+    display: none; /* HIDING BUTTON, IE/EDGE CAN NATIVELY SAVE AS PNG */
   }
 
   .save_button {
