@@ -540,7 +540,7 @@ svg {
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
 
   .convert_button {
-    visibility: visible;
+    visibility: hidden; /* HIDING BUTTON, IE/EDGE CAN NATIVELY SAVE AS PNG */
   }
 
   .save_button {
