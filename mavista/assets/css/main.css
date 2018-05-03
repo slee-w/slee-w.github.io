@@ -487,21 +487,21 @@ svg {
 }
 
 .appendix_table .col_1 {
-  width: 29.5%;
+  /* width: 30%; */
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/
 }
 
 .appendix_table .col_2 {
-  width: 29.5%;
+  /* width: 25%; */
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/
 }
 
 .appendix_table .col_3 {
-  width: 11%;
+  width: 15%;
   vertical-align: top;
   text-align: left;
   /*border: 1px solid #000;*/

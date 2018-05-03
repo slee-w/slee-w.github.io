@@ -2649,6 +2649,7 @@ function table() {
 
   var nohead = 0,
       table_id = [],
+      matrix_wide = 1,
       data = [];
 
   function chart(selection) {
@@ -2665,8 +2666,8 @@ function table() {
         // also remove suppressed data
 
         if (d.Type === "Ordinal" && (d.Value === "-1" || d.Value === "" || d.Value === "(missing)")) { d.Display_Data = "N"; }
-        else if (d.Type === "Yes/No" && (d.Value === "0" || d.Value === "" | d.Value === "(missing)")) { d.Display_Data = "N"; }
-        else if (d.Type === "Yes/No2" && (d.Value === "2" || d.Value === "" | d.Value === "(missing)")) { d.Display_Data = "N"; }
+        else if (d.Type === "Yes/No" && (d.Value === "0" || d.Value === "" || d.Value === "(missing)")) { d.Display_Data = "N"; }
+        else if (d.Type === "Yes/No2" && (d.Value === "2" || d.Value === "" || d.Value === "(missing)")) { d.Display_Data = "N"; }
         else { d.Display_Data = "Y"; };
 
       });
@@ -2710,6 +2711,18 @@ function table() {
             .attr("class", function(d, i) { return "col_" + i; })
             .html(function(d) { return d; });
 
+      table_header.selectAll(".col_1")
+        .attr("width", function() {
+          if (matrix_wide === 1) { return "30%"; }
+          else { return "25%"; };
+        });
+
+      table_header.selectAll(".col_2")
+        .attr("width", function() {
+          if (matrix_wide === 1) { return "25%"; }
+          else { return "30%"; };
+        });
+
       // table rows
 
       function addRows() {
@@ -2724,10 +2737,18 @@ function table() {
 
         table_rows.append("td")
           .attr("class", "col_1")
+          .attr("width", function() {
+            if (matrix_wide === 1) { return "30%"; }
+            else { return "25%"; };
+          })
           .html(function(d) { return d.Matrix_prompt; });
 
         table_rows.append("td")
           .attr("class", "col_2")
+          .attr("width", function() {
+            if (matrix_wide === 1) { return "25%"; }
+            else { return "30%"; };
+          })
           .html(function(d) { return d.Item_text; });
 
         table_rows.append("td")
@@ -2822,6 +2843,12 @@ function table() {
   chart.table_id = function(value) {
     if (!arguments.length) return table_id;
     table_id = value;
+    return chart;
+  };
+
+  chart.matrix_wide = function(value) {
+    if (!arguments.length) return matrix_wide;
+    matrix_wide = value;
     return chart;
   };
 
