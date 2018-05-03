@@ -17,7 +17,7 @@ function bar_yes_no() {
 
       // filter data to selected district
 
-      var sel_district = d3.select("#selector").property("value");
+      var sel_district = d3.select("#district_selector").property("value");
       var district_data = data.filter(function(d) { return d.District == sel_district; });
 
       // number formats

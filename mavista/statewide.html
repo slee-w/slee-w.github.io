@@ -3140,15 +3140,45 @@
 
         drawCharts();
 
+        // page headers
+        var page_headers = [
+            { 'class': '.sec_overview', 'header': 'Overview' },
+            { 'class': '.sec_dem', 'header': 'Demographic Questions' },
+            { 'class': '.sec_cur', 'header': 'State Curriculum Frameworks' },
+            { 'class': '.sec_eval', 'header': 'Role of Evaluation in Supporting Educator Growth and Development' },
+            { 'class': '.sec_edp', 'header': 'Educator Pipeline Development: Preparing, Hiring, and Retaining Educators"' },
+            { 'class': '.sec_sel', 'header': 'Social and Emotional Learning, Health, and Safety' },
+            { 'class': '.sec_ese', 'header': 'ESE Support' },
+            { 'class': '.sec_charter', 'header': 'Charter Leaders' },
+            { 'class': '.sec_appendix', 'header': 'Appendix Tables' }
+        ];
+
+        page_headers.forEach(function(page) {
+          $(page.class).html("<strong>2018 VISTA Superintendent Survey:</strong></br>" + page.header);
+        });
+
+        // add pagination
+        $('.page_number').each(function(i) {
+          $(this).html((i + 1));
+        });
+
+        // footer images
+        $('.footer_left').each(function(i) {
+          $(this).html("<a href='https://www.westat.com'><img src='assets/images/westat.png' style='height: 0.4in;' /></a>")
+        });
+
+        $('.footer_right').each(function(i) {
+          $(this).html("<a href='http://www.doe.mass.edu/'><img src='assets/images/dese.png' style='height: 0.5in;' /></a>")
+        });
+
+        // remove the loader
         d3.select("#loader").remove();
 
-        /* Upon change, re-filter and re-draw */
+        // Upon change, re-filter and re-draw
 
         d3.select("#subpop1_selector")
           .on("change", function() {
-
             updateDropdown();
-
           });
 
       };
@@ -3158,56 +3188,6 @@
   <!-- Smooth scrolling + top of anchor -->
 
   <script>
-    // page headers
-    $('.sec_overview').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Overview");
-    });
-
-    $('.sec_dem').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Demographic Questions");
-    });
-
-    $('.sec_cur').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>State Curriculum Frameworks");
-    });
-
-    $('.sec_eval').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Role of Evaluation in Supporting Educator Growth and Development");
-    });
-
-    $('.sec_edp').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Educator Pipeline Development: Preparing, Hiring, and Retaining Educators");
-    })
-
-    $('.sec_sel').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Social and Emotional Learning, Health, and Safety");
-    });
-
-    $('.sec_ese').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>ESE Support");
-    });
-
-    $('.sec_charter').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Charter Leaders");
-    })
-
-    $('.sec_appendix').each(function(i) {
-      $(this).html("<strong>2018 VISTA Superintendent Survey:</strong></br>Appendix Tables");
-    });
-
-    // add pagination
-    $('.page_number').each(function(i) {
-      $(this).html((i + 1));
-    });
-
-    // footer images
-    $('.footer_left').each(function(i) {
-      $(this).html("<a href='https://www.westat.com'><img src='assets/images/westat.png' style='height: 0.4in;' /></a>")
-    })
-
-    $('.footer_right').each(function(i) {
-      $(this).html("<a href='http://www.doe.mass.edu/'><img src='assets/images/dese.png' style='height: 0.5in;' /></a>")
-    })
 
     // smooth scrolling
     // from https://stackoverflow.com/questions/7717527/smooth-scrolling-when-clicking-an-anchor-link
