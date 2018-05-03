@@ -3208,9 +3208,12 @@
 
         /* First dropdown */
 
+        var subpop1_vars = d3.map(data, function(d) { return d.SubPopVar; }).keys();
+        subpop1_vars.sort(function(a, b) { return d3.ascending(a, b); });
+
         d3.select("#subpop1_selector")
           .selectAll("option")
-          .data(d3.map(data, function(d) { return d.SubPopVar; }).keys())
+          .data(subpop1_vars)
           .enter()
             .append("option")
               .text(function(d) { return d; })
@@ -3243,9 +3246,12 @@
 
           };
 
+          subpop2_vars = d3.map(subpop2, function(d) { return d.SubPopVal; }).keys();
+          subpop2_vars.sort(function(a, b) { return d3.ascending(a, b); });
+
           d3.select("#subpop2_selector")
             .selectAll(".addedOption")
-            .data(d3.map(subpop2, function(d) { return d.SubPopVal; }).keys())
+            .data(subpop2_vars)
             .enter()
               .append("option")
                 .attr("class", "addedOption")
