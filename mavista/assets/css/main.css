@@ -218,7 +218,16 @@ select:disabled {
   display: none;
 }
 
-.chart {
+/* .chart {
+  text-align: center;
+  font: 14pt Tahoma, sans-serif;
+  font-weight: bold;
+  color: #0d1969;
+  margin-top: 0.25in;
+  margin-bottom: 0.25in;
+} */
+
+.title {
   text-align: center;
   font: 14pt Tahoma, sans-serif;
   font-weight: bold;

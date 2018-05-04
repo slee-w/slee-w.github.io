@@ -12,6 +12,7 @@ function bar_yes_no() {
       yAxisOff = 0,
       sortDesc = 0,
       useRespCat = 0,
+      title = "Change me to the chart title!",
       chart_id = [],
       data = [];
 
@@ -56,15 +57,22 @@ function bar_yes_no() {
       yScale.domain(sel_data.map(function(d) { return d.Category; }));
       xScale.domain([0, 1]);
 
+      // chart title
+
+      var dom = d3.select("#" + chart_id);
+
+      dom.append("div")
+        .attr("class", "title")
+        .html(title);
+
       // svg
 
-      var svg = d3.select("#" + chart_id)
-        .append("svg")
-          .attr("id", "chart_" + chart_id)
-          .attr("class", "bar_yes_no")
-          .attr("width", width)
-          .attr("height", height)
-          .style("opacity", 0);
+      var svg = dom.append("svg")
+        .attr("id", "chart_" + chart_id)
+        .attr("class", "bar_yes_no")
+        .attr("width", width)
+        .attr("height", height)
+        .style("opacity", 0);
 
       svg.transition()
         .duration(500)
@@ -450,6 +458,12 @@ function bar_yes_no() {
     return chart;
   };
 
+  chart.title = function(value) {
+    if (!arguments.length) return title;
+    title = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -478,6 +492,7 @@ function col_mean() {
       marginRight = 30,
       marginLeft = 40,
       marginBottom = 30,
+      title = "Change me to the chart title!",
       chart_id = [],
       yAxisLabel = "",
       data = [];
@@ -510,15 +525,22 @@ function col_mean() {
       yScale.domain([0, d3.max(sel_data, function(d) { return Math.ceil(d.WeightedMean); })]).nice();
       xScale.domain(data.map(function(d) { return d.Item_text; }));
 
+      // chart title
+
+      var dom = d3.select("#" + chart_id);
+
+      dom.append("div")
+        .attr("class", "title")
+        .html(title);
+
       // svg
 
-      var svg = d3.select("#" + chart_id)
-        .append("svg")
-          .attr("id", "chart_" + chart_id)
-          .attr("class", "col_mean")
-          .attr("width", width)
-          .attr("height", height)
-          .style("opacity", 0);
+      var svg = dom.append("svg")
+        .attr("id", "chart_" + chart_id)
+        .attr("class", "col_mean")
+        .attr("width", width)
+        .attr("height", height)
+        .style("opacity", 0);
 
       svg.transition()
         .duration(500)
@@ -727,8 +749,6 @@ function col_mean() {
       // save function
       // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var dom = d3.select("#" + chart_id);
-
       function getCSS(file) {
 
       var rawFile = new XMLHttpRequest();
@@ -856,6 +876,12 @@ function col_mean() {
     return chart;
   };
 
+  chart.title = function(value) {
+    if (!arguments.length) return title;
+    title = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -889,6 +915,7 @@ function bar_mean() {
       marginRight = 30,
       marginLeft = 40,
       marginBottom = 30,
+      title = "Change me to the chart title!",
       chart_id = [],
       xAxisLabel = "",
       yAxisOff = 0,
@@ -896,6 +923,10 @@ function bar_mean() {
 
   function chart(selection) {
     selection.each(function() {
+
+      // sort data by item number
+
+      data.sort(function(a, b) { return b.Var_name.localeCompare(a.Var_name); });
 
       // filter data
 
@@ -922,15 +953,22 @@ function bar_mean() {
       xScale.domain([0, d3.max(sel_data, function(d) { return Math.ceil(d.WeightedMean); })]).nice();
       yScale.domain(data.map(function(d) { return d.Item_text; }));
 
+      // chart titles
+
+      var dom = d3.select("#" + chart_id);
+
+      dom.append("div")
+        .attr("class", "title")
+        .html(title);
+
       // svg
 
-      var svg = d3.select("#" + chart_id)
-        .append("svg")
-          .attr("id", "chart_" + chart_id)
-          .attr("class", "bar_mean")
-          .attr("width", width)
-          .attr("height", height)
-          .style("opacity", 0);
+      var svg = dom.append("svg")
+        .attr("id", "chart_" + chart_id)
+        .attr("class", "bar_mean")
+        .attr("width", width)
+        .attr("height", height)
+        .style("opacity", 0);
 
       svg.transition()
         .duration(500)
@@ -1158,8 +1196,6 @@ function bar_mean() {
       // save function
       // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var dom = d3.select("#" + chart_id);
-
       function getCSS(file) {
 
       var rawFile = new XMLHttpRequest();
@@ -1290,6 +1326,12 @@ function bar_mean() {
     return chart;
   };
 
+  chart.title = function(value) {
+    if (!arguments.length) return title;
+    title = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -1329,6 +1371,7 @@ function stacked_bar() {
       marginRight = 30,
       marginLeft = 30,
       marginBottom = 80,
+      title = "Replace me with the chart title!",
       chart_id = [],
       horiz_legend = 0,
       horiz_legend_spacing = 30,
@@ -1441,15 +1484,22 @@ function stacked_bar() {
       xScale.domain([0,1]);
       zScale.domain(d3.values(categories).map(function(d) { return d.key; }));
 
+      // chart title
+
+      var dom = d3.select("#" + chart_id);
+
+      dom.append("div")
+        .attr("class", "title")
+        .html(title);
+
       // svg
 
-      var svg = d3.select("#" + chart_id)
-        .append("svg")
-          .attr("id", "chart_" + chart_id)
-          .attr("class", "stacked_bar")
-          .attr("width", width)
-          .attr("height", height)
-          .style("opacity", 0);
+      var svg = dom.append("svg")
+        .attr("id", "chart_" + chart_id)
+        .attr("class", "stacked_bar")
+        .attr("width", width)
+        .attr("height", height)
+        .style("opacity", 0);
 
       svg.transition()
         .duration(500)
@@ -1837,8 +1887,6 @@ function stacked_bar() {
       // save function
       // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var dom = d3.select("#" + chart_id);
-
       function getCSS(file) {
 
       var rawFile = new XMLHttpRequest();
@@ -1987,6 +2035,12 @@ function stacked_bar() {
     return chart;
   };
 
+  chart.title = function(value) {
+    if (!arguments.length) return title;
+    title = value;
+    return chart;
+  };
+
   chart.chart_id = function(value) {
     if (!arguments.length) return chart_id;
     chart_id = value;
@@ -2014,6 +2068,7 @@ function likert() {
       marginRight = 20,
       marginLeft = 20,
       marginBottom = 80,
+      title = "Replace me with the chart title!",
       chart_id = [],
       horiz_legend = 1,
       horiz_legend_spacing = 60,
@@ -2094,15 +2149,22 @@ function likert() {
       yScale.domain(d3.values(nested_data).map(function(d) { return d.key; }));
       xScale.domain([0,1]);
 
+      // chart title
+
+      var dom = d3.select("#" + chart_id);
+
+      dom.append("div")
+        .attr("class", "title")
+        .html(title);
+
       // svg
 
-      var svg = d3.select("#" + chart_id)
-        .append("svg")
-          .attr("id", "chart_" + chart_id)
-          .attr("class", "likert")
-          .attr("width", width)
-          .attr("height", height)
-          .style("opacity", 0);
+      var svg = dom.append("svg")
+        .attr("id", "chart_" + chart_id)
+        .attr("class", "likert")
+        .attr("width", width)
+        .attr("height", height)
+        .style("opacity", 0);
 
       svg.transition()
         .duration(500)
@@ -2473,8 +2535,6 @@ function likert() {
       // save function
       // push CSS styles into defs based on https://stackoverflow.com/a/41998045
 
-      var dom = d3.select("#" + chart_id);
-
       function getCSS(file) {
 
       var rawFile = new XMLHttpRequest();
@@ -2620,6 +2680,12 @@ function likert() {
   chart.yAxisOff = function(value) {
     if (!arguments.length) return yAxisOff;
     yAxisOff = value;
+    return chart;
+  };
+
+  chart.title = function(value) {
+    if (!arguments.length) return title;
+    title = value;
     return chart;
   };
 

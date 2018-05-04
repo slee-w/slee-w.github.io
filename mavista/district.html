@@ -8,8 +8,11 @@
 
     <!-- Scripts -->
 
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/d3.min.js"></script>
-    <script src="assets/js/charts_district.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/simg.js"></script>
+    <script src="assets/js/fontawesome-all.js"></script>
 
     <!-- Stylesheets -->
 
@@ -26,17 +29,30 @@
 
   <body>
 
+    <div id="loader" class="loader">
+      <div class="loader_div">
+        <div class="loader_circle"></div>
+      </div>
+      <div class="loader_div">
+        <p>
+          VISTA 2018 DISTRICT REPORTS
+        </p>
+        <p>
+          Loading...
+        </p>
+      </div>
+    </div>
+
     <section id="selectors">
       <div class="selector_container">
         <div class="selector_child">
           VISTA 2018 District Reports
         </div>
         <div class="selector_child">
-          <select id="district_selector">
-          </select>
+          <select id="subpop1_selector"></select>
+          <select id="subpop2_selector"></select>
         </div>
       </div>
-
     </section>
 
     <section id="overview">
@@ -44,37 +60,35 @@
         <div class="spacer"></div>
         <div class="ie_spacer">&nbsp;</div> <!-- Needed for IE -->
         <div class="header">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - Overview
+          <div class="header_content sec_overview">
           </div>
         </div>
         <div class="page_content">
-          <h1>Overview: Survey Methodology, Design, and Report Structure</h1>
           <p>
             The Views on Instruction, State Standards, Teaching, and Assessment (VISTA) survey is an annual survey sponsored by the Massachusetts Department of Elementary and Secondary Education (ESE). VISTA gives educators a voice directly with the state on issues specific to education in Massachusetts. ESE will use educator feedback to improve statewide implementation, inform current and future policies, and better target state resources and supports.
           </p>
           <p>
-            In the 2018 administration, data collection began in mid-January and closed in mid-March. All Massachusetts principals were invited to participate. Principals from 52% (n = 963) of the state’s schools participated in the survey, an increase from last year’s response rate of 37% (n = 657) of schools. Superintendents also participated in the 2018 VISTA survey, and a separate report includes results from the superintendent survey. Survey findings are weighted to represent all Massachusetts districts and schools.
+            In the 2018 administration, data collection began in mid-January and closed in mid-March. All Massachusetts superintendents were invited to participate. Superintendents from 41% (n = 166) of the state’s districts participated in the survey, a decrease from last year’s response rate of 57% (n = 229) of districts. Principals also participated in the 2018 VISTA survey, and a separate report includes results from the principal survey. Survey findings are weighted to represent all Massachusetts districts and schools.
           </p>
           <p>
-            The 2018 VISTA Principal Survey included six sections.
+            The 2018 VISTA Superintendent Survey included seven sections.
           </p>
           <p>
             <ol>
               <li><a href="#demographics">Demographic Questions</a></li>
               <li><a href="#state_curriculum">State Curriculum Frameworks</a></li>
-              <li><a href="#educator_growth">Educator Growth and Development</a></li>
-              <li><a href="#educator_evaluation">Educator Evaluation</a></li>
-              <li><a href="#social_emotional">Social and Emotional Learning (SEL)</a></li>
-              <li><a href="#ese_overall">ESE Overall Support</a></li>
+              <li><a href="#educator_growth">Role of Evaluation in Supporting Educator Growth and Development</a></li>
+              <li><a href="#educator_pipeline">Educator Pipeline Development: Preparing, Hiring, and Retaining Educators</a></li>
+              <li><a href="#social_emotional">Social and Emotional Learning, Health, and Safety</a></li>
+              <li><a href="#ese_support">ESE Overall Support</a></li>
+              <li><a href="#charter_leaders">Charter School Leaders</a> (not given to non-charter school leaders)</li>
             </ol>
           </p>
           <p>
-            This report is broken down by section and includes graphical representation of all selected-response (e.g., multiple choice) survey questions. Non-numeric open-ended text response questions are not included in this report. Data tables are provided in an <a href="#">Appendix</a>.
+            This report is broken down by section and includes graphical representation of all selected-response (e.g., multiple choice) survey questions. Non-numeric open-ended text response questions are not included in this report. Data tables are provided in an <a href="#appendix">Appendix</a>.
           </p>
           <p>
-            In order to protect respondent confidentiality, the report does not include response data if a survey question had fewer than six respondents and/or if all respondents or all but one respondent selected a single response option. These data are suppressed with no data shown for the item or sub-item. In bar charts and stacked bar charts, these items and sub-items will not have a visible bar.
+            In order to protect respondent confidentiality, the report does not include response data if a survey question had fewer than six respondents and/or if all respondents or all but one respondent selected a single response option.
           </p>
           <p>
             See the VISTA webpage (<a href="http://www.doe.mass.edu/research/vista">http://www.doe.mass.edu/research/vista</a>) for more information about the VISTA study. The VISTA webpage includes more details about the study, additional reports (including results from the principal survey and from prior years), and copies of the VISTA surveys.
@@ -83,13 +97,10 @@
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              1
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
@@ -100,55 +111,23 @@
     <section id="demographics">
       <div class="content">
         <div class="header">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - Demographic Questions
+          <div class="header_content sec_dem">
           </div>
         </div>
         <div class="page_content">
-          <h1>Demographic Questions</h1>
           <p>
-            The first section of the survey includes questions about survey respondents' experience in an administrative role and about their schools. Responses from this section may be used to understand how to target resources and supports based on school profiles.
+            The first section of the survey includes questions about survey respondents’ experience in an administrative role and about their districts. Response from this section may be used to understand how to target resources and supports based on district profile.
           </p>
           <div id="i1" class="chart">
-            What grade levels does your school serve?
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              2
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
-            </div>
-          </div>
-        </div>
-        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
-        <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - Demographic Questions
-          </div>
-        </div>
-        <div class="page_content">
-          <div id="i2" class="chart">
-            Including the current school year (2017-18), how long have you worked as a school-level administrator?
-          </div>
-        </div>
-        <div class="footer">
-          <div class="footer_container">
-            <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
-            </div>
-            <div class="page_number">
-              3
-            </div>
-            <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
@@ -159,155 +138,184 @@
     <section id="state_curriculum">
       <div class="content">
         <div class="header">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
-          <h1>State Curriculum Frameworks</h1>
           <p>
-            The Massachusetts Curriculum Frameworks are designed to increase academic aspirations and raise expectations for learning. By setting and measuring high expectations, deepening professional learning for educators, and supporting child-first instruction, ESE aims to support Massachusetts educators in implementing high quality instruction that is aligned to our state’s strong standards. The Next Generation Massachusetts Comprehensive Assessment System (NextGen MCAS) is aligned to those high standards and designed to provide districts with feedback on student progress in attaining the standards.
+            The Massachusetts Curriculum Frameworks are designed to increase academic aspirations and raise expectations for learning. ESE aims to support Massachusetts educators in implementing high quality instruction that is aligned to our state’s strong standards by
+          </p>
+          <ul>
+            <li>setting and measuring high expectations,</li>
+            <li>deepening professional learning for educators, and</li>
+            <li>supporting child-¬first instruction.</li>
+          </ul>
+          <p>
+            The Next Generation Massachusetts Comprehensive Assessment System (NextGen MCAS) is aligned to those high standards and designed to provide districts with feedback on student progress in attaining the standards.
           </p>
           <p>
-            Questions in this section of the survey address respondents’ views on the alignment, support for, and implementation of the Massachusetts Curriculum Frameworks (English Language Arts, Mathematics, and Revised Science and Technology/Engineering) in their districts.
+            Questions in this section of the survey address respondents’ views on the alignment, support for, and implementation of the Massachusetts Curriculum Frameworks (English Language Arts, Mathematics, and Science and Technology/Engineering) in their districts.
           </p>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              4
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
         <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
           <div id="A1_0" class="chart">
-            Which statement best describes your familiarity with the 2011 Mathematics, 2011 English Language Arts and 2016 Science and Technology/Engineering framework for the grades taught in your school?
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              5
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
         <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
           <div id="A1_1" class="chart">
-            Please indicate your agreement with the following statements about the 2011 Massachusetts English Language Arts (ELA) Curriculum Framework.
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              6
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
         <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
           <div id="A1_2" class="chart">
-            Which of the following English Language Arts (ELA) resources from your district do you need in your school, when compared to what you have now?
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              7
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
         <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
-          <div id="A1_3" class="chart">
-            How much of the following English Language Arts (ELA) resources would you like in the future, compared to what you have now?
+          <div id="A2_1" class="chart">
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              8
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
         <div class="header noscreen">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - State Curriculum Frameworks
+          <div class="header_content sec_cur">
           </div>
         </div>
         <div class="page_content">
-          <div id="A1_4" class="chart">
-            Please indicate the degree to which you think the following district or school resources are aligned to the 2011 English Language Arts Curriculum Framework.
+          <div id="A2_2" class="chart">
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              9
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_cur">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="A3_1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_cur">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="A3_2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_cur">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="A4_1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
             </div>
           </div>
         </div>
@@ -315,33 +323,2107 @@
       </div>
     </section>
 
-    <section id="social_emotional">
+    <section id="educator_growth">
       <div class="content">
         <div class="header">
-          <div class="header_content">
-            <strong>2018 VISTA Principal Survey:</strong></br>
-            <span class="district_name"></span> Comprehensive Report - Social and Emotional Learning
+          <div class="header_content sec_eval">
           </div>
         </div>
         <div class="page_content">
-          <div id="d3" class="chart">
-            Have you used or do you plan to use any of the following instruments to measure students’ social and emotional competencies during the 2016-2017 school year? Please use “Other” to specify/add all other instrument(s) you use in your school.
+          <p>
+            Educator evaluation plays a key role in promoting educator growth and development by providing useful and timely feedback through evaluations and opportunities for growth. The Massachusetts Framework for Educator Evaluation, which applies to both administrators and teachers throughout the state, is designed to
+          </p>
+          <ul>
+            <li>Promote growth and development amongst leaders and teachers;</li>
+            <li>Place student learning at the center, using multiple measures of student learning, growth, and achievement;</li>
+            <li>Recognize excellence in teaching and leading;</li>
+            <li>Set a high bar for professional teaching status; and</li>
+            <li>Shorten timelines for improvement.</li>
+          </ul>
+          <p>
+            ESE supports the success of the statewide educator evaluation framework by providing educators with training materials and resources, meaningful guidance, and timely communications. ESE seeks to actively engage educators in the ongoing refinement of the educator evaluation framework and its implementation.
+          </p>
+          <p>
+            The questions in this section of the survey address respondents’ views on the role of evaluation in supporting educator growth and development.
+          </p>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B1" class="chart">
           </div>
         </div>
         <div class="footer">
           <div class="footer_container">
             <div class="footer_left">
-              <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
             </div>
             <div class="page_number">
-              3
             </div>
             <div class="footer_right">
-              <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
             </div>
           </div>
         </div>
-        <!--<div class="ie_spacer">&nbsp;</div> LAST FOOTER NOT NEEDED This is needed for IE -->
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B3" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B4" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B5" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B5_2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header noscreen">
+          <div class="header_content sec_eval">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="B6" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+      </div>
+    </section>
+
+    <section id="educator_pipeline">
+      <div class="content">
+        <div class="header">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <p>
+            ESE aims to ensure that all students have access to highly skilled educators by supporting a cycle of continuous improvement and identifying opportunities to develop and retain highly effective educators. The Commonwealth’s approach to educator development involves setting high standards for educators, evaluating educators based on those standards, and providing targeted professional development. ESE is also deeply engaged in strengthening the educator workforce by implementing more rigorous educator preparation program review standards, implementing performance assessments at the pre-service stage for administrators and teachers, and facilitating continuous improvement with educator preparation programs and the districts they serve.
+          </p>
+          <p>
+            This section of the survey gathers feedback on respondents’ views on developing, hiring and retaining effective educators in their schools or district.
+          </p>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C2_1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C2_2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C3a" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C3b" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C3c" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C4" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C5a" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C5b" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C5c" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C6" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_edp">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="C7" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+      </div>
+    </section>
+
+    <section id="social_emotional">
+      <div class="content">
+        <div class="header">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <p>
+            Research and experience demonstrate that preparing all students for success (in school, the workplace, civic life, and more) includes attending to their social-emotional and health development. Furthermore, academic and social-emotional competencies are mutually reinforcing. Key levers in this work also include safe and supportive school climate and culture, and effective family engagement.
+          </p>
+          <p>
+            ESE is committed to building out supports and policies in partnership with practitioners in the ¬field and other state agencies to advance this work in the Commonwealth, both in and out of school. It is our goal to promote systems and strategies that foster safe, positive, healthy, culturally competent, and inclusive learning environments that address students’ varied needs and improve educational outcomes for all.
+          </p>
+          <p>
+            This section of the survey includes questions about respondents’ views on the social and emotional learning supports and resources in their districts and solicits feedback on ESE’s 2017 school climate surveys.
+          </p>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D3" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D4" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D5" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D6" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_sel">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="D7" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+      </div>
+    </section>
+
+    <section id="ese_support">
+      <div class="content">
+        <div class="header">
+          <div class="header_content sec_ese">
+          </div>
+        </div>
+        <div class="page_content">
+          <p>
+            Massachusetts is a leader in K-12 education, yet great challenges and opportunities remain. As the administrative entity responsible for implementing and administering statewide education policies and reform efforts, ESE partners with districts to promote a culture of continuous improvement and to provide districts with the tools and skills to put improvement into practice. To serve that role more effectively, ESE has been working to align and organize itself to deliver innovative and effective supports to local schools and districts.
+          </p>
+          <p>
+            This section of the survey includes questions about respondents’ views on the supports and resources that ESE provides.
+          </p>
+          <div id="E1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_ese">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="E2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_ese">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="E3" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+      </div>
+    </section>
+
+    <section id="charter_leaders">
+      <div class="content">
+        <div class="header">
+          <div class="header_content sec_charter">
+          </div>
+        </div>
+        <div class="page_content">
+          <p>
+            Authorized by the Commonwealth of Massachusetts' Education Reform Act of 1993, charter schools are independent public schools that operate under five-year charters granted by the Commonwealth's Board of Elementary and Secondary Education. The Office of Charter Schools and School Redesign (OCSSR) supports and oversees the creation and sustainability of a variety of high quality public school options to ensure that all students in the Commonwealth have equitable access to a pathway to success after high school.
+          </p>
+          <p>
+            This question was only asked of superintendents who identified as the leaders of charter schools or charter districts.
+          </p>
+          <div id="F1" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+      </div>
+    </section>
+
+    <section id="appendix">
+      <div class="content">
+        <div class="header">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <p>
+            This appendix presents detailed aggregated data for each survey question in the superintendent survey, grouped by section. There are multiple rows for each survey item, with a separate row for each possible response to that item; each row in the table is a unique item-response combination. Each table displays
+          </p>
+          <ul>
+            <li>#: Survey question number, which includes a suffix referring to sub-item (e.g., i1_All or A1a),</li>
+            <li>Matrix_Text: The introductory text for items grouped in a matrix or list (e.g., What grade levels does your district serve? or Please indicate your agreement with the following statements about the 2017 Massachusetts English Language Arts (ELA) Curriculum Framework.),</li>
+            <li>Item_Text: The full text of the item (e.g., All or The current 2017 ELA Curriculum Framework sets appropriate expectations for student learning at each grade level.), </li>
+            <li>Response: Each response option for the item (e.g., Yes or Agree Strongly),</li>
+            <li>EstType: Estimate type (for categorical and ordinal items, the estimate is the weighted percent; for continuous items, the estimate is the weighted mean),</li>
+            <li>Est.: The weighted estimate,</li>
+            <li>CI: The 95% confidence interval around the estimate, and</li>
+            <li>N: The total number of participants who responded to the item.</li>
+          </ul>
+          <p>
+            The sum of weighted percentages across all response options within each item sum to approximately 100, with some exceptions due to rounding. These percentages and means have been produced by applying survey weights to the survey responses, and are referred to as “estimates” because they reflect the estimated percentage or mean from the full population (i.e., all districts or schools) even though only a subset of the population completed the survey. Each estimate has associated standard error and confidence interval, which are statistical measures of the reliability of this estimate.
+          </p>
+          <p>
+            The 95% confidence intervals can be used to approximate tests of statistical significance when comparing results between two items. For example, 55 percent of districts have superintendents who agree strongly that the current ELA curriculum framework sets appropriate expectations for student learning at each grade level (item A1a), while 52 percent agree strongly that the current mathematics framework sets appropriate expectations (item A3a). These percentages are different, but we know that both percentages are estimates. Can we conclude that fewer districts have superintendents who agree strongly that the current mathematics curriculum framework sets appropriate expectations for student learning at each grade level than agree strongly this is true of the ELA curriculum frameworks? In other words, is 55 significantly different from 52? For ELA, the confidence interval ranges from 48 to 61 percent. For mathematics, the confidence interval ranges from 45 to 60 percent. These two ranges overlap, which indicates that 55 is not significantly different from 52. In other words, there are not significantly more districts with superintendents who strongly agree that the ELA Framework sets appropriate expectations compared to those who agree that the mathematics Framework does so.
+          </p>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 1. Demographic Questions</h1>
+          <div id="dem1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="dem2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 2. State Curriculum Frameworks</h1>
+          <div id="cur1"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur2" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur3" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur4" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur5" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur6" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur7" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur8" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur9" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur10" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur11" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur12" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur13" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur14" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur15" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur16" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur17" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur18" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur19" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="cur20" class="print_top_margin"></div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 3. Role of Evaluation in Supporting Educator Growth and Development</h1>
+          <div id="egd1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd3" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd4" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd5" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd6" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd7" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="egd8" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 4. Educator Pipeline Development: Preparing, Hiring, and Retaining Educators</h1>
+          <div id="ee1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee3" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee4" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee5" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee6" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee7" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee8" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee9" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee10" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee11" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee12" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee13" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee14" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee15" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee16" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee17" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee18" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ee19" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 5. Social and Emotional Learning, Health, and Safety</h1>
+          <div id="sel1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel3" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel4" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel5" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel6" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel7" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel8" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel9" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel10" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel11" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel12" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="sel13" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 6. ESE Overall Support</h1>
+          <div id="ese1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese3" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese4" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese5" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese6" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese7" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese8" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="ese9" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <h1>Table 7. Charter School Leaders</h1>
+          <div id="csl1">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE // LAST FOOTER NOT NEEDED -->
+        <div class="header noscreen">
+          <div class="header_content sec_appendix">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="csl2" class="print_top_margin">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <!--<div class="ie_spacer">&nbsp;</div> This is needed for IE // LAST FOOTER NOT NEEDED -->
       </div>
     </section>
 
@@ -350,12 +2432,16 @@
     </section>
 
     <section class="footer_screen">
+      <div id="top_button_container">
+        <div>&nbsp;</div>
+        <div>
+          <button onclick="scrollToTop()" id="top_button"><i class="fas fa-arrow-up"></i></button>
+        </div>
+      </div>
       <div class="footer_container">
         <div class="footer_left">
-          <a href="https://www.westat.com"><img src="assets/images/westat.png" style="height: 0.4in;" /></a>
         </div>
         <div class="footer_right">
-          <a href="http://www.doe.mass.edu/"><img src="assets/images/dese.png" style="height: 0.5in;" /></a>
         </div>
       </div>
     </section>
@@ -369,6 +2455,7 @@
       if (error) { console.log(error); }
       else {
         data.forEach(function(d) {
+          d.Item_N = +d.Item_N;
           d.WeightedCntEstimate = +d.WeightedCntEstimate;
           d.WeightedCntSTDError = +d.WeightedCntSTDError;
           d.WeightedCntCILowerBound = +d.WeightedCntCILowerBound;
@@ -384,72 +2471,641 @@
           d.WeightedMedian = +d.WeightedMedian;
         });
 
-        /* District dropdown */
+        /* First dropdown */
 
-        d3.select("#district_selector")
+        var subpop1_vars = d3.map(data, function(d) { return d.SubPopVar; }).keys();
+        subpop1_vars.sort(function(a, b) { return d3.ascending(a, b); });
+
+        d3.select("#subpop1_selector")
           .selectAll("option")
-          .data(d3.map(data, function(d) { return d.District; }).keys())
+          .data(subpop1_vars)
           .enter()
             .append("option")
               .text(function(d) { return d; })
               .attr("value", function(d) { return d; });
 
-        /* Filter data */
+        /* Second dropdown based on first dropdown */
 
-        data_i1 = data.filter(function(d) { return d.Chart == "i1" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
-        data_i2 = data.filter(function(d) { return d.Chart == "i2"; });
-        data_A1_0 = data.filter(function(d) { return d.Chart == "A1_0" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-        data_A1_1 = data.filter(function(d) { return d.Chart == "A1_1" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
-        data_A1_2 = data.filter(function(d) { return d.Chart == "A1_2" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-        data_A1_3 = data.filter(function(d) { return d.Chart == "A1_3" && d.ResponseCategory != "missing" && d.ResponseCategory != ""; });
-        data_A1_4 = data.filter(function(d) { return d.Chart == "A1_4" && d.ResponseCategory != "missing" && d.ResponseCategory != "" && d.ResponseCategory != "Don't Know"; });
-        data_d3 = data.filter(function(d) { return d.Chart == "D3" && d.ResponseCategory == "Yes" /*&& d.District == d3.select("#district_selector").property("value")*/; });
+        var subpop1 = [],
+            subpop2 = [],
+            subpop2_selected = [];
 
-        /* Charts */
+        function updateDropdown() {
 
-        var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(365);
-        var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(540).marginTop(60).marginBottom(140).yAxisLabel("Time in years (mean)");
-        var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").marginLeft(365).marginBottom(130);
-        var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").marginLeft(385).horiz_legend(1).horiz_legend_spacing(200);
-        var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").marginLeft(385).marginBottom(160);
-        var chart_A1_3 = stacked_bar().data(data_A1_3).chart_id("A1_3").marginLeft(385).marginBottom(160);
-        var chart_A1_4 = stacked_bar().data(data_A1_4).chart_id("A1_4").marginLeft(410).horiz_legend(1).horiz_legend_spacing(200);
-        var chart_d3 = bar_yes_no().data(data_d3).chart_id("d3").marginLeft(400);
+          subpop1 = d3.select("#subpop1_selector").property("value");
+          subpop2 = data.filter(function(d) { return d.SubPopVar == subpop1; });
 
-        d3.select("#i1").call(chart_i1);
-        d3.select("#i2").call(chart_i2);
-        d3.select("#A1_0").call(chart_A1_0);
-        d3.select("#A1_1").call(chart_A1_1);
-        d3.select("#A1_2").call(chart_A1_2);
-        d3.select("#A1_3").call(chart_A1_3);
-        d3.select("#A1_4").call(chart_A1_4);
-        d3.select("#d3").call(chart_d3);
+          if (subpop1 == "All") { document.getElementById("subpop2_selector").disabled = true; }
+          else { document.getElementById("subpop2_selector").disabled = false; };
 
-        function updateName() {
+          d3.select("#subpop2_selector")
+            .selectAll("option")
+            .remove();
 
-          d3.selectAll(".district_name")
-            .append("text")
-            .text(function() { return d3.select("#district_selector").property("value"); });
+          if (subpop1 == "All") {}
+          else {
+
+            d3.select("#subpop2_selector")
+              .append("option")
+              .text("Select...");
+
+          };
+
+          subpop2_vars = d3.map(subpop2, function(d) { return d.SubPopVal; }).keys();
+          subpop2_vars.sort(function(a, b) { return d3.ascending(a, b); });
+
+          d3.select("#subpop2_selector")
+            .selectAll(".addedOption")
+            .data(subpop2_vars)
+            .enter()
+              .append("option")
+                .attr("class", "addedOption")
+                .text(function(d) { return d; })
+                .attr("value", function(d) { return d; });
 
         };
 
-        updateName();
+        updateDropdown();
 
-        /* Upon change, re-filter and re-draw */
+        /* Filter data */
 
-        d3.select("#district_selector")
+        subpop2_selected = d3.select("#subpop2_selector").property("value");
+
+        var i1_vars = ["i1a", "i1b", "i1c", "i1d", "i1e", "i1f", "i1g", "i1h", "i1i", "i1j", "i1k", "i1l", "i1m", "i1n"],
+            i2_vars = ["i2a", "i2b", "i2c", "i2d"],
+            a1_0_vars = ["A1_0a", "A1_0b", "A1_0c", "A1_0d"],
+            a1_1_vars = ["A1_1a", "A1_1b", "A1_1c", "A1_1d", "A1_1e"],
+            a1_2_vars = ["A1_2a", "A1_2b", "A1_2c", "A1_2d", "A1_2e", "A1_2f", "A1_2g", "A1_2h"],
+            a2_1_vars = ["A2_1a", "A2_1b", "A2_1c", "A2_1d", "A2_1e"],
+            a2_2_vars = ["A2_2a", "A2_2b", "A2_2c", "A2_2d", "A2_2e", "A2_2f", "A2_2g", "A2_2h"],
+            a3_1_vars = ["A3_1a", "A3_1b", "A3_1c", "A3_1d", "A3_1e"],
+            a3_2_vars = ["A3_2a", "A3_2b", "A3_2c", "A3_2d", "A3_2e", "A3_2f", "A3_2g", "A3_2h"],
+            a4_1_vars = ["A4_1a", "4A_1b", "4A_1c", "4A_1d"],
+            b1_vars = ["B1a", "B1b", "B1c"],
+            b2_vars = ["B2"],
+            b3_vars = ["B3a", "B3b", "B3c", "B3d", "B3e", "B3f", "B3g", "B3h"],
+            b4_vars = ["B4a", "B4b", "B4c", "B4d"],
+            b5_vars = ["B5a", "B5b", "B5c", "B5d"],
+            b6_vars = ["B6a", "B6b"],
+            c1_vars = ["C1a", "C1b", "C1c", "C1d"],
+            c2_1_vars = ["C2_1a", "C2_1b"],
+            c2_2_vars = ["C2_2a", "C2_2b", "C2_2c", "C2_2d", "C2_2e"],
+            c3a_vars = ["C3a"],
+            c3b_vars = ["C3b"],
+            c3c_vars = ["C3c"],
+            c4_vars = ["C4"],
+            c5a_vars = ["C5a"],
+            c5b_vars = ["C5b"],
+            c5c_vars = ["C5c"],
+            c6_vars = ["C6a", "C6b", "C6c"],
+            c7_vars = ["C7a", "C7b", "C7c", "C7d", "C7e", "C7f"],
+            d1_vars = ["D1a", "D1b", "D1c", "D1d", "D1e", "D1f", "D1g"],
+            d2_vars = ["D2a", "D2b", "D2c", "D2d", "D2e", "D2f", "D2g", "D2h", "D2i", "D2j", "D2k", "D2l", "D2m"],
+            d3_vars = ["D3a", "D3b", "D3c", "D3d"],
+            d4_vars = ["D4a", "D4b", "D4c"],
+            d5_vars = ["D5a", "D5b", "D5c", "D5d"],
+            d6_vars = ["D6a", "D6b", "D6c", "D6d", "D6e", "D6f"],
+            d7_vars = ["D7a", "D7b", "D7c", "D7d"],
+            e1_vars = ["E1"],
+            e2_vars = ["E2a", "E2b", "E2c", "E2d", "E2e", "E2f", "E2g", "E2h"],
+            e3_vars = ["E3a", "E3b", "E3c", "E3d", "E3e", "E3f", "E3g", "E3h"],
+            f1_vars = ["F1a", "F1b", "F1c", "F1d", "F1e"],
+            dem1_vars = ["i1a", "i1b", "i1c", "i1d", "i1e", "i1f", "i1g", "i1h", "i1i", "i1j", "i1k", "i1l", "i1m", "i1n"],
+            dem2_vars = ["i2a", "i2b", "i2c", "i3", "i4"],
+            cur1_vars = ["A1a", "A1b"],
+            cur2_vars = ["A1c", "A1d"],
+            cur3_vars = ["A2a", "A2b"],
+            cur4_vars = ["A2c", "A2d"],
+            cur5_vars = ["A2e", "A3a"],
+            cur6_vars = ["A3b", "A3c"],
+            cur7_vars = ["A3d", "A4a", "A4b"],
+            cur8_vars = ["A4c", "A4d", "A4e"],
+            cur9_vars = ["A5a", "A5b"],
+            cur10_vars = ["A5c", "A5d"],
+            cur11_vars = ["A6a", "A6b"],
+            cur12_vars = ["A6c", "A6d"],
+            cur13_vars = ["A6e", "A7a"],
+            cur14_vars = ["A7b", "A7c"],
+            cur15_vars = ["A7d", "A8a"],
+            cur16_vars = ["A8b", "A8c"],
+            cur17_vars = ["A8d", "A9a"],
+            cur18_vars = ["A9b", "A9c"],
+            cur19_vars = ["A9d", "A10a"],
+            cur20_vars = ["A10b"],
+            egd1_vars = ["B1a", "B1b", "B1c"],
+            egd2_vars = ["B2", "B3a", "B3b", "B3c"],
+            egd3_vars = ["B3d", "B3e", "B3f"],
+            egd4_vars = ["B3g", "B3h", "B3i"],
+            egd5_vars = ["B3j", "B3k", "B4a"],
+            egd6_vars = ["B4b", "B4c", "B4d"],
+            egd7_vars = ["B4e", "B5a", "B5b", "B5c", "B5_2a", "B5_2b", "B5_2c"],
+            egd8_vars = ["B5_2d", "B5_23", "B6a", "B6b", "B6c"],
+            ee1_vars = ["C1a", "C1b"],
+            ee2_vars = ["C1c", "C1d", "C2_1a", "C2_1b", "C2_2a", "C2_2b", "C2_2c"],
+            ee3_vars = ["C2_2d", "C2_2e"],
+            ee4_vars = ["C3a"],
+            ee5_vars = ["C3b"],
+            ee6_vars = ["C3c"],
+            ee7_vars = ["C4"],
+            ee8_vars = ["C5a"],
+            ee9_vars = ["C5b"],
+            ee10_vars = ["C5c"],
+            ee11_vars = ["C6a", "C6b"],
+            ee12_vars = ["C6c", "C6d"],
+            ee13_vars = ["C6e", "C6f"],
+            ee14_vars = ["C6g", "C7a"],
+            ee15_vars = ["C7b"],
+            ee16_vars = ["C7c"],
+            ee17_vars = ["C7d"],
+            ee18_vars = ["C7e"],
+            ee19_vars = ["C7f"],
+            sel1_vars = ["D1a"],
+            sel2_vars = ["D1b", "D1c"],
+            sel3_vars = ["D2a", "D2b"],
+            sel4_vars = ["D2c", "D2d"],
+            sel5_vars = ["D2e", "D2f"],
+            sel6_vars = ["D3", "D4a", "D4b"],
+            sel7_vars = ["D4c", "D4d"],
+            sel8_vars = ["D4e", "D4f", "D4g"],
+            sel9_vars = ["D4h", "D5a"],
+            sel10_vars = ["D5b", "D5c"],
+            sel11_vars = ["D5d", "D6"],
+            sel12_vars = ["D7a", "D7b"],
+            sel13_vars = ["D7c", "D7d"],
+            ese1_vars = ["E1"],
+            ese2_vars = ["E2a", "E2b"],
+            ese3_vars = ["E2c", "E2d"],
+            ese4_vars = ["E2e", "E2f"],
+            ese5_vars = ["E2g", "E2h"],
+            ese6_vars = ["E3a", "E3b"],
+            ese7_vars = ["E3c", "E3d"],
+            ese8_vars = ["E3e", "E3f"],
+            ese9_vars = ["E3g", "E3h"],
+            csl1_vars = ["F1a", "F1b", "F1c"],
+            csl2_vars = ["F1d", "F1e"];
+
+        function filterData() {
+
+          data_i1 = data.filter(function(d) { return (i1_vars.indexOf(d.Var_name) !== -1) && (d.ResponseCategory === "Yes"); });
+          data_i2 = data.filter(function(d) { return (i2_vars.indexOf(d.Var_name) !== -1); });
+          data_A1_0 = data.filter(function(d) { return (a1_0_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A1_1 = data.filter(function(d) { return (a1_1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A1_2 = data.filter(function(d) { return (a1_2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A2_1 = data.filter(function(d) { return (a2_1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A2_2 = data.filter(function(d) { return (a2_2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A3_1 = data.filter(function(d) { return (a3_1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A3_2 = data.filter(function(d) { return (a3_2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_A4_1 = data.filter(function(d) { return (a4_1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_B1 = data.filter(function(d) { return (b1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_B2 = data.filter(function(d) { return (b2_vars.indexOf(d.Var_name) !== -1); });
+          data_B3 = data.filter(function(d) { return (b3_vars.indexOf(d.Var_name) !== -1 && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""); });
+          data_B4 = data.filter(function(d) { return (b4_vars.indexOf(d.Var_name) !== -1); });
+          data_B5 = data.filter(function(d) { return (b5_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_B6 = data.filter(function(d) { return (b6_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C1 = data.filter(function(d) { return (c1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C2_1 = data.filter(function(d) { return (c2_1_vars.indexOf(d.Var_name) !== -1); });
+          data_C2_2 = data.filter(function(d) { return (c2_2_vars.indexOf(d.Var_name) !== -1); });
+          data_C3a = data.filter(function(d) { return (c3a_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C3b = data.filter(function(d) { return (c3b_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C3c = data.filter(function(d) { return (c3c_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C4 = data.filter(function(d) { return (c4_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C5a = data.filter(function(d) { return (c5a_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C5b = data.filter(function(d) { return (c5b_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C5c = data.filter(function(d) { return (c5c_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_C6 = data.filter(function(d) { return (c6_vars.indexOf(d.Var_name) !== -1); });
+          data_C7 = data.filter(function(d) { return (c7_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D1 = data.filter(function(d) { return (d1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D2 = data.filter(function(d) { return (d2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory === "Yes"; });
+          data_D3 = data.filter(function(d) { return (d3_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D4 = data.filter(function(d) { return (d4_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D5 = data.filter(function(d) { return (d5_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D6 = data.filter(function(d) { return (d6_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_D7 = data.filter(function(d) { return (d7_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_E1 = data.filter(function(d) { return (e1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_E2 = data.filter(function(d) { return (e2_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_E3 = data.filter(function(d) { return (e3_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_F1 = data.filter(function(d) { return (f1_vars.indexOf(d.Var_name) !== -1) && d.ResponseCategory !== "Don't know" && d.ResponseCategory !== "missing" && d.ResponseCategory !== ""; });
+          data_dem1 = data.filter(function(d) { return (dem1_vars.indexOf(d.Var_name) !== -1); });
+          data_dem2 = data.filter(function(d) { return (dem2_vars.indexOf(d.Var_name) !== -1); });
+          data_cur1 = data.filter(function(d) { return (cur1_vars.indexOf(d.Var_name) !== -1); });
+          data_cur2 = data.filter(function(d) { return (cur2_vars.indexOf(d.Var_name) !== -1); });
+          data_cur3 = data.filter(function(d) { return (cur3_vars.indexOf(d.Var_name) !== -1); });
+          data_cur4 = data.filter(function(d) { return (cur4_vars.indexOf(d.Var_name) !== -1); });
+          data_cur5 = data.filter(function(d) { return (cur5_vars.indexOf(d.Var_name) !== -1); });
+          data_cur6 = data.filter(function(d) { return (cur6_vars.indexOf(d.Var_name) !== -1); });
+          data_cur7 = data.filter(function(d) { return (cur7_vars.indexOf(d.Var_name) !== -1); });
+          data_cur8 = data.filter(function(d) { return (cur8_vars.indexOf(d.Var_name) !== -1); });
+          data_cur9 = data.filter(function(d) { return (cur9_vars.indexOf(d.Var_name) !== -1); });
+          data_cur10 = data.filter(function(d) { return (cur10_vars.indexOf(d.Var_name) !== -1); });
+          data_cur11 = data.filter(function(d) { return (cur11_vars.indexOf(d.Var_name) !== -1); });
+          data_cur12 = data.filter(function(d) { return (cur12_vars.indexOf(d.Var_name) !== -1); });
+          data_cur13 = data.filter(function(d) { return (cur13_vars.indexOf(d.Var_name) !== -1); });
+          data_cur14 = data.filter(function(d) { return (cur14_vars.indexOf(d.Var_name) !== -1); });
+          data_cur15 = data.filter(function(d) { return (cur15_vars.indexOf(d.Var_name) !== -1); });
+          data_cur16 = data.filter(function(d) { return (cur16_vars.indexOf(d.Var_name) !== -1); });
+          data_cur17 = data.filter(function(d) { return (cur17_vars.indexOf(d.Var_name) !== -1); });
+          data_cur18 = data.filter(function(d) { return (cur18_vars.indexOf(d.Var_name) !== -1); });
+          data_cur19 = data.filter(function(d) { return (cur19_vars.indexOf(d.Var_name) !== -1); });
+          data_cur20 = data.filter(function(d) { return (cur20_vars.indexOf(d.Var_name) !== -1); });
+          data_egd1 = data.filter(function(d) { return (egd1_vars.indexOf(d.Var_name) !== -1); });
+          data_egd2 = data.filter(function(d) { return (egd2_vars.indexOf(d.Var_name) !== -1); });
+          data_egd3 = data.filter(function(d) { return (egd3_vars.indexOf(d.Var_name) !== -1); });
+          data_egd4 = data.filter(function(d) { return (egd4_vars.indexOf(d.Var_name) !== -1); });
+          data_egd5 = data.filter(function(d) { return (egd5_vars.indexOf(d.Var_name) !== -1); });
+          data_egd6 = data.filter(function(d) { return (egd6_vars.indexOf(d.Var_name) !== -1); });
+          data_egd7 = data.filter(function(d) { return (egd7_vars.indexOf(d.Var_name) !== -1); });
+          data_egd8 = data.filter(function(d) { return (egd8_vars.indexOf(d.Var_name) !== -1); });
+          data_ee1 = data.filter(function(d) { return (ee1_vars.indexOf(d.Var_name) !== -1); });
+          data_ee2 = data.filter(function(d) { return (ee2_vars.indexOf(d.Var_name) !== -1); });
+          data_ee3 = data.filter(function(d) { return (ee3_vars.indexOf(d.Var_name) !== -1); });
+          data_ee4 = data.filter(function(d) { return (ee4_vars.indexOf(d.Var_name) !== -1); });
+          data_ee5 = data.filter(function(d) { return (ee5_vars.indexOf(d.Var_name) !== -1); });
+          data_ee6 = data.filter(function(d) { return (ee6_vars.indexOf(d.Var_name) !== -1); });
+          data_ee7 = data.filter(function(d) { return (ee7_vars.indexOf(d.Var_name) !== -1); });
+          data_ee8 = data.filter(function(d) { return (ee8_vars.indexOf(d.Var_name) !== -1); });
+          data_ee9 = data.filter(function(d) { return (ee9_vars.indexOf(d.Var_name) !== -1); });
+          data_ee10 = data.filter(function(d) { return (ee10_vars.indexOf(d.Var_name) !== -1); });
+          data_ee11 = data.filter(function(d) { return (ee11_vars.indexOf(d.Var_name) !== -1); });
+          data_ee12 = data.filter(function(d) { return (ee12_vars.indexOf(d.Var_name) !== -1); });
+          data_ee13 = data.filter(function(d) { return (ee13_vars.indexOf(d.Var_name) !== -1); });
+          data_ee14 = data.filter(function(d) { return (ee14_vars.indexOf(d.Var_name) !== -1); });
+          data_ee15 = data.filter(function(d) { return (ee15_vars.indexOf(d.Var_name) !== -1); });
+          data_ee16 = data.filter(function(d) { return (ee16_vars.indexOf(d.Var_name) !== -1); });
+          data_ee17 = data.filter(function(d) { return (ee17_vars.indexOf(d.Var_name) !== -1); });
+          data_ee18 = data.filter(function(d) { return (ee18_vars.indexOf(d.Var_name) !== -1); });
+          data_ee19 = data.filter(function(d) { return (ee19_vars.indexOf(d.Var_name) !== -1); });
+          data_sel1 = data.filter(function(d) { return (sel1_vars.indexOf(d.Var_name) !== -1); });
+          data_sel2 = data.filter(function(d) { return (sel2_vars.indexOf(d.Var_name) !== -1); });
+          data_sel3 = data.filter(function(d) { return (sel3_vars.indexOf(d.Var_name) !== -1); });
+          data_sel4 = data.filter(function(d) { return (sel4_vars.indexOf(d.Var_name) !== -1); });
+          data_sel5 = data.filter(function(d) { return (sel5_vars.indexOf(d.Var_name) !== -1); });
+          data_sel6 = data.filter(function(d) { return (sel6_vars.indexOf(d.Var_name) !== -1); });
+          data_sel7 = data.filter(function(d) { return (sel7_vars.indexOf(d.Var_name) !== -1); });
+          data_sel8 = data.filter(function(d) { return (sel8_vars.indexOf(d.Var_name) !== -1); });
+          data_sel9 = data.filter(function(d) { return (sel9_vars.indexOf(d.Var_name) !== -1); });
+          data_sel10 = data.filter(function(d) { return (sel10_vars.indexOf(d.Var_name) !== -1); });
+          data_sel11 = data.filter(function(d) { return (sel11_vars.indexOf(d.Var_name) !== -1); });
+          data_sel12 = data.filter(function(d) { return (sel12_vars.indexOf(d.Var_name) !== -1); });
+          data_sel13 = data.filter(function(d) { return (sel13_vars.indexOf(d.Var_name) !== -1); });
+          data_ese1 = data.filter(function(d) { return (ese1_vars.indexOf(d.Var_name) !== -1); });
+          data_ese2 = data.filter(function(d) { return (ese2_vars.indexOf(d.Var_name) !== -1); });
+          data_ese3 = data.filter(function(d) { return (ese3_vars.indexOf(d.Var_name) !== -1); });
+          data_ese4 = data.filter(function(d) { return (ese4_vars.indexOf(d.Var_name) !== -1); });
+          data_ese5 = data.filter(function(d) { return (ese5_vars.indexOf(d.Var_name) !== -1); });
+          data_ese6 = data.filter(function(d) { return (ese6_vars.indexOf(d.Var_name) !== -1); });
+          data_ese7 = data.filter(function(d) { return (ese7_vars.indexOf(d.Var_name) !== -1); });
+          data_ese8 = data.filter(function(d) { return (ese8_vars.indexOf(d.Var_name) !== -1); });
+          data_ese9 = data.filter(function(d) { return (ese9_vars.indexOf(d.Var_name) !== -1); });
+          data_csl1 = data.filter(function(d) { return (csl1_vars.indexOf(d.Var_name) !== -1); });
+          data_csl2 = data.filter(function(d) { return (csl2_vars.indexOf(d.Var_name) !== -1); });
+
+        };
+
+        filterData();
+
+        /* Charts */
+
+        function drawCharts() {
+
+          var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(230).height(430)
+            .title("What grade levels does your school serve?");
+          var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(500).marginTop(60).marginBottom(80).yAxisLabel("Time in years (mean)")
+            .title("Including the current school year (2017-18), how long have you worked as a school-level administrator?");
+          var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").marginLeft(350).marginBottom(140)
+            .title("Which statement best describes your familiarity with the 2017 Mathematics, 2017 English Language Arts & Literacy, 2016 Science & Technology/Engineering, and 2016 Digital Literacy & Computer Science frameworks for the grades taught in your school?");
+          var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements about the 2017 Massachusetts English Language Arts (ELA) & Literacy Curriculum Framework.");
+          var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Prioritize the guidance needed to successfully implement the 2017 English Language Arts (ELA) and Literacy Curriculum Framework. ELA/Literacy framework implementation guidance on…");
+          var chart_A2_1 = stacked_bar().data(data_A2_1).chart_id("A2_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements about the 2017 Massachusetts Mathematics Curriculum Framework.");
+          var chart_A2_2 = stacked_bar().data(data_A2_2).chart_id("A2_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Prioritize the guidance needed to successfully implement the 2017 Mathematics Curriculum Framework.");
+          var chart_A3_1 = stacked_bar().data(data_A3_1).chart_id("A3_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements about the 2016 Massachusetts Science and Technology/Engineering (STE) Curriculum Framework.");
+          var chart_A3_2 = stacked_bar().data(data_A3_2).chart_id("A3_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Prioritize the guidance needed to successfully implement the 2016 Science and Technology/Engineering (STE) Curriculum Framework.");
+          var chart_A4_1 = stacked_bar().data(data_A4_1).chart_id("A4_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements about the 2016 Massachusetts Digital Literacy and Computer Science (DLCS) Curriculum Framework.");
+          var chart_B1 = stacked_bar().data(data_B1).chart_id("B1").height(500).marginLeft(250).horiz_legend(1).horiz_legend_spacing(180)
+            .title("With regard to your own experience with your own evaluation process, please indicate your agreement with the following statements about the principal evaluation system used in your school/district.");
+          var chart_B2 = bar_mean().data(data_B2).chart_id("B2").height(200).marginLeft(20).marginBottom(50).yAxisOff(1).xAxisLabel("Percentage of time (mean)")
+            .title("Over the course of the school week, approximately what percent of your time do you, on average, spend on evaluation activities, versus other administrative duties?");
+          var chart_B3 = stacked_bar().data(data_B3).chart_id("B3").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Which of the following types of evidence do you use to determine a Summative Performance Rating for teachers and is the type of evidence valuable?");
+          var chart_B4 = bar_mean().data(data_B4).chart_id("B4").height(480).marginLeft(350).marginBottom(50).xAxisLabel("Percentage of teachers (mean)")
+            .title("Please estimate the percentage of teachers within your school whose evaluation was informed by the following sources of evidence");
+          var chart_B5 = stacked_bar().data(data_B5).chart_id("B5").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Below is a series of statements about the teacher evaluation system used in your district. To what extent do you agree with the following statements?");
+          var chart_B6 = stacked_bar().data(data_B6).chart_id("B6").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements.");
+          var chart_C1 = stacked_bar().data(data_C1).chart_id("C1").height(530).marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements.");
+          var chart_C2_1 = bar_mean().data(data_C2_1).chart_id("C2_1").height(500).marginLeft(450)
+            .title("Please tell us the number of first-year teachers you have in your school now, and in the past?");
+          var chart_C2_2 = bar_mean().data(data_C2_2).chart_id("C2_2").height(500).marginLeft(300)
+            .title("For this current school year, please indicate the number of first-year teachers within your school that met each level of readiness.");
+          var chart_C3a = bar_yes_no().data(data_C3a).chart_id("C3a").height(500).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a new teacher, which of the following attributes are the most important when making the decision to hire? (Most important attribute) The new teacher:");
+          var chart_C3b = bar_yes_no().data(data_C3b).chart_id("C3b").height(500).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a new teacher, which of the following attributes are the most important when making the decision to hire? (Second most important attribute) The new teacher:");
+          var chart_C3c = bar_yes_no().data(data_C3c).chart_id("C3c").height(500).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a new teacher, which of the following attributes are the most important when making the decision to hire? (Third most important attribute) The new teacher:");
+          var chart_C4 = bar_yes_no().data(data_C4).chart_id("C4").height(520).marginLeft(300).useRespCat(1).sortDesc(1)
+            .title("How frequently are you unable to hire an ideal candidate for a teacher vacancy?");
+          var chart_C5a = bar_yes_no().data(data_C5a).chart_id("C5a").height(510).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a prospective teacher, what components of the hiring process most influence your judgments? (Most important component)");
+          var chart_C5b = bar_yes_no().data(data_C5b).chart_id("C5b").height(510).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a prospective teacher, what components of the hiring process most influence your judgments? (Second most important component)");
+          var chart_C5c = bar_yes_no().data(data_C5c).chart_id("C5c").height(510).marginLeft(325).useRespCat(1).sortDesc(1)
+            .title("When hiring a prospective teacher, what components of the hiring process most influence your judgments? (Third most important component)");
+          var chart_C6 = bar_mean().data(data_C6).chart_id("C6").marginLeft(330)
+            .title("Please tell us about your support of student teachers (individuals enrolled in a teacher preparation program who are completing their practicum) in the last three years?");
+          var chart_C7 = stacked_bar().data(data_C7).chart_id("C7").height(480).marginLeft(500).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Please indicate your agreement with the following statements about student teachers (individuals enrolled in a teacher preparation program who are completing their practicum) and induction/mentoring support for first year teachers/administrators.");
+          var chart_D1 = stacked_bar().data(data_D1).chart_id("D1").marginLeft(550).horiz_legend(1).horiz_legend_spacing(180)
+            .title('Please rate your agreement with the following statements about social and emotional learning (SEL) in your school. If you do not have the resource available in your district/school, please use "Not Applicable" to respond.');
+          var chart_D2 = bar_yes_no().data(data_D2).chart_id("D2").marginLeft(375).sortDesc(1)
+            .title('To help inform instruction and supports, have you or do you plan to use any of the following instruments during the 2017-2018 school year? Please use "Other" to specify/add all other instrument(s) you use in your school.');
+          var chart_D3 = stacked_bar().data(data_D3).chart_id("D3").marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
+            .title("To help students master the Massachusetts state standards, to what extent could teachers in your school benefit from support in the following areas? Please think of your teacher observations (announced and unannounced).");
+          var chart_D4 = stacked_bar().data(data_D4).chart_id("D4").marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
+            .title("To help students master the Massachusetts state standards, to what extent could teachers in your school benefit from support in the following instructional strategies? Please think of your teacher observations (announced and unannounced).");
+          var chart_D5 = stacked_bar().data(data_D5).chart_id("D5").marginLeft(375).horiz_legend(1).horiz_legend_spacing(180)
+            .title("Thinking of your school's student support system, to what extent could your school benefit from support in the following areas?");
+          var chart_D6 = stacked_bar().data(data_D6).chart_id("D6").marginLeft(500).marginBottom(190)
+            .title("Thinking of your school's student support system, to what extent could your school benefit from support in the following areas?");
+          var chart_D7 = stacked_bar().data(data_D7).chart_id("D7").marginLeft(360).horiz_legend(1).horiz_legend_spacing(180)
+            .title("To what extent do you agree with each of the following statements regarding ESE's performance during the 2017-2018 school year relative to safe and supportive schools?");
+          var chart_E1 = likert().data(data_E1).chart_id("E1").height(250).yAxisOff(1).horiz_legend(1).horiz_legend_spacing(60)
+            .title("To what extent has ESE's contact with your district focused on ensuring compliance as opposed to providing assistance? Base your response on your district's recent experience with ESE.");
+          var chart_E2 = stacked_bar().data(data_E2).chart_id("E2").marginLeft(600).horiz_legend(1).horiz_legend_spacing(180)
+            .title("To what extent do you agree with each of the following statements regarding ESE's performance during the 2017-2018 school year relative to policies and programs?");
+          var chart_E3 = stacked_bar().data(data_E3).chart_id("E3").marginLeft(390).marginBottom(200)
+            .title("Please evaluate the usefulness of the following ESE data resources in informing your district's planning and improvement work.");
+          var chart_F1 = stacked_bar().data(data_F1).chart_id("F1").height(350).marginLeft(440).horiz_legend(1).horiz_legend_spacing(180)
+            .title("To what extent do you agree with the following statements about the Office of Charter Schools and School Redesign (OCSSR)?");
+          var table_dem1 = table().data(data_dem1).table_id("dem1");
+          var table_dem2 = table().data(data_dem2).table_id("dem2").nohead(1);
+          var table_cur1 = table().data(data_cur1).table_id("cur1");
+          var table_cur2 = table().data(data_cur2).table_id("cur2").nohead(1);
+          var table_cur3 = table().data(data_cur3).table_id("cur3").nohead(1);
+          var table_cur4 = table().data(data_cur4).table_id("cur4").nohead(1);
+          var table_cur5 = table().data(data_cur5).table_id("cur5").nohead(1);
+          var table_cur6 = table().data(data_cur6).table_id("cur6").nohead(1);
+          var table_cur7 = table().data(data_cur7).table_id("cur7").nohead(1);
+          var table_cur8 = table().data(data_cur8).table_id("cur8").nohead(1);
+          var table_cur9 = table().data(data_cur9).table_id("cur9").nohead(1);
+          var table_cur10 = table().data(data_cur10).table_id("cur10").nohead(1);
+          var table_cur11 = table().data(data_cur11).table_id("cur11").nohead(1);
+          var table_cur12 = table().data(data_cur12).table_id("cur12").nohead(1);
+          var table_cur13 = table().data(data_cur13).table_id("cur13").nohead(1);
+          var table_cur14 = table().data(data_cur14).table_id("cur14").nohead(1);
+          var table_cur15 = table().data(data_cur15).table_id("cur15").nohead(1);
+          var table_cur16 = table().data(data_cur16).table_id("cur16").nohead(1);
+          var table_cur17 = table().data(data_cur17).table_id("cur17").nohead(1);
+          var table_cur18 = table().data(data_cur18).table_id("cur18").nohead(1);
+          var table_cur19 = table().data(data_cur19).table_id("cur19").nohead(1);
+          var table_cur20 = table().data(data_cur20).table_id("cur20").nohead(1);
+          var table_egd1 = table().data(data_egd1).table_id("egd1");
+          var table_egd2 = table().data(data_egd2).table_id("egd2").nohead(1);
+          var table_egd3 = table().data(data_egd3).table_id("egd3").nohead(1);
+          var table_egd4 = table().data(data_egd4).table_id("egd4").nohead(1);
+          var table_egd5 = table().data(data_egd5).table_id("egd5").nohead(1);
+          var table_egd6 = table().data(data_egd6).table_id("egd6").nohead(1);
+          var table_egd7 = table().data(data_egd7).table_id("egd7").nohead(1);
+          var table_egd8 = table().data(data_egd8).table_id("egd8").nohead(1);
+          var table_ee1 = table().data(data_ee1).table_id("ee1");
+          var table_ee2 = table().data(data_ee2).table_id("ee2").nohead(1);
+          var table_ee3 = table().data(data_ee3).table_id("ee3").nohead(1);
+          var table_ee4 = table().data(data_ee4).table_id("ee4").nohead(1);
+          var table_ee5 = table().data(data_ee5).table_id("ee5").nohead(1);
+          var table_ee6 = table().data(data_ee6).table_id("ee6").nohead(1);
+          var table_ee7 = table().data(data_ee7).table_id("ee7").nohead(1);
+          var table_ee8 = table().data(data_ee8).table_id("ee8").nohead(1);
+          var table_ee9 = table().data(data_ee9).table_id("ee9").nohead(1);
+          var table_ee10 = table().data(data_ee10).table_id("ee10").nohead(1);
+          var table_ee11 = table().data(data_ee11).table_id("ee11").nohead(1);
+          var table_ee12 = table().data(data_ee12).table_id("ee12").nohead(1);
+          var table_ee13 = table().data(data_ee13).table_id("ee13").nohead(1);
+          var table_ee14 = table().data(data_ee14).table_id("ee14").nohead(1);
+          var table_ee15 = table().data(data_ee15).table_id("ee15").nohead(1);
+          var table_ee16 = table().data(data_ee16).table_id("ee16").nohead(1);
+          var table_ee17 = table().data(data_ee17).table_id("ee17").nohead(1);
+          var table_ee18 = table().data(data_ee18).table_id("ee18").nohead(1);
+          var table_ee19 = table().data(data_ee19).table_id("ee19").nohead(1);
+          var table_sel1 = table().data(data_sel1).table_id("sel1");
+          var table_sel2 = table().data(data_sel2).table_id("sel2").nohead(1);
+          var table_sel3 = table().data(data_sel3).table_id("sel3").nohead(1);
+          var table_sel4 = table().data(data_sel4).table_id("sel4").nohead(1);
+          var table_sel5 = table().data(data_sel5).table_id("sel5").nohead(1);
+          var table_sel6 = table().data(data_sel6).table_id("sel6").nohead(1);
+          var table_sel7 = table().data(data_sel7).table_id("sel7").nohead(1);
+          var table_sel8 = table().data(data_sel8).table_id("sel8").nohead(1);
+          var table_sel9 = table().data(data_sel9).table_id("sel9").nohead(1);
+          var table_sel10 = table().data(data_sel10).table_id("sel10").nohead(1);
+          var table_sel11 = table().data(data_sel11).table_id("sel11").nohead(1);
+          var table_sel12 = table().data(data_sel12).table_id("sel12").nohead(1);
+          var table_sel13 = table().data(data_sel13).table_id("sel13").nohead(1);
+          var table_ese1 = table().data(data_ese1).table_id("ese1").matrix_wide(0);
+          var table_ese2 = table().data(data_ese2).table_id("ese2").nohead(1).matrix_wide(0);
+          var table_ese3 = table().data(data_ese3).table_id("ese3").nohead(1).matrix_wide(0);
+          var table_ese4 = table().data(data_ese4).table_id("ese4").nohead(1).matrix_wide(0);
+          var table_ese5 = table().data(data_ese5).table_id("ese5").nohead(1).matrix_wide(0);
+          var table_ese6 = table().data(data_ese6).table_id("ese6").nohead(1).matrix_wide(0);
+          var table_ese7 = table().data(data_ese7).table_id("ese7").nohead(1).matrix_wide(0);
+          var table_ese8 = table().data(data_ese8).table_id("ese8").nohead(1).matrix_wide(0);
+          var table_ese9 = table().data(data_ese9).table_id("ese9").nohead(1).matrix_wide(0);
+          var table_csl1 = table().data(data_csl1).table_id("csl1");
+          var table_csl2 = table().data(data_csl2).table_id("csl2").nohead(1);
+
+          // d3.select("#i1").call(chart_i1);
+          // d3.select("#i2").call(chart_i2);
+          // d3.select("#A1_0").call(chart_A1_0);
+          // d3.select("#A1_1").call(chart_A1_1);
+          // d3.select("#A1_2").call(chart_A1_2);
+          // d3.select("#A2_1").call(chart_A2_1);
+          // d3.select("#A2_2").call(chart_A2_2);
+          // d3.select("#A3_1").call(chart_A3_1);
+          // d3.select("#A3_2").call(chart_A3_2);
+          // d3.select("#A4_1").call(chart_A4_1);
+          // d3.select("#B1").call(chart_B1);
+          // d3.select("#B2").call(chart_B2);
+          // d3.select("#B3").call(chart_B3);
+          // d3.select("#B4").call(chart_B4);
+          // d3.select("#B5").call(chart_B5);
+          // d3.select("#B6").call(chart_B6);
+          // d3.select("#C1").call(chart_C1);
+          // d3.select("#C2_1").call(chart_C2_1);
+          // d3.select("#C2_2").call(chart_C2_2);
+          // d3.select("#C3a").call(chart_C3a);
+          // d3.select("#C3b").call(chart_C3b);
+          // d3.select("#C3c").call(chart_C3c);
+          // d3.select("#C4").call(chart_C4);
+          // d3.select("#C5a").call(chart_C5a);
+          // d3.select("#C5b").call(chart_C5b);
+          // d3.select("#C5c").call(chart_C5c);
+          // d3.select("#C6").call(chart_C6);
+          // d3.select("#C7").call(chart_C7);
+          // d3.select("#D1").call(chart_D1);
+          // d3.select("#D2").call(chart_D2);
+          d3.select("#D3").call(chart_D3);
+          d3.select("#D4").call(chart_D4);
+          d3.select("#D5").call(chart_D5);
+          d3.select("#D6").call(chart_D6);
+          // d3.select("#D7").call(chart_D7);
+          // d3.select("#E1").call(chart_E1);
+          // d3.select("#E2").call(chart_E2);
+          // d3.select("#E3").call(chart_E3);
+          // d3.select("#F1").call(chart_F1);
+          // d3.select("#dem1").call(table_dem1);
+          // d3.select("#dem2").call(table_dem2);
+          // d3.select("#cur1").call(table_cur1);
+          // d3.select("#cur2").call(table_cur2);
+          // d3.select("#cur3").call(table_cur3);
+          // d3.select("#cur4").call(table_cur4);
+          // d3.select("#cur5").call(table_cur5);
+          // d3.select("#cur6").call(table_cur6);
+          // d3.select("#cur7").call(table_cur7);
+          // d3.select("#cur8").call(table_cur8);
+          // d3.select("#cur9").call(table_cur9);
+          // d3.select("#cur10").call(table_cur10);
+          // d3.select("#cur11").call(table_cur11);
+          // d3.select("#cur12").call(table_cur12);
+          // d3.select("#cur13").call(table_cur13);
+          // d3.select("#cur14").call(table_cur14);
+          // d3.select("#cur15").call(table_cur15);
+          // d3.select("#cur16").call(table_cur16);
+          // d3.select("#cur17").call(table_cur17);
+          // d3.select("#cur18").call(table_cur18);
+          // d3.select("#cur19").call(table_cur19);
+          // d3.select("#cur20").call(table_cur20);
+          // d3.select("#egd1").call(table_egd1);
+          // d3.select("#egd2").call(table_egd2);
+          // d3.select("#egd3").call(table_egd3);
+          // d3.select("#egd4").call(table_egd4);
+          // d3.select("#egd5").call(table_egd5);
+          // d3.select("#egd6").call(table_egd6);
+          // d3.select("#egd7").call(table_egd7);
+          // d3.select("#egd8").call(table_egd8);
+          // d3.select("#ee1").call(table_ee1);
+          // d3.select("#ee2").call(table_ee2);
+          // d3.select("#ee3").call(table_ee3);
+          // d3.select("#ee4").call(table_ee4);
+          // d3.select("#ee5").call(table_ee5);
+          // d3.select("#ee6").call(table_ee6);
+          // d3.select("#ee7").call(table_ee7);
+          // d3.select("#ee8").call(table_ee8);
+          // d3.select("#ee9").call(table_ee9);
+          // d3.select("#ee10").call(table_ee10);
+          // d3.select("#ee11").call(table_ee11);
+          // d3.select("#ee12").call(table_ee12);
+          // d3.select("#ee13").call(table_ee13);
+          // d3.select("#ee14").call(table_ee14);
+          // d3.select("#ee15").call(table_ee15);
+          // d3.select("#ee16").call(table_ee16);
+          // d3.select("#ee17").call(table_ee17);
+          // d3.select("#ee18").call(table_ee18);
+          // d3.select("#ee19").call(table_ee19);
+          // d3.select("#sel1").call(table_sel1);
+          // d3.select("#sel2").call(table_sel2);
+          // d3.select("#sel3").call(table_sel3);
+          // d3.select("#sel4").call(table_sel4);
+          // d3.select("#sel5").call(table_sel5);
+          // d3.select("#sel6").call(table_sel6);
+          // d3.select("#sel7").call(table_sel7);
+          // d3.select("#sel8").call(table_sel8);
+          // d3.select("#sel9").call(table_sel9);
+          // d3.select("#sel10").call(table_sel10);
+          // d3.select("#sel11").call(table_sel11);
+          // d3.select("#sel12").call(table_sel12);
+          // d3.select("#sel13").call(table_sel13);
+          // d3.select("#ese1").call(table_ese1);
+          // d3.select("#ese2").call(table_ese2);
+          // d3.select("#ese3").call(table_ese3);
+          // d3.select("#ese4").call(table_ese4);
+          // d3.select("#ese5").call(table_ese5);
+          // d3.select("#ese6").call(table_ese6);
+          // d3.select("#ese7").call(table_ese7);
+          // d3.select("#ese8").call(table_ese8);
+          // d3.select("#ese9").call(table_ese9);
+          // d3.select("#csl1").call(table_csl1);
+          // d3.select("#csl2").call(table_csl2);
+
+        };
+
+        drawCharts();
+
+        // page headers
+        var page_headers = [
+            { 'class': '.sec_overview', 'header': 'Overview' },
+            { 'class': '.sec_dem', 'header': 'Demographic Questions' },
+            { 'class': '.sec_cur', 'header': 'State Curriculum Frameworks' },
+            { 'class': '.sec_eval', 'header': 'Role of Evaluation in Supporting Educator Growth and Development' },
+            { 'class': '.sec_edp', 'header': 'Educator Pipeline Development: Preparing, Hiring, and Retaining Educators"' },
+            { 'class': '.sec_sel', 'header': 'Social and Emotional Learning, Health, and Safety' },
+            { 'class': '.sec_ese', 'header': 'ESE Support' },
+            { 'class': '.sec_charter', 'header': 'Charter Leaders' },
+            { 'class': '.sec_appendix', 'header': 'Appendix Tables' }
+        ];
+
+        page_headers.forEach(function(page) {
+          $(page.class).html("<strong>2018 VISTA District Survey:</strong></br>" + page.header);
+        });
+
+        // add pagination
+        $('.page_number').each(function(i) {
+          $(this).html((i + 1));
+        });
+
+        // footer images
+        $('.footer_left').each(function(i) {
+          $(this).html("<a href='https://www.westat.com'><img src='assets/images/westat.png' style='height: 0.4in;' /></a>")
+        });
+
+        $('.footer_right').each(function(i) {
+          $(this).html("<a href='http://www.doe.mass.edu/'><img src='assets/images/dese.png' style='height: 0.5in;' /></a>")
+        });
+
+        // remove the loader
+        d3.select("#loader").remove();
+
+        // Upon change, re-filter and re-draw
+
+        d3.select("#subpop1_selector")
           .on("change", function() {
-
-            d3.selectAll(".district_name")
-              .select("text")
-                .remove();
-
-            updateName();
-
+            updateDropdown();
           });
 
       };
     });
+  </script>
+
+  <!-- Smooth scrolling + top of anchor -->
+
+  <script>
+
+    // smooth scrolling
+    // from https://stackoverflow.com/questions/7717527/smooth-scrolling-when-clicking-an-anchor-link
+
+    $('a[href*=\\#]').on('click', function(event){
+        event.preventDefault();
+        $('html,body').animate({scrollTop:$(this.hash).offset().top - 65}, 500);
+    });
+
+    // scroll to top button
+
+    function scrollToTop() {
+      $('html,body').animate({scrollTop:0}, 500);
+    };
+
+    // hide/show scroll to top button
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) { document.getElementById("top_button_container").style.visibility = "visible"; }
+      else { document.getElementById("top_button_container").style.visibility = "hidden"; };
+    };
+
   </script>
 
 </html>
