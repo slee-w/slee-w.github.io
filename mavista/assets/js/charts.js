@@ -2780,12 +2780,14 @@ function table() {
       table_header.selectAll(".col_1")
         .attr("width", function() {
           if (matrix_wide === 1) { return "30%"; }
+          else if (matrix_wide === 2) { return "40%"; }
           else { return "25%"; };
         });
 
       table_header.selectAll(".col_2")
         .attr("width", function() {
           if (matrix_wide === 1) { return "25%"; }
+          else if (matrix_wide === 2) { return "15%"; }
           else { return "30%"; };
         });
 
@@ -2805,6 +2807,7 @@ function table() {
           .attr("class", "col_1")
           .attr("width", function() {
             if (matrix_wide === 1) { return "30%"; }
+            else if (matrix_wide === 2) { return "40%"; }
             else { return "25%"; };
           })
           .html(function(d) { return d.Matrix_prompt; });
@@ -2813,6 +2816,7 @@ function table() {
           .attr("class", "col_2")
           .attr("width", function() {
             if (matrix_wide === 1) { return "25%"; }
+            else if (matrix_wide === 2) { return "15%"; }
             else { return "30%"; };
           })
           .html(function(d) { return d.Item_text; });
