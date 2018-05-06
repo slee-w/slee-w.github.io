@@ -664,7 +664,8 @@ svg {
   }
 
   .appendix_table .invisible {
-    display: table-header-group;
+    display: table-row;
+    width: 100%;
   }
 
   .print_top_margin {
