@@ -701,6 +701,10 @@ svg {
     display: block;
   }
 
+  .appendix_table .invisible {
+    display: table-header-group;
+  }
+
 }
 
 /* Specific header adjustment for FF printing */
