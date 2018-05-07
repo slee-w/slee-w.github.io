@@ -2529,6 +2529,16 @@
   <!-- Charts -->
 
   <script>
+
+    // disable scroll first
+
+    $('html, body').css({
+      'overflow': 'hidden',
+      'height': '100%'
+    });
+
+    // charts
+
     d3.csv("assets/data/statewide_data.csv", function(error, data) {
       if (error) { console.log(error); }
       else {
@@ -3170,8 +3180,14 @@
           $(this).html("<a href='http://www.doe.mass.edu/'><img src='assets/images/dese.png' style='height: 0.5in;' /></a>")
         });
 
-        // remove the loader
+        // re-enable scroll and remove the loader
         d3.select("#loader").remove();
+
+        $('html, body').css({
+          'overflow-y': 'auto',
+          'overflow-x': 'hidden',
+          'height': 'auto'
+        })
 
         // Upon change, re-filter and re-draw
 

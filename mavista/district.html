@@ -132,6 +132,25 @@
           </div>
         </div>
         <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
+        <div class="header">
+          <div class="header_content sec_dem">
+          </div>
+        </div>
+        <div class="page_content">
+          <div id="i2" class="chart">
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer_container">
+            <div class="footer_left">
+            </div>
+            <div class="page_number">
+            </div>
+            <div class="footer_right">
+            </div>
+          </div>
+        </div>
+        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
       </div>
     </section>
 
@@ -440,25 +459,6 @@
         </div>
         <div class="page_content">
           <div id="B5" class="chart">
-          </div>
-        </div>
-        <div class="footer">
-          <div class="footer_container">
-            <div class="footer_left">
-            </div>
-            <div class="page_number">
-            </div>
-            <div class="footer_right">
-            </div>
-          </div>
-        </div>
-        <div class="ie_spacer">&nbsp;</div> <!-- This is needed for IE -->
-        <div class="header noscreen">
-          <div class="header_content sec_eval">
-          </div>
-        </div>
-        <div class="page_content">
-          <div id="B5_2" class="chart">
           </div>
         </div>
         <div class="footer">
@@ -2676,6 +2676,16 @@
   <!-- Charts -->
 
   <script>
+
+    // disable scroll first
+
+    $('html, body').css({
+      'overflow': 'hidden',
+      'height': '100%'
+    });
+
+    // charts
+
     d3.csv("assets/data/district_data.csv", function(error, data) {
       if (error) { console.log(error); }
       else {
@@ -3014,35 +3024,35 @@
 
         function drawCharts() {
 
-          var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(230).height(430)
+          var chart_i1 = bar_yes_no().data(data_i1).chart_id("i1").marginLeft(230).height(470)
             .title("What grade levels does your school serve?");
-          var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(500).marginTop(60).marginBottom(80).yAxisLabel("Time in years (mean)")
+          var chart_i2 = col_mean().data(data_i2).chart_id("i2").height(500).marginTop(60).marginBottom(110).yAxisLabel("Time in years (mean)")
             .title("Including the current school year (2017-18), how long have you worked as a school-level administrator?");
-          var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").marginLeft(350).marginBottom(140)
+          var chart_A1_0 = stacked_bar().data(data_A1_0).chart_id("A1_0").height(480).marginLeft(350).marginBottom(140)
             .title("Which statement best describes your familiarity with the 2017 Mathematics, 2017 English Language Arts & Literacy, 2016 Science & Technology/Engineering, and 2016 Digital Literacy & Computer Science frameworks for the grades taught in your school?");
-          var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_A1_1 = stacked_bar().data(data_A1_1).chart_id("A1_1").height(500).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements about the 2017 Massachusetts English Language Arts (ELA) & Literacy Curriculum Framework.");
-          var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_A1_2 = stacked_bar().data(data_A1_2).chart_id("A1_2").height(480).marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
             .title("Prioritize the guidance needed to successfully implement the 2017 English Language Arts (ELA) and Literacy Curriculum Framework. ELA/Literacy framework implementation guidance on…");
-          var chart_A2_1 = stacked_bar().data(data_A2_1).chart_id("A2_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_A2_1 = stacked_bar().data(data_A2_1).chart_id("A2_1").height(500).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements about the 2017 Massachusetts Mathematics Curriculum Framework.");
           var chart_A2_2 = stacked_bar().data(data_A2_2).chart_id("A2_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
             .title("Prioritize the guidance needed to successfully implement the 2017 Mathematics Curriculum Framework.");
-          var chart_A3_1 = stacked_bar().data(data_A3_1).chart_id("A3_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_A3_1 = stacked_bar().data(data_A3_1).chart_id("A3_1").height(500).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements about the 2016 Massachusetts Science and Technology/Engineering (STE) Curriculum Framework.");
           var chart_A3_2 = stacked_bar().data(data_A3_2).chart_id("A3_2").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
             .title("Prioritize the guidance needed to successfully implement the 2016 Science and Technology/Engineering (STE) Curriculum Framework.");
-          var chart_A4_1 = stacked_bar().data(data_A4_1).chart_id("A4_1").height(480).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_A4_1 = stacked_bar().data(data_A4_1).chart_id("A4_1").height(500).marginLeft(450).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements about the 2016 Massachusetts Digital Literacy and Computer Science (DLCS) Curriculum Framework.");
-          var chart_B1 = stacked_bar().data(data_B1).chart_id("B1").height(500).marginLeft(250).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_B1 = stacked_bar().data(data_B1).chart_id("B1").height(480).marginLeft(250).horiz_legend(1).horiz_legend_spacing(180)
             .title("With regard to your own experience with your own evaluation process, please indicate your agreement with the following statements about the principal evaluation system used in your school/district.");
           var chart_B2 = bar_mean().data(data_B2).chart_id("B2").height(200).marginLeft(20).marginBottom(50).yAxisOff(1).xAxisLabel("Percentage of time (mean)")
             .title("Over the course of the school week, approximately what percent of your time do you, on average, spend on evaluation activities, versus other administrative duties?");
-          var chart_B3 = stacked_bar().data(data_B3).chart_id("B3").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_B3 = stacked_bar().data(data_B3).chart_id("B3").height(500).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
             .title("Which of the following types of evidence do you use to determine a Summative Performance Rating for teachers and is the type of evidence valuable?");
-          var chart_B4 = bar_mean().data(data_B4).chart_id("B4").height(480).marginLeft(350).marginBottom(50).xAxisLabel("Percentage of teachers (mean)")
+          var chart_B4 = bar_mean().data(data_B4).chart_id("B4").height(500).marginLeft(350).marginBottom(50).xAxisLabel("Percentage of teachers (mean)")
             .title("Please estimate the percentage of teachers within your school whose evaluation was informed by the following sources of evidence");
-          var chart_B5 = stacked_bar().data(data_B5).chart_id("B5").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_B5 = stacked_bar().data(data_B5).chart_id("B5").height(500).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
             .title("Below is a series of statements about the teacher evaluation system used in your district. To what extent do you agree with the following statements?");
           var chart_B6 = stacked_bar().data(data_B6).chart_id("B6").height(530).marginLeft(370).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements.");
@@ -3066,21 +3076,21 @@
             .title("When hiring a prospective teacher, what components of the hiring process most influence your judgments? (Second most important component)");
           var chart_C5c = bar_yes_no().data(data_C5c).chart_id("C5c").height(510).marginLeft(325).useRespCat(1).sortDesc(1)
             .title("When hiring a prospective teacher, what components of the hiring process most influence your judgments? (Third most important component)");
-          var chart_C6 = bar_mean().data(data_C6).chart_id("C6").marginLeft(330)
+          var chart_C6 = bar_mean().data(data_C6).chart_id("C6").height(500).marginLeft(330)
             .title("Please tell us about your support of student teachers (individuals enrolled in a teacher preparation program who are completing their practicum) in the last three years?");
           var chart_C7 = stacked_bar().data(data_C7).chart_id("C7").height(480).marginLeft(500).horiz_legend(1).horiz_legend_spacing(180)
             .title("Please indicate your agreement with the following statements about student teachers (individuals enrolled in a teacher preparation program who are completing their practicum) and induction/mentoring support for first year teachers/administrators.");
-          var chart_D1 = stacked_bar().data(data_D1).chart_id("D1").marginLeft(550).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_D1 = stacked_bar().data(data_D1).chart_id("D1").height(490).marginLeft(550).horiz_legend(1).horiz_legend_spacing(180)
             .title('Please rate your agreement with the following statements about social and emotional learning (SEL) in your school. If you do not have the resource available in your district/school, please use "Not Applicable" to respond.');
-          var chart_D2 = bar_yes_no().data(data_D2).chart_id("D2").marginLeft(375).sortDesc(1)
+          var chart_D2 = bar_yes_no().data(data_D2).chart_id("D2").height(490).marginLeft(375).sortDesc(1)
             .title('To help inform instruction and supports, have you or do you plan to use any of the following instruments during the 2017-2018 school year? Please use "Other" to specify/add all other instrument(s) you use in your school.');
-          var chart_D3 = stacked_bar().data(data_D3).chart_id("D3").marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_D3 = stacked_bar().data(data_D3).chart_id("D3").height(490).marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
             .title("To help students master the Massachusetts state standards, to what extent could teachers in your school benefit from support in the following areas? Please think of your teacher observations (announced and unannounced).");
-          var chart_D4 = stacked_bar().data(data_D4).chart_id("D4").marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_D4 = stacked_bar().data(data_D4).chart_id("D4").height(490).marginLeft(425).horiz_legend(1).horiz_legend_spacing(180)
             .title("To help students master the Massachusetts state standards, to what extent could teachers in your school benefit from support in the following instructional strategies? Please think of your teacher observations (announced and unannounced).");
-          var chart_D5 = stacked_bar().data(data_D5).chart_id("D5").marginLeft(375).horiz_legend(1).horiz_legend_spacing(180)
+          var chart_D5 = stacked_bar().data(data_D5).chart_id("D5").height(500).marginLeft(375).horiz_legend(1).horiz_legend_spacing(180)
             .title("Thinking of your school's student support system, to what extent could your school benefit from support in the following areas?");
-          var chart_D6 = stacked_bar().data(data_D6).chart_id("D6").marginLeft(500).marginBottom(190)
+          var chart_D6 = stacked_bar().data(data_D6).chart_id("D6").height(500).marginLeft(500).marginBottom(200)
             .title("Thinking of your school's student support system, to what extent could your school benefit from support in the following areas?");
           var chart_D7 = bar_yes_no().data(data_D7).chart_id("D7").useRespCat(1).sortDesc(1)
             .title("Did your students participate in the 2017 MCAS Questionnaire measuring students' perceptions of school climate?");
@@ -3088,7 +3098,7 @@
             .title("To what extent do you agree with each of the following statements regarding ESE's reporting of the 2017 school climate pilot survey?");
           var chart_D9 = stacked_bar().data(data_D9).chart_id("D9").marginLeft(300).horiz_legend(1).horiz_legend_spacing(180)
             .title("To what extent do you agree with each of the following statements regarding your views on ESE's administration of its school climate survey?");
-          var chart_D10 = bar_yes_no().data(data_D10).chart_id("D10").marginLeft(350).useRespCat(1).sortDesc(1)
+          var chart_D10 = bar_yes_no().data(data_D10).chart_id("D10").height(510).marginLeft(350).useRespCat(1).sortDesc(1)
             .title("How did your school administer the 2017 school climate pilot survey? We administered it...");
           var chart_D11 = stacked_bar().data(data_D11).chart_id("D11").marginLeft(350).horiz_legend(1).horiz_legend_spacing(180)
             .title("To what extent do you agree with each of the following statements regarding ESE's performance during the 2017-2018 school year relative to safe and supportive schools?");
@@ -3338,8 +3348,14 @@
           $(this).html("<a href='http://www.doe.mass.edu/'><img src='assets/images/dese.png' style='height: 0.5in;' /></a>")
         });
 
-        // remove the loader
+        // re-enable scroll and remove the loader
         d3.select("#loader").remove();
+
+        $('html, body').css({
+          'overflow-y': 'auto',
+          'overflow-x': 'hidden',
+          'height': 'auto'
+        })
 
         // Upon change, re-filter and re-draw
 
