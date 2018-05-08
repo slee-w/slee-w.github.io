@@ -45,6 +45,24 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+/* Cover page */
+
+#cover {
+  display: none;
+}
+
+.cover_content {
+  display: flex;
+  flex-direction: column;
+  /*width: 100%;*/
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font: 16pt Roboto, sans-serif;
+  color: #5b9bd5;
+}
+
 /* Back to page layout */
 
 .header {
@@ -62,6 +80,10 @@ body {
   text-align: center;
   font: 16pt Roboto, sans-serif;
   color: #5b9bd5;
+}
+
+.blue {
+  background-color: #5b9bd5;
 }
 
 .page_content {
@@ -599,6 +621,10 @@ svg {
 
   .spacer_half {
     display: none;
+  }
+
+  #cover {
+    display: block;
   }
 
   .header {
