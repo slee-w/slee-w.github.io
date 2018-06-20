@@ -2707,8 +2707,6 @@ function likert() {
 
 /* table generator for appendix */
 
-/* yes/no bar charts */
-
 function table() {
 
   // default values that can be changed by the caller
